@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+/* Thème clair */
+:root {
+    --Blanc: #ffffff;
+    --Black: #000000;
+    --Gris: #494949;
+
+    --Bleu-Foncé: #040142;
+    --Bleu: #06027e;
+    --Bleu-Clair: #0a03ce;
+
+    --Rouge-Foncé: #520000;
+    --Rouge: #8d0202;
+    --Rouge-Clair: #ca0303;
+    --Rouge-Clair2: #ca6363;
+
+    --Vert: #55b704;
+    --Vert--Foncé: #214900;
+
+    --bg-color: var(--Blanc);
+    --text-color: var(--Black);
+    --card-color: var(--Gris);
+
+    --Or:#a28a03;
+}

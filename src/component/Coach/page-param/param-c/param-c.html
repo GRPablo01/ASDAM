@@ -1,0 +1,104 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6 flex flex-col items-center">
+
+    <!-- En-tête -->
+    <header class="w-full max-w-2xl mb-8 text-center">
+      <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Paramètres</h1>
+      <p class="mt-2 text-gray-600">Gérez votre profil et vos préférences en toute simplicité.</p>
+    </header>
+  
+    <!-- Conteneur unique pour cohérence -->
+    <div class="w-full max-w-2xl space-y-6">
+  
+      <!-- ===== PROFIL ===== -->
+      <section class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 transition hover:shadow-xl">
+        <h2 class="text-xl font-bold text-gray-900 mb-5 flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          Profil
+        </h2>
+        <form (ngSubmit)="sauvegarderProfil()" class="space-y-4">
+          <div>
+            <label for="nom" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+            <input id="nom" type="text" [(ngModel)]="nom" name="nom" required
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
+                   placeholder="Dupont">
+          </div>
+          <div>
+            <label for="prenom" class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
+            <input id="prenom" type="text" [(ngModel)]="prenom" name="prenom" required
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
+                   placeholder="Jean">
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Adresse e-mail</label>
+            <input id="email" type="email" [(ngModel)]="email" name="email" required
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
+                   placeholder="jean.dupont@exemple.com">
+          </div>
+          <button type="submit"
+                  class="w-full sm:w-auto bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition font-medium">
+            Sauvegarder
+          </button>
+        </form>
+      </section>
+  
+      <!-- ===== MOT DE PASSE ===== -->
+      <section class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 transition hover:shadow-xl">
+        <h2 class="text-xl font-bold text-gray-900 mb-5 flex items-center gap-2">
+          <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          Sécurité
+        </h2>
+        <form (ngSubmit)="changerMotDePasse()" class="space-y-4">
+          <div>
+            <label for="ancienMdp" class="block text-sm font-medium text-gray-700 mb-1">Ancien mot de passe</label>
+            <input id="ancienMdp" type="password" [(ngModel)]="ancienMdp" name="ancienMdp" required
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition"
+                   placeholder="••••••••">
+          </div>
+          <div>
+            <label for="nouveauMdp" class="block text-sm font-medium text-gray-700 mb-1">Nouveau mot de passe</label>
+            <input id="nouveauMdp" type="password" [(ngModel)]="nouveauMdp" name="nouveauMdp" required minlength="8"
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition"
+                   placeholder="8 caractères minimum">
+          </div>
+          <button type="submit"
+                  class="w-full sm:w-auto bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition font-medium">
+            Modifier le mot de passe
+          </button>
+        </form>
+      </section>
+  
+      <!-- ===== NOTIFICATIONS ===== -->
+      <section class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 transition hover:shadow-xl">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            <h2 class="text-xl font-bold text-gray-900">Notifications</h2>
+          </div>
+          <label for="notifications" class="inline-flex items-center cursor-pointer">
+            <span class="mr-3 text-sm font-medium text-gray-700">{{ notifications ? 'Activées' : 'Désactivées' }}</span>
+            <input id="notifications" type="checkbox" [(ngModel)]="notifications" (change)="toggleNotifications()"
+                   class="sr-only peer">
+            <div class="relative w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-purple-600
+                        peer-focus:ring-2 peer-focus:ring-purple-300 transition-all">
+              <div class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full
+                          transform peer-checked:translate-x-5 transition-transform"></div>
+            </div>
+          </label>
+        </div>
+        <p class="mt-3 text-sm text-gray-600">Recevez des alertes par e-mail pour les activités importantes.</p>
+      </section>
+  
+    </div>
+</div>

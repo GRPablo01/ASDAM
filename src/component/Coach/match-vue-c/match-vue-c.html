@@ -1,0 +1,126 @@
+<!-- Carré unique aligné à la taille du carré Liste des joueurs -->
+<div *ngFor="let match of filteredMatches"
+  class="relative border-2 border-[var(--Rouge)] bg-[var(--Blanc)] rounded-2xl flex flex-col justify-between text-center shadow-md aspect-square w-full max-w-[400px] mx-auto px-34 py-32"
+  role="region"
+  aria-label="Match unique"
+>
+  <!-- Titre ou nom du match -->
+  <h3 class="text-lg font-bold text-[var(--Black)] mb-3">
+    Match
+  </h3>
+
+  <!-- Bouton Play pour ce match -->
+  <button
+    (click)="openMatchModal(match)"
+    class="mt-4 px-6 py-2 rounded-full bg-[var(--Rouge)] text-[var(--Blanc)] font-bold hover:bg-[var(--Rouge-Foncé)] transition"
+  >
+    ▶ Play
+  </button>
+
+
+  <!-- Indicateur bas (facultatif, comme dans le carré joueur) -->
+  <div class="w-16 h-1.5 rounded-full bg-[var(--Rouge)] mx-auto mt-2"></div>
+</div>
+
+
+
+<!-- Modal match -->
+<div *ngIf="showModal && selectedMatch"
+     class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 transition-opacity duration-300"
+     [class.opacity-0]="!showModal" [class.opacity-100]="showModal"
+     (click)="closeModal()" role="dialog" aria-modal="true"
+     [attr.aria-labelledby]="'match-modal-title'">
+
+  <div class="bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl p-6 w-11/12 max-w-3xl shadow-2xl transform transition-all duration-300 scale-95"
+       [class.scale-100]="showModal" (click)="$event.stopPropagation()">
+
+
+    <!-- Badge statut -->
+    <div *ngIf="selectedMatch.status === 'live'"
+         class="absolute -top-3 left-6 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">
+      En direct • {{ getTimeLeft(selectedMatch) }}
+    </div>
+    <div *ngIf="selectedMatch.status === 'finished'"
+         class="absolute -top-3 left-6 bg-gray-700 text-white px-3 py-1 rounded-full text-xs font-bold">
+      Terminé
+    </div>
+    <div *ngIf="selectedMatch.status === 'scheduled'"
+         class="absolute -top-3 left-6 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+      À venir
+    </div>
+
+    <!-- Infos rapides -->
+    <div class="flex justify-between items-center text-xs text-gray-500 mb-4">
+      <span>{{ selectedMatch.categorie }} • {{ selectedMatch.typeMatch }}</span>
+      <span>{{ selectedMatch.date | date:'dd MMM yyyy à HH:mm' }}</span>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <!-- Équipe A -->
+<!-- Équipe A -->
+<div class="flex items-center gap-4 flex-1 justify-start">
+    <img [src]="selectedMatch.logoA" alt="{{ selectedMatch.equipeA }}" class="w-16 h-16 rounded-full bg-white">
+    <div class="flex flex-col items-center">
+      <p class="font-semibold text-[var(--Black)]">{{ selectedMatch.equipeA }}</p>
+      <div class="flex items-center gap-2">
+        <!-- Bouton moins -->
+        <button (click)="updateScore(selectedMatch, 'A', -1)"
+                class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">-</button>
+  
+        <!-- Score -->
+        <p class="text-3xl font-black"
+           [ngClass]="scoreColor(selectedMatch.scoreA, selectedMatch.scoreB, 'A')">
+          {{ selectedMatch.scoreA }}
+        </p>
+  
+        <!-- Bouton plus -->
+        <button (click)="updateScore(selectedMatch, 'A', 1)"
+                class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">+</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Équipe B -->
+  <div class="flex items-center gap-4 flex-1 justify-end">
+    <div class="flex flex-col items-center text-right">
+      <p class="font-semibold text-[var(--Black)]">{{ selectedMatch.equipeB }}</p>
+      <div class="flex items-center gap-2 justify-end">
+        <!-- Bouton moins -->
+        <button (click)="updateScore(selectedMatch, 'B', -1)"
+                class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">-</button>
+  
+        <!-- Score -->
+        <p class="text-3xl font-black"
+           [ngClass]="scoreColor(selectedMatch.scoreA, selectedMatch.scoreB, 'B')">
+          {{ selectedMatch.scoreB }}
+        </p>
+  
+        <!-- Bouton plus -->
+        <button (click)="updateScore(selectedMatch, 'B', 1)"
+                class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">+</button>
+      </div>
+    </div>
+    <img [src]="selectedMatch.logoB" alt="{{ selectedMatch.equipeB }}" class="w-16 h-16 rounded-full bg-white">
+  </div>
+  
+    </div>
+
+    <!-- Infos complémentaires -->
+    <div class="mt-4 flex justify-between items-center text-xs text-[var(--Black)]">
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15 11 a3 3 0 1 1 -6 0 a3 3 0 1 1 6 0" />
+        </svg>
+        {{ selectedMatch.lieu }}
+      </div>
+      <div *ngIf="selectedMatch.arbitre" class="text-right">
+        Arbitre : {{ selectedMatch.arbitre }}
+      </div>
+    </div>
+  </div>
+</div>

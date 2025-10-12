@@ -1,0 +1,21 @@
+/* Empêche tout scroll global */
+html, body {
+    height: 100%;
+    overflow: hidden;  /* PAS DE SCROLL */
+    margin: 0;
+  }
+  
+  /* Conteneur principal du composant */
+  :host {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* toute la hauteur écran */
+  }
+  
+  /* Zone actus : tout bloqué */
+  .actus-container {
+    flex: 1 1 auto;
+    overflow: hidden;  /* empêche tout scroll */
+    height: 100%;      /* occupe toute la zone */
+  }
+  

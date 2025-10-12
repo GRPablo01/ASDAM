@@ -1,0 +1,30 @@
+<div class="user-bar flex items-center justify-between p-3 bg-[#0A092B] rounded-lg shadow-md w-full max-w-md mx-auto">
+  
+  <!-- Section initiales et infos -->
+  <div class="flex items-center gap-3">
+    <!-- Cercle avec initiales -->
+    <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">
+      {{ getInitiales() }}
+    </div>
+    
+    <!-- Infos utilisateur -->
+    <div class="flex flex-col text-white">
+      <span class="font-semibold text-sm">{{ getNomComplet() }}</span>
+      <span class="text-gray-400 text-xs">
+        {{ user?.membre || 'Invité' }} - {{ user?.equipe || '-' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Actions (icônes) -->
+  <div class="flex items-center gap-3">
+    <!-- Exemple d’icônes : tu peux remplacer par des composants Angular Icon -->
+    <button class="text-white hover:text-blue-400 transition-colors">
+      <i class="fa fa-cog"></i> <!-- paramètre -->
+    </button>
+    <button class="text-white hover:text-red-500 transition-colors">
+      <i class="fa fa-sign-out-alt"></i> <!-- déconnexion -->
+    </button>
+  </div>
+
+</div>

@@ -1,0 +1,188 @@
+<section class="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8 text-gray-900">
+    <div class="max-w-4xl mx-auto">
+  
+      <!-- Titre -->
+      <header class="text-center mb-10">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-[var(--Rouge)] drop-shadow-md animate-fade-in-down">
+          <i class="fas fa-newspaper mr-2"></i> Communiqués du club
+        </h1>
+        <p class="text-gray-600 mt-2 animate-fade-in-up">Restez informé des dernières nouvelles du club.</p>
+      </header>
+  
+      <!-- Actions -->
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+        <button
+        *ngIf="peutCreer()"
+          (click)="ouvrirPopup()"
+          aria-label="Créer un communiqué"
+          class="px-5 py-3 bg-[var(--Bleu)] text-white font-semibold rounded-2xl shadow-lg hover:bg-blue-600 hover:scale-105 transform transition-all flex items-center gap-2">
+          <i class="fas fa-plus-circle"></i> Créer un communiqué
+        </button>
+      </div>
+  
+      <!-- Liste des communiqués -->
+      <div *ngIf="communiquesFiltres.length; else aucun" class="space-y-6">
+        <article
+          *ngFor="let c of communiquesFiltres"
+          class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 group animate-fade-in-up">
+          
+          <header class="mb-4 flex justify-between items-center">
+            <div>
+              <h2 class="text-xl font-bold text-gray-900 group-hover:text-[var(--Bleu)] transition">
+                <i class="fas fa-bullhorn mr-2 text-[var(--Rouge)]"></i>{{ c.titre }}
+              </h2>
+              <p class="text-sm text-gray-500 mt-1">
+                <i class="far fa-calendar-alt"></i> {{ c.date | date:'longDate' }} · 
+                <i class="fas fa-user-edit"></i> {{ c.auteur }}
+              </p>
+            </div>
+          </header>
+  
+          <p class="text-gray-700 mb-4 leading-relaxed">{{ c.contenu }}</p>
+  
+          <figure *ngIf="c.image" class="mb-4">
+            <img 
+              [src]="c.image" 
+              alt="Illustration du communiqué" 
+              class="w-200 max-h-84 rounded-xl shadow-sm object-cover"
+            />
+          </figure>
+          
+  
+          <footer class="flex justify-between items-center text-sm text-gray-500">
+            <button
+              (click)="liker(c)"
+              aria-label="Aimer ce communiqué"
+              class="flex items-center gap-2 text-gray-600 hover:text-[var(--Rouge)] transition transform hover:scale-110">
+              <i class="fas fa-heart"></i> {{ c.likes }}
+            </button>
+          </footer>
+        </article>
+      </div>
+  
+      <!-- Aucun communiqué -->
+      <ng-template #aucun>
+        <div class="text-center py-20 animate-fade-in-up">
+          <div class="text-gray-300 text-6xl mb-4"><i class="fas fa-newspaper"></i></div>
+          <p class="text-gray-500 text-lg">Aucun communiqué trouvé.</p>
+          <p class="text-sm text-gray-400 mt-2">Essayez de modifier votre recherche.</p>
+        </div>
+      </ng-template>
+    </div>
+  
+    <!-- Modal -->
+    <div *ngIf="popupOuverte" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 animate-fade-in">
+      <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-lg relative animate-scale-in">
+        
+        <button
+          (click)="fermerPopup()"
+          aria-label="Fermer le formulaire"
+          class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl transition transform hover:rotate-90">
+          <i class="fas fa-times"></i>
+        </button>
+  
+        <h2 class="text-2xl font-bold mb-6 text-center text-[var(--Bleu)] animate-fade-in-down">
+          <i class="fas fa-pen-nib mr-2"></i> Nouveau communiqué
+        </h2>
+  
+        <form (ngSubmit)="ajouterCommunique()" #form="ngForm" class="space-y-5">
+
+            <!-- Titre -->
+            <label class="block">
+              <span class="text-sm font-medium text-gray-700">Titre *</span>
+              <input
+                [(ngModel)]="nouveauCommunique.titre"
+                name="titre"
+                required
+                placeholder="Titre du communiqué"
+                class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-[var(--Bleu)] focus:outline-none transition"
+              />
+            </label>
+          
+            <!-- Contenu -->
+            <label class="block">
+              <span class="text-sm font-medium text-gray-700">Contenu *</span>
+              <textarea
+                [(ngModel)]="nouveauCommunique.contenu"
+                name="contenu"
+                required
+                rows="4"
+                placeholder="Texte du communiqué"
+                class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-[var(--Bleu)] focus:outline-none transition"></textarea>
+            </label>
+          
+            <!-- Auteur -->
+            <label class="block">
+              <span class="text-sm font-medium text-gray-700">Auteur *</span>
+              <input
+                [(ngModel)]="nouveauCommunique.auteur"
+                name="auteur"
+                required
+                placeholder="Nom de l'auteur"
+                class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-[var(--Bleu)] focus:outline-none transition"
+              />
+            </label>
+          
+            <!-- Tags -->
+            <label class="block">
+              <span class="text-sm font-medium text-gray-700">Tags (séparés par des virgules)</span>
+              <input
+                [(ngModel)]="nouveauCommunique.tags"
+                name="tags"
+                placeholder="Ex: U23, Match, Coupe"
+                class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-[var(--Bleu)] focus:outline-none transition"
+              />
+            </label>
+          
+            <!-- Image -->
+            <label class="block">
+              <span class="text-sm font-medium text-gray-700">Image</span>
+              <input type="file" accept="image/*" (change)="onImageSelected($event)" class="mt-1" />
+            </label>
+          
+            <!-- Aperçu de l'image -->
+            <div *ngIf="imagePreview" class="mt-2">
+              <span class="text-sm text-gray-500">Aperçu :</span>
+              <img [src]="imagePreview" alt="Aperçu de l'image" class="w-full max-w-xs rounded-xl mt-1" />
+            </div>
+          
+            <!-- Bouton Publier -->
+            <div class="flex justify-end">
+              <button
+                type="submit"
+                [disabled]="!form.valid"
+                class="px-5 py-2 bg-[var(--Rouge)] text-white font-semibold rounded-xl shadow hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition transform hover:scale-105">
+                <i class="fas fa-paper-plane mr-2"></i> Publier
+              </button>
+            </div>
+          
+          </form>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Ajoute ce style dans ton CSS global ou Tailwind config -->
+  <style>
+  
+    /* Animations */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  
+    @keyframes scaleIn {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  
+    .animate-fade-in-up { animation: fadeInUp 0.5s ease forwards; }
+    .animate-fade-in-down { animation: fadeInDown 0.5s ease forwards; }
+    .animate-scale-in { animation: scaleIn 0.4s ease forwards; }
+  </style>
+
+  

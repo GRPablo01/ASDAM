@@ -1,0 +1,33 @@
+<!-- ✅ Carte Accès rapide (carré responsive et équilibré) -->
+<div
+  class="relative w-full max-w-[400px] mx-auto aspect-square 
+         border-2 border-[var(--Rouge)] bg-[var(--Blanc)] 
+         rounded-2xl shadow-md overflow-hidden"
+  role="region"
+  aria-label="Accès rapide"
+>
+  <!-- Contenu centré et espacé -->
+  <div class="absolute inset-0 flex flex-col justify-between text-center p-6">
+    
+    <!-- Titre -->
+    <h3 class="text-lg font-bold text-[var(--Black)]">
+      Accès rapide
+    </h3>
+
+    <!-- ✅ Grille 2 colonnes x 2 lignes pour les boutons carrés -->
+    <div
+      class="grid grid-cols-2 gap-3 justify-items-center mt-4 flex-1"
+    >
+      <app-creer-match-c class="rounded-2xl"></app-creer-match-c>
+      <app-creer-convocations-c class="rounded-2xl"></app-creer-convocations-c>
+      <app-creer-post-c class="-mt-8 rounded-2xl"></app-creer-post-c>
+      <app-creer-event-c class="rounded-2xl"></app-creer-event-c>
+    </div>
+
+    <!-- Ligne décorative -->
+    <div
+      class="w-16 h-1.5 rounded-full mx-auto 
+             bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)]"
+    ></div>
+  </div>
+</div>

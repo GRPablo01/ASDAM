@@ -1,0 +1,87 @@
+<!-- ✅ Bouton compact : Créer / Modifier un événement -->
+<div class="flex justify-center mt-6 px-4 sm:px-6 lg:px-0">
+    <button
+      *ngIf="canEdit()"
+      (click)="showPopup = true"
+      class="group flex flex-col items-center justify-center w-28 h-28
+             bg-gradient-to-br from-[var(--Rouge-Foncé)] to-[var(--Rouge)]
+             text-[var(--Blanc)] font-semibold rounded-xl shadow-md
+             hover:from-[var(--Bleu)] hover:to-[var(--Bleu-Foncé)]
+             hover:shadow-lg hover:-translate-y-0.5 hover:scale-105
+             transition-all duration-300 ease-out focus:outline-none"
+    >
+      <!-- Icône Font Awesome -->
+      <i class="fa-solid fa-calendar-plus text-2xl mb-1 transition-transform duration-300 group-hover:rotate-12"></i>
+  
+      <!-- Texte -->
+      <span class="uppercase tracking-wide text-xs leading-tight">
+        {{ isEditing ? 'Modifier' : 'Créer' }}
+      </span>
+      <span class="text-[10px] opacity-80">Événement</span>
+    </button>
+  </div>
+  
+
+
+<!-- Modal Événement -->
+<div *ngIf="showPopup"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-sm">
+    <div class="w-full max-w-lg sm:max-w-xl md:max-w-2xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden
+                bg-white/95 backdrop-blur-xl flex flex-col">
+
+        <!-- Header -->
+        <div class="px-6 py-5 bg-gradient-to-br from-[var(--Rouge-Foncé)] to-[var(--Rouge)]
+                  text-[var(--Blanc)] flex justify-between items-center">
+            <h2 class="text-xl sm:text-2xl font-bold">{{ isEditing ? 'Modifier événement' : 'Nouvel événement' }}</h2>
+            <button (click)="showPopup=false" class="p-2 rounded-full hover:bg-white/20 transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <p class="text-sm text-[var(--Blanc)]/80 mt-1 px-6">Remplissez les informations de l'événement</p>
+
+        <!-- Formulaire -->
+        <form (ngSubmit)="addEvent()" class="flex-1 px-6 py-6 space-y-5 overflow-y-auto">
+            <input type="text" placeholder="Titre" [(ngModel)]="newEventTitle" name="title" required class="w-full rounded-xl border border-[var(--Rouge)]/30 px-3 sm:px-4 py-2 sm:py-3 shadow-sm
+                      focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)] transition" />
+
+            <input type="date" [(ngModel)]="newEventDate" name="date" required class="w-full rounded-xl border border-[var(--Rouge)]/30 px-3 sm:px-4 py-2 sm:py-3 shadow-sm
+                      focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)] transition" />
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <input type="time" [(ngModel)]="newEventHour" name="hour" required class="w-full rounded-xl border border-[var(--Rouge)]/30 px-3 sm:px-4 py-2 sm:py-3 shadow-sm
+                        focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)] transition" />
+                <input type="time" [(ngModel)]="newEventEndHour" name="endHour" required class="w-full rounded-xl border border-[var(--Rouge)]/30 px-3 sm:px-4 py-2 sm:py-3 shadow-sm
+                        focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)] transition" />
+            </div>
+
+            <input type="text" placeholder="Votre Nom . Votre Prénom" [(ngModel)]="newEventCoach" name="coach" class="w-full rounded-xl border border-[var(--Rouge)]/30 px-3 sm:px-4 py-2 sm:py-3 shadow-sm
+                      focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)] transition" />
+
+            <select [(ngModel)]="newEventCategory" name="category" class="w-full rounded-xl border border-[var(--Rouge)]/30 px-3 sm:px-4 py-2 sm:py-3 shadow-sm
+                       focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)] transition">
+                <option value="" disabled selected>Catégorie</option>
+                <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+
+            <select [(ngModel)]="newEventLevel" name="level" class="w-full rounded-xl border border-[var(--Rouge)]/30 px-3 sm:px-4 py-2 sm:py-3 shadow-sm
+                       focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)] transition">
+                <option value="" disabled selected>Niveau</option>
+                <option *ngFor="let lvl of levels" [value]="lvl">{{ lvl }}</option>
+            </select>
+
+            <textarea placeholder="Description" [(ngModel)]="newEventDescription" rows="4" name="description" class="w-full rounded-xl border border-[var(--Rouge)]/30 px-3 sm:px-4 py-2 sm:py-3 shadow-sm
+                         focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)] transition"></textarea>
+        </form>
+
+        <!-- Footer -->
+        <div class="px-6 py-4 flex justify-end gap-4">
+            <button (click)="showPopup=false"
+                class="px-5 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 transition">Annuler</button>
+            <button (click)="addEvent()"
+                class="px-5 py-2 rounded-xl bg-gradient-to-br from-[var(--Rouge-Foncé)] to-[var(--Rouge)]
+                       text-[var(--Blanc)] font-semibold shadow-lg hover:scale-105 transition-transform duration-200 ease-in-out">
+                {{ isEditing ? 'Modifier' : 'Ajouter' }}
+            </button>
+        </div>
+    </div>
+</div>

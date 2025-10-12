@@ -1,0 +1,56 @@
+<!-- Boutons de sélection d'équipe -->
+<div class="mt-10 flex flex-wrap gap-4 justify-center">
+    <button *ngFor="let equipe of equipes" (click)="selectEquipe(equipe)"
+        [class.bg-blue-700]="selectedEquipe === equipe" class="flex items-center gap-3 px-5 py-3 bg-blue-500 text-white font-semibold rounded-xl shadow-lg
+                   hover:bg-blue-600 hover:scale-105 focus:outline-none focus:ring-2 
+                   focus:ring-blue-400 focus:ring-offset-2 transition transform duration-200 ease-in-out">
+        <i class="fas fa-users"></i>
+        <span>{{ equipe }}</span>
+    </button>
+</div>
+
+<!-- Classement complet -->
+<div class="mt-8 max-w-6xl mx-auto overflow-x-auto">
+    <h2 *ngIf="selectedEquipe" class="text-xl font-bold mb-4 text-center">
+        Classement de {{ selectedEquipe }}
+    </h2>
+
+    <table *ngIf="classementFiltre.length > 0" class="min-w-full bg-white rounded shadow">
+        <thead class="bg-blue-500 text-white">
+            <tr>
+                <th class="px-3 py-2 text-left">Pl</th>
+                <th class="px-3 py-2 text-left">Equipe</th>
+                <th class="px-3 py-2">Pts</th>
+                <th class="px-3 py-2">Jo</th>
+                <th class="px-3 py-2">G</th>
+                <th class="px-3 py-2">N</th>
+                <th class="px-3 py-2">P</th>
+                <th class="px-3 py-2">F</th>
+                <th class="px-3 py-2">BP</th>
+                <th class="px-3 py-2">BC</th>
+                <th class="px-3 py-2">Pé</th>
+                <th class="px-3 py-2">Dif</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let c of classementFiltre" class="hover:bg-gray-100">
+                <td class="px-3 py-2">{{ c.Pl }}</td>
+                <td class="px-3 py-2">{{ c.Equipe }}</td>
+                <td class="px-3 py-2 text-center">{{ c.Pts }}</td>
+                <td class="px-3 py-2 text-center">{{ c.Jo }}</td>
+                <td class="px-3 py-2 text-center">{{ c.G }}</td>
+                <td class="px-3 py-2 text-center">{{ c.N }}</td>
+                <td class="px-3 py-2 text-center">{{ c.P }}</td>
+                <td class="px-3 py-2 text-center">{{ c.F }}</td>
+                <td class="px-3 py-2 text-center">{{ c.BP }}</td>
+                <td class="px-3 py-2 text-center">{{ c.BC }}</td>
+                <!-- <td class="px-3 py-2 text-center">{{ c.Pé }}</td> -->
+                <td class="px-3 py-2 text-center">{{ c.Dif }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p *ngIf="!selectedEquipe" class="text-center text-gray-500 mt-4">
+        Sélectionnez une équipe pour voir le classement.
+    </p>
+</div>

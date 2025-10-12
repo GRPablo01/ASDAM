@@ -1,0 +1,78 @@
+<!-- Modal créer post -->
+<div *ngIf="showCreateModal" class="fixed inset-0 z-50 flex items-center justify-center bg-[var(--Black)]/60 backdrop-blur-lg h-full">
+    <div
+      class="w-full max-w-lg rounded-3xl bg-[var(--Blanc)]/10 backdrop-blur-2xl border border-[var(--Blanc)]/20 shadow-2xl p-8 text-[var(--Blanc)] relative">
+
+      <button (click)="closeCreatePostModal()" aria-label="Fermer"
+        class="absolute top-4 right-4 p-2 rounded-full bg-[var(--Blanc)]/10 hover:bg-[var(--Rouge)]/40 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <h2 class="text-2xl font-bold mb-6 bg-[var(--Rouge-Clair)] bg-clip-text text-transparent">
+        Créer un post
+      </h2>
+
+      <textarea [(ngModel)]="newPostContent" placeholder="Quoi de neuf ?"
+        class="w-full p-4 bg-white/10 border border-white/20 rounded-xl placeholder-white/60 text-white resize-none focus:outline-none focus:ring-2 focus:ring-red-400"
+        rows="4"></textarea>
+
+      <!-- Aperçu média -->
+      <div *ngIf="newPostMediaPreview" class="mt-4 relative">
+        <img *ngIf="newPostMedia?.type?.startsWith('image/')" [src]="newPostMediaPreview"
+          class="rounded-xl max-h-80 w-full object-cover" />
+        <video *ngIf="newPostMedia?.type?.startsWith('video/')" [src]="newPostMediaPreview"
+          class="rounded-xl max-h-80 w-full" controls></video>
+        <button (click)="removeMedia()" aria-label="Supprimer le média"
+          class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-2 hover:bg-red-500 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Zone de drop -->
+      <div *ngIf="!newPostMediaPreview" (drop)="onDrop($event)" (dragover)="$event.preventDefault()"
+        class="mt-4 border-2 border-dashed border-white/30 rounded-xl p-6 text-center hover:border-white/60 transition cursor-pointer">
+        <input type="file" #mediaInput class="hidden" (change)="onMediaSelected($event)" accept="image/*,video/*" />
+        <button (click)="mediaInput.click()" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mx-auto mb-2 text-white/60" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span class="text-white/60">Glisse une image ou vidéo ici</span>
+        </button>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center justify-between mt-6">
+        <button (click)="openMediaSelector()" type="button"
+          class="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span>Ajouter média</span>
+        </button>
+
+        <input #mediaInput type="file" (change)="onMediaSelected($event)" hidden accept="image/*,video/*" />
+
+
+        <button (click)="createPost()" [disabled]="loading || !newPostContent.trim()"
+          class="px-6 py-2 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-xl font-medium shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition">
+          <span *ngIf="!loading">Publier</span>
+          <span *ngIf="loading" class="flex items-center gap-2">
+            <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            Publication...
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>

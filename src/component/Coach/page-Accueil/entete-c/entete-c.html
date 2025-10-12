@@ -1,0 +1,39 @@
+<!-- ======= Initiales ======= -->
+<section class="relative mx-auto w-full max-w-xs rounded-2xl border-3 border-[var(--Rouge)] p-6 shadow-lg backdrop-blur sm:max-w-sm sm:pt-10 sm:pl-80 sm:-mt-148 sm:-ml-45">
+  <!-- État : chargement -->
+  <div *ngIf="loading" class="flex items-center justify-center gap-3" aria-busy="true">
+    <span class="sr-only">Chargement…</span>
+    <div class="h-8 w-8 animate-spin rounded-full border-4 border-red-600 border-t-transparent"></div>
+  </div>
+
+  <!-- État : erreur -->
+  <div *ngIf="!loading && error" role="alert" class="text-center">
+    <p class="font-semibold text-red-600">{{ error }}</p>
+  </div>
+
+  <!-- État : connecté -->
+  <div *ngIf="!loading && user" class="flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
+
+    <!-- Avatar -->
+    <figure class="absolute -ml-78 -mt-4.5 grid h-15 w-15 flex-shrink-0 place-content-center rounded-full border-4 border-[var(--Blanc)] text-[var(--Blanc)] sm:h-13 sm:w-13">
+      <figcaption class="sr-only">Avatar de {{ user.prenom }} {{ user.nom }}</figcaption>
+      <span class="text-1xl font-extrabold tracking-tight sm:text-2xl">
+        {{ getInitials() }}
+      </span>
+    </figure>
+
+    <!-- Infos -->
+    <div class="absolute text-center sm:text-left -mt-4.5">
+      <p class="-ml-62 text-lg font-bold text-[var(--Blanc)] sm:text-xl">Bonjour, {{ user?.role }}</p>
+      <p class="-ml-36 text-lg font-bold text-[var(--Blanc)] sm:text-xl">
+        {{ user.prenom }} {{ user.nom }}
+      </p>
+    </div>
+
+  </div>
+
+
+</section>
+
+
+

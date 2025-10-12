@@ -1,0 +1,100 @@
+<section class="py-10 px-4 sm:px-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+  <!-- Titre principal -->
+  <h2 class="text-4xl font-extrabold text-indigo-700 mb-10 text-center flex items-center justify-center gap-3">
+    <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    </svg>
+    Prochains matchs
+  </h2>
+
+  <!-- Boutons de filtre -->
+  <div class="flex justify-center gap-4 mb-10">
+    <button (click)="setFilter('scheduled')" [class]="getButtonClass('scheduled')">
+      À venir
+    </button>
+    <button (click)="setFilter('live')" [class]="getButtonClass('live')">
+      En direct
+    </button>
+    <button (click)="setFilter('finished')" [class]="getButtonClass('finished')">
+      Terminés
+    </button>
+  </div>
+
+  <!-- Carte Match -->
+  <div *ngFor="let match of filteredMatches"
+    class="2xl:ml-122 2xl:mr-120 relative bg-white/80 backdrop-blur-md border border-gray-200 rounded-2xl p-6 mb-6 shadow-md hover:shadow-2xl transition-all duration-300 group">
+
+    <!-- Badge statut -->
+    <div *ngIf="match.status === 'live'"
+      class="absolute -top-3 left-6 bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] hover:form-[var(--Bleu)] hover:to-[var(--Bleu-Foncé)] text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">
+      En direct • {{ getTimeLeft(match) }}
+    </div>
+    <div *ngIf="match.status === 'finished'"
+      class="absolute -top-3 left-6 bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] hover:form-[var(--Bleu)] hover:to-[var(--Bleu-Foncé)] text-white px-3 py-1 rounded-full text-xs font-bold">
+      Terminé
+    </div>
+    <div *ngIf="match.status === 'scheduled'"
+      class="absolute -top-3 left-6 bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] hover:form-[var(--Bleu)] hover:to-[var(--Bleu-Foncé)] text-white px-3 py-1 rounded-full text-xs font-bold">
+      À venir
+    </div>
+
+    <!-- Infos rapides -->
+    <div class="flex justify-between items-center text-xs text-gray-500 mb-4">
+      <span>{{ match.categorie }} • {{ match.typeMatch }}</span>
+      <span>{{ match.date | date:'dd MMM yyyy à HH:mm' }}</span>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <!-- Équipe A -->
+      <div class="flex items-center gap-4 flex-1 justify-start">
+        <img [src]="match.logoA" alt="{{ match.equipeA }}" class="w-16 h-16 rounded-full bg-white">
+        <div>
+          <p class="font-semibold text-[var(--Black)]">{{ match.equipeA }}</p>
+          <p *ngIf="match.status !== 'scheduled'" class="text-3xl font-black"
+            [ngClass]="scoreColor(match.scoreA!, match.scoreB!, 'A')">
+            {{ match.scoreA }}
+          </p>
+        </div>
+      </div>
+
+      <!-- VS -->
+      <div class="text-2xl font-extrabold text-[var(--Rouge)] mx-4">VS</div>
+
+      <!-- Équipe B -->
+      <div class="flex items-center gap-4 flex-1 justify-end">
+        <div class="text-right">
+          <p class="font-semibold text-[var(--Black)]">{{ match.equipeB }}</p>
+          <p *ngIf="match.status !== 'scheduled'" class="text-3xl font-black"
+            [ngClass]="scoreColor(match.scoreA!, match.scoreB!, 'B')">
+            {{ match.scoreB }}
+          </p>
+        </div>
+        <img [src]="match.logoB" alt="{{ match.equipeB }}" class="w-16 h-16 rounded-full bg-white">
+      </div>
+    </div>
+
+    <!-- Infos complémentaires -->
+    <div class="mt-4 flex justify-between items-center text-xs text-[var(--Black)]">
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 11 a3 3 0 1 1 -6 0 a3 3 0 1 1 6 0" />
+
+        </svg>
+        {{ match.lieu }}
+      </div>
+      <div *ngIf="match.arbitre" class="text-right">
+        Arbitre : {{ match.arbitre }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Aucun match -->
+  <div *ngIf="filteredMatches.length === 0" class="text-center text-gray-500 mt-16">
+    <p class="text-lg">Aucun match disponible pour le moment.</p>
+  </div>
+</section>

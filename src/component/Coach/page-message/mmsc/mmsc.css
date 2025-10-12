@@ -1,0 +1,205 @@
+.animate-fade-in-up {
+    animation: fadeInUp 0.3s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--Rouge);
+    border-radius: 3px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+
+
+  .contact-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;           /* 12 px */
+    padding: 0.75rem 1rem;  /* 12 px 16 px */
+    background-color: rgb(255 255 255 / 0.03);
+    border-radius: 1rem;    /* 16 px */
+    cursor: pointer;
+    transition: transform 300ms ease-out,
+                box-shadow 300ms ease-out,
+                background-color 300ms ease-out;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
+  }
+  .contact-card:hover {
+    transform: translateY(-1px);
+    background-color: rgb(255 255 255 / 0.06);
+    box-shadow: 0 4px 14px rgb(0 0 0 / 0.25);
+  }
+
+  /* Indicateur actif */
+  .active-bar {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 60%;
+    background-color: var(--Rouge);
+    border-radius: 0 4px 4px 0;
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+  .contact-card.is-active .active-bar { opacity: 1; }
+
+  /* Avatar */
+  .avatar {
+    width: 3.25rem;   /* 52 px */
+    height: 3.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--Blanc);
+    border-radius: 9999px;
+    background: linear-gradient(135deg, var(--Rouge) 0%, var(--Rouge-Foncé) 100%);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.2);
+  }
+
+  /* Nom */
+  .name {
+    font-weight: 500;
+    color: rgb(255 255 255 / 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .contact-card:hover .name,
+  .contact-card.is-active .name { color: var(--Blanc); }
+
+  /* Scrollbar fine */
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--Rouge);
+    border-radius: 3px;
+  }
+
+/* ---------- 1. ACCESSIBILITÉ ---------- */
+.contact-card:focus-visible {
+    outline: 2px solid var(--Rouge);
+    outline-offset: 2px;
+  }
+  
+  /* ---------- 2. CONTACTS – SURVOL & ACTIF ---------- */
+  .contact-card {
+    position: relative;
+    transform: translateX(0);
+    transition: transform .25s, background-color .25s;
+  }
+  .contact-card:hover {
+    transform: translateX(4px);
+    background-color: rgb(255 255 255 / .05);
+  }
+  .contact-card.is-active .active-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--Rouge);
+    border-radius: 0 4px 4px 0;
+    animation: slideIn .3s ease;
+  }
+  @keyframes slideIn {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+  }
+  
+  /* ---------- 3. AVATAR – BOUNCE AU CLIC ---------- */
+  .contact-card:active .avatar,
+  button[type="submit"]:active {
+    animation: pop .3s ease;
+  }
+  @keyframes pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+  
+  /* ---------- 4. BARRE DE RECHERCHE ---------- */
+  #search-contact {
+    transition: box-shadow .3s, transform .3s;
+  }
+  #search-contact:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 4px rgb(var(--Rouge) / .25);
+  }
+  
+  /* ---------- 5. INPUT MESSAGE – EMOJI & ECHO ---------- */
+  #message-input {
+    background: linear-gradient(90deg, transparent 0%, rgb(255 255 255 / .02) 100%);
+    transition: transform .2s;
+  }
+  #message-input:focus {
+    transform: scale(1.01);
+  }
+  /* petite vibration quand on envoie un message */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-2px); }
+    75%      { transform: translateX(2px); }
+  }
+  form.submitted #message-input {
+    animation: shake .2s ease;
+  }
+  
+  /* ---------- 6. MESSAGES – APPARITION & HOVER ---------- */
+  .animate-slide-in-bottom {
+    animation: slideBottom .35s ease forwards;
+  }
+  @keyframes slideBottom {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  article:hover .group {
+    transform: scale(1.015);
+    transition: transform .15s;
+  }
+  
+  /* ---------- 7. SCROLLBAR INVISIBLE MAIS ACCESSIBLE ---------- */
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  .scrollbar-none { scrollbar-width: none; }
+  
+  /* ---------- 8. BOUTON ENVOI – ROTATION PASTILLE ---------- */
+  button[type="submit"]:not(:disabled):hover i {
+    transform: rotate(-15deg) scale(1.15);
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+  }
+  button[type="submit"]:disabled i {
+    filter: grayscale(1) opacity(.6);
+  }
+  
+  /* ---------- 9. INDICATEUR "TYPING" (PRÉVU) ---------- */
+  .typing-indicator {
+    display: inline-flex; gap: 4px; padding: 8px 12px;
+    background: rgb(255 255 255 / .1); border-radius: 1rem;
+  }
+  .typing-indicator span {
+    width: 6px; height: 6px; background: var(--Blanc);
+    border-radius: 50%; animation: typingDot 1.2s infinite;
+  }
+  .typing-indicator span:nth-child(2) { animation-delay: .15s; }
+  .typing-indicator span:nth-child(3) { animation-delay: .3s; }
+  @keyframes typingDot {
+    0%, 60%, 100% { transform: scale(1); opacity: .4; }
+    30%           { transform: scale(1.4); opacity: 1; }
+  }

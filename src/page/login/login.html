@@ -1,0 +1,196 @@
+<!-- <div class="flex gap-4 justify-center mt-4">
+  <a routerLink="/accueilJ">
+    <button class="bg-white text-black font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-gray-200 hover:scale-105 transition transform duration-200">
+      Espace Joueur
+    </button>
+  </a>
+  <a routerLink="/accueilC">
+    <button class="bg-white text-black font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-gray-200 hover:scale-105 transition transform duration-200">
+      Espace Coach
+    </button>
+  </a>
+</div> -->
+
+<!-- CONTAINER ACTUS -->
+<div class="actus-container">
+  <app-icon></app-icon>
+
+  <div class="h-screen flex items-center justify-center px-4 bg-cover bg-center relative"
+       style="background-image: url('/assets/i1.jpg')">
+
+    <!-- Overlay sombre + flou -->
+    <div class="absolute inset-0 bg-[var(--Black)]/60 backdrop-blur-lg"></div>
+
+    <!-- Conteneur principal -->
+    <div class="w-full max-w-md relative z-10">
+
+      <!-- Message de bienvenue centré (comme une pop-up) -->
+      <div *ngIf="message" role="alert" aria-live="polite"
+           class="fixed inset-0 z-50 flex items-center justify-center">
+        <!-- Overlay sombre -->
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" (click)="message = null"></div>
+
+        <!-- Contenu central -->
+        <div class="relative z-10 max-w-sm w-full p-6 rounded-xl 
+                    bg-gradient-to-r from-[var(--Rouge-Foncé)] to-[var(--Rouge)] 
+                    text-[var(--Blanc)] text-center shadow-2xl animate-fade-in-up border border-[var(--Rouge-Clair)]/30">
+          <p class="text-sm md:text-base font-medium">{{ message }}</p>
+          <button (click)="message = null"
+                  class="mt-4 px-4 py-2 bg-[var(--Blanc)]/20 text-[var(--Blanc)] rounded-md hover:bg-[var(--Blanc)]/40 transition-colors">
+            Fermer
+          </button>
+        </div>
+      </div>
+
+      <!-- Formulaire -->
+      <form (ngSubmit)="valider()" #connexionForm="ngForm"
+            class="bg-[var(--Gris)]/10 backdrop-blur-2xl rounded-2xl p-8 shadow-2xl border border-[var(--Rouge)]/20 space-y-6 transform hover:scale-[1.01] transition-all duration-300">
+
+        <!-- Logo/Header -->
+        <div class="text-center mb-8">
+          <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] rounded-full flex items-center justify-center shadow-lg">
+            <i class="fas fa-user-lock text-3xl text-[var(--Blanc)]"></i>
+          </div>
+          <h2 class="text-3xl font-bold text-[var(--Blanc)]">Connexion</h2>
+          <p class="text-[var(--Blanc)]/70 text-sm mt-2">Accédez à votre espace personnel</p>
+        </div>
+
+        <!-- Email -->
+        <div class="space-y-2">
+          <label for="email" class="block text-sm font-semibold text-[var(--Blanc)] flex items-center">
+            <i class="fas fa-envelope mr-3 text-[var(--Rouge-Clair)]"></i>
+            Adresse e-mail
+          </label>
+          <div class="relative group">
+            <input type="email" id="email" name="email" required email
+                   [(ngModel)]="connexionData.email" #email="ngModel"
+                   [attr.aria-invalid]="email.invalid && formSubmitted"
+                   class="w-full px-4 py-3 rounded-xl bg-[var(--Gris)]/20 text-[var(--Blanc)] placeholder-[var(--Blanc)]/50 
+                          border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:outline-none 
+                          focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300
+                          hover:border-[var(--Rouge)]/50"
+                   placeholder="Votre Mail" />
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+              <i class="fas fa-at text-[var(--Blanc)]/30 group-hover:text-[var(--Rouge-Clair)] transition-colors"></i>
+            </div>
+          </div>
+          <!-- Message d'erreur Email -->
+          <div class="h-6 relative transition-all duration-300">
+            <div *ngIf="formSubmitted && email.invalid" 
+                 class="absolute left-0 top-0 flex items-center bg-[var(--Rouge)]/10 border border-[var(--Rouge-Clair)]/50 
+                        rounded-md px-3 py-1 text-[var(--Rouge-Clair)] text-xs font-medium shadow-sm animate-fade-in-up 
+                        w-full md:w-auto">
+              <i class="fas fa-exclamation-triangle mr-2 animate-pulse"></i>
+              <span>Veuillez entrer une adresse e-mail valide</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="space-y-2">
+          <label for="password" class="block text-sm font-semibold text-[var(--Blanc)] flex items-center justify-between">
+            <span>
+              <i class="fas fa-lock mr-3 text-[var(--Rouge-Clair)]"></i>
+              Mot de passe
+            </span>
+            <a routerLink="/mot-de-passe-oublie"
+               class="text-xs text-[var(--Rouge-Clair)] hover:text-[var(--Blanc)] transition-colors">
+              Mot de passe oublié ?
+            </a>
+          </label>
+          <div class="relative group">
+            <input [type]="passwordVisible ? 'text' : 'password'" id="password" name="password" required minlength="6"
+                   [(ngModel)]="connexionData.password" #password="ngModel"
+                   [attr.aria-invalid]="password.invalid && formSubmitted"
+                   class="w-full px-4 py-3 pr-12 rounded-xl bg-[var(--Gris)]/20 text-[var(--Blanc)] placeholder-[var(--Blanc)]/50 
+                          border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:outline-none 
+                          focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300
+                          hover:border-[var(--Rouge)]/50"
+                   placeholder="Mot de passe" />
+            <button type="button" (click)="togglePasswordVisibility()" aria-label="Afficher ou masquer le mot de passe"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--Blanc)]/50 hover:text-[var(--Rouge-Clair)] 
+                          transition-all duration-300 p-2 hover:scale-110">
+              <i class="fas" [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </button>
+          </div>
+          <!-- Message d'erreur Mot de passe -->
+          <div class="h-6 relative transition-all duration-300">
+            <div *ngIf="formSubmitted && password.invalid" 
+                 class="absolute left-0 top-0 flex items-center bg-[var(--Rouge)]/10 border border-[var(--Rouge-Clair)]/50 
+                        rounded-md px-3 py-1 text-[var(--Rouge-Clair)] text-xs font-medium shadow-sm animate-fade-in-up 
+                        w-full md:w-auto">
+              <i class="fas fa-exclamation-triangle mr-2 animate-pulse"></i>
+              <span>6 caractères minimum requis</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Erreur serveur -->
+        <div *ngIf="errorMessage" role="alert"
+             class="bg-[var(--Rouge)]/10 border border-[var(--Rouge)]/30 rounded-xl p-4 text-[var(--Rouge-Clair)] text-sm flex items-center animate-fade-in-up">
+          <i class="fas fa-times-circle mr-3 text-lg"></i>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <!-- Bouton -->
+        <button type="submit" [disabled]="isLoading"
+                class="group relative w-full py-4 rounded-xl font-bold text-[var(--Blanc)] 
+                       bg-gradient-to-r from-[var(--Rouge-Foncé)] to-[var(--Rouge)] 
+                       hover:from-[var(--Bleu-Foncé)] hover:to-[var(--Bleu)] 
+                       active:scale-95 disabled:opacity-50 
+                       transition-all duration-300
+                       overflow-hidden">
+          <span class="relative z-10 flex items-center justify-center">
+            <span *ngIf="!isLoading">
+              <i class="fas fa-sign-in-alt mr-3 transition-transform"></i>
+              Se connecter
+            </span>
+            <span *ngIf="isLoading">
+              <i class="fas fa-spinner fa-spin mr-3"></i>
+              Connexion en cours...
+            </span>
+          </span>
+        </button>
+
+        <!-- Lien inscription -->
+        <div class="text-center mt-8 pt-6 border-t border-[var(--Gris)]/20">
+          <p class="text-[var(--Blanc)]/80 text-sm">
+            Pas encore de compte ?
+            <a routerLink="/inscription"
+               class="inline-block ml-2 px-4 py-2 bg-[var(--Gris)]/20 text-[var(--Rouge)] font-semibold rounded-md shadow-sm
+                      hover:bg-[var(--Gris)]/40 hover:scale-105 transition-colors duration-300">
+              Créer un compte
+            </a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  /* 🔹 Empêche le scroll global */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: rgba(73, 73, 73, 0.1); }
+  ::-webkit-scrollbar-thumb { background: var(--Rouge); }
+</style>

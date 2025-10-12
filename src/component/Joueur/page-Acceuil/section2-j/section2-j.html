@@ -1,0 +1,114 @@
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 relative overflow-hidden bg-[var(--Blanc)]">
+
+    <!-- Contenu -->
+    <div class="flex flex-col-reverse lg:flex-row items-center gap-16 relative z-10">
+  
+      <!-- Texte -->
+      <div class="lg:w-1/2 space-y-10">
+  
+        <!-- Badge -->
+        <button
+          class="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-[var(--Rouge)]/50 bg-gradient-to-r from-white to-white/70 shadow-lg backdrop-blur-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--Rouge)] focus-visible:ring-offset-2">
+          <span class="relative flex h-3 w-3">
+            <span
+              class="absolute inset-0 rounded-full bg-[var(--Rouge)] before:absolute before:inset-0 before:rounded-full before:bg-[var(--Rouge)] before:animate-ping">
+            </span>
+          </span>
+          <span class="text-sm font-semibold text-[var(--Black)]">
+            Club Officiel <span class="text-[var(--Rouge)] group-hover:underline">ASDAM</span>
+          </span>
+        </button>
+  
+        <!-- Titre -->
+        <h1 class="text-4xl lg:text-6xl font-extrabold leading-tight tracking-tight bg-gradient-to-r from-[var(--Rouge)] to-[var(--Bleu)] bg-clip-text text-transparent">
+          TEAM ASDAM
+        </h1>
+  
+        <!-- Description -->
+        <div class="space-y-5 text-lg lg:text-xl text-[var(--Black)]/90 leading-relaxed">
+          <p>
+            L’<strong>ASDAM</strong> est un club de football passionné qui rassemble jeunes et adultes autour des valeurs du sport : esprit d’équipe, respect et dépassement de soi.
+          </p>
+          <p class="text-sm italic text-[var(--Black)]/60">
+            Du terrain d’entraînement aux compétitions officielles, notre club accompagne chaque joueur dans sa progression.
+          </p>
+        </div>
+  
+        <!-- Fonctionnalités -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-6">
+          <div *ngFor="let feature of features; let i = index" (click)="openFeature(i)" (keydown.enter)="openFeature(i)" tabindex="0" role="button"
+            attr.aria-label="Voir la fonctionnalité {{ feature.title }}"
+            class="group flex items-center gap-4 p-5 bg-white/80 backdrop-blur-md rounded-2xl border border-gray-200 hover:border-[var(--Rouge)]/60 hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--Rouge)] transition-all duration-300 cursor-pointer shadow-md hover:shadow-xl">
+            <div class="w-14 h-14 shrink-0 rounded-xl flex items-center justify-center bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white text-2xl shadow-lg transition-transform group-hover:scale-110">
+              <i [ngClass]="feature.icon"></i>
+            </div>
+            <span class="text-base font-semibold text-[var(--Black)]">{{ feature.title }}</span>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Image -->
+      <div class="lg:w-1/2">
+        <div class="relative group">
+          <div class="absolute -top-6 -left-6 w-32 h-32 bg-[var(--Rouge)]/20 blur-2xl rounded-full animate-pulse"></div>
+          <div class="absolute -bottom-6 -right-6 w-40 h-40 bg-[var(--Bleu)]/20 blur-2xl rounded-full animate-pulse"></div>
+          <img src="assets/imageAsdam.jpg" alt="Photo officielle de l'équipe ASDAM"
+            class="w-full rounded-2xl shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-500 ease-out" />
+        </div>
+      </div>
+    </div>
+  
+    <!-- Stats Club -->
+    <div class="mt-20 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center px-4 md:px-0">
+      <div *ngFor="let stat of stats"
+           class="p-6 rounded-2xl bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] 
+                  hover:from-[var(--Bleu)] hover:to-[var(--Bleu-Foncé)] 
+                  shadow-lg hover:shadow-xl transform hover:scale-105 
+                  transition-all duration-300 flex flex-col items-center justify-center">
+        
+        <!-- Icône -->
+        <i [class]="stat.icon + ' text-4xl md:text-5xl text-white mb-3 drop-shadow-lg'"></i>
+        
+        <!-- Valeur -->
+        <p class="text-3xl md:text-2xl font-extrabold text-white">
+          {{ stat.value }}
+        </p>
+        
+        <!-- Label -->
+        <p class="mt-2 text-sm md:text-base text-white/90">
+          {{ stat.label }}
+        </p>
+      </div>
+    </div>
+    
+  </section>
+  
+  <!-- MODAL -->
+  <div *ngIf="activeFeatureIndex !== null"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[var(--Black)]/40 backdrop-blur-xl px-4 py-6 animate-fadeIn"
+    (click)="closeFeature()">
+    <div class="bg-gradient-to-br from-white to-white/90 backdrop-blur-xl border border-gray-300 rounded-2xl shadow-2xl max-w-lg w-full p-8 relative animate-slideUp"
+      (click)="$event.stopPropagation()">
+  
+      <!-- Bouton fermer -->
+      <button (click)="closeFeature()"
+        class="absolute top-4 right-4 text-[var(--Black)] hover:text-[var(--Rouge)] text-2xl p-2 rounded-full transition-colors"
+        attr.aria-label="Fermer la fenêtre">
+        <i class="fas fa-xmark"></i>
+      </button>
+  
+      <!-- Contenu -->
+      <div class="flex flex-col items-center text-center space-y-6">
+        <div class="w-16 h-16 flex items-center justify-center rounded-xl bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white text-3xl shadow-md">
+          <i [ngClass]="features[activeFeatureIndex!].icon"></i>
+        </div>
+        <h2 class="text-2xl font-black text-[var(--Black)]">{{ features[activeFeatureIndex!].title }}</h2>
+        <p class="text-[var(--Black)]/90 leading-relaxed text-base">
+          {{ showFullDescription ? features[activeFeatureIndex!].description : (features[activeFeatureIndex!].description | slice:0:120) + '...' }}
+        </p>
+        <button (click)="toggleDescription()" class="text-[var(--Rouge)] hover:underline text-sm">
+          {{ showFullDescription ? 'Voir moins' : 'Voir plus' }}
+        </button>
+      </div>
+    </div>
+  </div>

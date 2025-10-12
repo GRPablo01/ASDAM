@@ -1,0 +1,128 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto p-6">
+  
+      <!-- En-tête -->
+      <header class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+        <h1 class="text-3xl font-extrabold text-gray-800 dark:text-white flex items-center gap-3">
+          <span aria-hidden="true">⚽</span>
+          Gestion des présences
+        </h1>
+  
+        <div class="flex items-center gap-4">
+          <!-- Filtre équipe -->
+          <label for="equipeFilter" class="sr-only">Filtrer par équipe</label>
+          <select id="equipeFilter" [(ngModel)]="equipeFiltre" (change)="filtrerParEquipe()"
+                  class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500">
+            <option value="">Toutes les équipes</option>
+            <option *ngFor="let eq of getEquipes()" [value]="eq">{{ eq }}</option>
+          </select>
+  
+          <!-- Toggle mode sombre -->
+          <button type="button" (click)="toggleDarkMode()"
+                  class="px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                  [attr.aria-pressed]="isDarkMode">
+            <span aria-hidden="true">{{ isDarkMode ? '☀️' : '🌙' }}</span>
+            <span class="sr-only">Activer le mode sombre</span>
+          </button>
+  
+          <!-- Export CSV -->
+          <button type="button" (click)="exportCSV()"
+                  class="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition">
+            📥 Exporter CSV
+          </button>
+        </div>
+      </header>
+  
+      <!-- Utilisateur connecté -->
+      <section aria-label="Utilisateur connecté" class="mb-6 flex justify-center">
+        <div class="bg-white dark:bg-gray-800 shadow rounded-xl px-6 py-3 flex items-center gap-3">
+          <span class="font-semibold text-gray-800 dark:text-gray-200">Connecté :</span>
+          <span class="text-blue-700 dark:text-blue-400 font-bold">{{ utilisateurConnecte?.nom || 'Invité' }}</span>
+          <span class="text-xs font-medium px-2 py-1 rounded-full"
+                [ngClass]="roleBadgeClass(utilisateurConnecte?.role)">
+            {{ utilisateurConnecte?.role || 'Aucun rôle' }}
+          </span>
+        </div>
+      </section>
+  
+      <!-- Résumé global -->
+      <section *ngIf="resumeGlobal" aria-label="Résumé des présences" class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 p-4 rounded-xl shadow">
+          <strong>Présents :</strong> {{ resumeGlobal.present }}
+        </div>
+        <div class="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 p-4 rounded-xl shadow">
+          <strong>Absents :</strong> {{ resumeGlobal.absent }}
+        </div>
+        <div class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-4 rounded-xl shadow">
+          <strong>Total joueurs :</strong> {{ resumeGlobal.total }}
+        </div>
+      </section>
+  
+      <!-- Liste des joueurs -->
+      <section aria-label="Liste des joueurs">
+        <div *ngFor="let groupe of getJoueursParEquipeFiltre()" class="mb-10">
+          <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-2">
+            <span aria-hidden="true">🏆</span> {{ groupe.equipe }}
+          </h2>
+  
+          <div *ngFor="let joueur of groupe.joueurs" class="border p-4 rounded-xl mb-4 bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition">
+            <div class="flex justify-between items-center mb-3">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-blue-200 dark:bg-blue-700 flex items-center justify-center font-bold text-blue-700 dark:text-white">
+                  {{ joueur.nom.charAt(0) }}
+                </div>
+                <div>
+                  <p class="font-medium text-lg text-gray-800 dark:text-white">{{ joueur.nom }} {{ joueur.prenom }}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ joueur.equipe }}</p>
+                </div>
+              </div>
+              <div class="text-sm text-gray-600 dark:text-gray-300">
+                <span class="font-bold text-green-600">{{ getPresenceCount(joueur.id).present }}</span> /
+                <span class="font-bold text-red-600">{{ getPresenceCount(joueur.id).absent }}</span>
+              </div>
+            </div>
+  
+            <!-- Boutons par jour -->
+            <div class="flex flex-wrap gap-4 justify-start">
+              <div *ngFor="let jour of getJours(joueur.equipe)" class="flex flex-col items-center">
+                <span class="text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">{{ jour }}</span>
+  
+                <div class="flex gap-2">
+                  <button type="button"
+                          (click)="confirmSetPresence(joueur.id, jour, true)"
+                          [disabled]="!peutModifier(joueur.id)"
+                          [attr.aria-pressed]="presenceParJour[joueur.id]?.[jour] === true"
+                          [ngClass]="{
+                            'bg-green-600 text-white': presenceParJour[joueur.id]?.[jour] === true,
+                            'bg-gray-200 dark:bg-gray-700 hover:bg-green-100 dark:hover:bg-green-900': presenceParJour[joueur.id]?.[jour] !== true
+                          }"
+                          class="px-3 py-1 rounded-lg transition font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+                    Présent
+                  </button>
+  
+                  <button type="button"
+                          (click)="confirmSetPresence(joueur.id, jour, false)"
+                          [disabled]="!peutModifier(joueur.id)"
+                          [attr.aria-pressed]="presenceParJour[joueur.id]?.[jour] === false"
+                          [ngClass]="{
+                            'bg-red-600 text-white': presenceParJour[joueur.id]?.[jour] === false,
+                            'bg-gray-200 dark:bg-gray-700 hover:bg-red-100 dark:hover:bg-red-900': presenceParJour[joueur.id]?.[jour] !== false
+                          }"
+                          class="px-3 py-1 rounded-lg transition font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+                    Absent
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  
+      <!-- Notification toast -->
+      <div *ngIf="toast" role="alert" class="fixed bottom-4 right-4 px-4 py-2 rounded-lg shadow text-white"
+           [ngClass]="toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'">
+        {{ toast.message }}
+      </div>
+  
+    </div>
+  </div><p>absent-j works!</p>
