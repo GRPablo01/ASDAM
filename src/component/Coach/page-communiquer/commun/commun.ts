@@ -39,7 +39,7 @@ export class Commun implements OnInit {
 
   ngOnInit(): void {
     // Récupérer l'utilisateur depuis localStorage
-    const userStr = localStorage.getItem('user'); // ou 'currentUser' selon ta clé
+    const userStr = localStorage.getItem('utilisateur'); // ou 'currentUser' selon ta clé
     if (userStr) {
       this.userConnecte = JSON.parse(userStr);
     }

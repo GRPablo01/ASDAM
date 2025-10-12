@@ -27,14 +27,12 @@ export class CommuniqueService {
   ajouterCommunique(communique: FormData): Observable<Communique> {
     return this.http.post<Communique>(this.apiUrl, communique);
   }
-  
 
   likeCommunique(id: string): Observable<Communique> {
     return this.http.post<Communique>(`${this.apiUrl}/like/${id}`, {});
   }
 
-  dislikeCommunique(id: string) {
-    return this.http.post<Communique>(`${this.apiUrl}/commun/dislike/${id}`, {});
+  dislikeCommunique(id: string): Observable<Communique> {
+    return this.http.post<Communique>(`${this.apiUrl}/dislike/${id}`, {});
   }
-  
 }
