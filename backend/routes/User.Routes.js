@@ -55,18 +55,6 @@ router.get('/users', userController.getAllUsers);
 // ✅ Modifier uniquement le mot de passe d’un utilisateur
 router.put('/users/:id/password', userController.changePassword);
 
-// ✅ Récupérer l’utilisateur connecté (depuis JWT)
-// router.get('/me', authMiddleware, async (req, res) => {
-//   try {
-//     const user = await User.findById(req.user.id).select('-password');
-//     if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé' });
-//     res.json(user);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: 'Erreur serveur' });
-//   }
-// });
-
 // ✅ Récupérer la carte complète de l’utilisateur par ID
 router.get('/card/:id', authMiddleware, userController.getUserCard);
 
@@ -96,6 +84,5 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ message: "Erreur serveur", error });
   }
 });
-
 
 module.exports = router;

@@ -1,3 +1,4 @@
+// src/app/services/match.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -21,7 +22,9 @@ export interface Match {
   minute?: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class MatchService {
   private apiUrl = 'http://localhost:3000/api/matches';
 
@@ -34,8 +37,19 @@ export class MatchService {
   getAllMatches(): Observable<Match[]> {
     return this.http.get<Match[]>(this.apiUrl);
   }
+  
+  updateScore(id: string, scoreA: number, scoreB: number, headers?: any): Observable<Match> {
+    return this.http.patch<Match>(
+      `${this.apiUrl}/matches/${id}`,
+      { scoreA, scoreB },
+      { headers }
+    );
+  }
+  
+  
 
-  updateScore(id: string, scoreA: number, scoreB: number): Observable<Match> {
-    return this.http.patch<Match>(`${this.apiUrl}/matches/${id}`, { scoreA, scoreB });
+  // méthode générique pour mettre à jour d'autres champs si besoin
+  updateMatch(id: string, payload: Partial<Match>): Observable<Match> {
+    return this.http.patch<Match>(`${this.apiUrl}/${id}`, payload);
   }
 }

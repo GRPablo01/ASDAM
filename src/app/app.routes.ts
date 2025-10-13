@@ -6,12 +6,17 @@ import { Connexion } from '../page/connexion/connexion';
 
 /* ---- TOUT LE JOUEUR ----*/
 import { AcceuilJ } from '../page/Joueur/acceuil-j/acceuil-j';
-import { NotifJ } from '../page/Joueur/notif-j/notif-j';
+import { ComnuniquerJ } from '../page/Joueur/comnuniquer-j/comnuniquer-j';
+import { MatchJ } from '../page/Joueur/match-j/match-j';
+import { ResultatsJ } from '../page/Joueur/resultats-j/resultats-j';
+import { ProfilJ } from '../page/Joueur/profil-j/profil-j';
+import { DashboardJ } from '../page/Joueur/dashboard-j/dashboard-j';
+import { ParametreJ } from '../page/Joueur/parametre-j/parametre-j';
 import { MessageJ } from '../page/Joueur/message-j/message-j';
 import { PlanningJ } from '../page/Joueur/planning-j/planning-j';
 import { AbsentsJ } from '../page/Joueur/absents-j/absents-j';
 import { ConvocationJ } from '../page/Joueur/convocation-j/convocation-j';
-
+import { ActualiteJ } from '../page/Joueur/actualite-j/actualite-j';
 
 /* ---- TOUT LE COACH ----*/
 import { AcceuilC } from '../page/Coach/acceuil-c/acceuil-c';
@@ -19,7 +24,6 @@ import { PlanningC } from '../page/Coach/planning-c/planning-c';
 import { DashboardC } from '../page/Coach/dashboard-c/dashboard-c';
 import { MatchC } from '../page/Coach/match-c/match-c';
 import { ProfilC } from '../page/Coach/profil-c/profil-c';
-import { NotifC } from '../page/Coach/notif-c/notif-c';
 import { MessageC } from '../page/Coach/message-c/message-c';
 import { AbsentsC } from '../page/Coach/absents-c/absents-c';
 import { ActualiteC } from '../page/Coach/actualite-c/actualite-c';
@@ -27,14 +31,8 @@ import { ParametresC } from '../page/Coach/parametres-c/parametres-c';
 import { ResultatsC } from '../page/Coach/resultats-c/resultats-c';
 import { CommuniquerC } from '../page/Coach/communiquer-c/communiquer-c';
 import { CGUC } from '../page/Coach/cguc/cguc';
-import { ActualiteJ } from '../page/Joueur/actualite-j/actualite-j';
 import { ConvocationC } from '../page/Coach/convocation-c/convocation-c';
-import { ComnuniquerJ } from '../page/Joueur/comnuniquer-j/comnuniquer-j';
-import { MatchJ } from '../page/Joueur/match-j/match-j';
-import { ResultatsJ } from '../page/Joueur/resultats-j/resultats-j';
-import { ProfilJ } from '../page/Joueur/profil-j/profil-j';
-import { DashboardJ } from '../page/Joueur/dashboard-j/dashboard-j';
-import { ParametreJ } from '../page/Joueur/parametre-j/parametre-j';
+import { ArcivesC } from '../page/Coach/arcives-c/arcives-c';
 
 
 /* ---- TOUT LE INVITÉ ----*/
@@ -45,6 +43,7 @@ export const routes: Routes = [
     { path: 'connexion', component: Connexion },
     { path: 'inscription', component: Inscription },
     { path: 'cguc', component: CGUC},
+
 
     // ============ Joueur ============== //
     { path: 'accueilJ', component: AcceuilJ },
@@ -74,7 +73,7 @@ export const routes: Routes = [
     { path: 'matchC/resultatsC', component: ResultatsC},
     { path: 'actualiteC/communiquesC', component: CommuniquerC},
     { path: 'matchC/convocationsC', component: ConvocationC},
-    
+    { path: 'actualiteC/archivesC', component: ArcivesC},
 
     // ============ Inviter ============== //
 

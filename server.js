@@ -26,12 +26,13 @@ const joueurRoutes = require('./backend/routes/joueur.routes');
 const messageRoutes = require('./backend/routes/message.Routes');
 const confirmationRoutes = require('./backend/routes/confirmation.Routes');
 const communiqueRoutes = require('./backend/routes/communiquer.Routes');
+const archiveRoutes = require('./backend/routes/archive.Routes');
 
 // ==============================
 // ⚙️ Configuration de l'application
 // ==============================
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 // ==============================
 // 📁 Création du dossier uploads si inexistant
@@ -79,11 +80,15 @@ app.use('/api/joueurs', joueurRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/confirmation', confirmationRoutes);
 app.use('/api/communiques', communiqueRoutes);
+app.use('/api/archives', archiveRoutes);
 
 // ==============================
 // 📨 Upload média (posts)
 // ==============================
 app.post('/api/posts/media', upload.single('media'), postController.createPostWithMedia);
+
+
+
 
 // ==============================
 // 🏠 Routes de test

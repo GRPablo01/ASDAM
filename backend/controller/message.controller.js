@@ -49,7 +49,7 @@ async function sendMessage(req, res) {
     const receiver = await User.findById(receiverId);
 
     if (receiver?.email) {
-      console.log('📩 Tentative d’envoi de mail à prout :', receiver.email);
+      console.log('📩 Tentative d’envoi de mail à:', receiver.email);
 
       const subject = `Nouveau message de ${senderName}`;
       const appUrl = process.env.NODE_ENV === 'production'

@@ -54,18 +54,30 @@ export class MatchC2 implements OnInit, OnDestroy {
   getMatches() {
     this.http.get<Match[]>('http://localhost:3000/api/matches').subscribe({
       next: (data) => {
-        this.matches = data.map((match) => ({
-          ...match,
-          logoA: this.logos[match.equipeA] || 'assets/default.png',
-          logoB: this.logos[match.equipeB] || 'assets/default.png',
-          duree: match.duree || 90,
-          status: match.status || this.getStatus(match.date),
-        }));
+        const now = new Date();
+        this.matches = data.map((match) => {
+          const matchDate = new Date(match.date);
+          const end = new Date(matchDate.getTime() + (match.duree || 90) * 60000);
+          const status: 'scheduled' | 'live' | 'finished' =
+            now < matchDate ? 'scheduled' :
+            now >= matchDate && now <= end ? 'live' :
+            'finished';
+  
+          return {
+            ...match,
+            logoA: this.logos[match.equipeA] || 'assets/default.png',
+            logoB: this.logos[match.equipeB] || 'assets/default.png',
+            duree: match.duree || 90,
+            status
+          };
+        });
+  
         this.applyFilter();
       },
       error: (err) => console.error('Erreur récupération matchs:', err),
     });
   }
+  
 
   /** --- FILTRAGE --- **/
   setFilter(status: 'scheduled' | 'live' | 'finished') {

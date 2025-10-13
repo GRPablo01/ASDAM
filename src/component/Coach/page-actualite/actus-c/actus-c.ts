@@ -76,7 +76,6 @@ export class ActusC implements OnInit {
   notification: { type: 'success'|'error', message: string } | null = null;
 
   animatingLike: string | null = null;
-  showNotif = false;
 
   @ViewChild('mediaInput') mediaInput!: ElementRef<HTMLInputElement>;
   @ViewChild('editMediaInput') editMediaInput!: ElementRef<HTMLInputElement>;
@@ -212,12 +211,12 @@ export class ActusC implements OnInit {
       video.src = url;
       video.onloadedmetadata = () => {
         if(video.duration > 15) { 
-          alert("La vidéo doit durer moins de 15 secondes !");
+          this.showNotification('error', 'La vidéo doit durer moins de 15 secondes ❌');
           this.removeMedia();
         } else this.newPostMediaPreview = url;
       }
     } else { 
-      alert("Type de fichier non supporté !");
+      this.showNotification('error', 'Type de fichier non supporté ❌');
       this.removeMedia();
     }
   }
@@ -262,7 +261,6 @@ export class ActusC implements OnInit {
         likedBy: p.likedBy ?? [],
         isLiked: p.likedBy?.includes(this.currentUser?._id || '') ?? false
       };
-      // ⚡ Ajout instantané
       this.posts.unshift(formattedPost);
       this.filterPosts();
       this.newPostContent = '';
@@ -366,10 +364,10 @@ export class ActusC implements OnInit {
 
   onDrop(event: DragEvent) {
     event.preventDefault();
-    console.log('Fichier déposé', event);
   }
 
   onDragOver(event: DragEvent) {
     event.preventDefault();
   }
+
 }
