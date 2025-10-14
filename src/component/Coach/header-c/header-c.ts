@@ -93,7 +93,7 @@ export class HeaderC implements OnInit, AfterViewInit {
         link: '/actualiteC',
         items: [
           { title: 'Communiqués', link: '/actualiteC/communiquesC', icon: 'fas fa-bullhorn' },
-          { title: 'Archives', link: '/actualiteC/archivesC', icon: 'fas fa-archive' }
+          // { title: 'Archives', link: '/actualiteC/archivesC', icon: 'fas fa-archive' }
         ]
       },
       {

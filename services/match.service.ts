@@ -1,8 +1,9 @@
 // src/app/services/match.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+// ------------------- INTERFACE MATCH -------------------
 export interface Match {
   _id?: string;
   equipeA: string;
@@ -26,30 +27,32 @@ export interface Match {
   providedIn: 'root'
 })
 export class MatchService {
-  private apiUrl = 'http://localhost:3000/api/matches';
+  private apiUrl = 'http://localhost:3000/api/matches'; // URL de l’API backend
 
   constructor(private http: HttpClient) {}
 
-  creerMatch(match: Match): Observable<Match> {
-    return this.http.post<Match>(this.apiUrl, match);
+  // ------------------- CRÉER UN MATCH -------------------
+  creerMatch(match: Match, headers?: HttpHeaders): Observable<Match> {
+    return this.http.post<Match>(this.apiUrl, match, { headers });
   }
 
+  // ------------------- RÉCUPÉRER TOUS LES MATCHS -------------------
   getAllMatches(): Observable<Match[]> {
     return this.http.get<Match[]>(this.apiUrl);
   }
-  
-  updateScore(id: string, scoreA: number, scoreB: number, headers?: any): Observable<Match> {
+
+  // ------------------- METTRE À JOUR LE SCORE -------------------
+  updateScore(id: string, scoreA: number, scoreB: number, headers?: HttpHeaders): Observable<Match> {
     return this.http.patch<Match>(
-      `${this.apiUrl}/matches/${id}`,
+      `${this.apiUrl}/${id}`,
       { scoreA, scoreB },
       { headers }
     );
   }
-  
-  
 
-  // méthode générique pour mettre à jour d'autres champs si besoin
-  updateMatch(id: string, payload: Partial<Match>): Observable<Match> {
-    return this.http.patch<Match>(`${this.apiUrl}/${id}`, payload);
+  // ------------------- MÉTHODE GÉNÉRIQUE POUR MISE À JOUR -------------------
+  // Permet de mettre à jour n'importe quel champ d'un match
+  updateMatch(id: string, payload: Partial<Match>, headers?: HttpHeaders): Observable<Match> {
+    return this.http.patch<Match>(`${this.apiUrl}/${id}`, payload, { headers });
   }
 }

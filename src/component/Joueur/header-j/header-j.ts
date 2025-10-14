@@ -93,7 +93,7 @@ export class HeaderJ implements OnInit, AfterViewInit {
         link: '/actualiteJ',
         items: [
           { title: 'Communiqués', link: '/actualiteJ/communiquesJ', icon: 'fas fa-bullhorn' },
-          { title: 'Archives', link: '/actualiteJ/archivesJ', icon: 'fas fa-archive' }
+          // { title: 'Archives', link: '/actualiteJ/archivesJ', icon: 'fas fa-archive' }
         ]
       },
       {

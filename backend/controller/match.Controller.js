@@ -1,15 +1,29 @@
 // controller/match.Controller.js
 const Match = require('../../src/Schema/Match'); // adapte le chemin selon ta structure
-// const Utilisateur = require('../Schema/user'); // si besoin
+// const Utilisateur = require('../../src/Schema/user'); // si besoin pour les rôles ou permissions
 
+// ------------------- CRÉATION D'UN MATCH -------------------
 exports.creerMatch = async (req, res) => {
   try {
-    const { equipeA, equipeB, date, lieu, categorie, typeMatch, logoA, logoB, arbitre, stade } = req.body;
+    const {
+      equipeA,
+      equipeB,
+      date,
+      lieu,
+      categorie,
+      typeMatch,
+      logoA,
+      logoB,
+      arbitre,
+      stade
+    } = req.body;
 
+    // Vérification des champs obligatoires
     if (!equipeA || !equipeB || !date || !lieu || !categorie) {
       return res.status(400).json({ message: 'Tous les champs sont requis' });
     }
 
+    // Création du match
     const match = new Match({
       equipeA,
       equipeB,
@@ -29,29 +43,32 @@ exports.creerMatch = async (req, res) => {
 
     const savedMatch = await match.save();
     res.status(201).json(savedMatch);
+
   } catch (err) {
-    console.error('Erreur création match:', err);
+    console.error('Erreur création match :', err);
     res.status(500).json({ message: 'Erreur lors de la création du match', error: err });
   }
 };
 
+// ------------------- RÉCUPÉRATION DE TOUS LES MATCHS -------------------
 exports.getAllMatches = async (req, res) => {
   try {
-    const matches = await Match.find().sort({ date: -1 });
-    res.json(matches);
+    const matches = await Match.find().sort({ date: -1 }); // tri décroissant par date
+    res.status(200).json(matches);
   } catch (err) {
-    console.error('Erreur récupération des matchs:', err);
+    console.error('Erreur récupération des matchs :', err);
     res.status(500).json({ message: 'Erreur récupération des matchs', error: err });
   }
 };
 
-// Mettre à jour un match (score, status, minute) — route PATCH /:id/score
+// ------------------- MISE À JOUR D'UN MATCH -------------------
+// Route PATCH /matches/:id
 exports.updateMatch = async (req, res) => {
   try {
     const { scoreA, scoreB, status, minute } = req.body;
     const update = {};
 
-    // Ne pas écraser les valeurs si elles ne sont pas fournies
+    // Mise à jour conditionnelle : ne pas écraser les champs non fournis
     if (typeof scoreA !== 'undefined') update.scoreA = Number(scoreA);
     if (typeof scoreB !== 'undefined') update.scoreB = Number(scoreB);
     if (typeof status !== 'undefined') update.status = status;
@@ -64,14 +81,15 @@ exports.updateMatch = async (req, res) => {
     const match = await Match.findByIdAndUpdate(
       req.params.id,
       { $set: update },
-      { new: true }
+      { new: true } // renvoie le match mis à jour
     );
 
     if (!match) return res.status(404).json({ message: 'Match non trouvé' });
 
     res.status(200).json(match);
+
   } catch (err) {
-    console.error('Erreur mise à jour match:', err);
+    console.error('Erreur mise à jour match :', err);
     res.status(500).json({ message: 'Erreur mise à jour match', error: err });
   }
 };

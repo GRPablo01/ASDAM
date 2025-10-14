@@ -26,25 +26,30 @@ export class MatchVueC implements OnInit, OnDestroy {
 
   // ✅ Logos d’équipes
   logos: Record<string, string> = {
-    ASDAM: 'assets/ASDAM.png',
-    FCSM: 'assets/FCSM.png',
+    'ASDAM': 'assets/logo-equipe-U23/ASDAM.png',
+    'GIROLEPUIX': 'assets/logo-equipe-U23/GIROLEPUIX.png',
+    'MONBELIARDASC': 'assets/logo-equipe-U23/MONBELIARDASC.png',
+    'DAMPIERRE': 'assets/logo-equipe-U23/DAMPIERRE.png',
+    'BEAUCOURT': 'assets/logo-equipe-U23/BEAUCOURT.png',
+    'MHSC': 'assets/logo-equipe-U23/MONTREUX.png',
+    'NOMMAY': 'assets/logo-equipe-U23/NOMMAY.png',
+    'ARCEY': 'assets/logo-equipe-U23/ARCEY.png',
+    'ESSERT': 'assets/logo-equipe-U23/ESSERT.png',
   };
 
   constructor(private matchService: MatchService) {}
 
   // ------------------- LIFECYCLE -------------------
   ngOnInit() {
-    // 🔹 Récupérer l’utilisateur connecté
     const storedUser = localStorage.getItem('utilisateur');
     if (storedUser) {
       this.userConnecte = JSON.parse(storedUser);
       console.log('👤 Utilisateur connecté :', this.userConnecte);
     }
 
-    // 🔹 Charger les matchs
     this.getMatches();
 
-    // 🔹 Rafraîchissement auto toutes les 3 secondes
+    // Rafraîchissement automatique toutes les 3 secondes
     this.refreshSubscription = interval(3000).subscribe(() => this.getMatches());
   }
 
@@ -65,8 +70,6 @@ export class MatchVueC implements OnInit, OnDestroy {
           scoreB: match.scoreB ?? 0,
           duree: match.duree || 90
         }));
-
-        // 🔹 Appliquer le filtre actif
         this.applyFilter();
       },
       error: err => console.error('❌ Erreur getMatches:', err)
@@ -89,11 +92,11 @@ export class MatchVueC implements OnInit, OnDestroy {
     const now = new Date();
     const matchDate = new Date(date);
     const end = new Date(matchDate.getTime() + (90 * 60000));
-    if (now < matchDate) return 'live';
+    if (now < matchDate) return 'scheduled';
     if (now >= matchDate && now <= end) return 'live';
     return 'finished';
   }
-  
+
   // ------------------- SCORE -------------------
   scoreColor(a: number = 0, b: number = 0, side: 'A' | 'B'): string {
     if (a === b) return 'text-[var(--Black)]';
@@ -112,29 +115,28 @@ export class MatchVueC implements OnInit, OnDestroy {
     this.selectedMatch = null;
   }
 
-  // ✅ MISE À JOUR DU SCORE (avec rôle coach)
+  // ------------------- MISE À JOUR DU SCORE -------------------
   updateScore(match: Match, side: 'A' | 'B', delta: number) {
-    if (!match) return;
-    if (!this.userConnecte || this.userConnecte.role !== 'coach') {
-      console.warn('⛔ Accès refusé : seul un coach peut modifier le score');
-      return;
-    }
+    if (!match || !this.userConnecte || this.userConnecte.role !== 'coach') return;
 
+    // Mise à jour locale
     if (side === 'A') match.scoreA = Math.max(0, (match.scoreA || 0) + delta);
     else match.scoreB = Math.max(0, (match.scoreB || 0) + delta);
 
-    // 🔹 Envoi au backend avec le rôle dans le header
-    const headers = new HttpHeaders({
-      'x-user': JSON.stringify(this.userConnecte)
-    });
+    // ✅ Correction : créer un HttpHeaders valide
+    const headers = new HttpHeaders().set('x-user', JSON.stringify(this.userConnecte));
 
-    this.matchService.updateScore(match._id!, match.scoreA!, match.scoreB!, headers).subscribe({
-      next: () => {
-        console.log('✅ Score mis à jour');
-        this.getMatches();
-      },
-      error: err => console.error('❌ Erreur mise à jour score :', err)
-    });
+    this.matchService.updateScore(match._id!, match.scoreA!, match.scoreB!, headers)
+      .subscribe({
+        next: (updatedMatch: Match) => {
+          const index = this.matches.findIndex(m => m._id === updatedMatch._id);
+          if (index !== -1) {
+            this.matches[index] = { ...this.matches[index], ...updatedMatch };
+          }
+          this.applyFilter();
+        },
+        error: err => console.error('❌ Erreur mise à jour score :', err)
+      });
   }
 
   // ------------------- TEMPS -------------------

@@ -1,33 +1,28 @@
+// controller/communique.controller.js
 const Communique = require('../../src/Schema/communiquer');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// --- Configuration Multer pour upload ---
+const UPLOAD_DIR = path.join(__dirname, '..', '..', 'uploads'); // ../uploads
+
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    const uploadDir = 'uploads/';
-    // créer le dossier si inexistant
-    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
-    cb(null, uploadDir);
+  destination: (req, file, cb) => {
+    if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+    cb(null, UPLOAD_DIR);
   },
-  filename: function(req, file, cb) {
-    const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, uniqueName + path.extname(file.originalname)); // nom unique
-  }
+  filename: (req, file, cb) => {
+    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, unique + path.extname(file.originalname));
+  },
 });
-
-const upload = multer({ storage: storage });
-
-// --- Middleware pour Express ---
+const upload = multer({ storage });
 exports.uploadImage = upload.single('image');
 
 // --- Ajouter un communiqué ---
 exports.addCommunique = async (req, res) => {
   try {
     const { titre, contenu, auteur, tags } = req.body;
-
-    // Déterminer l'URL de l'image
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : '/assets/LOGO.png';
 
     const communique = new Communique({
@@ -38,57 +33,74 @@ exports.addCommunique = async (req, res) => {
       image: imageUrl,
       visible: true,
       likes: 0,
-      date: new Date()
+      date: new Date(),
     });
 
     await communique.save();
     res.status(201).json(communique);
   } catch (err) {
-    console.error("Erreur addCommunique :", err);
-    res.status(500).json({ message: "Erreur lors de l'ajout du communiqué", err });
+    console.error('Erreur addCommunique :', err);
+    res.status(500).json({ message: 'Erreur lors de l\'ajout du communiqué', err });
   }
 };
 
 // --- Récupérer tous les communiqués visibles ---
 exports.getCommuniques = async (req, res) => {
   try {
-    const communiques = await Communique.find({ visible: true }).sort({ createdAt: -1 });
+    const communiques = await Communique.find({ visible: true }).sort({ date: -1 });
     res.status(200).json(communiques);
   } catch (err) {
-    console.error("Erreur getCommuniques :", err);
-    res.status(500).json({ message: "Erreur lors de la récupération des communiqués", err });
+    console.error('Erreur getCommuniques :', err);
+    res.status(500).json({ message: 'Erreur lors de la récupération des communiqués', err });
   }
 };
 
 // --- Ajouter un like ---
 exports.likeCommunique = async (req, res) => {
   try {
-    const { id } = req.params;
-    const communique = await Communique.findById(id);
-    if (!communique) return res.status(404).json({ message: "Communiqué introuvable" });
+    const communique = await Communique.findById(req.params.id);
+    if (!communique) return res.status(404).json({ message: 'Communiqué introuvable' });
 
     communique.likes += 1;
     await communique.save();
     res.status(200).json(communique);
   } catch (err) {
-    console.error("Erreur likeCommunique :", err);
-    res.status(500).json({ message: "Erreur lors du like", err });
+    console.error('Erreur likeCommunique :', err);
+    res.status(500).json({ message: 'Erreur lors du like', err });
   }
 };
 
-// controllers/communiqueController.js
+// --- Dislike ---
 exports.dislikeCommunique = async (req, res) => {
   try {
-    const { id } = req.params;
-    const communique = await Communique.findById(id);
-    if (!communique) return res.status(404).json({ message: "Communiqué introuvable" });
+    const communique = await Communique.findById(req.params.id);
+    if (!communique) return res.status(404).json({ message: 'Communiqué introuvable' });
 
     communique.likes = Math.max(0, communique.likes - 1);
     await communique.save();
     res.status(200).json(communique);
   } catch (err) {
-    console.error("Erreur dislikeCommunique :", err);
-    res.status(500).json({ message: "Erreur lors du dislike", err });
+    console.error('Erreur dislikeCommunique :', err);
+    res.status(500).json({ message: 'Erreur lors du dislike', err });
   }
 };
 
+// ===== Supprimer un communiqué (et son image) =====
+exports.supprimerCommunique = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const communique = await Communique.findById(id);
+    if (!communique) return res.status(404).json({ message: 'Communiqué introuvable' });
+
+    if (communique.image && !communique.image.includes('/assets/LOGO.png')) {
+      const filePath = path.join(__dirname, '../../', communique.image);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    }
+
+    await Communique.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Communiqué supprimé' });
+  } catch (err) {
+    console.error('Erreur suppression communiqué :', err);
+    res.status(500).json({ message: 'Erreur lors de la suppression', err });
+  }
+};

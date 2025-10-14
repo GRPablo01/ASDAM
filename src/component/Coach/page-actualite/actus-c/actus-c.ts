@@ -314,6 +314,8 @@ export class ActusC implements OnInit {
     return ['coach','admin','super admin'].includes(role);
   }
 
+  
+
   toggleLike(post: Post): void {
     if (!post._id || !this.currentUser?._id) return;
     this.animatingLike = post._id;
@@ -345,11 +347,25 @@ export class ActusC implements OnInit {
     });
   }
 
+  canDeletePost(): boolean {
+    const role = this.currentUser?.role?.toLowerCase() ?? '';
+    return ['coach', 'admin', 'super admin'].includes(role);
+  }
+  
+
   deletePost(post: Post, index: number) {
-    if(!post._id || !confirm('Voulez-vous supprimer ce post ?')) return;
+    if (!post._id || !confirm('Voulez-vous supprimer ce post ?')) return;
+  
     this.http.delete<void>(`http://localhost:3000/api/posts/${post._id}`).subscribe({
-      next: () => { this.posts.splice(index,1); this.filterPosts(); this.showNotification('success','Post supprimé 🗑️'); },
-      error: err => { console.error(err); this.showNotification('error','Erreur lors de la suppression ❌'); }
+      next: () => {
+        this.posts.splice(index, 1);
+        this.filterPosts();
+        this.showNotification('success', 'Post supprimé 🗑️');
+      },
+      error: err => {
+        console.error(err);
+        this.showNotification('error', 'Erreur lors de la suppression ❌');
+      }
     });
   }
 

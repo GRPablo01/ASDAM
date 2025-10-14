@@ -36,8 +36,16 @@ export class MatchC2 implements OnInit, OnDestroy {
   refreshSubscription?: Subscription;
 
   logos: Record<string, string> = {
-    'ASDAM': 'assets/ASDAM.png',
-    'FCSM': 'assets/FCSM.png',
+    'ASDAM': 'assets/logo-equipe-U23/ASDAM.png',
+    'GIROLEPUIX': 'assets/logo-equipe-U23/GIROLEPUIX.png',
+    'MONBELIARDASC': 'assets/logo-equipe-U23/MONBELIARDASC.png',
+    'DAMPIERRE': 'assets/logo-equipe-U23/DAMPIERRE.png',
+    'BEAUCOURT': 'assets/logo-equipe-U23/BEAUCOURT.png',
+    'MHSC': 'assets/logo-equipe-U23/MONTREUX.png',
+    'NOMMAY': 'assets/logo-equipe-U23/NOMMAY.png',
+    'ARCEY': 'assets/logo-equipe-U23/ARCEY.png',
+    'ESSERT': 'assets/logo-equipe-U23/ESSERT.png',
+    
   };
 
   constructor(private http: HttpClient) {}

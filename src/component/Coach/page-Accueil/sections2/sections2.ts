@@ -31,7 +31,7 @@ export class Sections2 implements OnInit {
   features: Feature[] = [
     { 
       title: 'Créer des convocations', 
-      description: "Envoyez des convocations aux joueurs rapidement depuis l'onglet Match ou le Dashboard grâce au bouton prévu.",
+      description: "Envoyez des convocations aux joueurs rapidement depuis l'onglet Dashboard grâce au bouton prévu.",
       icon: 'fa-solid fa-envelope'
     },
     { 

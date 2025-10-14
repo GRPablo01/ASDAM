@@ -45,7 +45,7 @@
       </button>
     </div>
   
-    <!-- Pop-up ajout archive
+    <!-- Pop-up ajout archive -->
     <div *ngIf="showPopup" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 transition-opacity">
       <div class="bg-white rounded-3xl w-96 p-6 shadow-2xl relative animate-fadeIn">
         <button (click)="showPopup = false" 
@@ -59,15 +59,15 @@
           <input type="text" [(ngModel)]="title" placeholder="Titre" class="p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"/>
           <input type="date" [(ngModel)]="date" class="p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"/>
           <textarea [(ngModel)]="description" placeholder="Description" class="p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
-          <input type="file" (change)="onFileSelected($event)" class="p-2 border rounded"/>
+          <!-- <input type="file" (change)="onFileSelected($event)" class="p-2 border rounded"/>
           <button (click)="addArchive(); showPopup=false" 
                   class="bg-blue-700 text-white p-3 rounded hover:bg-blue-800 transition flex items-center justify-center gap-2">
             <i class="fas fa-check"></i> Ajouter
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
-   -->
+  
     <!-- Animations CSS -->
     <style>
       @keyframes fadeIn {
