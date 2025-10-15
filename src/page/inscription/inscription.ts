@@ -13,8 +13,10 @@ interface InscriptionData {
   password: string;
   codeCoach?: string;
   codeJoueur?: string;
+  codeAdmin?: string;
+  codeSuperAdmin?: string;
   equipe: string;
-  role: 'joueur' | 'coach' | 'inviter' | 'admin';
+  role: 'joueur' | 'coach' | 'inviter' | 'admin' | 'super admin';
   initiale?: string;
   cguValide: boolean;
 }
@@ -26,10 +28,13 @@ interface InscriptionData {
   templateUrl: './inscription.html',
 })
 export class Inscription implements OnInit, OnDestroy {
-  actif: 'joueur' | 'coach' | 'inviter' | 'admin' = 'joueur';
+  actif: 'joueur' | 'coach' | 'inviter' | 'admin' | 'super admin' = 'joueur';
   etape: 1 | 2 = 1;
+
   readonly CODE_COACH = 'COACH2025';
   readonly CODE_JOUEUR = 'JOUEUR2025';
+  readonly CODE_ADMIN = 'ADMIN2025';
+  readonly CODE_SUPERADMIN = 'SUPERADMIN2025';
 
   equipes: string[] = [
     'U6','U7','U8','U9','U10','U11','U12','U13','U14','U15','U16','U17','U18','U23',
@@ -43,14 +48,14 @@ export class Inscription implements OnInit, OnDestroy {
     password: '',
     codeCoach: '',
     codeJoueur: '',
+    codeAdmin: '',
+    codeSuperAdmin: '',
     equipe: '',
     role: 'joueur',
     initiale: '',
     cguValide: false,
   };
-  showCoachPassword: boolean = false;
-  showJoueurPassword: boolean = false;
-  
+
   passwordVisible = false;
   formSubmitted = false;
   message: string | null = null;
@@ -61,11 +66,13 @@ export class Inscription implements OnInit, OnDestroy {
   ngOnInit(): void { document.body.style.overflow = 'hidden'; }
   ngOnDestroy(): void { document.body.style.overflow = 'auto'; }
 
-  // 🔹 Gestion profils
+  // 🔹 Activation rôles
   activerJoueur(): void {
     this.actif = 'joueur';
     this.inscriptionData.role = 'joueur';
     this.inscriptionData.codeCoach = '';
+    this.inscriptionData.codeAdmin = '';
+    this.inscriptionData.codeSuperAdmin = '';
     if (!this.inscriptionData.equipe) this.inscriptionData.equipe = this.equipes[0];
   }
 
@@ -73,7 +80,27 @@ export class Inscription implements OnInit, OnDestroy {
     this.actif = 'coach';
     this.inscriptionData.role = 'coach';
     this.inscriptionData.codeJoueur = '';
+    this.inscriptionData.codeAdmin = '';
+    this.inscriptionData.codeSuperAdmin = '';
     if (!this.inscriptionData.equipe) this.inscriptionData.equipe = this.equipes[0];
+  }
+
+  activerAdmin(): void {
+    this.actif = 'admin';
+    this.inscriptionData.role = 'admin';
+    this.inscriptionData.codeCoach = '';
+    this.inscriptionData.codeJoueur = '';
+    this.inscriptionData.codeSuperAdmin = '';
+    this.inscriptionData.equipe = 'Tous';
+  }
+
+  activerSuperAdmin(): void {
+    this.actif = 'super admin';
+    this.inscriptionData.role = 'super admin';
+    this.inscriptionData.codeCoach = '';
+    this.inscriptionData.codeJoueur = '';
+    this.inscriptionData.codeAdmin = '';
+    this.inscriptionData.equipe = 'Tous';
   }
 
   activerInviter(): void {
@@ -81,10 +108,14 @@ export class Inscription implements OnInit, OnDestroy {
     this.inscriptionData.role = 'inviter';
     this.inscriptionData.codeCoach = '';
     this.inscriptionData.codeJoueur = '';
+    this.inscriptionData.codeAdmin = '';
+    this.inscriptionData.codeSuperAdmin = '';
     this.inscriptionData.equipe = '';
   }
 
-  togglePasswordVisibility(): void { this.passwordVisible = !this.passwordVisible; }
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
 
   // 🔹 Validation email
   isEmailValid(email: string): boolean {
@@ -92,7 +123,7 @@ export class Inscription implements OnInit, OnDestroy {
     return regex.test(email);
   }
 
-  // 🔹 Validation étape 1
+  // 🔹 Étape 1
   etape1Valide(): boolean {
     return !!this.inscriptionData.nom &&
            !!this.inscriptionData.prenom &&
@@ -101,33 +132,34 @@ export class Inscription implements OnInit, OnDestroy {
            this.inscriptionData.password.length >= 6;
   }
 
-  // 🔹 Validation étape 2
+  // 🔹 Étape 2
   etape2Valide(): boolean {
     if ((this.actif === 'coach' && this.inscriptionData.codeCoach !== this.CODE_COACH) ||
-        (this.actif === 'joueur' && this.inscriptionData.codeJoueur !== this.CODE_JOUEUR)) {
+        (this.actif === 'joueur' && this.inscriptionData.codeJoueur !== this.CODE_JOUEUR) ||
+        (this.actif === 'admin' && this.inscriptionData.codeAdmin !== this.CODE_ADMIN) ||
+        (this.actif === 'super admin' && this.inscriptionData.codeSuperAdmin !== this.CODE_SUPERADMIN)) {
       return false;
     }
+
+    // ✅ Coach / joueur doivent avoir une équipe
     if ((this.actif === 'coach' || this.actif === 'joueur') && !this.inscriptionData.equipe) {
       return false;
     }
+
     return this.cguAccepte;
   }
 
-  // 🔹 Navigation étapes
   etapeSuivante(): void {
-    if (this.etape1Valide()) {
-      this.etape = 2;
-    } else {
-      alert('Veuillez remplir correctement tous les champs obligatoires.');
-    }
+    if (this.etape1Valide()) this.etape = 2;
+    else alert('Veuillez remplir correctement tous les champs obligatoires.');
   }
 
   etapePrecedente(): void { this.etape = 1; }
 
-  // 🔹 Soumission formulaire
+  // 🔹 Validation finale
   valider(): void {
     if (!this.etape2Valide()) {
-      alert('Veuillez remplir correctement tous les champs obligatoires et accepter les CGU.');
+      alert('Veuillez remplir correctement tous les champs et accepter les CGU.');
       return;
     }
 
@@ -141,8 +173,11 @@ export class Inscription implements OnInit, OnDestroy {
       cguValide: this.cguAccepte,
     };
 
+    // Nettoyage selon le rôle
     if (payload.role !== 'coach') delete payload.codeCoach;
     if (payload.role !== 'joueur') delete payload.codeJoueur;
+    if (payload.role !== 'admin') delete payload.codeAdmin;
+    if (payload.role !== 'super admin') delete payload.codeSuperAdmin;
 
     this.http.post('http://localhost:3000/api/users', payload).subscribe({
       next: (res: any) => {
@@ -150,10 +185,11 @@ export class Inscription implements OnInit, OnDestroy {
         this.authService.setUser(res);
 
         const redirection =
-          payload.role === 'coach'   ? '/accueilC' :
-          payload.role === 'admin'   ? '/accueilA' :
-          payload.role === 'joueur'  ? '/accueilJ' :
-          payload.role === 'inviter' ? '/accueilI' :
+          payload.role === 'coach'        ? '/accueilC' :
+          payload.role === 'admin'        ? '/accueilA' :
+          payload.role === 'super admin'  ? '/accueilS' :
+          payload.role === 'joueur'       ? '/accueilJ' :
+          payload.role === 'inviter'      ? '/accueilI' :
           '/';
 
         setTimeout(() => this.router.navigate([redirection]), 1500);
@@ -164,4 +200,11 @@ export class Inscription implements OnInit, OnDestroy {
       }
     });
   }
+
+  // Ajoute dans ta classe Inscription
+showCoachPassword = false;
+showJoueurPassword = false;
+showAdminPassword = false;
+showSuperAdminPassword = false;
+
 }

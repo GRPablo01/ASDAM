@@ -1,261 +1,151 @@
-<!-- ========== CONVOCATIONS – UI 2025 CENTRÉ SUR MOBILE ET DESKTOP AMÉLIORÉ ========== -->
-<section class="relative min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 overflow-hidden"
-  aria-labelledby="convoc-title">
+<div class="relative min-h-screen flex flex-col justify-start items-center bg-gradient-to-br from-gray-50 to-gray-100 p-8">
 
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+  
 
-    <!-- ===== EN-TÊTE AMÉLIORÉ ===== -->
-    <header *ngIf="!loading && userInConvocations.length" class="text-center mb-8 lg:mb-12 max-w-4xl mx-auto">
+  <!-- ===== EN-TÊTE ===== -->
+  <header *ngIf="!loading && userInConvocations.length" class="text-center mb-12 flex flex-col items-center w-full max-w-6xl">
 
-      <!-- Logo avec animation -->
-      <div class="relative inline-block mb-4">
-        <img src="/assets/LOGO.png" alt="Logo du club"
-          class="w-24 h-24 lg:w-28 lg:h-28 rounded-full shadow-xl transform hover:scale-105 transition-transform duration-300">
-        <div class="absolute inset-0 rounded-full bg-gradient-to-r from-rose-500/20 to-transparent animate-pulse"></div>
+    <!-- Logo -->
+    <div class="relative flex justify-center mt-5 mb-4">
+      <div class="inline-block relative">
+        <img
+          src="/assets/LOGO.png"
+          alt="Logo du club"
+          class="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-full shadow-xl transform hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+    </div>
+
+    <!-- Sous-titre -->
+    <p class="text-xs sm:text-sm uppercase tracking-[0.4em] text-[var(--Black)] mt-3 font-medium">
+      Convocation officielle
+    </p>
+
+    <!-- Titre -->
+    <h1
+      id="convoc-title"
+      class="text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-gray-900 via-gray-800 to-rose-600 bg-clip-text text-transparent drop-shadow-lg mt-2"
+    >
+      Liste des joueurs convoqués
+    </h1>
+
+    <!-- Infos match -->
+    <div class="mt-10 bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200 w-full max-w-2xl mx-auto">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-gray-700 text-center sm:text-left">
+
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <span class="font-semibold">{{ userInConvocations[0].date | date:'fullDate':'':'fr' }}</span>
+        </div>
+
+        <span aria-hidden="true" class="hidden sm:block text-gray-400">•</span>
+
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span class="font-semibold">à {{ userInConvocations[0].date | date:'shortTime':'':'fr' }}</span>
+        </div>
+
+        <span aria-hidden="true" class="hidden sm:block text-gray-400">•</span>
+
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span class="font-semibold">au {{ userInConvocations[0].lieu }}</span>
+        </div>
       </div>
 
-      <p class="text-xs sm:text-sm uppercase tracking-[0.4em] text-gray-600 mb-3 font-medium">
-        Convocation officielle
+      <p class="mt-4 text-xl sm:text-2xl font-bold text-rose-600 tracking-wide bg-rose-50 rounded-lg py-2 px-4 inline-block">
+        {{ userInConvocations[0].match }}
       </p>
-
-      <h1 id="convoc-title"
-        class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-gray-900 via-gray-800 to-rose-600 bg-clip-text text-transparent drop-shadow-lg mb-6">
-        Liste des joueurs convoqués
-      </h1>
-
-      <!-- Informations du match avec carte -->
-      <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200 max-w-2xl mx-auto">
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-gray-700">
-          <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-            </svg>
-            <span class="font-semibold">{{ userInConvocations[0].date | date:'fullDate':'':'fr' }}</span>
-          </div>
-
-          <span aria-hidden="true" class="hidden sm:block text-gray-400">•</span>
-
-          <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <span class="font-semibold">à {{ userInConvocations[0].date | date:'shortTime':'':'fr' }}</span>
-          </div>
-
-          <span aria-hidden="true" class="hidden sm:block text-gray-400">•</span>
-
-          <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            </svg>
-            <span class="font-semibold">au {{ userInConvocations[0].lieu }}</span>
-          </div>
-        </div>
-
-        <p
-          class="mt-4 text-xl sm:text-2xl font-bold text-rose-600 tracking-wide bg-rose-50 rounded-lg py-2 px-4 inline-block">
-          {{ userInConvocations[0].match }}
-        </p>
-      </div>
-    </header>
-
-    <!-- ===== LOADER AMÉLIORÉ ===== -->
-    <div *ngIf="loading" class="flex flex-col items-center justify-center gap-6 py-16" aria-busy="true">
-      <div class="relative">
-        <span class="w-12 h-12 border-4 border-gray-300 border-t-rose-600 rounded-full animate-spin"></span>
-        <div class="absolute inset-0 w-12 h-12 border-4 border-rose-600/20 rounded-full animate-ping"></div>
-      </div>
-      <div class="text-center">
-        <span class="text-base sm:text-lg text-gray-600 font-medium">Chargement des convocations...</span>
-        <div class="mt-2 w-48 h-1 bg-gray-200 rounded-full overflow-hidden">
-          <div class="h-full bg-gradient-to-r from-rose-500 to-rose-600 rounded-full animate-pulse" style="width: 45%">
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- ===== GRILLE DES CONVOCATIONS AMÉLIORÉE ===== -->
-    <div *ngIf="!loading && userInConvocations.length"
-      class="xl:ml-90 xl:-mr-45 grid grid-cols-1 sm:grid-cols-2 sm:ml-126 gap-6 max-w-7xl mx-auto">
+  </header>
 
-      <div *ngFor="let c of userInConvocations; index as i" class="group bg-white/90 backdrop-blur-sm rounded-2xl p-6 border-2 border-gray-200
-                  transition-all duration-300 ease-out relative overflow-hidden">
+  <!-- ===== GRILLE DES CONVOCATIONS ===== -->
+  <div *ngIf="!loading && userInConvocations.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-7xl mx-auto -mt-5
+  sm:-ml-4 sm:-mr-80
+  md:ml-13
+  lg:ml-84
+  xl:ml-155
+  2xl:ml-165
+  ">
+    <div *ngFor="let c of userInConvocations; index as i" class="group bg-white/90 backdrop-blur-sm rounded-2xl px-6 border-2 border-gray-200 transition-all duration-300 relative overflow-hidden
+    ">
+      <!-- Logo -->
+      <div class="relative z-10 mb-6 flex justify-center">
+        <img src="/assets/LOGO.png" alt="Logo convocation" class="w-12 h-12 rounded-full shadow-md transform transition-transform duration-300"/>
+      </div>
 
-        <!-- Logo convocation -->
-        <div class="relative z-10 mb-6 flex justify-center">
-          <img src="/assets/LOGO.png" alt="Logo convocation"
-            class="w-12 h-12 rounded-full shadow-md transform transition-transform duration-300">
-        </div>
-
-        <!-- Liste des joueurs -->
-        <ul role="list" class="space-y-3 relative z-10">
-          <li *ngFor="let joueur of c.joueurs; index as j" role="listitem"
-            class="flex items-center gap-4 p-3 rounded-xl transition-all duration-200 relative cursor-pointer"
+      <!-- Joueurs -->
+      <ul role="list" class="space-y-3 relative z-10">
+        <li *ngFor="let joueur of c.joueurs; index as j" role="listitem" class="flex items-center gap-4 p-3 rounded-xl transition-all duration-200 relative cursor-pointer"
             [ngClass]="{
-                'bg-amber-50 border-2 border-amber-300 shadow-md': userConnecte && joueur.nom === userConnecte.nom && joueur.prenom === userConnecte.prenom && !joueur.hasClicked,
-                'bg-green-50 border border-green-200': joueur.etatPresence === 'present',
-                'bg-red-50 border border-red-200': joueur.etatPresence === 'absent'
-              }">
+              'bg-amber-50 border-2 border-amber-300 shadow-md': userConnecte && joueur.nom === userConnecte.nom && joueur.prenom === userConnecte.prenom && !joueur.hasClicked,
+              'bg-green-50 border border-green-200': joueur.etatPresence === 'present',
+              'bg-red-50 border border-red-200': joueur.etatPresence === 'absent'
+            }">
+          
+          <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm"
+               [ngClass]="{
+                 'bg-green-500 text-white': joueur.etatPresence === 'present',
+                 'bg-red-500 text-white': joueur.etatPresence === 'absent',
+                 'bg-gray-100 text-gray-600': !joueur.etatPresence
+               }">
+            {{ j + 1 }}
+          </div>
 
-            <!-- Numéro -->
-            <div class="flex-shrink-0 w-8 h-8 rounded-full 
-              flex items-center justify-center font-bold text-sm" [ngClass]="{
-              'bg-green-500 text-white': joueur.etatPresence === 'present',
-              'bg-red-500 text-white': joueur.etatPresence === 'absent',
-              'bg-gray-100 text-gray-600': !joueur.etatPresence
-              }">
-              {{ j + 1 }}
+          <div class="flex-shrink-0 relative">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-rose-500 to-rose-600 flex items-center justify-center text-white font-bold text-sm shadow-lg transform hover:scale-105 transition-transform duration-200">
+              {{ (joueur.prenom?.charAt(0) || '') + (joueur.nom?.charAt(0) || '') | uppercase }}
             </div>
-
-
-            <!-- Avatar -->
-            <div class="flex-shrink-0 relative">
-              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-rose-500 to-rose-600 
-                          flex items-center justify-center text-white font-bold text-sm shadow-lg
-                          transform hover:scale-105 transition-transform duration-200">
-                {{ (joueur.prenom?.charAt(0) || '') + (joueur.nom?.charAt(0) || '') | uppercase }}
-              </div>
-              <!-- Indicateur de présence -->
-              <div *ngIf="joueur.etatPresence"
-                class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white" [ngClass]="{
-                     'bg-green-500': joueur.etatPresence === 'present',
-                     'bg-red-500': joueur.etatPresence === 'absent'
-                   }">
-                <svg *ngIf="joueur.etatPresence === 'present'" class="w-3 h-3 text-white mx-auto mt-0.5"
-                  fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"></path>
-                </svg>
-              </div>
+            <div *ngIf="joueur.etatPresence" class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white"
+                 [ngClass]="{'bg-green-500': joueur.etatPresence === 'present', 'bg-red-500': joueur.etatPresence === 'absent'}">
+              <svg *ngIf="joueur.etatPresence === 'present'" class="w-3 h-3 text-white mx-auto mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
             </div>
+          </div>
 
-            <!-- Nom du joueur -->
-            <div class="flex-1 min-w-0">
-              <p class="text-gray-900 font-semibold text-sm sm:text-base truncate">
-                {{ joueur.prenom }} {{ joueur.nom }}
-              </p>
-              <p *ngIf="joueur.etatPresence" class="text-xs text-gray-500 capitalize">
-                {{ joueur.etatPresence === 'present' ? 'Présent' : 'Absent' }}
-              </p>
-            </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-gray-900 font-semibold text-sm sm:text-base truncate">{{ joueur.prenom }} {{ joueur.nom }}</p>
+            <p *ngIf="joueur.etatPresence" class="text-xs text-gray-500 capitalize">{{ joueur.etatPresence === 'present' ? 'Présent' : 'Absent' }}</p>
+          </div>
 
-<!-- Boutons présence avec Font Awesome -->
-<div
-  *ngIf="
-    userConnecte &&
-    joueur.nom === userConnecte.nom &&
-    joueur.prenom === userConnecte.prenom &&
-    c._id
-  "
-  class="flex gap-2 ml-2"
->
-  <!-- Bouton Présent -->
-  <button
-    (click)="updatePresence(c, true)"
-    [disabled]="!canClick(c)"
-    class="px-3 py-2 rounded-lg text-white shadow-lg flex items-center justify-center transition-all duration-200"
-    [ngClass]="{
-      'bg-green-500 hover:bg-green-600': canClick(c),
-      'bg-green-300 cursor-not-allowed opacity-70': !canClick(c)
-    }"
-  >
-    <i class="fas fa-check"></i>
-  </button>
+          <div *ngIf="userConnecte && joueur.nom === userConnecte.nom && joueur.prenom === userConnecte.prenom && c._id" class="flex gap-2 ml-2">
+            <button (click)="updatePresence(c, true)" [disabled]="!canClick(c)" class="px-3 py-2 rounded-lg text-white shadow-lg flex items-center justify-center transition-all duration-200"
+                    [ngClass]="{'bg-green-500 hover:bg-green-600': canClick(c), 'bg-green-300 cursor-not-allowed opacity-70': !canClick(c)}">
+              <i class="fas fa-check"></i>
+            </button>
+            <button (click)="updatePresence(c, false)" [disabled]="!canClick(c)" class="px-3 py-2 rounded-lg text-white shadow-lg flex items-center justify-center transition-all duration-200"
+                    [ngClass]="{'bg-red-500 hover:bg-red-600': canClick(c), 'bg-red-300 cursor-not-allowed opacity-70': !canClick(c)}">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
 
-  <!-- Bouton Absent -->
-  <button
-    (click)="updatePresence(c, false)"
-    [disabled]="!canClick(c)"
-    class="px-3 py-2 rounded-lg text-white shadow-lg flex items-center justify-center transition-all duration-200"
-    [ngClass]="{
-      'bg-red-500 hover:bg-red-600': canClick(c),
-      'bg-red-300 cursor-not-allowed opacity-70': !canClick(c)
-    }"
-  >
-    <i class="fas fa-times"></i>
-  </button>
-</div>
-
-
-
-
-          </li>
-        </ul>
-      </div>
+        </li>
+      </ul>
     </div>
-
-    <!-- ===== ÉTAT VIDE AMÉLIORÉ ===== -->
-    <div *ngIf="!loading && !userInConvocations.length"
-      class="flex flex-col items-center justify-center text-center py-24 px-4 sm:px-0" role="status">
-      <div class="relative mb-6">
-        <div
-          class="w-24 h-24 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-          <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
-            </path>
-          </svg>
-        </div>
-        <div class="absolute inset-0 rounded-full bg-gradient-to-r from-rose-500/10 to-transparent animate-pulse"></div>
-      </div>
-      <p class="text-gray-500 text-lg font-medium">Aucune convocation pour le moment</p>
-      <p class="text-gray-400 text-sm mt-2">Les convocations apparaîtront ici dès qu'elles seront disponibles</p>
-    </div>
-
-    <!-- ===== MESSAGE D'ERREUR AMÉLIORÉ ===== -->
-    <div *ngIf="error" class="flex flex-col items-center justify-center text-center py-24 px-4 sm:px-0" role="alert">
-      <div class="relative mb-6">
-        <div class="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center">
-          <svg class="w-12 h-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-        </div>
-      </div>
-      <p class="text-red-600 text-lg font-medium mb-2">Une erreur s'est produite</p>
-      <p class="text-red-500 text-sm max-w-md">{{ error }}</p>
-    </div>
-
   </div>
-</section>
 
+  <!-- ===== NOTIFICATION ===== -->
+  <div *ngIf="notificationMessage" class="fixed bottom-6 right-6 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg animate-fade-in-out">
+    {{ notificationMessage }}
+  </div>
 
-<!-- Notification -->
-<div *ngIf="notificationMessage"
-  class="fixed bottom-6 right-6 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg animate-fade-in-out">
-  {{ notificationMessage }}
 </div>
 
 <style>
   @keyframes fade-in-out {
-    0% {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-
-    10% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    90% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    100% {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
+    0% { opacity: 0; transform: translateY(10px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
   }
-
-  .animate-fade-in-out {
-    animation: fade-in-out 3s ease forwards;
-  }
+  .animate-fade-in-out { animation: fade-in-out 3s ease forwards; }
 </style>

@@ -21,26 +21,21 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-// GET /api/users/me
+// Récupérer utilisateur courant
 exports.getCurrentUser = async (req, res) => {
-    try {
-      const userId = req.userId; // supposons que tu récupères l'ID depuis le token
-      const user = await User.findById(userId);
-      if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé' });
-      res.json(user);
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
-  
+
 // Mettre à jour un utilisateur
 exports.updateUser = async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedUser) return res.status(404).json({ message: 'Utilisateur introuvable' });
     res.json(updatedUser);
   } catch (err) {
@@ -59,9 +54,7 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-
-
-// ✅ Récupérer uniquement les joueurs
+// Récupérer uniquement les joueurs
 exports.getJoueurs = async (req, res) => {
   try {
     const joueurs = await User.find({ role: 'joueur' });

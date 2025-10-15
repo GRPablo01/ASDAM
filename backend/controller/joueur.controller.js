@@ -1,14 +1,16 @@
-const User = require('../../src/Schema/user'); // Assure-toi que le modèle s'appelle bien User
+// src/controller/joueur.controller.js
+const User = require('../../src/Schema/user'); // ton modèle Mongoose ou autre ORM
 
-// Récupérer uniquement les joueurs
+// Récupère tous les joueurs
 const getJoueurs = async (req, res) => {
   try {
+    // Filtre les utilisateurs avec role "joueur"
     const joueurs = await User.find({ role: 'joueur' });
     res.json(joueurs);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('Erreur getJoueurs:', err);
+    res.status(500).json({ message: 'Erreur lors de la récupération des joueurs' });
   }
 };
 
-// Export correct en CommonJS
 module.exports = { getJoueurs };

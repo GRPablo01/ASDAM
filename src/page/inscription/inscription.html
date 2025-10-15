@@ -10,9 +10,8 @@
   <div class="w-full max-w-md relative z-10">
 
     <!-- Message -->
-    <div *ngIf="message" role="alert" aria-live="polite"
-      class="mb-6 p-4 rounded-xl bg-gradient-to-r from-[var(--Rouge-Foncé)] to-[var(--Rouge)]
-             text-[var(--Blanc)] text-center shadow-2xl animate-fade-in-up border border-[var(--Rouge-Clair)]/30">
+    <div *ngIf="message" class="mb-6 p-4 rounded-xl bg-gradient-to-r from-[var(--Rouge-Foncé)] to-[var(--Rouge)]
+      text-[var(--Blanc)] text-center shadow-2xl border border-[var(--Rouge-Clair)]/30 animate-fade-in-up">
       <p class="text-sm md:text-base font-medium">{{ message }}</p>
     </div>
 
@@ -41,43 +40,28 @@
             <label class="block text-sm font-semibold text-[var(--Blanc)] mb-1">
               <i class="fas fa-id-badge mr-2 text-[var(--Rouge-Clair)]"></i> Nom
             </label>
-            <input type="text" name="nom" [(ngModel)]="inscriptionData.nom" required
-              placeholder="Entrez votre nom"
+            <input type="text" name="nom" [(ngModel)]="inscriptionData.nom" required placeholder="Entrez votre nom"
               class="w-full px-4 py-3 rounded-xl bg-[var(--Gris)]/20 text-[var(--Blanc)]
-                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:outline-none
-                     focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
+                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
           </div>
-
           <div>
             <label class="block text-sm font-semibold text-[var(--Blanc)] mb-1">
               <i class="fas fa-id-card mr-2 text-[var(--Rouge-Clair)]"></i> Prénom
             </label>
-            <input type="text" name="prenom" [(ngModel)]="inscriptionData.prenom" required
-              placeholder="Entrez votre prénom"
+            <input type="text" name="prenom" [(ngModel)]="inscriptionData.prenom" required placeholder="Entrez votre prénom"
               class="w-full px-4 py-3 rounded-xl bg-[var(--Gris)]/20 text-[var(--Blanc)]
-                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:outline-none
-                     focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
+                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
           </div>
         </div>
 
         <!-- Email -->
-        <div class="relative">
-          <label for="email-field" class="block text-sm font-semibold text-[var(--Blanc)] mb-1">
+        <div>
+          <label class="block text-sm font-semibold text-[var(--Blanc)] mb-1">
             <i class="fas fa-envelope mr-2 text-[var(--Rouge-Clair)]"></i> Adresse e-mail
           </label>
-          <div class="relative">
-            <input id="email-field" type="email" name="email" [(ngModel)]="inscriptionData.email" required
-              autocomplete="email" placeholder="exemple@email.com"
-              class="peer w-full px-4 py-3 pr-10 rounded-xl bg-[var(--Gris)]/20 text-[var(--Blanc)]
-                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:outline-none
-                     focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
-            <span
-              class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3
-                     text-[var(--Blanc)]/30 peer-focus:text-[var(--Rouge-Clair)]
-                     transition-colors duration-300">
-              <i class="fas fa-at"></i>
-            </span>
-          </div>
+          <input type="email" name="email" [(ngModel)]="inscriptionData.email" required placeholder="exemple@email.com"
+            class="w-full px-4 py-3 rounded-xl bg-[var(--Gris)]/20 text-[var(--Blanc)]
+                   border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
         </div>
 
         <!-- Mot de passe -->
@@ -85,41 +69,31 @@
           <label class="block text-sm font-semibold text-[var(--Blanc)] mb-1">
             <i class="fas fa-lock mr-2 text-[var(--Rouge-Clair)]"></i> Mot de passe
           </label>
-          <div class="relative group">
+          <div class="relative">
             <input [type]="passwordVisible ? 'text' : 'password'" name="password"
-              [(ngModel)]="inscriptionData.password"
-              required minlength="6" placeholder="Entrez votre mot de passe"
+              [(ngModel)]="inscriptionData.password" required minlength="6"
+              placeholder="Entrez votre mot de passe"
               class="w-full px-4 py-3 pr-12 rounded-xl bg-[var(--Gris)]/20 text-[var(--Blanc)]
-                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:outline-none
-                     focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
-
-            <button type="button" (click)="togglePasswordVisibility()"
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--Blanc)]/50 hover:text-[var(--Rouge-Clair)] transition-colors">
-              <i class="fas"
-                 [class.fa-eye]="!passwordVisible"
-                 [class.fa-eye-slash]="passwordVisible"></i>
-            </button>
+                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
+            <i class="fas absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-[var(--Blanc)]/70 hover:text-[var(--Rouge-Clair)] transition"
+               [class.fa-eye]="!passwordVisible"
+               [class.fa-eye-slash]="passwordVisible"
+               (click)="togglePasswordVisibility()"></i>
           </div>
         </div>
 
-        <!-- Bouton suivant -->
+        <!-- Bouton Suivant -->
         <button type="button" (click)="etapeSuivante()" [disabled]="!etape1Valide()"
           class="w-full py-4 rounded-xl font-bold text-[var(--Blanc)] bg-[var(--Rouge)]
-                 hover:bg-[var(--Bleu)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                 hover:bg-[var(--Bleu)] transition-all duration-300 disabled:opacity-50">
           Suivant
         </button>
 
-        <!-- Lien vers connexion -->
-        <div class="text-center mt-6">
-          <p class="text-[var(--Blanc)]/80 text-sm">
-            Vous avez déjà un compte ?
-            <a routerLink="/connexion"
-              class="inline-block ml-2 px-4 py-2 bg-[var(--Gris)]/20 text-[var(--Rouge)] font-semibold rounded-md shadow-sm
-                     hover:bg-[var(--Gris)]/40 hover:scale-105 transition-colors duration-300">
-              Connectez-vous
-            </a>
-          </p>
-        </div>
+        <!-- Lien connexion -->
+        <p class="text-center text-sm text-[var(--Blanc)]/70">
+          Déjà un compte ?
+          <a routerLink="/connexion" class="text-[var(--Rouge-Clair)] hover:underline ml-1">Connectez-vous</a>
+        </p>
       </div>
 
       <!-- Étape 2 -->
@@ -141,6 +115,13 @@
             <i class="fas fa-chalkboard-teacher mr-2"></i> Coach
           </button>
 
+          <button type="button" (click)="activerAdmin()"
+            [ngClass]="actif === 'admin' ? 'bg-[var(--Rouge-Clair)] text-[var(--Blanc)] shadow-lg scale-105'
+            : 'bg-transparent text-[var(--Blanc)] hover:bg-[var(--Rouge-Foncé)]'"
+            class="px-4 py-2 rounded-xl font-semibold border-2 border-[var(--Rouge-Clair)] transition-all duration-300">
+            <i class="fas fa-user-shield mr-2"></i> Admin
+          </button>
+
           <button type="button" (click)="activerInviter()"
             [ngClass]="actif === 'inviter' ? 'bg-[var(--Rouge-Clair)] text-[var(--Blanc)] shadow-lg scale-105'
             : 'bg-transparent text-[var(--Blanc)] hover:bg-[var(--Rouge-Foncé)]'"
@@ -149,55 +130,62 @@
           </button>
         </div>
 
-        <!-- === Code Coach === -->
+        <!-- Code Coach -->
         <div *ngIf="actif === 'coach'" class="relative">
           <label class="block text-sm font-semibold text-[var(--Blanc)] mb-1">
             <i class="fas fa-key mr-2 text-[var(--Rouge-Clair)]"></i> Code coach
           </label>
           <div class="relative">
-            <input [type]="showCoachPassword ? 'text' : 'password'"
-              [(ngModel)]="inscriptionData.codeCoach"
+            <input [type]="showCoachPassword ? 'text' : 'password'" [(ngModel)]="inscriptionData.codeCoach"
               name="codeCoach" placeholder="Entrez le code coach"
               class="w-full px-4 py-3 pr-12 rounded-xl bg-[var(--Gris)]/20 text-[var(--Blanc)]
-                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:outline-none
-                     focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
-            <i class="fas absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer
-                      text-[var(--Blanc)]/70 hover:text-[var(--Rouge-Clair)] transition"
-               [class.fa-eye]="!showCoachPassword"
-               [class.fa-eye-slash]="showCoachPassword"
+                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
+            <i class="fas absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-[var(--Blanc)]/70 hover:text-[var(--Rouge-Clair)] transition"
+               [class.fa-eye]="!showCoachPassword" [class.fa-eye-slash]="showCoachPassword"
                (click)="showCoachPassword = !showCoachPassword"></i>
           </div>
         </div>
 
-        <!-- === Code Joueur === -->
+        <!-- Code Joueur -->
         <div *ngIf="actif === 'joueur'" class="relative">
           <label class="block text-sm font-semibold text-[var(--Blanc)] mb-1">
             <i class="fas fa-key mr-2 text-[var(--Rouge-Clair)]"></i> Code joueur
           </label>
           <div class="relative">
-            <input [type]="showJoueurPassword ? 'text' : 'password'"
-              [(ngModel)]="inscriptionData.codeJoueur"
+            <input [type]="showJoueurPassword ? 'text' : 'password'" [(ngModel)]="inscriptionData.codeJoueur"
               name="codeJoueur" placeholder="Entrez le code joueur"
               class="w-full px-4 py-3 pr-12 rounded-xl bg-[var(--Gris)]/20 text-[var(--Blanc)]
-                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:outline-none
-                     focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
-            <i class="fas absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer
-                      text-[var(--Blanc)]/70 hover:text-[var(--Rouge-Clair)] transition"
-               [class.fa-eye]="!showJoueurPassword"
-               [class.fa-eye-slash]="showJoueurPassword"
+                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
+            <i class="fas absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-[var(--Blanc)]/70 hover:text-[var(--Rouge-Clair)] transition"
+               [class.fa-eye]="!showJoueurPassword" [class.fa-eye-slash]="showJoueurPassword"
                (click)="showJoueurPassword = !showJoueurPassword"></i>
           </div>
         </div>
 
-        <!-- Sélection équipe -->
+        <!-- Code Admin -->
+        <div *ngIf="actif === 'admin'" class="relative">
+          <label class="block text-sm font-semibold text-[var(--Blanc)] mb-1">
+            <i class="fas fa-key mr-2 text-[var(--Rouge-Clair)]"></i> Code admin
+          </label>
+          <div class="relative">
+            <input [type]="showAdminPassword ? 'text' : 'password'" [(ngModel)]="inscriptionData.codeAdmin"
+              name="codeAdmin" placeholder="Entrez le code admin"
+              class="w-full px-4 py-3 pr-12 rounded-xl bg-[var(--Gris)]/20 text-[var(--Blanc)]
+                     border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300" />
+            <i class="fas absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-[var(--Blanc)]/70 hover:text-[var(--Rouge-Clair)] transition"
+               [class.fa-eye]="!showAdminPassword" [class.fa-eye-slash]="showAdminPassword"
+               (click)="showAdminPassword = !showAdminPassword"></i>
+          </div>
+        </div>
+
+        <!-- Équipe -->
         <div *ngIf="actif === 'joueur' || actif === 'coach'">
           <label class="block text-sm font-semibold text-[var(--Blanc)] mb-1">
             <i class="fas fa-users mr-2 text-[var(--Rouge-Clair)]"></i> Équipe
           </label>
           <select [(ngModel)]="inscriptionData.equipe" name="equipe" required
             class="w-full px-4 py-3 rounded-xl bg-[var(--Gris)]/20 text-[var(--Blanc)]
-                   border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:outline-none
-                   focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300">
+                   border-2 border-[var(--Gris)]/30 focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/20 transition-all duration-300">
             <option value="" disabled selected>-- Sélectionnez une équipe --</option>
             <option *ngFor="let e of equipes" [value]="e">{{ e }}</option>
           </select>
@@ -206,21 +194,22 @@
         <!-- CGU -->
         <div class="flex items-center space-x-2">
           <input type="checkbox" id="cgu" [(ngModel)]="cguAccepte" name="cgu" />
-          <a routerLink="/cguc"><label for="cgu" class="text-[var(--Blanc)] text-sm">
-            J’accepte les <span class="text-[var(--Rouge-Clair)] hover:underline">CGU</span>
-          </label></a>
+          <label for="cgu" class="text-[var(--Blanc)] text-sm">
+            J’accepte les <a routerLink="/cguc" class="text-[var(--Rouge-Clair)] hover:underline">CGU</a>
+          </label>
         </div>
 
-        <!-- Boutons navigation -->
+        <!-- Boutons -->
         <div class="flex justify-between">
           <button type="button" (click)="etapePrecedente()"
             class="px-6 py-3 rounded-xl font-bold text-[var(--Blanc)] bg-[var(--Rouge)]
                    hover:bg-[var(--Bleu)] transition-all duration-300">
             Précédent
           </button>
+
           <button type="submit" [disabled]="!etape2Valide()"
             class="px-6 py-3 rounded-xl font-bold text-[var(--Blanc)] bg-[var(--Rouge-Clair)]
-                   hover:bg-[var(--Bleu)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                   hover:bg-[var(--Bleu)] transition-all duration-300 disabled:opacity-50">
             Valider
           </button>
         </div>

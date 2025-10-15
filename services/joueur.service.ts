@@ -8,7 +8,8 @@ import { User } from './userService/utilisateur.service';
 })
 export class JoueurService {
 
-  private apiUrl = 'http://localhost:3000/api/users'; // URL de ton API pour tous les utilisateurs
+  // Ici on prend l'endpoint qui renvoie tous les utilisateurs
+  private apiUrl = 'http://localhost:3000/api/users/joueurs';
 
   constructor(private http: HttpClient) {}
 
@@ -16,8 +17,7 @@ export class JoueurService {
    * Récupère uniquement les utilisateurs ayant le rôle "joueur"
    */
   getJoueurs(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl).pipe(
-      map(users => users.filter(u => u.role?.toLowerCase() === 'joueur'))
-    );
+    return this.http.get<User[]>(this.apiUrl); // renvoie déjà que les joueurs
   }
+  
 }

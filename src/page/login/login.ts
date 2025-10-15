@@ -53,8 +53,8 @@ export class Login {
         _id: user._id,
         prenom: user.prenom,
         nom: user.nom,
-        email: user.email || '', // <--- ajout de l'email
-        role: (user.role || '').trim().toLowerCase(),
+        email: user.email || '',
+        role: (user.role || '').trim().toLowerCase(), // super admin déjà géré
         initiale:
           user.initiale ||
           ((user.prenom?.[0] ?? '').toUpperCase() +
@@ -91,11 +91,12 @@ export class Login {
             localStorage.removeItem('rememberMe');
           }
 
-          // ✅ Affichage du message central
           this.message = `Bienvenue ${user.prenom || 'sur TeamAsdam'} !`;
 
+          // Map des rôles incluant super admin
           const routeMap: { [key: string]: string } = {
             admin: '/accueilA',
+            'super admin': '/accueilS', // <-- rôle super admin ajouté
             coach: '/accueilC',
             joueur: '/accueilJ',
             inviter: '/accueilI',
