@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { Post , Comment} from './../src/Model/post'
+import { Post, Comment } from './../src/Model/post';
 
 @Injectable({
   providedIn: 'root'
@@ -36,11 +36,11 @@ export class PostService {
     const formData = new FormData();
     formData.append('content', post.content);
     formData.append('user', post.user);
-    formData.append('likes', post.likes.toString());
-    formData.append('isLiked', post.isLiked.toString());
-    formData.append('isBookmarked', post.isBookmarked.toString());
-    formData.append('shares', post.shares.toString());
-    if (media) formData.append('media', media, media.name);
+    formData.append('likes', post.likes?.toString() ?? '0');
+    formData.append('isLiked', post.isLiked?.toString() ?? 'false');
+    formData.append('isBookmarked', post.isBookmarked?.toString() ?? 'false');
+    formData.append('shares', post.shares?.toString() ?? '0');
+    formData.append('media', media, media.name);
 
     return this.http.post<Post>(`${this.apiUrl}/media`, formData, {
       reportProgress: true,
@@ -48,7 +48,7 @@ export class PostService {
     }).pipe(
       map((event: HttpEvent<any>) => {
         if (event.type === HttpEventType.Response) return event.body;
-        return null as any; // ignore les events autres que Response
+        return null as any; // Ignorer les events autres que Response
       }),
       catchError(err => {
         console.error('Erreur upload média:', err);
@@ -87,7 +87,7 @@ export class PostService {
     );
   }
 
-  // 🔹 Partager un post (incrémente le compteur)
+  // 🔹 Partager un post
   sharePost(postId: string): Observable<Post> {
     return this.http.post<Post>(`${this.apiUrl}/${postId}/share`, {}).pipe(
       catchError(err => {

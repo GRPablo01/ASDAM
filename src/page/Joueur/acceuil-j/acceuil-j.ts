@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { BarreJ } from '../../../component/Joueur/barre-j/barre-j';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -15,6 +16,13 @@ import { Section2J } from "../../../component/Joueur/page-Acceuil/section2-j/sec
   templateUrl: './acceuil-j.html',
   styleUrl: './acceuil-j.css'
 })
-export class AcceuilJ {
+export class AcceuilJ implements OnInit {
 
+  constructor(private titleService: Title) {}
+
+  ngOnInit(): void {
+    // ✅ Titre dynamique
+    this.titleService.setTitle('TEAM ASDAM | Acceuil - Joueur ');
+  }
 }
+

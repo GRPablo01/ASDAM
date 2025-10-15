@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { HeaderC } from '../../../component/Coach/header-c/header-c';
 import { ParamC } from "../../../component/Coach/page-param/param-c/param-c";
 
@@ -9,6 +10,12 @@ import { ParamC } from "../../../component/Coach/page-param/param-c/param-c";
   templateUrl: './parametres-c.html',
   styleUrl: './parametres-c.css'
 })
-export class ParametresC {
+export class ParametresC implements OnInit {
 
+  constructor(private titleService: Title) {}
+
+  ngOnInit(): void {
+    // ✅ Titre dynamique
+    this.titleService.setTitle('TEAM ASDAM | Settings - Coach ');
+  }
 }

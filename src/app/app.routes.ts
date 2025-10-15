@@ -33,6 +33,9 @@ import { CommuniquerC } from '../page/Coach/communiquer-c/communiquer-c';
 import { CGUC } from '../page/Coach/cguc/cguc';
 import { ConvocationC } from '../page/Coach/convocation-c/convocation-c';
 import { ArcivesC } from '../page/Coach/arcives-c/arcives-c';
+
+
+
 import { AcceuilA } from '../page/Admin/acceuil-a/acceuil-a';
 import { ActualiteA } from '../page/Admin/actualite-a/actualite-a';
 import { CommuniquerA } from '../page/Admin/communiquer-a/communiquer-a';
@@ -42,6 +45,10 @@ import { ResultatsA } from '../page/Admin/resultats-a/resultats-a';
 import { PlanningA } from '../page/Admin/planning-a/planning-a';
 import { MessageA } from '../page/Admin/message-a/message-a';
 import { JoueurA } from '../page/Admin/joueur-a/joueur-a';
+
+
+
+
 import { AcceuilS } from '../page/SuperAdmin/acceuil-s/acceuil-s';
 import { JoueurS } from '../page/SuperAdmin/joueur-s/joueur-s';
 import { CommuniquerS } from '../page/SuperAdmin/communiquer-s/communiquer-s';
@@ -51,6 +58,7 @@ import { ConvocationS } from '../page/SuperAdmin/convocation-s/convocation-s';
 import { ResultatsS } from '../page/SuperAdmin/resultats-s/resultats-s';
 import { PlanningS } from '../page/SuperAdmin/planning-s/planning-s';
 import { MessageS } from '../page/SuperAdmin/message-s/message-s';
+import { DashboardS } from '../page/SuperAdmin/dashboard-s/dashboard-s';
 
 
 /* ---- TOUT LE INVITÉ ----*/
@@ -123,6 +131,7 @@ export const routes: Routes = [
     { path: 'matchS/resultatsS', component: ResultatsS},
     { path: 'PlanningS', component: PlanningS},
     { path: 'messagesS', component: MessageS},
+    { path: 'dashboardS', component: DashboardS},
     // { path: 'actualiteA/archivesA', component: ArcivesC},
     
     

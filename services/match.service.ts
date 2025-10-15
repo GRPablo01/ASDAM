@@ -55,4 +55,11 @@ export class MatchService {
   updateMatch(id: string, payload: Partial<Match>, headers?: HttpHeaders): Observable<Match> {
     return this.http.patch<Match>(`${this.apiUrl}/${id}`, payload, { headers });
   }
+
+
+  // ------------------- SUPPRIMER UN MATCH -------------------
+  deleteMatch(id: string, headers?: HttpHeaders): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers });
+  }
+
 }

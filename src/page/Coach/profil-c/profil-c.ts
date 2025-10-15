@@ -1,5 +1,5 @@
-import { Component,HostListener } from '@angular/core';
-
+import { Component,HostListener, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { HeaderC } from "../../../component/Coach/header-c/header-c";
 import { ProfilUser } from "../../../component/Coach/page-Profil/profil-user/profil-user";
 import { CreerMatchC } from "../../../component/Coach/Bouton/creer-match-c/creer-match-c";
@@ -12,7 +12,7 @@ import { FooterC } from "../../../component/Coach/footer-c/footer-c";
   templateUrl: './profil-c.html',
   styleUrl: './profil-c.css'
 })
-export class ProfilC {
+export class ProfilC implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(event: Event) {
@@ -30,5 +30,15 @@ export class ProfilC {
       window.scrollTo(0, scrollHeight - clientHeight);
     }
   }
+  
+
+    constructor(private titleService: Title) {}
+  
+    ngOnInit(): void {
+      // ✅ Titre dynamique
+      this.titleService.setTitle('TEAM ASDAM | Profil - Coach ');
+    }
+  
+  
 
 }

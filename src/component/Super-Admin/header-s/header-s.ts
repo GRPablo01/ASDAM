@@ -107,7 +107,7 @@ export class HeaderS implements OnInit, AfterViewInit {
       },
       { title: 'Planning', icon: 'fas fa-calendar-alt', link: '/PlanningS', items: [] },
       { title: 'Messages', icon: 'fas fa-envelope', link: '/messagesS', items: [] },
-      { title: 'Joueur', icon: 'fas fa-people-group', link: '/joueurS', items: [] },
+      { title: 'Utilisateur', icon: 'fas fa-people-group', link: '/joueurS', items: [] },
       {
         title: 'Dashboard',
         icon: 'fas fa-tachometer-alt',

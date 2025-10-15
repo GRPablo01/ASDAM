@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { FooterJ } from "../../../component/Joueur/footer-j/footer-j";
 import { HeaderJ } from '../../../component/Joueur/header-j/header-j';
 import { DashC } from '../../../component/Coach/page-Dashboard/dash-c/dash-c';
@@ -9,6 +10,12 @@ import { DashC } from '../../../component/Coach/page-Dashboard/dash-c/dash-c';
   templateUrl: './dashboard-j.html',
   styleUrl: './dashboard-j.css'
 })
-export class DashboardJ {
+export class DashboardJ implements OnInit {
 
+  constructor(private titleService: Title) {}
+
+  ngOnInit(): void {
+    // ✅ Titre dynamique
+    this.titleService.setTitle('TEAM ASDAM | Dash - Joueur ');
+  }
 }
