@@ -1,4 +1,3 @@
-// src/app/components/commun/commun.ts
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,6 +14,7 @@ export class Commun implements OnInit {
   communiquesFiltres: Communique[] = [];
   filtre: string = '';
   popupOuverte = false;
+  isLoaded = false;
 
   imageFile?: File;
   imagePreview: string | ArrayBuffer | null = null;
@@ -33,13 +33,14 @@ export class Commun implements OnInit {
   backendUrl = 'http://localhost:3000';
   userConnecte: any = null;
 
+  animatingLike: string | null = null;
+
   constructor(private communiqueService: CommuniqueService) {}
 
   ngOnInit(): void {
     const userStr = localStorage.getItem('utilisateur');
-    if (userStr) {
-      this.userConnecte = JSON.parse(userStr);
-    }
+    if (userStr) this.userConnecte = JSON.parse(userStr);
+
     this.chargerCommuniques();
   }
 
@@ -83,8 +84,10 @@ export class Commun implements OnInit {
           image: c.image?.startsWith('/uploads')
             ? `${this.backendUrl}${c.image}`
             : c.image || '/assets/LOGO.png',
+          liked: false, // initialisation liked
         }));
         this.appliquerFiltre();
+        this.isLoaded = true; // tout est chargé, afficher le contenu
       },
       error: (err) => console.error('Erreur getCommuniques :', err),
     });
@@ -128,9 +131,7 @@ export class Commun implements OnInit {
     formData.append('contenu', this.nouveauCommunique.contenu);
     formData.append('auteur', this.nouveauCommunique.auteur);
     formData.append('tags', (this.nouveauCommunique.tags || []).join(','));
-    if (this.imageFile) {
-      formData.append('image', this.imageFile);
-    }
+    if (this.imageFile) formData.append('image', this.imageFile);
 
     this.communiqueService.ajouterCommunique(formData).subscribe({
       next: () => {
@@ -141,40 +142,33 @@ export class Commun implements OnInit {
     });
   }
 
-  animatingLike: string | null = null;
+  toggleLike(communique: Communique) {
+    if (!communique._id) return;
+    const key = `like_${communique._id}`;
+    const dejaLike = localStorage.getItem(key) === 'true';
 
-toggleLike(communique: Communique) {
-  if (!communique._id) return;
-
-  const key = `like_${communique._id}`;
-  const dejaLike = localStorage.getItem(key) === 'true';
-
-  if (!dejaLike) {
-    this.communiqueService.likeCommunique(communique._id).subscribe({
-      next: updated => {
-        communique.likes = updated.likes;
-        communique.liked = true;
-
-        // animation +1
-        this.animatingLike = communique._id!;
-        setTimeout(() => this.animatingLike = null, 800);
-        localStorage.setItem(key, 'true');
-      },
-      error: err => console.error(err)
-    });
-  } else {
-    this.communiqueService.dislikeCommunique(communique._id).subscribe({
-      next: updated => {
-        communique.likes = updated.likes;
-        communique.liked = false;
-        localStorage.removeItem(key);
-      },
-      error: err => console.error(err)
-    });
+    if (!dejaLike) {
+      this.communiqueService.likeCommunique(communique._id).subscribe({
+        next: (updated) => {
+          communique.likes = updated.likes;
+          communique.liked = true;
+          this.animatingLike = communique._id!;
+          setTimeout(() => (this.animatingLike = null), 800);
+          localStorage.setItem(key, 'true');
+        },
+        error: (err) => console.error(err),
+      });
+    } else {
+      this.communiqueService.dislikeCommunique(communique._id).subscribe({
+        next: (updated) => {
+          communique.likes = updated.likes;
+          communique.liked = false;
+          localStorage.removeItem(key);
+        },
+        error: (err) => console.error(err),
+      });
+    }
   }
-}
-
-  
 
   supprimerCommunique(id: string | undefined, index: number) {
     if (!id) return;

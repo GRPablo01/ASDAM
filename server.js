@@ -27,6 +27,7 @@ const messageRoutes = require('./backend/routes/message.Routes');
 const confirmationRoutes = require('./backend/routes/confirmation.Routes');
 const communiqueRoutes = require('./backend/routes/communiquer.Routes');
 const archiveRoutes = require('./backend/routes/archive.Routes');
+const classementRoutes = require('./backend/routes/classement.routes');
 
 // ==============================
 // ⚙️ Configuration de l'application
@@ -81,6 +82,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/confirmation', confirmationRoutes);
 app.use('/api/communiques', communiqueRoutes);
 app.use('/api/archives', archiveRoutes);
+app.use('/api/classements', classementRoutes);
 
 // ==============================
 // 📨 Upload média (posts)

@@ -4,46 +4,49 @@
 <div class="min-h-100 bg-[var(--Blanc)] text-[var(--Black)] flex">
 
     <!-- ---------- SIDEBAR ---------- -->
-    <aside class="w-64 lg:w-72 bg-white/70 backdrop-blur-xl border-r border-gray-200/80
-                  flex flex-col shadow-lg shrink-0">
+    <aside class="w-20 lg:w-64 bg-white/70 backdrop-blur-xl border-r border-gray-200/80
+flex flex-col shadow-lg shrink-0 transition-all duration-300">
 
         <!-- Logo -->
-        <header class="px-6 py-5 flex items-center gap-3 border-b border-gray-200/80">
+        <header class="px-4 py-5 flex items-center justify-center lg:justify-start gap-3 border-b border-gray-200/80">
             <img src="assets/LOGO.ico" alt="Logo club" class="w-10 h-10">
-            <h1 class="text-xl font-bold tracking-wide">Super Admin</h1>
+            <h1 class="hidden lg:block text-xl font-bold tracking-wide">Super Admin</h1>
         </header>
 
         <!-- Navigation -->
-        <nav class="flex-1 px-4 py-6 space-y-1">
+        <nav class="flex-1 px-2 lg:px-4 py-6 space-y-1">
+            <!-- Matchs -->
             <button (click)="setSection('match')"
-                [ngClass]="selectedSection==='match' ? 'bg-[var(--Rouge)] text-white' : 'hover:bg-gray-100'" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
-                       focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--Rouge)]">
+                [ngClass]="selectedSection==='match' ? 'bg-[var(--Rouge)] text-white' : 'hover:bg-gray-100'" class="w-full flex items-center justify-center lg:justify-start gap-3 px-3 py-2.5 rounded-lg 
+     transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--Rouge)]">
                 <i class="fas fa-futbol w-5 text-center"></i>
-                <span>Matchs</span>
+                <span class="hidden lg:inline">Matchs</span>
             </button>
 
+            <!-- Actus -->
             <button (click)="setSection('actus')"
-                [ngClass]="selectedSection==='actus' ? 'bg-[var(--Rouge)] text-white' : 'hover:bg-gray-100'" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
-                       focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--Rouge)]">
+                [ngClass]="selectedSection==='actus' ? 'bg-[var(--Rouge)] text-white' : 'hover:bg-gray-100'" class="w-full flex items-center justify-center lg:justify-start gap-3 px-3 py-2.5 rounded-lg 
+     transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--Rouge)]">
                 <i class="fas fa-newspaper w-5 text-center"></i>
-                <span>Actus</span>
+                <span class="hidden lg:inline">Actus</span>
             </button>
 
+            <!-- Communiquer -->
             <button (click)="setSection('communiquer')"
                 [ngClass]="selectedSection==='communiquer' ? 'bg-[var(--Rouge)] text-white' : 'hover:bg-gray-100'"
-                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
-                       focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--Rouge)]">
+                class="w-full flex items-center justify-center lg:justify-start gap-3 px-3 py-2.5 rounded-lg 
+     transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--Rouge)]">
                 <i class="fas fa-bullhorn w-5 text-center"></i>
-                <span>Communiquer</span>
+                <span class="hidden lg:inline">Communiquer</span>
             </button>
 
+            <!-- Création -->
             <button (click)="setSection('bouton')"
-                [ngClass]="selectedSection==='bouton' ? 'bg-[var(--Rouge)] text-white' : 'hover:bg-gray-100'" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
-               focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--Rouge)]">
+                [ngClass]="selectedSection==='bouton' ? 'bg-[var(--Rouge)] text-white' : 'hover:bg-gray-100'" class="w-full flex items-center justify-center lg:justify-start gap-3 px-3 py-2.5 rounded-lg 
+     transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--Rouge)]">
                 <i class="fas fa-plus w-5 text-center"></i>
-                <span>Création</span>
+                <span class="hidden lg:inline">Création</span>
             </button>
-
         </nav>
     </aside>
 
@@ -186,18 +189,18 @@
         <!-- ................................... CRÉATION ................................... -->
         <section *ngIf="selectedSection==='bouton'" class="animate-fadeIn">
             <h2 class="text-3xl font-extrabold mb-6 text-[var(--Rouge)]">Création</h2>
-          
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 justify-items-center">
-              <app-creer-convocations-c></app-creer-convocations-c>
-              <app-creer-convocations-c></app-creer-convocations-c>
-              <app-creer-event-c></app-creer-event-c>
-              <app-creer-match-c></app-creer-match-c>
-              <app-creer-post-c></app-creer-post-c>
+
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 justify-items-center">
+                <app-creer-convocations-c></app-creer-convocations-c>
+                <app-creer-event-c></app-creer-event-c>
+                <app-creer-match-c></app-creer-match-c>
+                <app-creer-post-c></app-creer-post-c>
             </div>
         </section>
-          
-          
-          
+
+
+
 
     </main>
 </div>

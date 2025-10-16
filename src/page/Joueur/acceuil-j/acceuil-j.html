@@ -1,5 +1,12 @@
-<div class="actus-container">
+<!-- Loader -->
+<div *ngIf="!isLoaded" class="fixed inset-0 flex items-center justify-center bg-white z-50">
+    <span class="text-lg font-bold">Chargement...</span>
+</div>
+
+<!-- Contenu principal -->
+<div *ngIf="isLoaded" class="actus-container">
     <app-sections1></app-sections1>
     <app-section2-j></app-section2-j>
+    <app-jour></app-jour>
     <app-footer-j></app-footer-j>
 </div>

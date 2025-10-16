@@ -1,44 +1,106 @@
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+interface Equipe {
+  equipe: string;
+  pts: number;
+  jo: number;
+  g: number;
+  n: number;
+  p: number;
+  f: number;
+  bp: number;
+  bc: number;
+  pe: number;
+  dif: number;
+}
+
+interface ClassementCategorie {
+  _id?: string;
+  categorie: string;
+  equipes: Equipe[];
+}
 
 @Component({
   selector: 'app-classement',
   templateUrl: './classement.html',
   styleUrls: ['./classement.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, FormsModule, HttpClientModule],
 })
-export class Classement {
+export class Classement implements OnInit {
+  // ✅ Boutons visibles dans le menu
   equipes: string[] = [
-    'U6','U7','U8','U9','U10','U11','U12','U13','U14','U15','U16','U17','U18','U23',
-    'Senior A','Senior B','Senior C','Senior D'
+    'U11',
+    'U13',
+    'U15',
+    'U18',
+    'U23',
+    'Senior A',
+    'Senior B',
+    'Senior D',
   ];
 
-  selectedEquipe: string | null = null;
+  // ✅ Par défaut, afficher le dernier ou Senior A
+  selectedEquipe: string | null = 'Senior A';
+  classement: ClassementCategorie[] = [];
 
-  // Classement Senior A
-  classement: { Pl: number, Equipe: string, Pts: number, Jo: number, G: number, N: number, P: number, F: number, BP: number, BC: number, Pé: number, Dif: number }[] = [
-    { Pl: 1, Equipe: 'VALDAHON-VERCEL', Pts: 9, Jo: 3, G: 3, N: 0, P: 0, F: 0, BP: 8, BC: 2, Pé: 0, Dif: 6 },
-    { Pl: 2, Equipe: '4 RIVIERES 70', Pts: 9, Jo: 3, G: 3, N: 0, P: 0, F: 0, BP: 6, BC: 3, Pé: 0, Dif: 3 },
-    { Pl: 3, Equipe: 'ST VIT', Pts: 7, Jo: 3, G: 2, N: 1, P: 0, F: 0, BP: 11, BC: 3, Pé: 0, Dif: 8 },
-    { Pl: 4, Equipe: 'BELFORTAINE ASM FC', Pts: 6, Jo: 3, G: 2, N: 0, P: 1, F: 0, BP: 7, BC: 4, Pé: 0, Dif: 3 },
-    { Pl: 5, Equipe: 'BAUME LES DAMES', Pts: 4, Jo: 3, G: 1, N: 1, P: 1, F: 0, BP: 5, BC: 4, Pé: 0, Dif: 1 },
-    { Pl: 6, Equipe: 'BART', Pts: 4, Jo: 3, G: 1, N: 1, P: 1, F: 0, BP: 6, BC: 6, Pé: 0, Dif: 0 },
-    { Pl: 7, Equipe: 'MORTEAU MONTLEBON FC', Pts: 3, Jo: 3, G: 1, N: 0, P: 2, F: 0, BP: 2, BC: 6, Pé: 0, Dif: -4 },
-    { Pl: 8, Equipe: 'LURONNES', Pts: 3, Jo: 3, G: 1, N: 0, P: 2, F: 0, BP: 2, BC: 3, Pé: 0, Dif: -1 },
-    { Pl: 9, Equipe: 'NOIDANAIS', Pts: 3, Jo: 3, G: 1, N: 0, P: 2, F: 0, BP: 4, BC: 6, Pé: 0, Dif: -2 },
-    { Pl: 10, Equipe: 'DANJOUTIN ANDELNANS', Pts: 2, Jo: 3, G: 0, N: 2, P: 1, F: 0, BP: 5, BC: 6, Pé: 0, Dif: -1 },
-    { Pl: 11, Equipe: 'MELISEY STBARTHELEMY', Pts: 1, Jo: 3, G: 0, N: 1, P: 2, F: 0, BP: 1, BC: 6, Pé: 0, Dif: -5 },
-    { Pl: 12, Equipe: 'BAVILLIERS AS', Pts: 0, Jo: 3, G: 0, N: 0, P: 3, F: 0, BP: 1, BC: 9, Pé: 0, Dif: -8 }
-  ];
+  // ✅ URL backend
+  private apiUrl = 'http://localhost:3000/api/classements';
 
-  selectEquipe(equipe: string) {
-    this.selectedEquipe = equipe;
+  // ✅ Mapping entre bouton et plusieurs catégories MongoDB
+  private equipeMapping: { [key: string]: string[] } = {
+    U11: ['U11 Automne POULE 04', 'U11 Automne CRIT U10 POULE 1'],
+    U13: [
+      'U13 Automne POULE N3A',
+      'U13 Automne POULE N3B',
+      'U13 Automne POULE N2C',
+      'U13 FEMININES A 8 BRASSAGE PHASE AUT POULE D',
+    ],
+    U15: ['U15 D1 Automne POULE D'],
+    U18: ['U18 Excellence POULE UNIQUE', 'U18 D2 Automne POULE D'],
+    U23: ['Départemental 3 - Poule B'],
+    'Senior A': ['REGIONAL 2 - Poule D'],
+    'Senior B': ['Départemental 1 - Poule A'],
+    'Senior D': ['Départemental 4 - Poule A'],
+  };
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    // Récupérer le dernier choix depuis localStorage
+    const last = localStorage.getItem('lastEquipe');
+    if (last) this.selectedEquipe = last;
+  
+    this.getClassements().subscribe({
+      next: (data) => {
+        this.classement = data;
+        console.log('✅ Classements chargés :', data);
+      },
+      error: (err) => console.error('❌ Erreur récupération classement:', err),
+    });
+  }
+  
+
+  // ✅ Récupère tous les classements depuis le backend
+  getClassements(): Observable<ClassementCategorie[]> {
+    return this.http.get<ClassementCategorie[]>(this.apiUrl);
   }
 
-  get classementFiltre() {
-    return this.selectedEquipe
-      ? this.classement.filter(c => c.Equipe.includes(this.selectedEquipe!))
-      : [];
+  // ✅ Sélection d’une équipe (groupe)
+  selectEquipe(equipe: string): void {
+    this.selectedEquipe = equipe;
+    // On peut sauvegarder le dernier choix dans localStorage si tu veux
+    localStorage.setItem('lastEquipe', equipe);
+  }
+
+  // ✅ Retourne les classements filtrés selon le groupe sélectionné
+  get classementFiltre(): ClassementCategorie[] {
+    if (!this.selectedEquipe) return [];
+    const categories = this.equipeMapping[this.selectedEquipe] || [];
+    return this.classement.filter((c) => categories.includes(c.categorie));
   }
 }

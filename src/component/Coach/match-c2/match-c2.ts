@@ -100,15 +100,18 @@ export class MatchC2 implements OnInit, OnDestroy {
   /** --- STYLES --- **/
   getButtonClass(type: 'scheduled' | 'live' | 'finished'): string {
     const base = 'px-4 py-2 rounded-full font-semibold transition-all duration-200 shadow-sm';
+  
     const colors = {
-      scheduled: 'bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] hover:from-[var(--Bleu)] hover:to-[var(--Bleu-Foncé)] text-white',
-      live: 'bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] hover:from-[var(--Bleu)] hover:to-[var(--Bleu-Foncé)] text-white',
-      finished: 'bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] hover:from-[var(--Bleu)] hover:to-[var(--Bleu-Foncé)] text-white',
+      scheduled: 'bg-gradient-to-br from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white',
+      live: 'bg-gradient-to-br from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white',
+      finished: 'bg-gradient-to-br from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 text-white',
     };
-    
-    const active = this.selectedFilter === type ? 'ring-4 ring-indigo-300 scale-105' : 'opacity-80';
+  
+    const active = this.selectedFilter === type ? 'ring-4 scale-105' : 'opacity-40';
+  
     return `${base} ${colors[type]} ${active}`;
   }
+  
 
   /** --- LOGIQUE MATCH --- **/
   getStatus(date: string): 'scheduled' | 'live' | 'finished' {
