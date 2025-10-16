@@ -9,7 +9,8 @@ const eventSchema = new mongoose.Schema({
   endHour: { type: String, required: true },
   level: { type: String, required: true },
   duration: { type: Number, default: 1 },
-  imageUrl: { type: String }
+  description: { type: String, default: '' }, // <-- AJOUTÉ
+  
 }, { timestamps: true });
 
 module.exports = mongoose.model('Event', eventSchema);

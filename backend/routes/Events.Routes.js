@@ -19,18 +19,19 @@ const upload = multer({ storage });
 // ➕ Créer un événement
 router.post('/', upload.single('image'), async (req, res) => {
   try {
-    const { title, coach, category, day, hour, endHour, level, duration } = req.body;
+    const { title, coach, category, day, hour, endHour, level, duration, description } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
 
     const newEvent = new Event({
       title,
       coach,
       category,
-      day,        // reste string 'YYYY-MM-DD'
+      day,
       hour,
       endHour,
       level,
       duration: Number(duration) || 1,
+      description: description || '',  // <-- ajouté
       imageUrl
     });
 
@@ -39,6 +40,32 @@ router.post('/', upload.single('image'), async (req, res) => {
   } catch (err) {
     console.error('Erreur ajout événement:', err);
     res.status(500).json({ message: 'Erreur ajout événement', error: err.message });
+  }
+});
+
+// 📝 Modifier un événement
+router.put('/:id', upload.single('image'), async (req, res) => {
+  try {
+    const { title, coach, category, day, hour, endHour, level, duration, description } = req.body;
+    const updateData = {
+      title,
+      coach,
+      category,
+      day,
+      hour,
+      endHour,
+      level,
+      duration: Number(duration) || 1,
+      description: description || ''  // <-- ajouté
+    };
+
+    if (req.file) updateData.imageUrl = `/uploads/${req.file.filename}`;
+
+    const updatedEvent = await Event.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    if (!updatedEvent) return res.status(404).json({ message: 'Événement introuvable' });
+    res.json(updatedEvent);
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur modification', error: err.message });
   }
 });
 
@@ -52,21 +79,7 @@ router.get('/', async (_req, res) => {
   }
 });
 
-// 📝 Modifier un événement
-router.put('/:id', upload.single('image'), async (req, res) => {
-  try {
-    const { title, coach, category, day, hour, endHour, level, duration } = req.body;
-    const updateData = { title, coach, category, day, hour, endHour, level, duration: Number(duration) || 1 };
 
-    if (req.file) updateData.imageUrl = `/uploads/${req.file.filename}`;
-
-    const updatedEvent = await Event.findByIdAndUpdate(req.params.id, updateData, { new: true });
-    if (!updatedEvent) return res.status(404).json({ message: 'Événement introuvable' });
-    res.json(updatedEvent);
-  } catch (err) {
-    res.status(500).json({ message: 'Erreur modification', error: err.message });
-  }
-});
 
 // ❌ Supprimer un événement
 router.delete('/:id', async (req, res) => {

@@ -3,7 +3,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
-import { AuthService } from '../../../../../services/userService/Auth.Service';
 
 interface EventItem {
   _id?: string;
@@ -29,12 +28,12 @@ type ViewMode = 'month' | 'week';
 })
 export class JourC implements OnInit {
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   // ===== Variables calendrier =====
   hours = Array.from({ length: 14 }, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
   categories = ['Entraînement', 'Match', 'Tournoi', 'Réunion', 'Fête'];
-  levels = ['U6','U7','U8','U9','U10','U11','U12','U13','U14','U15','U16','U17','U18','U23','SeniorA','SeniorB','SeniorC','SeniorD'];
+  levels = ['Admin','Coach','Joueur','Invité','Tous','U7','U9','U11','U13','U15','U18','U23','SeniorA','SeniorB','SeniorD'];
   events: EventItem[] = [];
 
   today = new Date();
@@ -68,16 +67,35 @@ export class JourC implements OnInit {
   selectedCoach = '';
   searchTerm = '';
 
+  userTeam: string = '';
+
+
   // ===== Auth & API =====
   userRole: string = '';
   private apiUrl = 'http://localhost:3000/api/events';
   hourHeight = 56;
 
   ngOnInit(): void {
+    this.loadUserFromLocalStorage();
     this.updateDays();
     this.loadEvents();
-    this.userRole = this.authService.getUserRole();
   }
+
+  // ===== Auth =====
+  private loadUserFromLocalStorage(): void {
+    const userStr = localStorage.getItem('utilisateur');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        this.userRole = user.role || '';
+        this.userTeam = user.team || ''; // <-- récupère l'équipe de l'utilisateur
+      } catch {
+        this.userRole = '';
+        this.userTeam = '';
+      }
+    }
+  }
+
 
   canEdit(): boolean { 
     return ['coach','admin','super admin'].includes(this.userRole); 
@@ -153,6 +171,20 @@ export class JourC implements OnInit {
     return `${year}-${month}-${day}`;
   }
 
+  formatFullDate(dateStr: string): string {
+    const d = new Date(dateStr);
+    const jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    const mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  
+    const jourNom = jours[d.getDay()];
+    const jourNum = d.getDate();
+    const moisNom = mois[d.getMonth()];
+    const annee = d.getFullYear();
+  
+    return `${jourNom} ${jourNum} ${moisNom} ${annee}`;
+  }
+  
+
   isToday(day: string): boolean { return day === this.formatDate(new Date()); }
   dayName(day: string): string { 
     const names = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi']; 
@@ -167,6 +199,7 @@ export class JourC implements OnInit {
   }
 
   async createEvent(evt: EventItem): Promise<void> {
+    if(!this.canEdit()) return;
     try { 
       const newEvent = await lastValueFrom(this.http.post<EventItem>(this.apiUrl, evt));
       this.events.push(newEvent);
@@ -174,7 +207,7 @@ export class JourC implements OnInit {
   }
 
   async updateEvent(evt: EventItem): Promise<void> {
-    if (!evt._id) return;
+    if(!this.canEdit() || !evt._id) return;
     try {
       const updated = await lastValueFrom(this.http.put<EventItem>(`${this.apiUrl}/${evt._id}`, evt));
       this.events = this.events.map(e => e._id === evt._id ? updated : e);
@@ -182,7 +215,7 @@ export class JourC implements OnInit {
   }
 
   async removeEvent(evt: EventItem): Promise<void> {
-    if (!evt._id) return;
+    if(!this.canEdit() || !evt._id) return;
     try {
       await lastValueFrom(this.http.delete(`${this.apiUrl}/${evt._id}`));
       this.events = this.events.filter(e => e._id !== evt._id);
@@ -196,11 +229,9 @@ export class JourC implements OnInit {
   }
 
   editEvent(evt: EventItem): void {
-    // NE PAS fermer la pop-up ici !
     this.selectedEvent = { ...evt };
     this.isEditing = true;
-  
-    // Remplir les champs du formulaire avec les valeurs de l'événement
+
     this.newEventDate = evt.day;
     this.newEventHour = evt.hour;
     this.newEventEndHour = evt.endHour;
@@ -210,13 +241,12 @@ export class JourC implements OnInit {
     this.newEventLevel = evt.level || this.levels[0];
     this.newEventDuration = evt.duration;
     this.newEventDescription = evt.description || '';
-  
-    // Afficher la pop-up d'édition
+
     this.showPopup = true;
   }
-  
 
   openPopup(): void {
+    if(!this.canEdit()) return;
     this.isEditing = false;
     this.selectedEvent = null;
     const d = this.viewMode === 'week' ? this.currentWeekStart : new Date(this.currentYear, this.currentMonth, 1);
@@ -235,12 +265,42 @@ export class JourC implements OnInit {
   openEventDetails(evt: EventItem): void { this.selectedEvent = evt; }
   closeEventDetails(): void { if (!this.isEditing) this.selectedEvent = null; }
 
-  // ===== Helpers calendrier =====
+  // getEventsByDay(day: string | Date): EventItem[] {
+  //   const dayStr = typeof day === 'string' ? day : this.formatDate(day);
+  //   return this.events.filter(evt => evt.day === dayStr)
+  //     .sort((a,b) => parseInt(a.hour.split(':')[0])*60+parseInt(a.hour.split(':')[1]) - (parseInt(b.hour.split(':')[0])*60+parseInt(b.hour.split(':')[1])));
+  // }
   getEventsByDay(day: string | Date): EventItem[] {
     const dayStr = typeof day === 'string' ? day : this.formatDate(day);
-    return this.events.filter(evt => evt.day === dayStr)
-      .sort((a,b) => parseInt(a.hour.split(':')[0])*60+parseInt(a.hour.split(':')[1]) - (parseInt(b.hour.split(':')[0])*60+parseInt(b.hour.split(':')[1])));
+  
+    return this.events
+      .filter(evt => {
+        // Filtre par jour
+        if (evt.day !== dayStr) return false;
+  
+        // Filtre par rôle
+        switch(this.userRole) {
+          case 'joueur':
+            return ['Tous', 'Joueur', this.userTeam].includes(evt.level);
+          case 'coach':
+            return ['Tous', 'Coach','U7','U9','U11','U13','U15','U18','U23','SeniorA','SeniorB','SeniorD'].includes(evt.level);
+          case 'invit':
+          case 'invité':
+            return ['Tous','Invité'].includes(evt.level);
+          case 'admin':
+          case 'super admin':
+            return true; // affiche tout
+          default:
+            return false; // par défaut rien
+        }
+      })
+      .sort((a,b) => {
+        const aMinutes = parseInt(a.hour.split(':')[0])*60 + parseInt(a.hour.split(':')[1]);
+        const bMinutes = parseInt(b.hour.split(':')[0])*60 + parseInt(b.hour.split(':')[1]);
+        return aMinutes - bMinutes;
+      });
   }
+  
 
   getEventTopOffset(evt: EventItem): number {
     const startHour = parseInt(evt.hour.split(':')[0], 10);
@@ -254,30 +314,42 @@ export class JourC implements OnInit {
     return (end - start) * this.hourHeight - 2;
   }
 
-  addEvent(): void {
-    if (!this.newEventTitle.trim() || !this.newEventLevel.trim()) return;
+  isSubmitting: boolean = false; // Ajoute cette variable
 
-    const newEvent: EventItem = {
-      day: this.newEventDate,
-      hour: this.newEventHour,
-      endHour: this.newEventEndHour,
-      title: this.newEventTitle.trim(),
-      coach: this.newEventCoach.trim(),
-      category: this.newEventCategory,
-      level: this.newEventLevel.trim(),
-      duration: this.newEventDuration,
-      description: this.newEventDescription
-    };
+addEvent(): void {
+  if(!this.canEdit()) return;
+  if (!this.newEventTitle.trim() || !this.newEventLevel.trim()) return;
 
-    if(this.isEditing && this.selectedEvent) {
-      newEvent._id = this.selectedEvent._id;
-      this.updateEvent(newEvent);
-    } else {
-      this.createEvent(newEvent);
-    }
-    this.showPopup = false;
-    this.isEditing = false;
+  // Active le texte "Validation..."
+  this.isSubmitting = true;
+
+  const newEvent: EventItem = {
+    day: this.newEventDate,
+    hour: this.newEventHour,
+    endHour: this.newEventEndHour,
+    title: this.newEventTitle.trim(),
+    coach: this.newEventCoach.trim(),
+    category: this.newEventCategory,
+    level: this.newEventLevel.trim(),
+    duration: this.newEventDuration,
+    description: this.newEventDescription
+  };
+
+  if(this.isEditing && this.selectedEvent) {
+    newEvent._id = this.selectedEvent._id;
+    this.updateEvent(newEvent).finally(() => {
+      this.isSubmitting = false;
+      this.showPopup = false;
+      this.isEditing = false;
+    });
+  } else {
+    this.createEvent(newEvent).finally(() => {
+      this.isSubmitting = false;
+      this.showPopup = false;
+      this.isEditing = false;
+    });
   }
+}
 
   weekDayHeaders = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
 
@@ -321,24 +393,8 @@ export class JourC implements OnInit {
   }
 
   onEditEvent(evt: EventItem): void {
-    // 1️⃣ Fermer la pop-up de détails
     this.closeEventDetails();
-  
-    // 2️⃣ Remplir les champs du formulaire de modification
-    this.selectedEvent = { ...evt };
-    this.isEditing = true;
-    this.newEventDate = evt.day;
-    this.newEventHour = evt.hour;
-    this.newEventEndHour = evt.endHour;
-    this.newEventTitle = evt.title;
-    this.newEventCoach = evt.coach;
-    this.newEventCategory = evt.category;
-    this.newEventLevel = evt.level || this.levels[0];
-    this.newEventDuration = evt.duration;
-    this.newEventDescription = evt.description || '';
-  
-    // 3️⃣ Ouvrir la pop-up de modification
-    this.showPopup = true;
+    this.editEvent(evt);
   }
   
   getEventIcon(evt: EventItem) {
@@ -347,19 +403,19 @@ export class JourC implements OnInit {
       case 'Match': return 'fa-solid fa-futbol';
       case 'Tournoi': return 'fa-solid fa-trophy';
       case 'Réunion': return 'fa-solid fa-calendar';
-      case 'Fête': return 'fa-solid fa-glass-cheers'; // icône existante Font Awesome
+      case 'Fête': return 'fa-solid fa-glass-cheers';
       default: return 'fa-solid fa-circle';
     }
   }
 
   getEventColor(evt: EventItem): string {
     switch(evt.category) {
-      case 'Entraînement': return 'bg-blue-800';   // bleu
-      case 'Match': return 'bg-red-800';          // rouge
-      case 'Tournoi': return 'bg-yellow-800';     // jaune
-      case 'Réunion': return 'bg-purple-800';     // violet
-      case 'Fête': return 'bg-green-800';         // vert
-      default: return 'bg-gray-400';              // gris par défaut
+      case 'Entraînement': return 'bg-blue-800';
+      case 'Match': return 'bg-red-800';
+      case 'Tournoi': return 'bg-yellow-800';
+      case 'Réunion': return 'bg-purple-800';
+      case 'Fête': return 'bg-green-800';
+      default: return 'bg-gray-400';
     }
   }
 

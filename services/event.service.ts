@@ -12,7 +12,8 @@ export interface EventItem {
   category: string;
   level: string;
   duration: number;
-  imageUrl?: string;
+  description?: string; // <-- ajout du champ description
+
 }
 
 @Injectable({

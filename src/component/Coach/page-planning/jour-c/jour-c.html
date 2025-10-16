@@ -229,10 +229,12 @@
       <div class="flex justify-end gap-4 mt-6">
         <button (click)="showPopup=false"
           class="px-5 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 transition">Annuler</button>
-        <button (click)="addEvent()"
-          class="px-5 py-2 rounded-xl bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)] hover:from-[var(--Bleu)] hover:to-[var(--Bleu-Foncé)] text-white font-semibold shadow-lg hover:shadow-xl transition">
-          {{ isEditing ? 'Modifier' : 'Ajouter' }}
+        <button (click)="addEvent()" [disabled]="isSubmitting"
+          class="px-5 py-2 rounded-xl bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)] 
+                 hover:from-[var(--Bleu)] hover:to-[var(--Bleu-Foncé)] text-white font-semibold shadow-lg hover:shadow-xl transition">
+          {{ isSubmitting ? 'Validation...' : (isEditing ? 'Modifier' : 'Ajouter') }}
         </button>
+
       </div>
     </div>
   </div>
@@ -242,14 +244,19 @@
     class="fixed inset-0 z-50 flex items-center justify-center bg-[var(--Black)]/30 backdrop-blur-lg p-4">
     <div
       class="w-full max-w-lg rounded-3xl bg-white/90 backdrop-blur-2xl border border-gray-300 shadow-2xl p-8 text-[var(--Black)] relative">
+
+      <!-- Bouton fermer -->
       <button (click)="closeEventDetails()" aria-label="Fermer"
         class="absolute top-4 right-4 p-2 rounded-full bg-gray-200 hover:bg-[var(--Rouge)]/20 transition">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
+
       <h2 class="text-2xl font-bold mb-2 text-[var(--Rouge)]">{{ selectedEvent.title }}</h2>
-      <p class="text-sm mb-4 text-gray-500">{{ selectedEvent.category }}</p>
+      <p class="text-sm mb-1 text-gray-500">{{ selectedEvent.category }}</p>
+      <p class="text-xs mb-4 text-gray-500">Public : {{ selectedEvent.level }}</p>
+
       <div class="space-y-4 text-[var(--Black)]">
         <div class="flex items-start gap-3">
           <div class="w-10 h-10 rounded-full bg-[var(--Rouge)] flex items-center justify-center flex-shrink-0">
@@ -263,6 +270,7 @@
             <p class="font-medium">{{ selectedEvent.coach }}</p>
           </div>
         </div>
+
         <div class="flex items-start gap-3">
           <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
             <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -270,23 +278,35 @@
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
-          <div>
-            <p class="text-xs text-gray-500">Date & heure</p>
-            <p class="font-medium">{{ selectedEvent.day }} • {{ selectedEvent.hour }} - {{ selectedEvent.endHour }}</p>
+          <div class="space-y-1">
+            <!-- Date -->
+            <div>
+              <p class="text-xs text-gray-500">Date</p>
+              <p class="font-medium">{{ formatFullDate(selectedEvent.day) }}</p>
+            </div>
+            
+            <!-- Heure -->
+            <div>
+              <p class="text-xs text-gray-500">Heure</p>
+              <p class="font-medium">{{ selectedEvent.hour }} - {{ selectedEvent.endHour }}</p>
+            </div>
           </div>
+          
+          
         </div>
+
         <div *ngIf="selectedEvent.description" class="pt-3 border-t border-gray-200">
           <p class="text-xs text-gray-500 mb-1">Description</p>
           <p class="leading-relaxed text-gray-700">{{ selectedEvent.description }}</p>
         </div>
       </div>
+
       <div class="flex justify-end gap-3 mt-6">
-        <button (click)="closeEventDetails()"
-          class="px-5 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 transition">Fermer</button>
         <button (click)="deleteEvent(selectedEvent)" *ngIf="canEdit()"
           class="px-5 py-2 rounded-xl bg-[var(--Rouge)] hover:bg-[var(--Rouge-Foncé)] text-white font-semibold transition">Supprimer</button>
       </div>
     </div>
   </div>
+
 
 </div>
