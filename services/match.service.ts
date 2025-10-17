@@ -21,6 +21,7 @@ export interface Match {
   status?: 'scheduled' | 'live' | 'finished';
   duree?: number;
   minute?: number;
+  
 }
 
 @Injectable({

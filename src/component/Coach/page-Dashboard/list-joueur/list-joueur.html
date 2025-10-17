@@ -1,79 +1,43 @@
 <div
-  class="relative border-2 border-[var(--Rouge)] bg-[var(--Blanc)] rounded-2xl flex flex-col justify-between text-center shadow-md aspect-square w-full max-w-[400px] mx-auto p-6"
-  role="region"
   aria-label="Liste des joueurs"
 >
-  <h3 class="text-lg font-bold text-[var(--Black)] mb-3">
-    Liste des joueurs
-  </h3>
 
-  <!-- Liste des joueurs -->
-  <ul
-    *ngIf="!loading && paginatedJoueurs.length"
-    class="flex-1 overflow-y-auto space-y-2 pr-1 scrollbar-thin scrollbar-thumb-[var(--Rouge)]/40 scrollbar-track-transparent"
-  >
-    <li
-      *ngFor="let j of paginatedJoueurs; trackBy: trackById"
+  <!-- Liste des joueurs sous forme de cards -->
+  <div *ngIf="!loading && joueurs.length" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <div
+      *ngFor="let j of joueurs; trackBy: trackById"
       (click)="openPlayerModal(j)"
-      class="cursor-pointer flex items-center gap-3 p-2 rounded-xl bg-[var(--Blanc)] border border-[var(--Rouge)]/10 hover:bg-[var(--Rouge)]/5 transition"
+      class="cursor-pointer border border-[var(--Rouge)]/20 rounded-2xl p-4 flex flex-col items-center text-center bg-[var(--Blanc)] hover:shadow-lg hover:bg-[var(--Rouge)]/5 transition"
     >
+      <!-- Avatar -->
       <div
-        class="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] flex items-center justify-center text-[var(--Blanc)] font-bold text-sm"
+        class="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] flex items-center justify-center text-[var(--Blanc)] font-bold text-lg mb-3"
       >
         {{ j.initiale || '?' }}
       </div>
 
-      <div class="flex-1 min-w-0 text-left">
-        <p class="font-semibold text-[var(--Black)] truncate">
-          {{ j.prenom }} {{ j.nom }}
-        </p>
-        <div class="flex flex-wrap gap-1 mt-1">
-          <span
-            *ngIf="j.club"
-            class="px-2 py-0.5 text-xs rounded-full bg-[var(--Rouge)]/10 text-[var(--Rouge)]"
-          >
-            {{ j.club }}
-          </span>
-          <span
-            *ngIf="j.equipe"
-            class="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-700"
-          >
-            {{ j.equipe }}
-          </span>
-        </div>
-      </div>
-    </li>
-  </ul>
+      <!-- Nom -->
+      <p class="font-semibold text-[var(--Black)] truncate mb-2">
+        {{ j.prenom }} {{ j.nom }}
+      </p>
 
-  <p *ngIf="!loading && !joueurs.length" class="text-center text-gray-500 mt-2">
+      <!-- Infos Club / Équipe -->
+      <div class="flex flex-wrap justify-center gap-2">
+        <span *ngIf="j.club" class="px-2 py-1 text-xs rounded-full bg-[var(--Rouge)]/10 text-[var(--Rouge)]">
+          {{ j.club }}
+        </span>
+        <span *ngIf="j.equipe" class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+          {{ j.equipe }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message aucun joueur -->
+  <p *ngIf="!loading && !joueurs.length" class="text-center text-gray-500 mt-4">
     Aucun joueur trouvé.
   </p>
 
-  <!-- Pagination -->
-  <div class="flex items-center justify-center gap-2 mt-3">
-    <button
-      (click)="prevPage()" [disabled]="currentPage === 1"
-      class="px-3 py-1.5 rounded-lg bg-[var(--Rouge)] text-[var(--Blanc)] text-sm font-medium
-             disabled:bg-gray-300 hover:enabled:bg-[var(--Rouge-Foncé)] transition"
-    >
-      Précédent
-    </button>
-
-    <span class="text-sm text-[var(--Black)]">
-      {{ currentPage }} / {{ totalPages }}
-    </span>
-
-    <button
-      (click)="nextPage()" [disabled]="currentPage === totalPages"
-      class="px-3 py-1.5 rounded-lg bg-[var(--Rouge)] text-[var(--Blanc)] text-sm font-medium
-             disabled:bg-gray-300 hover:enabled:bg-[var(--Rouge-Foncé)] transition"
-    >
-      Suivant
-    </button>
-  </div>
-
-  <!-- Indicateur bas -->
-  <div class="w-16 h-1.5 rounded-full bg-[var(--Rouge)] mx-auto mt-2"></div>
 </div>
 
 <!-- Modal joueur -->
@@ -131,4 +95,4 @@
       </div>
     </div>
   </div>
-</div>
+

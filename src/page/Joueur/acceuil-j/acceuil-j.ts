@@ -10,7 +10,7 @@ import { FooterJ } from '../../../component/Joueur/footer-j/footer-j';
 
 @Component({
   selector: 'app-acceuil-j',
-  imports: [BarreJ, HttpClientModule, CommonModule, Sections1, Section2J, Jour, FooterJ],
+  imports: [ HttpClientModule, CommonModule, Sections1, Section2J, Jour, FooterJ],
   standalone: true,
   templateUrl: './acceuil-j.html',
   styleUrls: ['./acceuil-j.css']

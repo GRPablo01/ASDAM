@@ -66,4 +66,13 @@ export class ChatService {
     console.error('Erreur API messages :', error);
     return throwError(() => new Error(error.message || 'Erreur API'));
   }
+  getOlderMessages(contactId: string, beforeDate: Date) {
+    return this.http.get<Message[]>(`${this.apiUrl}/messages/older`, {
+      params: {
+        contactId,
+        before: beforeDate.toISOString()
+      }
+    });
+  }
+  
 }

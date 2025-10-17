@@ -265,11 +265,6 @@ export class JourC implements OnInit {
   openEventDetails(evt: EventItem): void { this.selectedEvent = evt; }
   closeEventDetails(): void { if (!this.isEditing) this.selectedEvent = null; }
 
-  // getEventsByDay(day: string | Date): EventItem[] {
-  //   const dayStr = typeof day === 'string' ? day : this.formatDate(day);
-  //   return this.events.filter(evt => evt.day === dayStr)
-  //     .sort((a,b) => parseInt(a.hour.split(':')[0])*60+parseInt(a.hour.split(':')[1]) - (parseInt(b.hour.split(':')[0])*60+parseInt(b.hour.split(':')[1])));
-  // }
   getEventsByDay(day: string | Date): EventItem[] {
     const dayStr = typeof day === 'string' ? day : this.formatDate(day);
   

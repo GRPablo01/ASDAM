@@ -1,53 +1,138 @@
-<div class="min-h-120 flex flex-col p-4 sm:p-6 bg-white/90 backdrop-blur-lg text-[var(--Black)]">
+<!-- ================= PAGE CALENDRIER ================= -->
+<div class="relative min-h-180 flex flex-col p-4 sm:p-6 text-[var(--Black)] overflow-hidden">
+
+  <!-- ===== IMAGE DE FOND FUSIONNÉE ===== -->
+  <div
+    class="absolute inset-0 bg-cover bg-center -mt-50 mix-blend-soft-light scale-105 transition-all duration-700"
+    style="background-image: url('/assets/texture.png'); filter: brightness(1.1) contrast(1.05);">
+  </div>
+
+  <!-- ===== DÉGRADÉ ET OVERLAY DOUX ===== -->
+  <div class="absolute inset-0 bg-gradient-to-b from-white/50 via-white/30 to-white/50 backdrop-blur-xl"></div>
+
+  <!-- ===== CONTENU PRINCIPAL ===== -->
+  <div class="relative z-10 flex flex-col">
 
     <!-- ========= HEADER JOUR ACTUEL ========= -->
     <header
-      class="mt-20 flex flex-col md:flex-row items-center justify-between gap-4 mb-6 p-6 bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white rounded-2xl shadow-xl">
+      class="mt-20 flex flex-col md:flex-row items-center justify-between gap-4 mb-6 p-6 bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white rounded-2xl shadow-2xl">
       <div class="flex flex-col md:flex-row items-center gap-4">
         <h1 id="calendarTitle" aria-live="polite"
-          class="text-3xl md:text-4xl font-extrabold tracking-tight drop-shadow-lg">
-          📅 Aujourd’hui — {{ todayLabel }}
+          class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight drop-shadow-lg flex items-center gap-2">
+          <i class="fas fa-calendar-alt text-2xl sm:text-3xl md:text-4xl"></i>
+          Aujourd’hui {{ dayName(currentDateStr) }} {{ dayNum(currentDateStr) }} – Demain {{ dayNum(nextDateStr) }}
         </h1>
       </div>
     </header>
-  
-    <!-- =================== JOUR ACTUEL =================== -->
-    <section class="flex flex-col gap-6">
-      <div
-        class="p-6 rounded-3xl bg-white/80 backdrop-blur-md shadow-lg hover:shadow-2xl transition transform hover:scale-[1.02]">
-        <h2 class="text-2xl md:text-3xl font-bold text-[var(--Rouge)] mb-2">
-          {{ dayName(currentDateStr) }} {{ dayNum(currentDateStr) }}
-        </h2>
-        <p class="text-gray-500 mb-4 text-sm md:text-base">Événements du jour</p>
-  
-        <!-- Aucun événement -->
-        <div *ngIf="getEventsByDay(currentDateStr).length === 0" class="text-gray-400 italic py-4 text-center">
-          Aucun événement prévu pour aujourd’hui.
-        </div>
-  
-        <!-- Liste des événements du jour -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div *ngFor="let evt of getEventsByDay(currentDateStr)"
-            class="flex flex-col justify-between p-5 rounded-2xl shadow-md transition hover:shadow-xl hover:scale-[1.01] cursor-pointer"
-            [ngClass]="getEventColor(evt)" (click)="openEventDetails(evt)">
-            <div class="flex items-center gap-3 mb-3">
-              <i [class]="getEventIcon(evt) + ' text-white text-xl md:text-2xl'"></i>
-              <div class="flex flex-col">
-                <p class="font-semibold text-lg md:text-xl">{{ evt.title }}</p>
-                <p class="text-sm opacity-80">{{ evt.coach }}</p>
-              </div>
-            </div>
-            <div class="flex justify-between items-center mt-2">
-              <span class="text-xs md:text-sm bg-white/20 px-3 py-1 rounded-full uppercase font-semibold">
-                {{ evt.category }}
+
+    <div class="flex flex-col md:flex-row gap-6">
+
+      <!-- =================== JOUR ACTUEL =================== -->
+      <section class="flex-1 flex flex-col gap-6 min-h-[400px]">
+        <div
+          class="p-6 rounded-3xl bg-white/75 backdrop-blur-md border border-[var(--Rouge)]/50 h-full flex flex-col shadow-md hover:shadow-xl transition transform hover:scale-[1.01]">
+
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-[var(--Rouge)] mb-2">
+            {{ dayName(currentDateStr) }} {{ dayNum(currentDateStr) }}
+          </h2>
+          <p class="text-gray-500 mb-4 text-sm sm:text-base">Événements du jour</p>
+
+          <div *ngIf="getEventsByDay(currentDateStr).length === 0"
+            class="text-gray-400 italic py-4 text-center flex-1 flex items-center justify-center">
+            Aucun événement prévu pour aujourd’hui.
+          </div>
+
+          <div *ngIf="getEventsByDay(currentDateStr).length > 0"
+            class="flex flex-row overflow-x-auto gap-4 py-2 flex-1 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+            <div *ngFor="let evt of getEventsByDay(currentDateStr)"
+              class="flex-shrink-0 w-72 sm:w-80 flex flex-col justify-between p-5 rounded-2xl shadow-lg transition hover:shadow-2xl hover:scale-[1.03] cursor-pointer relative"
+              [ngClass]="getEventColor(evt)" (click)="openEventDetails(evt)">
+
+              <!-- Niveau -->
+              <span *ngIf="evt.level"
+                class="absolute top-3 right-3 text-xs sm:text-sm bg-white/30 text-white px-3 py-1 rounded-full uppercase font-semibold z-10">
+                {{ evt.level }}
               </span>
-              <span class="text-sm font-mono">{{ evt.hour }} - {{ evt.endHour }}</span>
+
+              <div class="flex items-start gap-3 mb-3">
+                <i [class]="getEventIcon(evt) + ' text-white text-xl sm:text-2xl'"></i>
+                <div class="flex flex-col ml-3">
+                  <p class="font-semibold text-lg sm:text-xl md:text-xl text-white">{{ evt.title }}</p>
+                  <p class="text-sm sm:text-base opacity-80 text-white">{{ evt.coach }}</p>
+                </div>
+              </div>
+
+              <div *ngIf="evt.description" class="mb-2">
+                <p class="text-xs text-white/70 mb-1 font-semibold">Description</p>
+                <p class="text-sm text-white/90 line-clamp-3">
+                  {{ evt.description }}
+                </p>
+              </div>
+
+              <div class="flex justify-between items-center mt-2">
+                <span class="text-xs sm:text-sm bg-white/20 text-white px-3 py-1 rounded-full uppercase font-semibold">
+                  {{ evt.category }}
+                </span>
+                <span class="text-sm font-mono text-white">{{ evt.hour }} - {{ evt.endHour }}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  
+      </section>
+
+      <!-- =================== JOUR SUIVANT =================== -->
+      <section class="flex-1 flex flex-col gap-6 min-h-[400px]">
+        <div
+          class="p-6 rounded-3xl bg-white/75 backdrop-blur-md border border-[var(--Rouge)]/50 h-full flex flex-col shadow-md hover:shadow-xl transition transform hover:scale-[1.01]">
+
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-[var(--Rouge)] mb-2">
+            {{ dayName(nextDateStr) }} {{ dayNum(nextDateStr) }}
+          </h2>
+          <p class="text-gray-500 mb-4 text-sm sm:text-base">Événements du lendemain</p>
+
+          <div *ngIf="getEventsByDay(nextDateStr).length === 0"
+            class="text-gray-400 italic py-4 text-center flex-1 flex items-center justify-center">
+            Aucun événement prévu pour demain.
+          </div>
+
+          <div *ngIf="getEventsByDay(nextDateStr).length > 0"
+            class="flex flex-row overflow-x-auto gap-4 py-2 flex-1 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+            <div *ngFor="let evt of getEventsByDay(nextDateStr)"
+              class="flex-shrink-0 w-72 sm:w-80 flex flex-col justify-between p-5 rounded-2xl shadow-lg transition hover:shadow-2xl hover:scale-[1.03] cursor-pointer relative"
+              [ngClass]="getEventColor(evt)" (click)="openEventDetails(evt)">
+
+              <span *ngIf="evt.level"
+                class="absolute top-3 right-3 text-xs sm:text-sm bg-white/30 text-white px-3 py-1 rounded-full uppercase font-semibold z-10">
+                {{ evt.level }}
+              </span>
+
+              <div class="flex items-start gap-3 mb-3">
+                <i [class]="getEventIcon(evt) + ' text-white text-xl sm:text-2xl'"></i>
+                <div class="flex flex-col ml-3">
+                  <p class="font-semibold text-lg sm:text-xl md:text-xl text-white">{{ evt.title }}</p>
+                  <p class="text-sm sm:text-base opacity-80 text-white">{{ evt.coach }}</p>
+                </div>
+              </div>
+
+              <div *ngIf="evt.description" class="mb-2">
+                <p class="text-xs text-white/70 mb-1 font-semibold">Description</p>
+                <p class="text-sm text-white/90 line-clamp-3">
+                  {{ evt.description }}
+                </p>
+              </div>
+
+              <div class="flex justify-between items-center mt-2">
+                <span class="text-xs sm:text-sm bg-white/20 text-white px-3 py-1 rounded-full uppercase font-semibold">
+                  {{ evt.category }}
+                </span>
+                <span class="text-sm font-mono text-white">{{ evt.hour }} - {{ evt.endHour }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <!-- =================== DÉTAIL ÉVÉNEMENT =================== -->
     <div *ngIf="selectedEvent"
       class="fixed inset-0 z-50 flex items-center justify-center bg-[var(--Black)]/40 backdrop-blur-md p-4">
@@ -65,7 +150,7 @@
           class="inline-block mb-4 px-3 py-1 rounded-full bg-[var(--Rouge)]/20 text-[var(--Rouge)] font-semibold text-xs md:text-sm">
           {{ selectedEvent.category }}
         </span>
-  
+
         <div class="space-y-4 text-[var(--Black)]">
           <div class="flex items-start gap-3">
             <div class="w-10 h-10 rounded-full bg-[var(--Rouge)] flex items-center justify-center flex-shrink-0">
@@ -79,6 +164,7 @@
               <p class="font-medium">{{ selectedEvent.coach }}</p>
             </div>
           </div>
+
           <div class="flex items-start gap-3">
             <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
               <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,19 +177,18 @@
               <p class="font-medium">{{ selectedEvent.day }} • {{ selectedEvent.hour }} - {{ selectedEvent.endHour }}</p>
             </div>
           </div>
+
           <div *ngIf="selectedEvent.description" class="pt-3 border-t border-gray-200">
             <p class="text-xs text-gray-500 mb-1">Description</p>
             <p class="leading-relaxed text-gray-700">{{ selectedEvent.description }}</p>
           </div>
         </div>
-  
+
         <div class="flex justify-end gap-3 mt-6">
-          <button (click)="closeEventDetails()"
-            class="px-5 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 transition">Fermer</button>
           <button (click)="deleteEvent(selectedEvent)" *ngIf="canEdit()"
             class="px-5 py-2 rounded-xl bg-[var(--Rouge)] hover:bg-[var(--Rouge-Foncé)] text-white font-semibold transition">Supprimer</button>
         </div>
       </div>
     </div>
+  </div>
 </div>
-  

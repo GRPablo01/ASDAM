@@ -1,16 +1,18 @@
-<div>
+<div class="h-130 2xl:h-155">
   <!-- Container principal : grille responsive -->
-  <div class="-mb-70 mt-5 h-screen grid grid-cols-1 md:grid-cols-3 gap-2 p-2 bg-[var(--Blanc)] text-[var(--Black)] overflow-hidden">
+  <div
+    class="-mb-70 mt-5 h-screen grid grid-cols-1 md:grid-cols-3 gap-2 p-2 bg-[var(--Blanc)] text-[var(--Black)] overflow-hidden">
 
     <!-- ===== COLONNE GAUCHE : Contacts ===== -->
-    <aside
-      class="md:col-span-1 flex flex-col gap-2"
-      [class.hidden]="selectedContact && isMobileScreen">
+    <aside class="md:col-span-1 flex flex-col gap-2" [class.hidden]="selectedContact && isMobileScreen">
 
       <!-- ===== Utilisateur connecté ===== -->
-      <section class="flex items-center gap-4 px-5 py-4 rounded-xl bg-white/80 backdrop-blur-sm shadow-sm ring-1 ring-black/5"
+      <section
+        class="flex items-center gap-4 px-5 py-4 rounded-xl bg-white/80 backdrop-blur-sm shadow-sm ring-1 ring-black/5"
         role="region" aria-label="Utilisateur connecté">
-        <div class="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-[var(--Rouge-Clair)] to-[var(--Rouge-Foncé)] text-white font-bold text-lg select-none" aria-hidden="true">
+        <div
+          class="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-[var(--Rouge-Clair)] to-[var(--Rouge-Foncé)] text-white font-bold text-lg select-none"
+          aria-hidden="true">
           {{ userInitiales }}
         </div>
         <div class="leading-tight">
@@ -37,10 +39,12 @@
           <ul *ngIf="showSuggestions" class="mt-2 max-h-32 overflow-y-auto space-y-1">
             <li *ngFor="let c of getFilteredContacts()" (mousedown)="selectSuggestion(c)"
               class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm transition">
-              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white grid place-items-center font-semibold">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white grid place-items-center font-semibold">
                 {{ c.firstName[0] }}{{ c.lastName[0] }}
               </div>
-              <span class="flex-1"><i class="fas fa-user mr-1 text-gray-400"></i> {{ c.firstName }} {{ c.lastName }}</span>
+              <span class="flex-1"><i class="fas fa-user mr-1 text-gray-400"></i> {{ c.firstName }} {{ c.lastName
+                }}</span>
             </li>
           </ul>
         </div>
@@ -49,12 +53,15 @@
       <!-- Liste contacts -->
       <section class="mb-87 flex-1 flex flex-col bg-white/90 border border-gray-200 rounded-xl p-3 shadow-sm">
         <div class="flex items-center justify-between px-2 mb-2">
-          <span class="text-sm font-semibold text-[var(--Black)]"><i class="fas fa-address-book mr-1"></i> Contacts</span>
+          <span class="text-sm font-semibold text-[var(--Black)]"><i class="fas fa-address-book mr-1"></i>
+            Contacts</span>
           <div class="flex gap-2">
             <button (click)="pageContacts = pageContacts - 1" [disabled]="pageContacts < 1"
-              class="px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 disabled:opacity-40 text-sm transition"><i class="fas fa-chevron-left"></i></button>
+              class="px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 disabled:opacity-40 text-sm transition"><i
+                class="fas fa-chevron-left"></i></button>
             <button (click)="pageContacts = pageContacts + 1" [disabled]="(pageContacts+1)*5 >= contacts.length"
-              class="px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 disabled:opacity-40 text-sm transition"><i class="fas fa-chevron-right"></i></button>
+              class="px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 disabled:opacity-40 text-sm transition"><i
+                class="fas fa-chevron-right"></i></button>
           </div>
         </div>
 
@@ -64,10 +71,12 @@
             [class.ring-[var(--Rouge)]]="selectedContact?._id === c._id"
             class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition text-sm group">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white grid place-items-center text-sm font-semibold">
+              <div
+                class="w-9 h-9 rounded-full bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white grid place-items-center text-sm font-semibold">
                 {{ c.firstName[0] }}{{ c.lastName[0] }}
               </div>
-              <span class="font-medium text-base"><i class="fas fa-user mr-1 text-[var(--Rouge)]"></i>{{ c.firstName }} {{ c.lastName }}</span>
+              <span class="font-medium text-base"><i class="fas fa-user mr-1 text-[var(--Rouge)]"></i>{{ c.firstName }}
+                {{ c.lastName }}</span>
             </div>
             <button (click)="deleteContact(c); $event.stopPropagation()" title="Supprimer"
               class="w-6 h-6 rounded border-1 border-[var(--Rouge)] bg-[var(--Blanc)] hover:bg-[var(--Rouge)] text-[var(--Rouge)] hover:text-[var(--Blanc)] grid place-items-center text-sm transition">
@@ -80,7 +89,7 @@
 
     <!-- ===== COLONNE DROITE : Chat ===== -->
     <main
-      class="mb-87 md:col-span-2 bg-white/90 border border-gray-200 rounded-xl shadow-sm flex flex-col overflow-hidden"
+      class="mb-87 h-125 2xl:h-148 md:col-span-2 bg-white/90 border border-gray-200 rounded-xl shadow-sm flex flex-col overflow-hidden"
       [class.hidden]="!selectedContact && isMobileScreen">
 
       <!-- Bouton retour mobile -->
@@ -93,7 +102,8 @@
       <ng-container *ngIf="selectedContact; else placeholder">
         <!-- Header du chat -->
         <header class="shrink-0 flex items-center gap-4 p-4 border-b border-gray-200">
-          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white grid place-items-center text-lg font-bold">
+          <div
+            class="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white grid place-items-center text-lg font-bold">
             {{ selectedContact.firstName[0] }}{{ selectedContact.lastName[0] }}
           </div>
           <div>
@@ -102,22 +112,25 @@
         </header>
 
         <!-- Messages -->
-        <section class="grow grid gap-3 content-end px-4 py-3 max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400/40 scrollbar-track-transparent">
+        <section #scrollContainer
+          class="grow flex flex-col gap-3 px-4 py-3 max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400/40 scrollbar-track-transparent">
+          <!-- Bouton pour charger plus de messages -->
           <button *ngIf="messages.length > 5" (click)="loadOlder()"
-            class="text-sm font-medium text-[var(--Bleu)] hover:text-[var(--Rouge)] transition mx-auto underline">Voir plus de messages</button>
+            class="text-sm font-medium text-[var(--Bleu)] hover:text-[var(--Rouge)] transition mx-auto underline">
+            Voir plus de messages
+          </button>
 
-          <article *ngFor="let msg of messages | slice:-20; trackBy: trackByMsgId" class="flex items-end gap-3 text-sm"
+          <!-- Messages -->
+          <article *ngFor="let msg of messages; trackBy: trackByMsgId" class="flex items-end gap-3 text-sm"
             [class.flex-row-reverse]="msg.senderId === userId">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--Bleu)] to-[var(--Bleu-Foncé)] text-white grid place-items-center font-semibold shadow-md">
+            <div
+              class="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--Bleu)] to-[var(--Bleu-Foncé)] text-white grid place-items-center font-semibold shadow-md">
               {{ msg.senderId === userId ? userInitiales : getInitiales(msg.senderName) }}
             </div>
             <div class="max-w-[70%]">
-              <div class="text-xs text-gray-400 mb-1 select-none" [class.text-right]="msg.senderId === userId">
-                {{ msg.timestamp | date:'HH:mm' }}
-              </div>
               <div [ngClass]="msg.senderId === userId
-                  ? 'bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white'
-                  : 'bg-gray-100 text-[var(--Black)]'"
+            ? 'bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white'
+            : 'bg-gray-100 text-[var(--Black)]'"
                 class="px-3 py-2 rounded-xl shadow-md break-words transition hover:scale-[1.02]">
                 {{ msg.text }}
               </div>
@@ -144,10 +157,11 @@
           <div class="text-center px-4">
             <i class="fas fa-comments text-3xl text-[var(--Rouge)] mb-2"></i>
             <h3 class="text-sm font-semibold">Choisir un contact</h3>
-            <p class="text-xs text-gray-500">Les messages disparaissent après 24 h.</p>
+            <p class="text-xs text-gray-500">Les messages disparaissent après 48 h.</p>
           </div>
         </div>
       </ng-template>
     </main>
+
   </div>
 </div>

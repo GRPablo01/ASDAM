@@ -10,30 +10,25 @@ const multer = require('multer');
 require('dotenv').config();
 
 // ==============================
-// 🧩 Import des contrôleurs et routes
-// ==============================
-const postController = require('./backend/controller/post.controller');
-
-// Routes principales
-const userRoutes = require('./backend/routes/User.Routes');
-const authRoutes = require('./backend/routes/User.Routes'); // ⚠️ même fichier que userRoutes : vérifie si c’est voulu
-const utilisateurRoutes = require('./backend/routes/utilisateur.Routes');
-const eventRoutes = require('./backend/routes/Events.Routes');
-const matchRoutes = require('./backend/routes/Match.Routes');
-const convocationRoutes = require('./backend/routes/convocations.Routes');
-const postRoutes = require('./backend/routes/post.Routes');
-const joueurRoutes = require('./backend/routes/joueur.routes');
-const messageRoutes = require('./backend/routes/message.Routes');
-const confirmationRoutes = require('./backend/routes/confirmation.Routes');
-const communiqueRoutes = require('./backend/routes/communiquer.Routes');
-const archiveRoutes = require('./backend/routes/archive.Routes');
-const classementRoutes = require('./backend/routes/classement.routes');
-
-// ==============================
-// ⚙️ Configuration de l'application
+// ⚙️ Création de l'application Express
 // ==============================
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
+
+// ==============================
+// ✅ Middleware CORS (Angular + tests mobiles)
+// ==============================
+app.use(cors({
+  origin: ['http://localhost:4200'], // autorise Angular (tu peux ajouter d'autres origines)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// ==============================
+// 🧱 Middlewares globaux
+// ==============================
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ==============================
 // 📁 Création du dossier uploads si inexistant
@@ -42,6 +37,7 @@ const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
+app.use('/uploads', express.static(uploadDir));
 
 // ==============================
 // 🖼️ Configuration de multer (upload fichiers)
@@ -53,19 +49,31 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // ==============================
-// 🧱 Middlewares globaux
-// ==============================
-app.use(cors({ origin: '*' })); // ✅ pour test mobile, tu peux restreindre après
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static(uploadDir));
-
-// ==============================
 // 🌍 Connexion à MongoDB
 // ==============================
 mongoose.connect('mongodb://127.0.0.1:27017/asdam')
   .then(() => console.log('✅ Connexion à MongoDB réussie'))
   .catch(err => console.error('❌ Erreur MongoDB :', err));
+
+// ==============================
+// 🧩 Import des contrôleurs et routes
+// ==============================
+const postController = require('./backend/controller/post.controller');
+
+const userRoutes = require('./backend/routes/User.Routes');
+const authRoutes = require('./backend/routes/User.Routes'); // ⚠️ vérifier si c’est voulu
+const utilisateurRoutes = require('./backend/routes/utilisateur.Routes');
+const eventRoutes = require('./backend/routes/Events.Routes');
+const matchRoutes = require('./backend/routes/Match.Routes');
+const convocationRoutes = require('./backend/routes/convocations.Routes');
+const postRoutes = require('./backend/routes/post.Routes');
+const joueurRoutes = require('./backend/routes/joueur.routes');
+const messageRoutes = require('./backend/routes/message.Routes');
+const confirmationRoutes = require('./backend/routes/confirmation.Routes');
+const communiqueRoutes = require('./backend/routes/communiquer.Routes');
+const archiveRoutes = require('./backend/routes/archive.Routes');
+const classementRoutes = require('./backend/routes/classement.routes');
+const categorieRoutes = require('./backend/routes/categorie.routes');
 
 // ==============================
 // 🧭 Déclaration des routes API
@@ -83,14 +91,12 @@ app.use('/api/confirmation', confirmationRoutes);
 app.use('/api/communiques', communiqueRoutes);
 app.use('/api/archives', archiveRoutes);
 app.use('/api/classements', classementRoutes);
+app.use('/api/categories', categorieRoutes);
 
 // ==============================
 // 📨 Upload média (posts)
 // ==============================
 app.post('/api/posts/media', upload.single('media'), postController.createPostWithMedia);
-
-
-
 
 // ==============================
 // 🏠 Routes de test

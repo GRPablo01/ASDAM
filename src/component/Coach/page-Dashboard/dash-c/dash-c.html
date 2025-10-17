@@ -1,11 +1,391 @@
-<!-- ✅ Ligne responsive de 4 composants -->
-<div class="flex justify-center mt-10 mb-10">
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+<!-- ========== UI/UX REFONTE – ZERO BREAKING CHANGES ========== -->
+<div class="min-h-screen bg-[var(--Blanc)] text-[var(--Black)] flex">
 
-    <app-user-c></app-user-c>
-    <app-acces-rapide-c></app-acces-rapide-c>
-    <app-list-joueur></app-list-joueur>
-    <app-match-vue-c></app-match-vue-c>
+  <!-- ---------- SIDEBAR ---------- -->
+  <aside id="sidebar" class="w-20 lg:w-64 bg-[var(--Gris)]/20 backdrop-blur-xl border-r-2 border-[var(--Rouge)]
+           flex flex-col shrink-0 transition-all duration-300 shadow-sm">
 
+    <!-- Logo -->
+    <header class="px-4 py-5 flex items-center justify-center lg:justify-start gap-3 border-b border-gray-200/80">
+      <img src="assets/LOGO.ico" alt="Logo club" class="w-10 h-10">
+      <h1 class="hidden lg:block text-xl font-bold tracking-tight">
+        {{ (currentUser?.role || 'Invité') | uppercase }}
+      </h1>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="flex-1 px-2 lg:px-4 py-4 space-y-1">
+      <button *ngFor="let item of navItems" (click)="setSection(item.key)"
+        [attr.aria-current]="selectedSection === item.key ? 'page' : null"
+        [ngClass]="selectedSection === item.key ? 'bg-[var(--Rouge)] text-white' : 'hover:bg-gray-100/70'"
+        [title]="item.label" class="w-full flex items-center justify-center lg:justify-start gap-3 px-3 py-2.5 rounded-lg
+               transition-all duration-200
+               group relative">
+        <i [class]="item.icon + ' w-5 text-center'"></i>
+        <span class="hidden lg:inline text-sm font-medium">{{ item.label }}</span>
+        <!-- Indicateur actif -->
+        <span *ngIf="selectedSection === item.key"
+          class="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-1 bg-[var(--Blanc)] rounded-r-full">
+        </span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- ---------- MAIN CONTENT ---------- -->
+  <main class="flex-1 px-4 sm:px-6 lg:px-10 py-8 overflow-y-auto">
+
+    <!-- Global feedback -->
+    <section aria-live="polite" class="mb-4 space-y-2">
+      <div *ngIf="successMatches || successCommuniques || successPosts"
+        class="p-3 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-sm">
+        {{ successMatches || successCommuniques || successPosts }}
+      </div>
+      <div *ngIf="errorMatches || errorCommuniques || errorPosts"
+        class="p-3 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 text-sm">
+        {{ errorMatches || errorCommuniques || errorPosts }}
+      </div>
+    </section>
+
+    <!-- ........................... MATCHS ........................... -->
+    <section *ngIf="selectedSection==='match'" class="animate-fadeIn">
+      <h2 class="text-2xl font-bold mb-6 text-[var(--Rouge)]">Matchs</h2>
+
+      <div *ngIf="loadingMatches" class="text-[var(--Gris)]/30 italic text-sm">Chargement…</div>
+
+      <div *ngIf="!loadingMatches && matches.length" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <article *ngFor="let match of matches" class="group relative bg-[var(--Blanc)] rounded-xl border-2 border-[var(--Rouge)]
+                 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 p-5">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="font-semibold text-gray-900">{{ match.equipeA }} <span class="text-gray-400">vs</span> {{
+              match.equipeB }}</h3>
+            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{{ match.categorie }}</span>
+          </div>
+          <ul class="space-y-1 text-sm text-gray-600">
+            <li><strong>Date :</strong> {{ match.date | date:'dd/MM/yyyy' }}</li>
+            <li><strong>Lieu :</strong> {{ match.lieu }}</li>
+            <li><strong>Type :</strong> {{ match.typeMatch || 'Non précisé' }}</li>
+          </ul>
+          <div class="mt-4 text-center">
+            <span class="text-2xl font-extrabold text-[var(--Rouge)]">{{ match.scoreA ?? '-' }} – {{ match.scoreB ?? '-'
+              }}</span>
+          </div>
+          <button (click)="supprimerMatch(match._id)" aria-label="Supprimer le match" class="absolute top-4 right-4 w-8 h-8 grid place-content-center
+                   bg-rose-100 text-rose-600 rounded-full opacity-0 group-hover:opacity-100
+                   hover:bg-rose-200
+                   transition">
+            <i class="fas fa-trash text-xs"></i>
+          </button>
+        </article>
+      </div>
+
+      <p *ngIf="!loadingMatches && !matches.length" class="text-gray-500 italic text-sm">Aucun match.</p>
+    </section>
+
+    <!-- ........................... ACTUS ........................... -->
+    <section *ngIf="selectedSection==='actus'" class="animate-fadeIn">
+      <h2 class="text-2xl font-bold mb-6 text-[var(--Rouge)]">Actualités</h2>
+
+      <div *ngIf="loadingPosts" class="text-[var(--Gris)]/30 italic text-sm">
+        Chargement…
+      </div>
+
+      <div *ngIf="!loadingPosts && filteredPosts.length" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <article *ngFor="let post of filteredPosts; let idx = index" class="group relative bg-[var(--Blanc)] rounded-xl border-2 border-[var(--Rouge)]
+                hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 p-5">
+          <!-- ===== HEADER ===== -->
+          <div class="flex items-start justify-between mb-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-[var(--Rouge)] text-white
+                          flex items-center justify-center font-bold text-sm">
+                {{ post.initials || 'U' }}
+              </div>
+              <div class="text-sm">
+                <p class="font-semibold leading-tight">{{ post.user || 'Utilisateur' }}</p>
+                <time class="text-gray-400 text-xs">{{ post.createdAt | date:'short' }}</time>
+              </div>
+            </div>
+
+            <button (click)="deletePost(post, idx)" aria-label="Supprimer le post" class="absolute top-4 right-4 w-8 h-8 grid place-content-center
+                    bg-rose-100 text-rose-600 rounded-full opacity-0 group-hover:opacity-100
+                    hover:bg-rose-200 transition">
+              <i class="fas fa-trash text-xs"></i>
+            </button>
+          </div>
+
+          <!-- ===== CONTENU ===== -->
+          <p class="text-gray-800 text-sm mb-3 whitespace-pre-line leading-relaxed">
+            {{ post.content }}
+          </p>
+
+          <!-- ===== MEDIA ===== -->
+          <figure *ngIf="post.mediaUrl" class="mb-3">
+            <img *ngIf="post.mediaType==='image'" [src]="post.mediaUrl" alt=""
+              class="rounded-lg w-full object-cover max-h-56 border border-gray-100" />
+            <video *ngIf="post.mediaType==='video'" [src]="post.mediaUrl" controls
+              class="rounded-lg w-full max-h-56 border border-gray-100"></video>
+          </figure>
+
+          <!-- ===== FOOTER ===== -->
+          <footer class="flex items-center gap-4 text-xs text-gray-500 mt-2">
+            <span><i class="fas fa-heart text-red-500 mr-1"></i>{{ post.likes }}</span>
+            <span><i class="fas fa-share mr-1"></i>{{ post.shares }}</span>
+          </footer>
+        </article>
+      </div>
+
+      <p *ngIf="!loadingPosts && !filteredPosts.length" class="text-gray-500 italic text-sm">
+        Aucun post.
+      </p>
+    </section>
+
+
+    <!-- ........................... JOUEURS ........................... -->
+    <section *ngIf="selectedSection==='joueurs'" class="animate-fadeIn">
+      <h2 class="text-2xl font-bold mb-6 text-[var(--Rouge)]">Joueurs</h2>
+
+      <div *ngIf="loadingJoueurs" class="text-[var(--Gris)]/30 italic text-sm">Chargement…</div>
+
+      <!-- Conteneur principal -->
+      <div *ngIf="!loadingJoueurs" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <!-- Intégration du composant liste joueurs -->
+        <app-list-joueur></app-list-joueur>
+      </div>
+
+
+    </section>
+
+    <!-- ........................... COMMUNIQUER ........................... -->
+    <section *ngIf="selectedSection==='communiquer'" class="animate-fadeIn">
+      <h2 class="text-2xl font-bold mb-6 text-[var(--Rouge)]">Communications</h2>
+
+      <!-- Chargement -->
+      <div *ngIf="loadingCommuniques" class="text-[var(--Gris)]/30 italic text-sm">Chargement…</div>
+
+      <!-- Liste des communiqués -->
+      <div *ngIf="!loadingCommuniques && communiques.length"
+        class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <article *ngFor="let c of communiques" class="group relative bg-[var(--Blanc)] rounded-xl border-2 border-[var(--Rouge)]
+                hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 p-5">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="font-semibold text-gray-900 truncate pr-8">{{ c.titre }}</h3>
+            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Info</span>
+          </div>
+
+          <p class="text-gray-700 text-sm mb-4 line-clamp-3">{{ c.contenu }}</p>
+
+          <ul class="space-y-1 text-xs text-gray-500">
+            <li><strong>Auteur :</strong> {{ c.auteur }}</li>
+            <li><strong>Date :</strong> {{ c.date | date:'dd/MM/yyyy à HH:mm' }}</li>
+          </ul>
+
+          <!-- Bouton supprimer -->
+          <button (click)="supprimerCommunique(c._id)" aria-label="Supprimer" class="absolute top-4 right-4 w-8 h-8 grid place-content-center
+                  bg-rose-100 text-rose-600 rounded-full opacity-0 group-hover:opacity-100
+                  hover:bg-rose-200 transition">
+            <i class="fas fa-trash text-xs"></i>
+          </button>
+        </article>
+      </div>
+
+      <!-- Aucun communiqué -->
+      <p *ngIf="!loadingCommuniques && !communiques.length" class="text-gray-500 italic text-sm">
+        Aucun communiqué.
+      </p>
+    </section>
+
+
+    <!-- ........................... CRÉATION ........................... -->
+    <section *ngIf="selectedSection==='bouton'" class="animate-fadeIn">
+      <h2 class="text-2xl font-bold mb-6 text-[var(--Rouge)]">Création</h2>
+
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 justify-items-center">
+
+        <article
+          class="bg-[var(--Blanc)] border-2 border-[var(--Rouge)] rounded-xl p-5 w-full max-w-xs
+                hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col items-center justify-center">
+          <app-creer-convocations-c></app-creer-convocations-c>
+        </article>
+
+        <article
+          class="bg-[var(--Blanc)] border-2 border-[var(--Rouge)] rounded-xl p-5 w-full max-w-xs
+                hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col items-center justify-center">
+          <app-creer-event-c></app-creer-event-c>
+        </article>
+
+        <article
+          class="bg-[var(--Blanc)] border-2 border-[var(--Rouge)] rounded-xl p-5 w-full max-w-xs
+                hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col items-center justify-center">
+          <app-creer-match-c></app-creer-match-c>
+        </article>
+
+        <article
+          class="bg-[var(--Blanc)] border-2 border-[var(--Rouge)] rounded-xl p-5 w-full max-w-xs
+                hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col items-center justify-center">
+          <app-creer-post-c></app-creer-post-c>
+        </article>
+      </div>
+    </section>
+
+    <!-- .......................... Classement ................................. -->
+    <section *ngIf="selectedSection==='classement'" class="animate-fadeIn max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-extrabold text-[var(--Rouge)] mb-8 tracking-tight">Classement</h2>
+
+      <!-- Grille des équipes (uniquement l'équipe du coach) -->
+      <div *ngIf="classementFiltre.length; else noClassement" class="space-y-8">
+        <article *ngFor="let c of classementFiltre"
+          class="border-2 border-[var(--Rouge)] bg-white rounded-2xl transition-all duration-300 overflow-hidden">
+
+          <!-- En-tête de la catégorie -->
+          <header class="bg-[var(--Rouge)] text-white px-6 py-4 flex justify-between items-center">
+            <h3 class="text-lg font-semibold tracking-wide">{{ c.categorie }}</h3>
+            <button (click)="saveCategorie(c)"
+              class="px-4 py-2 bg-white text-[var(--Rouge)] font-semibold rounded-lg shadow hover:bg-gray-100 transition">
+              <i class="fas fa-save mr-2"></i> Enregistrer tout
+            </button>
+
+          </header>
+
+          <!-- Tableau -->
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm text-gray-700">
+              <thead class="bg-gray-50 text-gray-800 uppercase tracking-wider text-xs">
+                <tr>
+                  <th class="px-4 py-3 text-center">#</th>
+                  <th class="px-4 py-3 text-left">Équipe</th>
+                  <th class="px-4 py-3 text-center">Pts</th>
+                  <th class="px-4 py-3 text-center">J</th>
+                  <th class="px-4 py-3 text-center">G</th>
+                  <th class="px-4 py-3 text-center">N</th>
+                  <th class="px-4 py-3 text-center">P</th>
+                  <th class="px-4 py-3 text-center">BP</th>
+                  <th class="px-4 py-3 text-center">BC</th>
+                  <th class="px-4 py-3 text-center">Diff</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let eq of c.equipes; let i = index"
+                  class="border-t border-gray-100 hover:bg-gray-50 transition-colors"
+                  [ngClass]="isHighlightedEquipe(eq) ? 'bg-blue-100 font-bold' : ''">
+                  <td class="px-4 py-3 text-center font-semibold">{{ i + 1 }}</td>
+                  <td class="px-4 py-3 font-medium">{{ eq.equipe }}</td>
+                  <td class="px-4 py-3 text-center">
+                    <input type="number" [(ngModel)]="eq.pts"
+                      class="w-14 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)]" />
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <input type="number" [(ngModel)]="eq.jo"
+                      class="w-14 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)]" />
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <input type="number" [(ngModel)]="eq.g"
+                      class="w-14 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)]" />
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <input type="number" [(ngModel)]="eq.n"
+                      class="w-14 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)]" />
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <input type="number" [(ngModel)]="eq.p"
+                      class="w-14 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)]" />
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <input type="number" [(ngModel)]="eq.bp"
+                      class="w-14 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)]" />
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <input type="number" [(ngModel)]="eq.bc"
+                      class="w-14 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--Rouge)]" />
+                  </td>
+                  <td class="px-4 py-3 text-center font-semibold">
+                    <span [ngClass]="eq.bp - eq.bc >= 0 ? 'text-green-600' : 'text-red-600'">
+                      {{ eq.bp - eq.bc }}
+                    </span>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+
+      <ng-template #noClassement>
+        <div class="text-center py-12">
+          <p class="text-gray-500 italic text-lg">Aucun classement disponible pour le moment.</p>
+        </div>
+      </ng-template>
+    </section>
+
+    <!-- .......................... Profil ................................. -->
+<section *ngIf="selectedSection==='profil'" class="animate-fadeIn max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+  <h2 class="text-2xl font-bold mb-6 text-[var(--Rouge)]">Profil</h2>
+
+  <div class="bg-white border-2 border-[var(--Rouge)] rounded-xl p-6 space-y-4">
+    <div class="flex items-center gap-4">
+      <div class="w-16 h-16 rounded-full bg-[var(--Rouge)] text-white flex items-center justify-center font-bold text-xl">
+        {{ currentUser?.initiale || '?' }}
+      </div>
+      <div>
+        <p class="font-semibold text-gray-800">{{ currentUser?.prenom }} {{ currentUser?.nom }}</p>
+        <p class="text-gray-500 text-sm">{{ currentUser?.role }}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-gray-600 text-sm mb-1">Prénom</label>
+        <input type="text" [(ngModel)]="currentUser!.prenom" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--Rouge)]">
+      </div>
+      <div>
+        <label class="block text-gray-600 text-sm mb-1">Nom</label>
+        <input type="text" [(ngModel)]="currentUser!.nom" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--Rouge)]">
+      </div>
+      <div class="sm:col-span-2">
+        <label class="block text-gray-600 text-sm mb-1">Équipe</label>
+        <input type="text" [(ngModel)]="currentUser!.equipe" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--Rouge)]" readonly>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3 mt-4">
+      <button (click)="updateProfile()" class="px-4 py-2 bg-[var(--Rouge)] text-white font-semibold rounded-lg hover:bg-red-700 transition">
+        Enregistrer
+      </button>
+      <button (click)="deleteAccount()" class="px-4 py-2 bg-rose-500 text-white font-semibold rounded-lg hover:bg-rose-700 transition">
+        Supprimer mon compte
+      </button>
+    </div>
   </div>
+</section>
+
+<!-- .......................... Déconnection ................................. -->
+<section *ngIf="selectedSection==='logout'" class="animate-fadeIn text-center py-20">
+  <h2 class="text-2xl font-bold mb-6 text-[var(--Rouge)]">Déconnexion</h2>
+  <p class="text-gray-600 mb-6">Vous êtes sur le point de vous déconnecter de votre compte.</p>
+  <button (click)="logout()" class="px-6 py-3 bg-[var(--Rouge)] text-white font-semibold rounded-lg hover:bg-red-700 transition">
+    Se déconnecter
+  </button>
+</section>
+
+
+  </main>
 </div>
+
+<!-- ---------- ANIMATIONS ---------- -->
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn .3s ease-out;
+  }
+</style>

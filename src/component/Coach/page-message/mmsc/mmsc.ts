@@ -144,6 +144,7 @@ export class MMSC implements OnInit, OnDestroy {
           senderName: m.senderId === this.userId ? `${this.userPrenom} ${this.userNom}` : `${contact.firstName} ${contact.lastName}`,
           timestamp: m.timestamp ? new Date(m.timestamp) : new Date()
         }));
+        this.removeOldMessages(); // ✅ Supprimer les messages > 48h
       }
     });
   }
@@ -159,7 +160,13 @@ export class MMSC implements OnInit, OnDestroy {
       timestamp: new Date()
     };
     this.chatService.sendMessage(msg).subscribe({
-      next: sent => { this.newMessage = ''; this.messages.push(sent); this.chatService.emitNewMessage(sent); this.isSending = false; },
+      next: sent => {
+        this.newMessage = '';
+        this.messages.push(sent);
+        this.chatService.emitNewMessage(sent);
+        this.isSending = false;
+        this.removeOldMessages(); // ✅ Toujours nettoyer les anciens messages
+      },
       error: () => { this.isSending = false; alert("Erreur d'envoi"); }
     });
   }
@@ -174,7 +181,17 @@ export class MMSC implements OnInit, OnDestroy {
          (msg.senderId === this.userId && msg.receiverId === this.selectedContact?._id))) {
       if (!msg.timestamp) msg.timestamp = new Date();
       this.messages.push(msg);
+      this.removeOldMessages(); // ✅ Nettoyage des messages > 48h
     }
+  }
+
+  private removeOldMessages() {
+    const now = new Date().getTime();
+    const limit = 48 * 60 * 60 * 1000; // 48h en ms
+    this.messages = this.messages.filter(m => {
+      const ts = new Date(m.timestamp ?? 0).getTime();
+      return now - ts <= limit;
+    });
   }
 
   getInitiales(n?: string) {

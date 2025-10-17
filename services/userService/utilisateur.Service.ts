@@ -17,6 +17,8 @@ export interface User {
   joueurs?: any[];
   categorie?: string;
   poste?: string;
+  jour?: string;
+  status:string
 }
 
 @Injectable({ providedIn: 'root' })

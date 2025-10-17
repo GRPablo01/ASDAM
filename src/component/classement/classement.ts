@@ -71,19 +71,19 @@ export class Classement implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    // Récupérer le dernier choix depuis localStorage
-    const last = localStorage.getItem('lastEquipe');
-    if (last) this.selectedEquipe = last;
-  
-    this.getClassements().subscribe({
-      next: (data) => {
-        this.classement = data;
-        console.log('✅ Classements chargés :', data);
-      },
-      error: (err) => console.error('❌ Erreur récupération classement:', err),
-    });
-  }
-  
+  // Récupérer le dernier choix depuis localStorage
+  const last = localStorage.getItem('lastEquipe');
+  if (last) this.selectedEquipe = last;
+
+  this.getClassements().subscribe({
+    next: (data) => {
+      this.classement = data;
+      console.log('✅ Classements chargés :', data);
+    },
+    error: (err) => console.error('❌ Erreur récupération classement:', err),
+  });
+}
+
 
   // ✅ Récupère tous les classements depuis le backend
   getClassements(): Observable<ClassementCategorie[]> {

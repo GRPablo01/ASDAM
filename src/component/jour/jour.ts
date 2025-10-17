@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from '../../../services/userService/Auth.Service';
@@ -35,45 +35,44 @@ export class Jour implements OnInit {
   ];
   events: EventItem[] = [];
 
-  // Jour actuel
   currentDate = new Date();
   currentDateStr = this.formatDate(this.currentDate);
-  todayLabel = this.currentDate.toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 
-  // Popup / État
+  nextDate = new Date(this.currentDate.getTime() + 24 * 60 * 60 * 1000);
+  nextDateStr = this.formatDate(this.nextDate);
+
   showPopup = false;
   selectedEvent: EventItem | null = null;
   isEditing = false;
 
-  // Formulaire
-  newEventTitle = '';
-  newEventCoach = '';
-  newEventCategory = '';
-  newEventLevel = '';
-  newEventDate = this.currentDateStr;
-  newEventHour = '09:00';
-  newEventEndHour = '10:00';
-  newEventDuration = 1;
-  newEventDescription = '';
-
+  userTeam: string = '';
   userRole = '';
   private apiUrl = 'http://localhost:3000/api/events';
 
   ngOnInit(): void {
     this.loadEvents();
     this.userRole = this.authService.getUserRole();
+    this.loadUserFromLocalStorage();
+  }
+
+  private loadUserFromLocalStorage(): void {
+    const userStr = localStorage.getItem('utilisateur');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        this.userRole = user.role || '';
+        this.userTeam = user.team || '';
+      } catch {
+        this.userRole = '';
+        this.userTeam = '';
+      }
+    }
   }
 
   canEdit(): boolean {
     return ['coach', 'admin', 'super admin'].includes(this.userRole);
   }
 
-  // ===== BACKEND =====
   async loadEvents(): Promise<void> {
     try {
       this.events = await lastValueFrom(this.http.get<EventItem[]>(this.apiUrl));
@@ -101,7 +100,6 @@ export class Jour implements OnInit {
     }
   }
 
-  // ===== ACTIONS =====
   addEvent(): void {
     if (!this.newEventTitle.trim()) return;
 
@@ -139,7 +137,6 @@ export class Jour implements OnInit {
     this.selectedEvent = null;
   }
 
-  // ===== HELPERS =====
   formatDate(d: Date | string): string {
     const date = typeof d === 'string' ? new Date(d) : d;
     const y = date.getFullYear();
@@ -157,34 +154,66 @@ export class Jour implements OnInit {
     return parseInt(day.split('-')[2], 10);
   }
 
-  getEventsByDay(day: string): EventItem[] {
+  // ✅ Fonction filtrée selon le rôle
+  getEventsByDay(day: string | Date): EventItem[] {
+    const dayStr = typeof day === 'string' ? day : this.formatDate(day);
+
     return this.events
-      .filter((evt) => evt.day === day)
-      .sort(
-        (a, b) =>
-          parseInt(a.hour.replace(':', ''), 10) - parseInt(b.hour.replace(':', ''), 10)
-      );
+      .filter(evt => {
+        if (evt.day !== dayStr) return false;
+
+        switch(this.userRole.toLowerCase()) {
+          case 'joueur':
+            return ['Tous', 'Joueur', this.userTeam].includes(evt.level);
+          case 'coach':
+            return ['Tous','Coach','U7','U9','U11','U13','U15','U18','U23','SeniorA','SeniorB','SeniorD'].includes(evt.level);
+          case 'invit':
+          case 'invité':
+            return ['Tous','Invité'].includes(evt.level);
+          case 'admin':
+          case 'super admin':
+            return true;
+          default:
+            return false;
+        }
+      })
+      .sort((a,b) => {
+        const aMinutes = parseInt(a.hour.split(':')[0])*60 + parseInt(a.hour.split(':')[1]);
+        const bMinutes = parseInt(b.hour.split(':')[0])*60 + parseInt(b.hour.split(':')[1]);
+        return aMinutes - bMinutes;
+      });
   }
+
   getEventIcon(evt: EventItem) {
     switch(evt.category) {
       case 'Entraînement': return 'fa-solid fa-dumbbell';
       case 'Match': return 'fa-solid fa-futbol';
       case 'Tournoi': return 'fa-solid fa-trophy';
       case 'Réunion': return 'fa-solid fa-calendar';
-      case 'Fête': return 'fa-solid fa-glass-cheers'; // icône existante Font Awesome
+      case 'Fête': return 'fa-solid fa-glass-cheers';
       default: return 'fa-solid fa-circle';
     }
   }
 
   getEventColor(evt: EventItem): string {
     switch(evt.category) {
-      case 'Entraînement': return 'bg-blue-800';   // bleu
-      case 'Match': return 'bg-red-800';          // rouge
-      case 'Tournoi': return 'bg-yellow-800';     // jaune
-      case 'Réunion': return 'bg-purple-800';     // violet
-      case 'Fête': return 'bg-green-800';         // vert
-      default: return 'bg-gray-400';              // gris par défaut
+      case 'Entraînement': return 'bg-blue-800';
+      case 'Match': return 'bg-red-800';
+      case 'Tournoi': return 'bg-yellow-800';
+      case 'Réunion': return 'bg-purple-800';
+      case 'Fête': return 'bg-green-800';
+      default: return 'bg-gray-400';
     }
   }
 
+  // Formulaire
+  newEventTitle = '';
+  newEventCoach = '';
+  newEventCategory = '';
+  newEventLevel = '';
+  newEventDate = this.currentDateStr;
+  newEventHour = '09:00';
+  newEventEndHour = '10:00';
+  newEventDuration = 1;
+  newEventDescription = '';
 }

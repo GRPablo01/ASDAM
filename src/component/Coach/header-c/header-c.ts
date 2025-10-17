@@ -112,11 +112,7 @@ export class HeaderC implements OnInit, AfterViewInit {
         title: 'Dashboard',
         icon: 'fas fa-tachometer-alt',
         link: '/dashboardC',
-        items: [
-          { title: 'Mon Profil', link: '/dashboardC/profileC', initiales },
-          { title: 'Paramètres', link: '/dashboardC/settingsC', icon: 'fas fa-cog' },
-          { title: 'Déconnexion', link: '/connexion', icon: 'fas fa-sign-out-alt' }
-        ]
+        items: []
       },
       { title: 'Déconnexion', icon: 'fas fa-sign-out-alt', link: '/connexion', items: [] }
     ];
