@@ -12,6 +12,7 @@ import { Planning } from '../page/planning/planning';
 import { Dashboard } from '../page/dashboard/dashboard';
 import { Messages } from '../page/messages/messages';
 import { Classement } from '../page/classement/classement';
+import { Utilisateur } from '../page/utilisateur/utilisateur';
 
 
 /* ---- TOUT --- */
@@ -27,5 +28,6 @@ export const routes: Routes = [
     { path: 'dashboard', component: Dashboard},
     { path: 'messages', component: Messages},
     { path: 'classement', component: Classement},
+    { path: 'utilisateur', component: Utilisateur},
 
 ];

@@ -1,0 +1,144 @@
+<section class="min-h-screen p-8 flex flex-col items-center bg-gradient-to-br from-gray-100 to-gray-50">
+
+    <!-- Titre -->
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-10 text-[var(--Rouge)] text-center drop-shadow-lg">
+      Liste des Utilisateurs
+    </h1>
+  
+    <!-- Filtrage Rôle -->
+    <div class="flex gap-4 mb-8 flex-wrap justify-center">
+      <button (click)="selectRole('joueur')" 
+              [ngClass]="{'bg-[var(--Rouge)] text-white': selectedRole==='joueur'}"
+              class="px-5 py-2 border border-gray-300 rounded-full hover:bg-[var(--Rouge)] hover:text-white transition-all flex items-center shadow-sm hover:shadow-lg">
+        <i class="fa-solid fa-person-running mr-2"></i> Joueur
+      </button>
+      <button (click)="selectRole('coach')" 
+              [ngClass]="{'bg-[var(--Rouge)] text-white': selectedRole==='coach'}"
+              class="px-5 py-2 border border-gray-300 rounded-full hover:bg-[var(--Rouge)] hover:text-white transition-all flex items-center shadow-sm hover:shadow-lg">
+        <i class="fa-solid fa-chalkboard-user mr-2"></i> Coach
+      </button>
+      <button (click)="selectRole('invité')" 
+              [ngClass]="{'bg-[var(--Rouge)] text-white': selectedRole==='invité'}"
+              class="px-5 py-2 border border-gray-300 rounded-full hover:bg-[var(--Rouge)] hover:text-white transition-all flex items-center shadow-sm hover:shadow-lg">
+        <i class="fa-solid fa-user-pen mr-2"></i> Invité
+      </button>
+    </div>
+  
+    <!-- Barre recherche + filtre équipe -->
+    <div class="flex flex-col sm:flex-row gap-4 mb-10 w-full max-w-4xl justify-center">
+      <div class="relative w-full sm:w-2/3">
+        <input type="text" placeholder="Rechercher par nom ou prénom..." [(ngModel)]="searchTerm"
+               (input)="filtrerUtilisateurs()"
+               class="border border-gray-300 rounded-full px-12 py-3 w-full focus:ring-2 focus:ring-[var(--Rouge)] outline-none shadow-inner placeholder-gray-400" />
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+      </div>
+  
+      <select [(ngModel)]="selectedEquipe" (change)="filtrerUtilisateurs()"
+              class="border border-gray-300 rounded-full px-5 py-3 w-full sm:w-1/3 focus:ring-2 focus:ring-[var(--Rouge)] outline-none shadow-inner bg-white">
+        <option value="">Toutes les équipes</option>
+        <option *ngFor="let eq of equipes" [value]="eq">{{ eq }}</option>
+      </select>
+    </div>
+  
+    <!-- Chargement -->
+    <div *ngIf="loading" class="text-gray-500 text-lg mt-10 animate-pulse">
+      Chargement des utilisateurs...
+    </div>
+  
+    <!-- Grille utilisateurs -->
+    <div *ngIf="!loading && utilisateursFiltres.length > 0"
+         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl w-full justify-items-center">
+  
+      <div *ngFor="let user of paginatedUsers"
+           class="bg-white rounded-3xl p-6 w-full max-w-xs flex flex-col items-center 
+                  transform transition-transform duration-300 border-2 border-[var(--Blanc)] 
+                  hover:border-[var(--Rouge)] transition-colors duration-500 ease-in-out">
+  
+        <!-- Avatar -->
+        <ng-container *ngIf="user.photoURL; else initialsAvatar">
+          <img [src]="user.photoURL" alt="Photo utilisateur"
+               class="w-28 h-28 rounded-full object-cover mb-4 border-4 border-[var(--Rouge)] shadow-md" />
+        </ng-container>
+        <ng-template #initialsAvatar>
+          <div class="w-28 h-28 rounded-full bg-[var(--Rouge)] text-white flex items-center justify-center text-2xl font-bold mb-4 border-4 border-[var(--Rouge)] shadow-md">
+            {{ ((user.initiale || ((user.prenom?.[0] || '') + (user.nom?.[0] || '')))).toUpperCase() }}
+          </div>
+        </ng-template>
+  
+        <!-- Infos utilisateur -->
+        <h2 class="font-semibold text-xl text-center mb-1">{{ user.prenom }} {{ user.nom }}</h2>
+        
+        <!-- Affiche équipe uniquement si rôle != invité -->
+        <p *ngIf="user.role !== 'invité' && user.equipe" class="text-gray-600 text-center mb-1">
+          <i class="fa-solid fa-futbol mr-1 text-[var(--Rouge)]"></i> <strong>{{ user.equipe }}</strong>
+        </p>
+  
+        <p *ngIf="user.email" class="text-gray-500 text-center text-sm break-all mb-1">
+          <i class="fa-solid fa-envelope mr-1 text-[var(--Rouge)]"></i> {{ user.email }}
+        </p>
+        <p *ngIf="user.role" class="text-gray-500 text-center text-sm mb-2">
+          <i class="fa-solid fa-user-tag mr-1 text-[var(--Rouge)]"></i> {{ user.role }}
+        </p>
+  
+        <!-- Boutons -->
+        <div class="flex gap-3 mt-3">
+          <button (click)="modifierUtilisateur(user)"
+                  class="px-4 py-2 rounded-full bg-[var(--Bleu)] hover:bg-[var(--Bleu-Foncé)] text-white transition-all flex items-center justify-center shadow-md hover:shadow-lg">
+            <i class="fa-solid fa-pen-to-square mr-2"></i> Modifier
+          </button>
+          <button (click)="supprimerUtilisateur(user)"
+                  class="px-4 py-2 rounded-full bg-[var(--Rouge)] hover:bg-[var(--Rouge-Foncé)] text-white transition-all flex items-center justify-center shadow-md hover:shadow-lg">
+            <i class="fa-solid fa-trash mr-2"></i> Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <div *ngIf="!loading && utilisateursFiltres.length === 0" class="text-gray-500 mt-10 text-lg">
+      Aucun utilisateur ne correspond à votre recherche.
+    </div>
+  
+    <!-- Modal -->
+    <div *ngIf="showModal" class="fixed inset-0 bg-black/60 bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-3xl p-8 w-full max-w-md relative shadow-2xl">
+        <h2 class="text-2xl font-bold mb-6 text-[var(--Rouge)] flex items-center justify-center gap-2">
+          <i class="fa-solid fa-user-pen"></i> Modifier l'utilisateur
+        </h2>
+  
+        <form #modForm="ngForm" (ngSubmit)="saveChanges(modForm)" class="flex flex-col gap-5">
+          <input type="text" [(ngModel)]="currentUser!.prenom" name="prenom" placeholder="Prénom"
+                 class="border border-gray-300 rounded-full px-5 py-3 focus:ring-2 focus:ring-[var(--Rouge)] outline-none shadow-sm" required />
+          <input type="text" [(ngModel)]="currentUser!.nom" name="nom" placeholder="Nom"
+                 class="border border-gray-300 rounded-full px-5 py-3 focus:ring-2 focus:ring-[var(--Rouge)] outline-none shadow-sm" required />
+          <input type="email" [(ngModel)]="currentUser!.email" name="email" placeholder="Email"
+                 class="border border-gray-300 rounded-full px-5 py-3 focus:ring-2 focus:ring-[var(--Rouge)] outline-none shadow-sm" />
+  
+          <select [(ngModel)]="currentUser!.role" name="role"
+                  class="border border-gray-300 rounded-full px-5 py-3 focus:ring-2 focus:ring-[var(--Rouge)] outline-none shadow-sm">
+            <option value="joueur">Joueur</option>
+            <option value="coach">Coach</option>
+            <option value="invité">Invité</option>
+          </select>
+  
+          <!-- Affiche select équipe uniquement si rôle != invité -->
+          <select *ngIf="currentUser!.role !== 'invité'" [(ngModel)]="currentUser!.equipe" name="equipe"
+                  class="border border-gray-300 rounded-full px-5 py-3 focus:ring-2 focus:ring-[var(--Rouge)] outline-none shadow-sm">
+            <option *ngFor="let eq of equipes" [value]="eq">{{ eq }}</option>
+          </select>
+  
+          <div class="flex justify-end gap-3 mt-4">
+            <button type="button" (click)="showModal=false"
+                    class="px-5 py-2 rounded-full bg-gray-400 hover:bg-gray-500 text-white flex items-center justify-center">
+              <i class="fa-solid fa-xmark mr-2"></i> Annuler
+            </button>
+            <button type="submit"
+                    class="px-5 py-2 rounded-full bg-[var(--Rouge)] hover:bg-[var(--Rouge-Foncé)] text-white flex items-center justify-center">
+              <i class="fa-solid fa-floppy-disk mr-2"></i> Enregistrer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+</section>
+  

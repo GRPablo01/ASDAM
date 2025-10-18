@@ -231,9 +231,9 @@ export class Header implements OnInit, AfterViewInit {
             items: [] 
           },
           { 
-            title: 'Classement', 
+            title: 'Utilisateur', 
             icon: 'fas fa-trophy',  // icône correcte pour classement
-            link: '/classement', 
+            link: '/utilisateur', 
             items: [] 
           },
           { 
