@@ -95,15 +95,15 @@ export class Login {
 
           // Map des rôles incluant super admin
           const routeMap: { [key: string]: string } = {
-            admin: '/accueilA',
-            'super admin': '/accueilS', // <-- rôle super admin ajouté
-            coach: '/accueilC',
-            joueur: '/accueilJ',
-            inviter: '/accueilI',
+            admin: '/accueil',
+            'super admin': '/accueil', // <-- rôle super admin ajouté
+            coach: '/accueil',
+            joueur: '/accueil',
+            inviter: '/accueil',
           };
 
           const roleKey = (user.role || 'joueur').toLowerCase();
-          this.redirectionApresConnexion = routeMap[roleKey] || '/accueilJ';
+          this.redirectionApresConnexion = routeMap[roleKey] || '/accueil';
 
           setTimeout(() => {
             this.router.navigate([this.redirectionApresConnexion!]);

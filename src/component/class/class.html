@@ -1,0 +1,96 @@
+<div class="min-h-screen flex bg-gray-50">
+    <!-- ===== Sidebar : sélection des équipes ===== -->
+    <aside
+      class="w-64 bg-white shadow-lg p-6 flex flex-col gap-4 sticky top-0 h-screen"
+    >
+      <h2 class="text-lg font-bold mb-4 text-center">Équipes</h2>
+  
+      <button
+      *ngFor="let equipe of equipes"
+      (click)="selectEquipe(equipe)"
+      [ngClass]="{
+        'opacity-100 bg-[var(--Rouge)]': selectedEquipe === equipe,
+        'opacity-40 bg-[var(--Bleu)]': selectedEquipe !== equipe
+      }"
+      class="flex items-center gap-3 px-4 py-3 text-white font-semibold rounded-xl shadow-md
+             hover:opacity-100 hover:scale-105 transition transform duration-200 ease-in-out text-left"
+    >
+      <i class="fas fa-users"></i>
+      <span>{{ equipe }}</span>
+    </button>
+    
+    </aside>
+  
+    <!-- ===== Contenu principal ===== -->
+    <main class="flex-1 p-8 overflow-x-auto">
+  
+      <!-- 🔹 Affichage de plusieurs classements -->
+      <div *ngIf="classementFiltre.length > 0" class="space-y-12">
+        <div
+          *ngFor="let cat of classementFiltre"
+          class="bg-white rounded-xl shadow-lg border border-[var(--Rouge)] p-6"
+        >
+          <h3
+            class="text-xl font-semibold text-[var(--Rouge)] mb-4 border-b pb-2 text-center"
+          >
+            {{ cat.categorie }}
+          </h3>
+  
+          <table class="min-w-full border-collapse">
+            <thead class="bg-[var(--Rouge)] text-[var(--Blanc)]">
+              <tr>
+                <th class="px-3 py-2 text-left">Pl</th>
+                <th class="px-3 py-2 text-left">Équipe</th>
+                <th class="px-3 py-2 text-center">Pts</th>
+                <th class="px-3 py-2 text-center">J</th>
+                <th class="px-3 py-2 text-center">G</th>
+                <th class="px-3 py-2 text-center">N</th>
+                <th class="px-3 py-2 text-center">P</th>
+                <th class="px-3 py-2 text-center">F</th>
+                <th class="px-3 py-2 text-center">BP</th>
+                <th class="px-3 py-2 text-center">BC</th>
+                <th class="px-3 py-2 text-center">Dif</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let e of cat.equipes; let i = index"
+                class="transition-colors"
+                [ngClass]="{
+                  'bg-[var(--Rouge)] text-[var(--Blanc)] font-semibold':
+                    e.equipe.toLowerCase().includes('danjoutin'),
+                  'hover:bg-gray-100': !e.equipe.toLowerCase().includes('danjoutin')
+                }"
+              >
+                <td class="px-3 py-2">{{ i + 1 }}</td>
+                <td class="px-3 py-2">{{ e.equipe }}</td>
+                <td class="px-3 py-2 text-center">{{ e.pts }}</td>
+                <td class="px-3 py-2 text-center">{{ e.jo }}</td>
+                <td class="px-3 py-2 text-center">{{ e.g }}</td>
+                <td class="px-3 py-2 text-center">{{ e.n }}</td>
+                <td class="px-3 py-2 text-center">{{ e.p }}</td>
+                <td class="px-3 py-2 text-center">{{ e.f }}</td>
+                <td class="px-3 py-2 text-center">{{ e.bp }}</td>
+                <td class="px-3 py-2 text-center">{{ e.bc }}</td>
+                <td class="px-3 py-2 text-center">{{ e.dif }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+      <!-- 🔹 Si aucune équipe sélectionnée -->
+      <p *ngIf="!selectedEquipe" class="text-center text-gray-500 mt-4">
+        Sélectionnez une équipe pour voir le classement.
+      </p>
+  
+      <!-- 🔹 Si aucune donnée -->
+      <p
+        *ngIf="selectedEquipe && classementFiltre.length === 0"
+        class="text-center text-gray-500 mt-4"
+      >
+        Aucun classement trouvé pour {{ selectedEquipe }}.
+      </p>
+    </main>
+</div>
+  

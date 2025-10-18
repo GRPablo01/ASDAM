@@ -13,7 +13,7 @@ require('dotenv').config();
 // ⚙️ Création de l'application Express
 // ==============================
 const app = express();
-const PORT = 5000;
+const PORT = 3000;
 
 // ==============================
 // ✅ Middleware CORS (Angular + tests mobiles)
@@ -91,7 +91,7 @@ app.use('/api/confirmation', confirmationRoutes);
 app.use('/api/communiques', communiqueRoutes);
 app.use('/api/archives', archiveRoutes);
 app.use('/api/classements', classementRoutes);
-app.use('/api/categories', categorieRoutes);
+app.use('/api/categorieS', categorieRoutes);
 
 // ==============================
 // 📨 Upload média (posts)
