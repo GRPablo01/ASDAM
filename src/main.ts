@@ -2,13 +2,20 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { appConfig } from './app/app.config';
 import { App } from './app/app';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { LOCALE_ID } from '@angular/core';
 
-// On enrichit appConfig avec HttpClient
+// ✅ Enregistrer le locale français
+registerLocaleData(localeFr);
+
+// On enrichit appConfig avec HttpClient et LOCALE_ID
 const configWithHttpClient = {
   ...appConfig,
   providers: [
     ...(appConfig.providers ?? []),
-    provideHttpClient(withFetch()) // ✅ Active HttpClient avec Fetch API
+    provideHttpClient(withFetch()),        // HttpClient
+    { provide: LOCALE_ID, useValue: 'fr' } // Locale français
   ]
 };
 

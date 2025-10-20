@@ -95,7 +95,7 @@ export class Sections2 implements OnInit {
         icon: 'fa-solid fa-comments'
       } 
     ],
-    invite: [
+    inviter: [
       { 
         title: 'Voir les actualités', 
         description: "Consulte les dernières actualités du club dans l’onglet « Actualités ». Tu peux voir les annonces importantes, les résultats des matchs et les informations du staff directement depuis le dashboard.",

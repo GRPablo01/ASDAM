@@ -19,6 +19,13 @@ interface InscriptionData {
   role: 'joueur' | 'coach' | 'inviter' | 'admin' | 'super admin';
   initiale?: string;
   cguValide: boolean;
+  [key: string]: any; 
+}
+
+interface RoleOption {
+  label: string;
+  value: 'joueur' | 'coach' | 'inviter' | 'admin' | 'super admin';
+  icon: string;
 }
 
 @Component({
@@ -37,8 +44,15 @@ export class Inscription implements OnInit, OnDestroy {
   readonly CODE_SUPERADMIN = 'SUPERADMIN2025';
 
   equipes: string[] = [
-    'U6','U7','U8','U9','U10','U11','U12','U13','U14','U15','U16','U17','U18','U23',
-    'SeniorA','SeniorB','SeniorC','SeniorD'
+    'U7','U9','U11','U13','U15','U18', 'U23', 'SeniorA', 'SeniorB','SeniorD'
+  ];
+
+  // ✅ Liste des rôles pour la boucle *ngFor dans le HTML
+  roles: RoleOption[] = [
+    { label: 'Joueur', value: 'joueur', icon: 'fa-futbol' },
+    { label: 'Coach', value: 'coach', icon: 'fa-chalkboard-teacher' },
+    { label: 'Admin', value: 'admin', icon: 'fa-user-shield' },
+    { label: 'Invité', value: 'inviter', icon: 'fa-user' },
   ];
 
   inscriptionData: InscriptionData = {
@@ -60,70 +74,57 @@ export class Inscription implements OnInit, OnDestroy {
   formSubmitted = false;
   message: string | null = null;
   cguAccepte = false;
+  showCode = false;
+
+  
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
-  ngOnInit(): void { document.body.style.overflow = 'hidden'; }
-  ngOnDestroy(): void { document.body.style.overflow = 'auto'; }
-
-  // 🔹 Activation rôles
-  activerJoueur(): void {
-    this.actif = 'joueur';
-    this.inscriptionData.role = 'joueur';
-    this.inscriptionData.codeCoach = '';
-    this.inscriptionData.codeAdmin = '';
-    this.inscriptionData.codeSuperAdmin = '';
-    if (!this.inscriptionData.equipe) this.inscriptionData.equipe = this.equipes[0];
+  ngOnInit(): void {
+    document.body.style.overflow = 'hidden';
   }
 
-  activerCoach(): void {
-    this.actif = 'coach';
-    this.inscriptionData.role = 'coach';
-    this.inscriptionData.codeJoueur = '';
-    this.inscriptionData.codeAdmin = '';
-    this.inscriptionData.codeSuperAdmin = '';
-    if (!this.inscriptionData.equipe) this.inscriptionData.equipe = this.equipes[0];
+  ngOnDestroy(): void {
+    document.body.style.overflow = 'auto';
   }
 
-  activerAdmin(): void {
-    this.actif = 'admin';
-    this.inscriptionData.role = 'admin';
-    this.inscriptionData.codeCoach = '';
-    this.inscriptionData.codeJoueur = '';
-    this.inscriptionData.codeSuperAdmin = '';
-    this.inscriptionData.equipe = 'Tous';
-  }
-
-  activerSuperAdmin(): void {
-    this.actif = 'super admin';
-    this.inscriptionData.role = 'super admin';
-    this.inscriptionData.codeCoach = '';
-    this.inscriptionData.codeJoueur = '';
-    this.inscriptionData.codeAdmin = '';
-    this.inscriptionData.equipe = 'Tous';
-  }
-
-  activerInviter(): void {
-    this.actif = 'inviter';
-    this.inscriptionData.role = 'inviter';
-    this.inscriptionData.codeCoach = '';
-    this.inscriptionData.codeJoueur = '';
-    this.inscriptionData.codeAdmin = '';
-    this.inscriptionData.codeSuperAdmin = '';
+  // 🔹 Sélection d’un rôle
+  choisirRole(role: 'joueur' | 'coach' | 'inviter' | 'admin' | 'super admin'): void {
+    this.actif = role;
+    this.inscriptionData.role = role;
     this.inscriptionData.equipe = '';
+
+    switch (role) {
+      case 'joueur':
+        this.inscriptionData.codeJoueur = '';
+        break;
+      case 'coach':
+        this.inscriptionData.codeCoach = '';
+        break;
+      case 'admin':
+        this.inscriptionData.codeAdmin = '';
+        break;
+      case 'super admin':
+        this.inscriptionData.codeSuperAdmin = '';
+        break;
+    }
+
+    if (role === 'coach' || role === 'joueur') {
+      this.inscriptionData.equipe = this.equipes[0];
+    } else if (role === 'admin' || role === 'super admin') {
+      this.inscriptionData.equipe = 'Tous';
+    }
   }
 
   togglePasswordVisibility(): void {
     this.passwordVisible = !this.passwordVisible;
   }
 
-  // 🔹 Validation email
   isEmailValid(email: string): boolean {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   }
 
-  // 🔹 Étape 1
   etape1Valide(): boolean {
     return !!this.inscriptionData.nom &&
            !!this.inscriptionData.prenom &&
@@ -132,31 +133,33 @@ export class Inscription implements OnInit, OnDestroy {
            this.inscriptionData.password.length >= 6;
   }
 
-  // 🔹 Étape 2
   etape2Valide(): boolean {
-    if ((this.actif === 'coach' && this.inscriptionData.codeCoach !== this.CODE_COACH) ||
-        (this.actif === 'joueur' && this.inscriptionData.codeJoueur !== this.CODE_JOUEUR) ||
-        (this.actif === 'admin' && this.inscriptionData.codeAdmin !== this.CODE_ADMIN) ||
-        (this.actif === 'super admin' && this.inscriptionData.codeSuperAdmin !== this.CODE_SUPERADMIN)) {
+    const { actif, inscriptionData } = this;
+
+    if ((actif === 'coach' && inscriptionData.codeCoach !== this.CODE_COACH) ||
+        (actif === 'joueur' && inscriptionData.codeJoueur !== this.CODE_JOUEUR) ||
+        (actif === 'admin' && inscriptionData.codeAdmin !== this.CODE_ADMIN) ||
+        (actif === 'super admin' && inscriptionData.codeSuperAdmin !== this.CODE_SUPERADMIN)) {
       return false;
     }
 
-    // ✅ Coach / joueur doivent avoir une équipe
-    if ((this.actif === 'coach' || this.actif === 'joueur') && !this.inscriptionData.equipe) {
-      return false;
-    }
+    if ((actif === 'coach' || actif === 'joueur') && !inscriptionData.equipe) return false;
 
     return this.cguAccepte;
   }
 
   etapeSuivante(): void {
-    if (this.etape1Valide()) this.etape = 2;
-    else alert('Veuillez remplir correctement tous les champs obligatoires.');
+    if (this.etape1Valide()) {
+      this.etape = 2;
+    } else {
+      alert('Veuillez remplir correctement tous les champs obligatoires.');
+    }
   }
 
-  etapePrecedente(): void { this.etape = 1; }
+  etapePrecedente(): void {
+    this.etape = 1;
+  }
 
-  // 🔹 Validation finale
   valider(): void {
     if (!this.etape2Valide()) {
       alert('Veuillez remplir correctement tous les champs et accepter les CGU.');
@@ -200,11 +203,4 @@ export class Inscription implements OnInit, OnDestroy {
       }
     });
   }
-
-  // Ajoute dans ta classe Inscription
-showCoachPassword = false;
-showJoueurPassword = false;
-showAdminPassword = false;
-showSuperAdminPassword = false;
-
 }

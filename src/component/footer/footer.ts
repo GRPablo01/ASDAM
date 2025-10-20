@@ -89,7 +89,7 @@ export class Footer {
   };
 
   constructor() {
-    const storedUser = localStorage.getItem('currentUser'); // récupérer l'utilisateur connecté
+    const storedUser = localStorage.getItem('utilisateur'); // récupérer l'utilisateur connecté
     if (storedUser) {
       const userObj = JSON.parse(storedUser);
       this.user.nom = userObj.nom || '';

@@ -129,7 +129,7 @@ export class Header implements OnInit, AfterViewInit {
             icon: 'fas fa-futbol', 
             link: '/match', 
             items: [
-              { title: 'Convocations', link: '/match/convocations', icon: 'fas fa-users' },
+              { title: 'Convocations', link: '/convocations', icon: 'fas fa-users' },
             ] 
           },
           { 
@@ -259,9 +259,7 @@ export class Header implements OnInit, AfterViewInit {
           title: 'Matchs', 
           icon: 'fas fa-futbol', 
           link: '/match', 
-          items: [
-            { title: 'Convocations', link: '/match/convocations', icon: 'fas fa-users' },
-          ] 
+          items: [] 
         },
         { 
           title: 'Planning', 

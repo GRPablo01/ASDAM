@@ -13,6 +13,7 @@ import { Dashboard } from '../page/dashboard/dashboard';
 import { Messages } from '../page/messages/messages';
 import { Classement } from '../page/classement/classement';
 import { Utilisateur } from '../page/utilisateur/utilisateur';
+import { Convocation } from '../page/convocation/convocation';
 
 
 /* ---- TOUT --- */
@@ -29,5 +30,7 @@ export const routes: Routes = [
     { path: 'messages', component: Messages},
     { path: 'classement', component: Classement},
     { path: 'utilisateur', component: Utilisateur},
+    { path: 'convocations', component: Convocation},
+
 
 ];

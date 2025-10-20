@@ -4,12 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 
-interface Comment { 
+interface Comment {
   _id?: string;
-  user: string; 
-  text: string; 
-  time?: string; 
-  initials?: string; 
+  user: string;
+  text: string;
+  time?: string;
+  initials?: string;
 }
 
 interface Post {
@@ -32,12 +32,12 @@ interface Post {
   showMenu?: boolean;
 }
 
-interface LocalUser { 
-  _id?: string; 
-  prenom?: string; 
-  nom?: string; 
-  role?: string; 
-  initiale?: string; 
+interface LocalUser {
+  _id?: string;
+  prenom?: string;
+  nom?: string;
+  role?: string;
+  initiale?: string;
 }
 
 @Component({
@@ -48,7 +48,6 @@ interface LocalUser {
   styleUrls: ['./actus.css']
 })
 export class Actus implements OnInit {
-
   currentUser: LocalUser | null = null;
   posts: (Post & { newComment?: string; showMenu?: boolean })[] = [];
   filteredPosts: typeof this.posts = [];
@@ -135,10 +134,7 @@ export class Actus implements OnInit {
 
   // --- Modals ---
   openCreatePostModal() { 
-    if(this.canCreatePost()) { 
-      this.showCreateModal = true; 
-      this.blockScroll(); 
-    }
+    if(this.canCreatePost()) { this.showCreateModal = true; this.blockScroll(); }
   }
   closeCreatePostModal() { 
     this.showCreateModal = false; 
@@ -174,10 +170,7 @@ export class Actus implements OnInit {
     this.blockScroll();
   }
 
-  toggleComments(post: any): void {
-    post.showAllComments = !post.showAllComments;
-  }
-  
+  toggleComments(post: Post): void { post.showAllComments = !post.showAllComments; }
   closeCommentsModal() { 
     this.showCommentsModal = false; 
     this.selectedPost = null; 
@@ -236,7 +229,6 @@ export class Actus implements OnInit {
     if (!this.newPostContent.trim() && !this.newPostMedia) return;
 
     this.loading = true;
-
     const newPost: Partial<Post> = { 
       content: this.newPostContent, 
       user: this.currentFullName, 
@@ -272,10 +264,7 @@ export class Actus implements OnInit {
     };
 
     if (!this.newPostMedia) {
-      this.http.post<Post>(url, newPost).subscribe({
-        next: handleSuccess,
-        error: err => { console.error(err); this.loading = false; this.showNotification('error', 'Erreur lors de la création du post ❌'); }
-      });
+      this.http.post<Post>(url, newPost).subscribe({ next: handleSuccess, error: err => { console.error(err); this.loading=false; this.showNotification('error','Erreur création post ❌'); }});
     } else {
       const formData = new FormData();
       formData.append('content', newPost.content || '');
@@ -283,10 +272,7 @@ export class Actus implements OnInit {
       formData.append('initials', newPost.initials || '');
       formData.append('media', this.newPostMedia, this.newPostMedia.name);
 
-      this.http.post<Post>(url, formData).subscribe({
-        next: handleSuccess,
-        error: err => { console.error(err); this.loading = false; this.showNotification('error', 'Erreur lors de la création du post ❌'); }
-      });
+      this.http.post<Post>(url, formData).subscribe({ next: handleSuccess, error: err => { console.error(err); this.loading=false; this.showNotification('error','Erreur création post ❌'); }});
     }
   }
 
@@ -301,7 +287,7 @@ export class Actus implements OnInit {
   }
 
   deleteComment(post: Post & { comments: Comment[] }, comment: Comment) {
-    if (!post._id || !comment._id || !this.canDeleteComment()) return;
+    if (!post._id || !comment._id || !this.canDeleteComment(comment.user)) return;
     if (!confirm('Voulez-vous vraiment supprimer ce commentaire ?')) return;
     this.http.delete<Post>(`http://localhost:3000/api/posts/${post._id}/comment/${comment._id}`).subscribe({
       next: updatedPost => { post.comments = updatedPost.comments || []; this.showNotification('success','Commentaire supprimé 🗑️'); },
@@ -309,24 +295,17 @@ export class Actus implements OnInit {
     });
   }
 
-  canDeleteComment(): boolean {
+  canDeleteComment(commentUser?: string): boolean {
     const role = this.currentUser?.role?.toLowerCase() ?? '';
-    return ['coach','admin','super admin'].includes(role);
+    if(['coach','admin','super admin'].includes(role)) return true;
+    return this.currentFullName === commentUser;
   }
-
-  
 
   toggleLike(post: Post): void {
     if (!post._id || !this.currentUser?._id) return;
     this.animatingLike = post._id;
-    this.http.post<{ likes: number; isLiked: boolean }>(
-      `http://localhost:3000/api/posts/${post._id}/like`,
-      { userId: this.currentUser._id }
-    ).subscribe({
-      next: (res) => { post.isLiked = res.isLiked; post.likes = res.likes; },
-      error: (err) => console.error('Erreur lors du like :', err),
-      complete: () => setTimeout(() => this.animatingLike = null, 1000)
-    });
+    this.http.post<{ likes: number; isLiked: boolean }>(`http://localhost:3000/api/posts/${post._id}/like`, { userId: this.currentUser._id })
+      .subscribe({ next: (res) => { post.isLiked = res.isLiked; post.likes = res.likes; }, error: (err) => console.error(err), complete: () => setTimeout(()=>this.animatingLike=null,1000) });
   }
 
   bookmarkPost(post: Post) {
@@ -339,33 +318,21 @@ export class Actus implements OnInit {
   sharePost(post: Post) {
     if(!post._id) return;
     this.http.post<Post>(`http://localhost:3000/api/posts/${post._id}/share`, {}).subscribe({
-      next: u => {
-        post.shares = u.shares;
-        navigator.clipboard.writeText(`${window.location.origin}/posts/${post._id}`).then(() => this.showNotification('success','Lien copié ✅'));
-      },
+      next: u => { post.shares = u.shares; navigator.clipboard.writeText(`${window.location.origin}/posts/${post._id}`).then(()=>this.showNotification('success','Lien copié ✅')); },
       error: err => console.error(err)
     });
   }
 
   canDeletePost(): boolean {
     const role = this.currentUser?.role?.toLowerCase() ?? '';
-    return ['coach', 'admin', 'super admin'].includes(role);
+    return ['coach','admin','super admin'].includes(role);
   }
-  
 
   deletePost(post: Post, index: number) {
     if (!post._id || !confirm('Voulez-vous supprimer ce post ?')) return;
-  
     this.http.delete<void>(`http://localhost:3000/api/posts/${post._id}`).subscribe({
-      next: () => {
-        this.posts.splice(index, 1);
-        this.filterPosts();
-        this.showNotification('success', 'Post supprimé 🗑️');
-      },
-      error: err => {
-        console.error(err);
-        this.showNotification('error', 'Erreur lors de la suppression ❌');
-      }
+      next: () => { this.posts.splice(index,1); this.filterPosts(); this.showNotification('success','Post supprimé 🗑️'); },
+      error: err => { console.error(err); this.showNotification('error','Erreur suppression post ❌'); }
     });
   }
 
@@ -378,12 +345,21 @@ export class Actus implements OnInit {
     setTimeout(() => this.notification = null, 3000);
   }
 
-  onDrop(event: DragEvent) {
-    event.preventDefault();
+  timeAgo(dateString: string | undefined): string {
+    if (!dateString) return '';
+    const now = new Date();
+    const date = new Date(dateString);
+    const diff = Math.floor((now.getTime() - date.getTime()) / 1000); // en secondes
+  
+    if (diff < 60) return `il y a ${diff}s`;
+    if (diff < 3600) return `il y a ${Math.floor(diff / 60)}min`;
+    if (diff < 86400) return `il y a ${Math.floor(diff / 3600)}h`;
+    if (diff < 2592000) return `il y a ${Math.floor(diff / 86400)}j`;
+    if (diff < 31536000) return `il y a ${Math.floor(diff / 2592000)} mois`;
+    return `il y a ${Math.floor(diff / 31536000)} an${Math.floor(diff / 31536000) > 1 ? 's' : ''}`;
   }
+  
 
-  onDragOver(event: DragEvent) {
-    event.preventDefault();
-  }
-
+  onDrop(event: DragEvent) { event.preventDefault(); }
+  onDragOver(event: DragEvent) { event.preventDefault(); }
 }
