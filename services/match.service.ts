@@ -18,7 +18,7 @@ export interface Match {
   logoB?: string;
   arbitre?: string;
   stade?: string;
-  status?: 'scheduled' | 'live' | 'finished';
+  status?: 'A venir' | 'En directe' | 'Terminer';
   duree?: number;
   minute?: number;
   

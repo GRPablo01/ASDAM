@@ -1,0 +1,9 @@
+:root{
+    /* couleurs événements */
+    --event-train:#3b82f6;
+    --event-match:#ef4444;
+    --event-tournoi:#f59e0b;
+    --event-reunion:#8b5cf6;
+    --event-fete:#10b981;
+    --event-default:#6b7280; 
+}

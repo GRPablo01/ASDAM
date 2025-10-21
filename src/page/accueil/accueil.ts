@@ -6,10 +6,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Sections2 } from '../../component/section2/section2';
 import { Footer } from "../../component/footer/footer";
+import { Jour } from "../../component/jour2/jour2";
 
 @Component({
   selector: 'app-accueil',
-  imports: [Header, Sections2, Sections1C, CommonModule, FormsModule, Footer],
+  imports: [Header, Sections2, Sections1C, CommonModule, FormsModule, Footer, Jour],
   templateUrl: './accueil.html',
   styleUrl: './accueil.css'
 })
