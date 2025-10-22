@@ -1,8 +1,9 @@
+// src/app/services/post.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { Post, Comment } from './../src/Model/post';
+import { Post, Comment } from '../../Model/post';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class PostService {
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 Récupérer tous les posts
+  /** 🔹 Récupère tous les posts */
   getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(this.apiUrl).pipe(
       catchError(err => {
@@ -22,7 +23,7 @@ export class PostService {
     );
   }
 
-  // 🔹 Créer un post avec ou sans média
+  /** 🔹 Crée un post (avec ou sans média) */
   createPost(post: Post, media?: File): Observable<Post> {
     if (!media) {
       return this.http.post<Post>(this.apiUrl, post).pipe(
@@ -47,8 +48,10 @@ export class PostService {
       observe: 'events'
     }).pipe(
       map((event: HttpEvent<any>) => {
-        if (event.type === HttpEventType.Response) return event.body;
-        return null as any; // Ignorer les events autres que Response
+        if (event.type === HttpEventType.Response) {
+          return event.body as Post;
+        }
+        return null as any;
       }),
       catchError(err => {
         console.error('Erreur upload média:', err);
@@ -57,7 +60,7 @@ export class PostService {
     );
   }
 
-  // 🔹 Ajouter un commentaire
+  /** 🔹 Ajouter un commentaire */
   addComment(postId: string, comment: Comment): Observable<Post> {
     return this.http.post<Post>(`${this.apiUrl}/${postId}/comments`, comment).pipe(
       catchError(err => {
@@ -67,7 +70,7 @@ export class PostService {
     );
   }
 
-  // 🔹 Liker / unliker un post
+  /** 🔹 Liker / unliker un post */
   likePost(postId: string): Observable<Post> {
     return this.http.post<Post>(`${this.apiUrl}/${postId}/like`, {}).pipe(
       catchError(err => {
@@ -77,7 +80,7 @@ export class PostService {
     );
   }
 
-  // 🔹 Mettre à jour un post
+  /** 🔹 Mise à jour d’un post */
   updatePost(postId: string, data: Partial<Post>): Observable<Post> {
     return this.http.put<Post>(`${this.apiUrl}/${postId}`, data).pipe(
       catchError(err => {
@@ -87,7 +90,7 @@ export class PostService {
     );
   }
 
-  // 🔹 Partager un post
+  /** 🔹 Partager un post */
   sharePost(postId: string): Observable<Post> {
     return this.http.post<Post>(`${this.apiUrl}/${postId}/share`, {}).pipe(
       catchError(err => {
@@ -97,7 +100,7 @@ export class PostService {
     );
   }
 
-  // 🔹 Supprimer un post
+  /** 🔹 Supprimer un post */
   deletePost(postId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${postId}`).pipe(
       catchError(err => {

@@ -7,10 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { Sections2 } from '../../component/section2/section2';
 import { Footer } from "../../component/footer/footer";
 import { Jour } from "../../component/jour2/jour2";
+import { NotifMessage } from "../../component/notif-message/notif-message";
 
 @Component({
   selector: 'app-accueil',
-  imports: [Header, Sections2, Sections1C, CommonModule, FormsModule, Footer, Jour],
+  imports: [Header, Sections2, Sections1C, CommonModule, FormsModule, Footer, Jour, NotifMessage],
   templateUrl: './accueil.html',
   styleUrl: './accueil.css'
 })

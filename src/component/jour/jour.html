@@ -121,23 +121,23 @@
           <!-- Event -->
           <ng-container *ngFor="let evt of getEventsByDay(day)">
             <div (click)="openEventDetails(evt)"
-              class="flex items-center justify-between rounded-xl px-3 py-2 text-xs md:text-sm font-medium cursor-pointer shadow hover:scale-[1.02] transition-transform"
-              [ngClass]="getEventColor(evt)">
+                class="flex items-center justify-between rounded-xl px-3 py-2 text-xs md:text-sm font-medium cursor-pointer shadow hover:scale-[1.02] transition-transform"
+                [ngClass]="getEventColor(evt)">
 
               <!-- Titre + icône -->
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 truncate max-w-[calc(100%-3rem)]">
                 <i [class]="getEventIcon(evt)" class="text-[var(--Blanc)]"></i>
                 <span class="truncate text-[var(--Blanc)]">{{ evt.title }}</span>
               </div>
 
               <!-- Badge heure -->
-              <span
-                class="ml-2 font-semibold bg-[var(--Blanc)] text-[var(--Black)] px-2 py-0.5 rounded-full text-[0.65rem] md:text-[0.75rem]">
+              <span class="ml-2 font-semibold bg-[var(--Blanc)] text-[var(--Black)] px-2 py-0.5 rounded-full text-[0.65rem] md:text-[0.75rem] whitespace-nowrap">
                 {{ evt.hour }}
               </span>
 
             </div>
           </ng-container>
+
 
           <!-- Match -->
           <ng-container *ngFor="let match of getMatchesByDate(day)">
@@ -211,26 +211,29 @@
 
           <!-- ÉVÉNEMENTS -->
           <article *ngFor="let evt of getEventsByDay(day)" class="absolute left-0 right-1 mt-4 px-2 py-1 text-xs md:text-sm font-medium cursor-pointer overflow-hidden shadow hover:shadow-lg
-                flex flex-col justify-between transition-all duration-200 rounded-md hover:scale-[1.02]"
+       flex flex-col justify-between transition-all duration-200 rounded-md hover:scale-[1.02]"
             [ngClass]="getEventColor(evt)" [style.top.px]="getEventTopOffset(evt)"
             [style.height.px]="getEventHeight(evt)" (click)="openEventDetails(evt)">
+
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1 text-white font-semibold truncate">
+              <div class="flex items-center gap-1 text-white font-semibold truncate max-w-[calc(100%-3rem)]">
                 <i [class]="getEventIcon(evt) + ' text-white'"></i>
-                <span>{{ evt.title }}</span>
+                <span class="truncate">{{ evt.title }}</span>
               </div>
               <span
-                class="ml-2 font-semibold bg-[var(--Blanc)] text-[var(--Black)] px-2 py-0.5 rounded-full text-[0.65rem] md:text-[0.75rem]">
+                class="ml-2 font-semibold bg-[var(--Blanc)] text-[var(--Black)] px-2 py-0.5 rounded-full text-[0.65rem] md:text-[0.75rem] whitespace-nowrap">
                 {{ evt.hour }}
               </span>
             </div>
           </article>
 
+
           <!-- MATCHS -->
-          <div *ngFor="let match of getMatchesByDate(day)" class="absolute left-1 right-1 rounded-xl px-3 py-2 text-xs md:text-sm cursor-pointer overflow-hidden
+          <div *ngFor="let match of getMatchesByDate(day)" class="absolute mt-3 left-1 right-1 rounded-xl px-3 py-2 text-xs md:text-sm cursor-pointer overflow-hidden
               flex flex-col gap-1 bg-gradient-to-r from-indigo-600 to-blue-600
-              shadow-lg hover:scale-[1.02] transform transition-all duration-200" [style.top.px]="matchTopOffset(match)"
-            [style.height.px]="matchHeight(match)" (click)="openMatchDetails(match)">
+              shadow-lg hover:scale-[1.02] transform transition-all duration-200"
+            [style.top.px]="matchTopOffset(match)" [style.height.px]="matchHeight(match)"
+            (click)="openMatchDetails(match)">
 
             <div class="flex items-center justify-between w-full">
               <div class="flex items-center gap-2 truncate">
@@ -503,3 +506,36 @@
 
   </div>
 </div>
+
+
+<!-- ==========  RESPONSIVE CLEAN  ========== -->
+<style>
+  /* ----- mobile first : ≤639px ----- */
+  @media (max-width:639px){
+    /* header devient sticky + compact */
+    header{position:sticky;top:0;z-index:30;backdrop-filter:blur(20px);background:rgba(255,255,255,.92);border-bottom:1px solid #00000010;padding:.75rem 1rem}
+    header h1{font-size:1.25rem}
+    header button>span{display:none}              /* cache texte des boutons nav */
+    header nav{width:100%;justify-content:space-between;margin-top:.5rem}
+  
+    /* switch mois/semaine -> pilule flottante */
+    nav>div:first-of-type{position:fixed;bottom:5.5rem;left:50%;transform:translateX(-50%);background:#fff;border:1px solid #e5e7eb;border-radius:9999px;padding:.25rem;box-shadow:0 4px 14px rgba(0,0,0,.15);z-index:30}
+    nav>div:first-of-type button{padding:.5rem 1rem;font-size:.8125rem}
+  
+    /* grille MOIS : 1 carte par ligne */
+    .grid-cols-7{grid-template-columns:1fr;gap:.75rem}
+    .grid-cols-7>div{min-height:auto;padding:1rem}
+  
+    /* grille SEMAINE : timeline verticale */
+    section[aria-label="Calendrier hebdomadaire"] header{display:none}
+    section main{flex-direction:column}
+    section main>div:first-of-type{display:none}   /* colonne heures cachée */
+    section main>div:last-of-type{flex-direction:column;gap:.75rem;padding:0 .75rem}
+    section main>div:last-of-type>div{min-height:4rem;border-left:3px solid var(--Rouge);padding-left:.75rem;margin-left:.5rem;position:relative}
+    /* events & matchs : pastilles */
+    article,section main>div:last-of-type>div>div{position:static!important;width:auto!important;height:auto!important;margin:.25rem 0;border-radius:.75rem;padding:.5rem .75rem;font-size:.8125rem;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  
+    /* pop-ups full screen */
+    .fixed.inset-0>div{margin:0;width:100%;height:100%;border-radius:0}
+  }
+  </style>

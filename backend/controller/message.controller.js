@@ -123,19 +123,48 @@ async function getConversation(req, res) {
 // ===========================
 // Récupérer tous les messages d’un utilisateur
 // ===========================
+// async function getUserMessages(req, res) {
+//   try {
+//     const { userId } = req.params;
+//     const messages = await Message.find({
+//       $or: [{ senderId: userId }, { receiverId: userId }]
+//     }).sort({ timestamp: -1 });
+
+//     res.json(messages);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: err.message });
+//   }
+// }
+
 async function getUserMessages(req, res) {
   try {
     const { userId } = req.params;
+
     const messages = await Message.find({
       $or: [{ senderId: userId }, { receiverId: userId }]
-    }).sort({ timestamp: -1 });
+    })
+      .sort({ createdAt: -1 })
+      .populate('senderId', 'nom prenom')
+      .populate('receiverId', 'nom prenom');
 
-    res.json(messages);
+    // transforme senderId en sender pour Angular
+    const transformed = messages.map(msg => ({
+      _id: msg._id,
+      senderId: msg.senderId._id,
+      sender: msg.senderId,       // nom + prenom
+      receiverId: msg.receiverId._id,
+      text: msg.text,
+      createdAt: msg.createdAt
+    }));
+
+    res.json(transformed);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
   }
 }
+
 
 // ===========================
 // Récupérer les messages non lus
