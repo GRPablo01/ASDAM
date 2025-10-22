@@ -29,6 +29,11 @@ export class CommuniqueService {
     return this.http.get<Communique[]>(this.apiUrl);
   }
 
+  /** Récupère tous les communiqués d’un utilisateur spécifique */
+  getUserCommuniques(userId: string): Observable<Communique[]> {
+    return this.http.get<Communique[]>(`${this.apiUrl}/user/${userId}`);
+  }
+
   /** Ajoute un nouveau communiqué (FormData requis pour inclure une image) */
   ajouterCommunique(communique: FormData): Observable<Communique> {
     return this.http.post<Communique>(this.apiUrl, communique);
