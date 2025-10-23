@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { catchError, throwError } from 'rxjs';
+import { catchError, throwError, interval, Subscription } from 'rxjs';
 
 interface Comment {
   _id?: string;
@@ -47,8 +47,10 @@ interface LocalUser {
   templateUrl: './actus.html',
   styleUrls: ['./actus.css']
 })
-export class Actus implements OnInit {
+export class Actus implements OnInit, OnDestroy {
+  refreshSub?: Subscription;
   currentUser: LocalUser | null = null;
+
   posts: (Post & { newComment?: string; showMenu?: boolean })[] = [];
   filteredPosts: typeof this.posts = [];
 
@@ -72,9 +74,9 @@ export class Actus implements OnInit {
   totalCommentPages = 1;
 
   searchQuery = '';
-  notification: { type: 'success'|'error', message: string } | null = null;
-
   animatingLike: string | null = null;
+
+  notification: { type: 'success' | 'error' | 'delete'; message: string } | null = null;
 
   @ViewChild('mediaInput') mediaInput!: ElementRef<HTMLInputElement>;
   @ViewChild('editMediaInput') editMediaInput!: ElementRef<HTMLInputElement>;
@@ -86,13 +88,21 @@ export class Actus implements OnInit {
     const storedUser = localStorage.getItem('utilisateur');
     if (storedUser) this.currentUser = JSON.parse(storedUser);
     this.loadPosts();
+    this.refreshSub = interval(10000).subscribe(() => this.loadPosts());
   }
 
-  // --- Scroll ---
+  ngOnDestroy() {
+    this.refreshSub?.unsubscribe();
+  }
+
+  private showNotificationFn(type: 'success' | 'error' | 'delete', message: string) {
+    this.notification = { type, message };
+    setTimeout(() => this.notification = null, 3000);
+  }
+
   blockScroll() { this.renderer.setStyle(document.body, 'overflow', 'hidden'); }
   unblockScroll() { this.renderer.setStyle(document.body, 'overflow', 'auto'); }
 
-  // --- Infos utilisateur ---
   get currentInitiales(): string {
     if (!this.currentUser) return 'UU';
     return this.currentUser.initiale ?? ((this.currentUser.prenom?.[0] ?? '') + (this.currentUser.nom?.[0] ?? '')).toUpperCase();
@@ -104,20 +114,23 @@ export class Actus implements OnInit {
   }
 
   canCreatePost(): boolean {
-    if (!this.currentUser?.role) return false;
-    return ['coach','admin','super admin'].includes(this.currentUser.role.toLowerCase());
+    return !!this.currentUser?.role && ['coach', 'admin', 'super admin'].includes(this.currentUser.role.toLowerCase());
   }
 
-  // --- Filtrage ---
+  canDeletePost(): boolean { return this.canCreatePost(); }
+
   filterPosts() {
     const query = this.searchQuery.toLowerCase();
     this.filteredPosts = this.posts.filter(p => p.content.toLowerCase().includes(query));
   }
 
-  // --- Chargement posts ---
   loadPosts() {
     this.http.get<Post[]>('http://localhost:3000/api/posts').pipe(
-      catchError(err => { console.error(err); return throwError(() => err); })
+      catchError(err => { 
+        console.error(err); 
+        this.showNotificationFn('error', 'Impossible de charger les actualités <i class="fa-solid fa-circle-xmark"></i>'); 
+        return throwError(() => err); 
+      })
     ).subscribe(posts => {
       this.posts = posts.map(p => ({
         ...p,
@@ -129,13 +142,19 @@ export class Actus implements OnInit {
         isLiked: p.likedBy?.includes(this.currentUser?._id || '') ?? false
       }));
       this.filterPosts();
+      // this.showNotificationFn('success', 'Actualités chargées avec succès <i class="fa-solid fa-circle-check"></i>');
     });
   }
 
-  // --- Modals ---
   openCreatePostModal() { 
-    if(this.canCreatePost()) { this.showCreateModal = true; this.blockScroll(); }
+    if (this.canCreatePost()) { 
+      this.showCreateModal = true; 
+      this.blockScroll(); 
+    } else {
+      this.showNotificationFn('error', 'Action non autorisée <i class="fa-solid fa-circle-xmark"></i>');
+    }
   }
+  
   closeCreatePostModal() { 
     this.showCreateModal = false; 
     this.newPostContent = ''; 
@@ -143,7 +162,7 @@ export class Actus implements OnInit {
     this.unblockScroll(); 
   }
 
-  openEditModal(post: Post) { 
+  openEditModal(post: Post) {
     this.editingPost = post;
     this.editingContent = post.content;
     this.editingMedia = null;
@@ -151,13 +170,14 @@ export class Actus implements OnInit {
     this.showEditModal = true;
     this.blockScroll();
   }
+
   cancelEdit() {
     this.showEditModal = false;
     this.editingPost = null;
     this.editingMedia = null;
     this.editingMediaPreview = null;
     this.editingContent = '';
-    this.editMediaInput.nativeElement.value = '';
+    if (this.editMediaInput) this.editMediaInput.nativeElement.value = '';
     this.unblockScroll();
   }
 
@@ -170,79 +190,78 @@ export class Actus implements OnInit {
     this.blockScroll();
   }
 
-  toggleComments(post: Post): void { post.showAllComments = !post.showAllComments; }
-  closeCommentsModal() { 
-    this.showCommentsModal = false; 
-    this.selectedPost = null; 
+  closeCommentsModal() {
+    this.showCommentsModal = false;
+    this.selectedPost = null;
     this.selectedPostComments = [];
     this.unblockScroll();
   }
+
+  toggleComments(post: Post) { post.showAllComments = !post.showAllComments; }
 
   get paginatedComments() {
     const start = (this.commentsPage - 1) * this.commentsPerPage;
     return this.selectedPostComments.slice(start, start + this.commentsPerPage);
   }
-  nextCommentsPage() { if(this.commentsPage < this.totalCommentPages) this.commentsPage++; }
-  prevCommentsPage() { if(this.commentsPage > 1) this.commentsPage--; }
 
-  // --- Création Post ---
+  nextCommentsPage() { if (this.commentsPage < this.totalCommentPages) this.commentsPage++; }
+  prevCommentsPage() { if (this.commentsPage > 1) this.commentsPage--; }
+
   openMediaSelector() { this.mediaInput.nativeElement.click(); }
-  openFilePicker() { this.fileInput.nativeElement.click(); }
 
   onMediaSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
     this.newPostMedia = file;
 
-    if(file.type.startsWith('image/')) {
+    if (file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = () => this.newPostMediaPreview = reader.result as string;
       reader.readAsDataURL(file);
-    } else if(file.type.startsWith('video/')) {
+    } else if (file.type.startsWith('video/')) {
       const url = URL.createObjectURL(file);
       const video = document.createElement('video');
       video.src = url;
       video.onloadedmetadata = () => {
-        if(video.duration > 15) { 
-          this.showNotification('error', 'La vidéo doit durer moins de 15 secondes ❌');
+        if (video.duration > 15) {
+          this.showNotificationFn('error', 'La vidéo doit durer moins de 15 secondes <i class="fa-solid fa-circle-xmark"></i>');
           this.removeMedia();
         } else this.newPostMediaPreview = url;
-      }
-    } else { 
-      this.showNotification('error', 'Type de fichier non supporté ❌');
+      };
+    } else {
+      this.showNotificationFn('error', 'Type de fichier non supporté <i class="fa-solid fa-circle-xmark"></i>');
       this.removeMedia();
     }
   }
 
   removeMedia() {
-    if(this.newPostMediaPreview && this.newPostMedia?.type.startsWith('video/')) URL.revokeObjectURL(this.newPostMediaPreview);
+    if (this.newPostMediaPreview && this.newPostMedia?.type.startsWith('video/')) URL.revokeObjectURL(this.newPostMediaPreview);
     this.newPostMedia = null;
     this.newPostMediaPreview = null;
-    this.mediaInput.nativeElement.value = '';
+    if (this.mediaInput) this.mediaInput.nativeElement.value = '';
   }
 
   createPost() {
     if (!this.canCreatePost() || !this.currentUser) { 
-      this.showNotification('error', 'Action non autorisée ❌'); 
+      this.showNotificationFn('error', 'Action non autorisée <i class="fa-solid fa-circle-xmark"></i>'); 
       return; 
     }
     if (!this.newPostContent.trim() && !this.newPostMedia) return;
 
     this.loading = true;
-    const newPost: Partial<Post> = { 
-      content: this.newPostContent, 
-      user: this.currentFullName, 
-      initials: this.currentInitiales, 
-      likes: 0, 
-      isLiked: false, 
-      isBookmarked: false, 
-      comments: [], 
+    const newPost: Partial<Post> = {
+      content: this.newPostContent,
+      user: this.currentFullName,
+      initials: this.currentInitiales,
+      likes: 0,
+      isLiked: false,
+      isBookmarked: false,
+      comments: [],
       shares: 0,
       likedBy: []
     };
 
     const url = this.newPostMedia ? 'http://localhost:3000/api/posts/media' : 'http://localhost:3000/api/posts';
-
     const handleSuccess = (p: Post) => {
       const formattedPost: Post & { newComment?: string; showMenu?: boolean } = {
         ...p,
@@ -260,97 +279,147 @@ export class Actus implements OnInit {
       this.showCreateModal = false;
       this.loading = false;
       this.unblockScroll();
-      this.showNotification('success', 'Publication créée avec succès 🎉');
+      this.showNotificationFn('success', 'Publication créée avec succès <i class="fa-solid fa-circle-check"></i>');
     };
 
     if (!this.newPostMedia) {
-      this.http.post<Post>(url, newPost).subscribe({ next: handleSuccess, error: err => { console.error(err); this.loading=false; this.showNotification('error','Erreur création post ❌'); }});
+      this.http.post<Post>(url, newPost).subscribe({ 
+        next: handleSuccess, 
+        error: err => { 
+          console.error(err); 
+          this.loading = false; 
+          this.showNotificationFn('error','Erreur lors de la création du post <i class="fa-solid fa-circle-xmark"></i>'); 
+        } 
+      });
     } else {
       const formData = new FormData();
       formData.append('content', newPost.content || '');
       formData.append('user', newPost.user || '');
       formData.append('initials', newPost.initials || '');
       formData.append('media', this.newPostMedia, this.newPostMedia.name);
-
-      this.http.post<Post>(url, formData).subscribe({ next: handleSuccess, error: err => { console.error(err); this.loading=false; this.showNotification('error','Erreur création post ❌'); }});
+      this.http.post<Post>(url, formData).subscribe({ 
+        next: handleSuccess, 
+        error: err => { 
+          console.error(err); 
+          this.loading = false; 
+          this.showNotificationFn('error','Erreur lors de la création du post <i class="fa-solid fa-circle-xmark"></i>'); 
+        } 
+      });
     }
   }
 
-  // --- Commentaires ---
+  deletePost(post: Post, index: number) {
+    if (!post._id || !confirm('Voulez-vous supprimer ce post ?')) return;
+    this.http.delete<void>(`http://localhost:3000/api/posts/${post._id}`).subscribe({
+      next: () => { 
+        this.posts.splice(index, 1); 
+        this.filterPosts(); 
+        this.showNotificationFn('delete','Post supprimé <i class="fa-solid fa-trash"></i>'); 
+      },
+      error: err => { 
+        console.error(err); 
+        this.showNotificationFn('error','Erreur lors de la suppression du post <i class="fa-solid fa-circle-xmark"></i>'); 
+      }
+    });
+  }
+
+  togglePostMenu(i: number) { this.posts[i].showMenu = !this.posts[i].showMenu; }
+
   addComment(post: Post & { newComment?: string }) {
-    if(!this.currentUser || !post._id) return;
-    const text = post.newComment?.trim(); if(!text) return;
+    if (!this.currentUser || !post._id) return;
+    const text = post.newComment?.trim();
+    if (!text) return;
+  
     const comment: Comment = { user: this.currentFullName, initials: this.currentInitiales, text, time: new Date().toISOString() };
-    this.http.post<Post>(`http://localhost:3000/api/posts/${post._id}/comment`, comment)
-      .pipe(catchError(err => { console.error(err); this.showNotification('error','Impossible d’ajouter le commentaire ❌'); return throwError(() => err); }))
-      .subscribe(updated => { post.comments = updated.comments || []; post.newComment=''; this.showNotification('success','Commentaire ajouté ✅'); });
+  
+    this.http.post<Post>(`http://localhost:3000/api/posts/${post._id}/comment`, comment).pipe(
+      catchError(err => { 
+        console.error(err); 
+        this.showNotificationFn('error','Impossible d\'ajouter le commentaire <i class="fa-solid fa-circle-xmark"></i>'); 
+        return throwError(() => err); 
+      })
+    ).subscribe(updated => {
+      if (updated.comments) {
+        post.comments.length = 0;
+        post.comments.push(...updated.comments);
+      }
+      post.newComment = '';
+      this.showNotificationFn('success','Commentaire ajouté <i class="fa-solid fa-circle-check"></i>');
+    });
   }
 
   deleteComment(post: Post & { comments: Comment[] }, comment: Comment) {
     if (!post._id || !comment._id || !this.canDeleteComment(comment.user)) return;
     if (!confirm('Voulez-vous vraiment supprimer ce commentaire ?')) return;
     this.http.delete<Post>(`http://localhost:3000/api/posts/${post._id}/comment/${comment._id}`).subscribe({
-      next: updatedPost => { post.comments = updatedPost.comments || []; this.showNotification('success','Commentaire supprimé 🗑️'); },
-      error: err => { console.error(err); this.showNotification('error','Erreur suppression commentaire ❌'); }
+      next: updatedPost => { 
+        post.comments = updatedPost.comments || []; 
+        this.showNotificationFn('delete','Commentaire supprimé <i class="fa-solid fa-trash"></i>'); 
+      },
+      error: err => { 
+        console.error(err); 
+        this.showNotificationFn('error','Erreur lors de la suppression du commentaire <i class="fa-solid fa-circle-xmark"></i>'); 
+      }
     });
   }
 
   canDeleteComment(commentUser?: string): boolean {
     const role = this.currentUser?.role?.toLowerCase() ?? '';
-    if(['coach','admin','super admin'].includes(role)) return true;
-    return this.currentFullName === commentUser;
+    return ['coach', 'admin', 'super admin'].includes(role) || this.currentFullName === commentUser;
   }
 
-  toggleLike(post: Post): void {
+  toggleLike(post: Post) {
     if (!post._id || !this.currentUser?._id) return;
     this.animatingLike = post._id;
     this.http.post<{ likes: number; isLiked: boolean }>(`http://localhost:3000/api/posts/${post._id}/like`, { userId: this.currentUser._id })
-      .subscribe({ next: (res) => { post.isLiked = res.isLiked; post.likes = res.likes; }, error: (err) => console.error(err), complete: () => setTimeout(()=>this.animatingLike=null,1000) });
+      .subscribe({ 
+        next: res => { 
+          post.isLiked = res.isLiked; 
+          post.likes = res.likes; 
+          this.showNotificationFn(res.isLiked ? 'success' : 'delete', res.isLiked ? 'Post aimé <i class="fa-solid fa-heart"></i>' : 'Like retiré');
+        }, 
+        error: err => {
+          console.error(err);
+          this.showNotificationFn('error','Erreur lors du like <i class="fa-solid fa-circle-xmark"></i>');
+        }, 
+        complete: () => setTimeout(() => this.animatingLike = null, 1000) 
+      });
   }
 
   bookmarkPost(post: Post) {
     post.isBookmarked = !post.isBookmarked;
-    if(!post._id) return;
+    if (!post._id) return;
     this.http.put<Post>(`http://localhost:3000/api/posts/${post._id}`, { isBookmarked: post.isBookmarked })
-      .subscribe({ error: err => { console.error(err); post.isBookmarked = !post.isBookmarked; }});
+      .subscribe({ 
+        error: err => { 
+          console.error(err); 
+          post.isBookmarked = !post.isBookmarked; 
+          this.showNotificationFn('error','Erreur lors du bookmark <i class="fa-solid fa-circle-xmark"></i>');
+        } 
+      });
   }
 
   sharePost(post: Post) {
-    if(!post._id) return;
+    if (!post._id) return;
     this.http.post<Post>(`http://localhost:3000/api/posts/${post._id}/share`, {}).subscribe({
-      next: u => { post.shares = u.shares; navigator.clipboard.writeText(`${window.location.origin}/posts/${post._id}`).then(()=>this.showNotification('success','Lien copié ✅')); },
-      error: err => console.error(err)
+      next: u => { 
+        post.shares = u.shares; 
+        navigator.clipboard.writeText(`${window.location.origin}/posts/${post._id}`).then(() => 
+          this.showNotificationFn('success','Lien copié dans le presse-papiers <i class="fa-solid fa-link"></i>')
+        ); 
+      },
+      error: err => {
+        console.error(err);
+        this.showNotificationFn('error','Erreur lors du partage <i class="fa-solid fa-circle-xmark"></i>');
+      }
     });
   }
-
-  canDeletePost(): boolean {
-    const role = this.currentUser?.role?.toLowerCase() ?? '';
-    return ['coach','admin','super admin'].includes(role);
-  }
-
-  deletePost(post: Post, index: number) {
-    if (!post._id || !confirm('Voulez-vous supprimer ce post ?')) return;
-    this.http.delete<void>(`http://localhost:3000/api/posts/${post._id}`).subscribe({
-      next: () => { this.posts.splice(index,1); this.filterPosts(); this.showNotification('success','Post supprimé 🗑️'); },
-      error: err => { console.error(err); this.showNotification('error','Erreur suppression post ❌'); }
-    });
-  }
-
-  togglePostMenu(i:number) { this.posts[i].showMenu = !this.posts[i].showMenu; }
 
   formatMediaUrl(url?: string) { return url?.startsWith('http') ? url : `http://localhost:3000/uploads/${url}`; }
 
-  private showNotification(type: 'success'|'error', text: string) {
-    this.notification = {type, message: text};
-    setTimeout(() => this.notification = null, 3000);
-  }
-
   timeAgo(dateString: string | undefined): string {
     if (!dateString) return '';
-    const now = new Date();
-    const date = new Date(dateString);
-    const diff = Math.floor((now.getTime() - date.getTime()) / 1000); // en secondes
-  
+    const diff = Math.floor((new Date().getTime() - new Date(dateString).getTime()) / 1000);
     if (diff < 60) return `il y a ${diff}s`;
     if (diff < 3600) return `il y a ${Math.floor(diff / 60)}min`;
     if (diff < 86400) return `il y a ${Math.floor(diff / 3600)}h`;
@@ -358,7 +427,6 @@ export class Actus implements OnInit {
     if (diff < 31536000) return `il y a ${Math.floor(diff / 2592000)} mois`;
     return `il y a ${Math.floor(diff / 31536000)} an${Math.floor(diff / 31536000) > 1 ? 's' : ''}`;
   }
-  
 
   onDrop(event: DragEvent) { event.preventDefault(); }
   onDragOver(event: DragEvent) { event.preventDefault(); }

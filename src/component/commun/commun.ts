@@ -19,6 +19,9 @@ export class Commun implements OnInit {
   imageFile?: File;
   imagePreview: string | ArrayBuffer | null = null;
 
+  // Ajout du système de notification
+  notification: { type: 'success' | 'error' | 'delete'; message: string } | null = null;
+
   nouveauCommunique: any = {
     titre: '',
     contenu: '',
@@ -44,6 +47,12 @@ export class Commun implements OnInit {
     this.chargerCommuniques();
   }
 
+  // Méthode pour afficher les notifications
+  private afficherNotification(type: 'success' | 'error' | 'delete', message: string) {
+    this.notification = { type, message };
+    setTimeout(() => this.notification = null, 3000);
+  }
+
   peutCreer(): boolean {
     if (!this.userConnecte || !this.userConnecte.role) return false;
     const rolesAutorises = ['coach', 'admin', 'super admin'];
@@ -52,7 +61,7 @@ export class Commun implements OnInit {
 
   ouvrirPopup() {
     if (!this.peutCreer()) {
-      alert('Vous n’êtes pas autorisé à créer un communiqué.');
+      this.afficherNotification('error', 'Vous n\'êtes pas autorisé à créer un communiqué.');
       return;
     }
     this.popupOuverte = true;
@@ -84,12 +93,16 @@ export class Commun implements OnInit {
           image: c.image?.startsWith('/uploads')
             ? `${this.backendUrl}${c.image}`
             : c.image || '/assets/LOGO.png',
-          liked: false, // initialisation liked
+          liked: false,
         }));
         this.appliquerFiltre();
-        this.isLoaded = true; // tout est chargé, afficher le contenu
+        this.isLoaded = true;
+        // this.afficherNotification('success', 'Communiqués chargés avec succès');
       },
-      error: (err) => console.error('Erreur getCommuniques :', err),
+      error: (err) => {
+        console.error('Erreur getCommuniques :', err);
+        this.afficherNotification('error', 'Erreur lors du chargement des communiqués');
+      },
     });
   }
 
@@ -114,7 +127,7 @@ export class Commun implements OnInit {
 
   ajouterCommunique() {
     if (!this.peutCreer()) {
-      alert('Vous n’êtes pas autorisé à créer un communiqué.');
+      this.afficherNotification('error', 'Vous n\'êtes pas autorisé à créer un communiqué.');
       return;
     }
 
@@ -137,8 +150,12 @@ export class Commun implements OnInit {
       next: () => {
         this.chargerCommuniques();
         this.fermerPopup();
+        this.afficherNotification('success', 'Communiqué créé avec succès');
       },
-      error: (err) => console.error('Erreur ajout communiqué :', err),
+      error: (err) => {
+        console.error('Erreur ajout communiqué :', err);
+        this.afficherNotification('error', 'Erreur lors de la création du communiqué');
+      },
     });
   }
 
@@ -155,8 +172,12 @@ export class Commun implements OnInit {
           this.animatingLike = communique._id!;
           setTimeout(() => (this.animatingLike = null), 800);
           localStorage.setItem(key, 'true');
+          this.afficherNotification('success', 'Communiqué aimé');
         },
-        error: (err) => console.error(err),
+        error: (err) => {
+          console.error(err);
+          this.afficherNotification('error', 'Erreur lors du like');
+        },
       });
     } else {
       this.communiqueService.dislikeCommunique(communique._id).subscribe({
@@ -164,8 +185,12 @@ export class Commun implements OnInit {
           communique.likes = updated.likes;
           communique.liked = false;
           localStorage.removeItem(key);
+          this.afficherNotification('delete', 'Like retiré');
         },
-        error: (err) => console.error(err),
+        error: (err) => {
+          console.error(err);
+          this.afficherNotification('error', 'Erreur lors du retrait du like');
+        },
       });
     }
   }
@@ -178,8 +203,12 @@ export class Commun implements OnInit {
       next: () => {
         this.communiques.splice(index, 1);
         this.appliquerFiltre();
+        this.afficherNotification('delete', 'Communiqué supprimé');
       },
-      error: (err) => console.error('Erreur suppression communiqué :', err),
+      error: (err) => {
+        console.error('Erreur suppression communiqué :', err);
+        this.afficherNotification('error', 'Erreur lors de la suppression');
+      },
     });
   }
 }

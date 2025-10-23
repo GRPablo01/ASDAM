@@ -1,13 +1,12 @@
 // jour2.ts (ou jour2.component.ts)
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Subscription, interval } from 'rxjs';
 import { Match, MatchService } from '../../../services/match.service';
 import { EventService } from '../../../services/event.service';
 import { DatePipe } from '@angular/common';
-
 
 interface EventItem {
   _id?: string;
@@ -39,6 +38,7 @@ function parseHour(h: string): { hour: number; minute: number } {
   providers: [DatePipe]
 })
 export class Jour implements OnInit {
+  private refreshSub?: Subscription;
   constructor(
     private http: HttpClient,
     private matchService: MatchService,
@@ -100,7 +100,14 @@ export class Jour implements OnInit {
     this.updateDays();
     this.loadEvents();
     this.loadMatches();
+
+    // 🔁 Rafraîchissement automatique toutes les 10 secondes
+    this.refreshSub = interval(10000).subscribe(() => {
+      this.loadEvents();
+      this.loadMatches();
+    });
   }
+
 
   // ================= AUTH =================
   private loadUserFromLocalStorage(): void {
