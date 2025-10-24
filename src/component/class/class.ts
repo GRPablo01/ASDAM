@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription, interval } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 interface Equipe {
   equipe: string;
@@ -31,7 +32,7 @@ interface ClassementCategorie {
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
 })
-export class Class implements OnInit {
+export class Class implements OnInit, OnDestroy {
   // ✅ Boutons visibles dans le menu
   equipes: string[] = [
     'U11',
@@ -68,22 +69,39 @@ export class Class implements OnInit {
     'Senior D': ['Départemental 4 - Poule A'],
   };
 
+  private refreshSub?: Subscription; // 👈 subscription pour le rafraîchissement
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-  // Récupérer le dernier choix depuis localStorage
-  const last = localStorage.getItem('lastEquipe');
-  if (last) this.selectedEquipe = last;
+    // Récupérer le dernier choix depuis localStorage
+    const last = localStorage.getItem('lastEquipe');
+    if (last) this.selectedEquipe = last;
 
-  this.getClassements().subscribe({
-    next: (data) => {
-      this.classement = data;
-      console.log('✅ Classements chargés :', data);
-    },
-    error: (err) => console.error('❌ Erreur récupération classement:', err),
-  });
-}
+    // Charger le classement immédiatement et ensuite toutes les 10 secondes
+    this.refreshSub = interval(10000)
+      .pipe(switchMap(() => this.getClassements()))
+      .subscribe({
+        next: (data) => {
+          this.classement = data;
+          console.log('✅ Classements mis à jour :', data);
+        },
+        error: (err) => console.error('❌ Erreur récupération classement:', err),
+      });
 
+    // Charger une première fois immédiatement
+    this.getClassements().subscribe({
+      next: (data) => {
+        this.classement = data;
+        console.log('✅ Classements chargés :', data);
+      },
+      error: (err) => console.error('❌ Erreur récupération classement:', err),
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.refreshSub?.unsubscribe(); // arrêter le rafraîchissement
+  }
 
   // ✅ Récupère tous les classements depuis le backend
   getClassements(): Observable<ClassementCategorie[]> {
@@ -93,7 +111,6 @@ export class Class implements OnInit {
   // ✅ Sélection d’une équipe (groupe)
   selectEquipe(equipe: string): void {
     this.selectedEquipe = equipe;
-    // On peut sauvegarder le dernier choix dans localStorage si tu veux
     localStorage.setItem('lastEquipe', equipe);
   }
 

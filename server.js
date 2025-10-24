@@ -19,9 +19,10 @@ const PORT = 3000;
 // ✅ Middleware CORS (Angular + tests mobiles)
 // ==============================
 app.use(cors({
-  origin: ['http://localhost:4200'], // autorise Angular (tu peux ajouter d'autres origines)
+  origin: ['http://localhost:4200'], // autorise Angular
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-user'], // ajouter x-user
+  credentials: true
 }));
 
 // ==============================
@@ -56,12 +57,12 @@ mongoose.connect('mongodb://127.0.0.1:27017/asdam')
   .catch(err => console.error('❌ Erreur MongoDB :', err));
 
 // ==============================
-// 🧩 Import des contrôleurs et routes
+// 🧩 Import des routes
 // ==============================
 const postController = require('./backend/controller/post.controller');
 
 const userRoutes = require('./backend/routes/User.Routes');
-const authRoutes = require('./backend/routes/User.Routes'); // ⚠️ vérifier si c’est voulu
+const authRoutes = require('./backend/routes/User.Routes'); // vérifier si c’est voulu
 const utilisateurRoutes = require('./backend/routes/utilisateur.Routes');
 const eventRoutes = require('./backend/routes/Events.Routes');
 const matchRoutes = require('./backend/routes/Match.Routes');
@@ -91,7 +92,7 @@ app.use('/api/confirmation', confirmationRoutes);
 app.use('/api/communiques', communiqueRoutes);
 app.use('/api/archives', archiveRoutes);
 app.use('/api/classements', classementRoutes);
-app.use('/api/categorieS', categorieRoutes);
+app.use('/api/categories', categorieRoutes);
 
 // ==============================
 // 📨 Upload média (posts)

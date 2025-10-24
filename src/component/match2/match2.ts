@@ -52,7 +52,7 @@ export class Match2 implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getMatches();
-    this.refreshSubscription = interval(3000).subscribe(() => this.getMatches());
+    this.refreshSubscription = interval(10000).subscribe(() => this.getMatches());
   }
 
   ngOnDestroy() {

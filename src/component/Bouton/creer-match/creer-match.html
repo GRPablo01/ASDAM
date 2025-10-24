@@ -1,4 +1,4 @@
-<!-- ✅ Bouton compact : Créer un match -->
+<!-- ===================== BOUTON CREER MATCH ===================== -->
 <div class="flex justify-center mt-6 px-4 sm:px-6 lg:px-0">
   <button type="button"
           (click)="openModal()"
@@ -16,27 +16,26 @@
   </button>
 </div>
 
-
-<!-- Modal avec overlay animé -->
+<!-- ===================== MODAL CREATION MATCH ===================== -->
 <div *ngIf="showModal"
-  class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-fade-in"
-  (click)="closeModal()">
-  <div
-    class="bg-white/98 rounded-3xl p-6 sm:p-8 max-w-2xl w-full mx-4 shadow-2xl border border-gray-100 animate-scale-in"
-    (click)="$event.stopPropagation()">
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-fade-in"
+     (click)="closeModal()">
 
-    <!-- Header avec animation -->
+  <div class="bg-white/98 rounded-3xl p-6 sm:p-8 max-w-2xl w-full mx-4 shadow-2xl border border-gray-100 animate-scale-in"
+       (click)="$event.stopPropagation()">
+
+    <!-- HEADER -->
     <div class="flex items-center justify-between mb-8 relative">
       <h2 class="text-3xl font-bold bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">
         Créer un match
       </h2>
       <button (click)="closeModal()"
-        class="text-gray-500 hover:text-red-600 text-3xl font-light w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all duration-300 hover:rotate-90">
+              class="text-gray-500 hover:text-red-600 text-3xl font-light w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all duration-300 hover:rotate-90">
         ✕
       </button>
     </div>
 
-    <!-- Prévisualisation améliorée -->
+    <!-- PREVIEW DES EQUIPES -->
     <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 mb-8 animate-fade-in-up">
       <div class="flex items-center justify-center gap-6">
         <!-- Équipe A -->
@@ -58,9 +57,9 @@
         <div class="text-center transform hover:scale-105 transition-transform duration-300">
           <div class="relative">
             <img *ngIf="match.equipeB" [src]="match.logoB"
-              class="h-20 w-20 rounded-full shadow-lg border-4 border-white animate-fade-in" />
+                 class="h-20 w-20 rounded-full shadow-lg border-4 border-white animate-fade-in" />
             <div *ngIf="!match.equipeB"
-              class="h-20 w-20 rounded-full shadow-lg border-4 border-dashed border-gray-300 flex items-center justify-center bg-gray-50">
+                 class="h-20 w-20 rounded-full shadow-lg border-4 border-dashed border-gray-300 flex items-center justify-center bg-gray-50">
               <i class="fas fa-question text-gray-400 text-2xl"></i>
             </div>
           </div>
@@ -71,40 +70,53 @@
       </div>
     </div>
 
-    <!-- Formulaire amélioré -->
+    <!-- FORMULAIRE CREATION MATCH -->
     <form (ngSubmit)="creerMatch()" class="space-y-6">
-      <!-- Grid layout pour les champs -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Équipe Adverse -->
         <div class="relative">
           <label class="block text-sm font-semibold text-gray-700 mb-2">Équipe Adverse</label>
           <select [(ngModel)]="match.equipeB" name="equipeB" required (ngModelChange)="updateLogos()"
-            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:ring-4 focus:ring-red-200 transition-all duration-300 bg-white">
+                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:ring-4 focus:ring-red-200 transition-all duration-300 bg-white">
             <option value="" disabled selected>-- Choisir une équipe --</option>
             <option *ngFor="let club of equipesAdverses" [value]="club" class="py-2">{{ club }}</option>
           </select>
         </div>
 
-        <!-- Date et heure -->
+        <!-- Date -->
         <div class="relative">
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Date et heure</label>
-          <input type="datetime-local" [(ngModel)]="match.date" name="date" required
-            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:ring-4 focus:ring-red-200 transition-all duration-300" />
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Date</label>
+          <input type="date" [(ngModel)]="match.date" name="date" required
+                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:ring-4 focus:ring-red-200 transition-all duration-300" />
         </div>
 
+        <!-- Heure de début -->
+        <div class="relative">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Heure de début</label>
+          <input type="time" [(ngModel)]="match.heureDebut" name="hourStart"
+                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:ring-4 focus:ring-red-200 transition-all duration-300" />
+        </div>
+
+        <!-- Heure de fin -->
+        <div class="relative">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Heure de fin</label>
+          <input type="time" [(ngModel)]="match.heureFin" name="hourEnd"
+                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:ring-4 focus:ring-red-200 transition-all duration-300" />
+        </div>
+
+        
         <!-- Lieu -->
         <div class="relative">
           <label class="block text-sm font-semibold text-gray-700 mb-2">Lieu</label>
-          <input [(ngModel)]="match.lieu" name="lieu" required
-            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:ring-4 focus:ring-red-200 transition-all duration-300"
-            placeholder="Stade, Ville..." />
+          <input [(ngModel)]="match.lieu" name="lieu" required placeholder="Stade, Ville..."
+                 class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:ring-4 focus:ring-red-200 transition-all duration-300" />
         </div>
 
         <!-- Catégorie -->
         <div class="relative">
           <label class="block text-sm font-semibold text-gray-700 mb-2">Catégorie</label>
           <select [(ngModel)]="match.categorie" name="categorie" required
-            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:ring-4 focus:ring-red-200 transition-all duration-300 bg-white">
+                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:ring-4 focus:ring-red-200 transition-all duration-300 bg-white">
             <option value="" disabled selected>-- Sélectionner --</option>
             <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
           </select>
@@ -116,39 +128,36 @@
         <label class="block text-sm font-semibold text-gray-700 mb-2">Type de match</label>
         <div class="flex gap-3 flex-wrap">
           <button *ngFor="let type of typesMatch" type="button" (click)="match.typeMatch = type"
-            [class]="'px-4 py-2 rounded-lg border-2 transition-all duration-300 ' + 
-                      (match.typeMatch === type ? 'border-red-500 bg-red-50 text-red-700' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50')">
+                  [class]="'px-4 py-2 rounded-lg border-2 transition-all duration-300 ' + 
+                            (match.typeMatch === type ? 'border-red-500 bg-red-50 text-red-700' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50')">
             {{ type }}
           </button>
-
         </div>
       </div>
 
-      <!-- Messages améliorés -->
+      <!-- Messages succès / erreur -->
       <div *ngIf="successMsg" class="animate-slide-in">
-        <div
-          class="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 rounded-lg p-4 flex items-center gap-3">
+        <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 rounded-lg p-4 flex items-center gap-3">
           <i class="fas fa-check-circle text-green-500 text-xl"></i>
           <span class="text-green-800 font-medium">{{ successMsg }}</span>
         </div>
       </div>
 
       <div *ngIf="errorMsg" class="animate-slide-in">
-        <div
-          class="bg-gradient-to-r from-red-50 to-rose-50 border-l-4 border-red-500 rounded-lg p-4 flex items-center gap-3">
+        <div class="bg-gradient-to-r from-red-50 to-rose-50 border-l-4 border-red-500 rounded-lg p-4 flex items-center gap-3">
           <i class="fas fa-exclamation-circle text-red-500 text-xl"></i>
           <span class="text-red-800 font-medium">{{ errorMsg }}</span>
         </div>
       </div>
 
-      <!-- Actions améliorées -->
+      <!-- Boutons d'action -->
       <div class="flex justify-end gap-4 mt-8">
         <button type="button" (click)="closeModal()"
-          class="px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold transition-all duration-300 hover:scale-105">
+                class="px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold transition-all duration-300 hover:scale-105">
           Annuler
         </button>
         <button type="submit" [disabled]="loading"
-          class="px-8 py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-700 text-white font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden">
+                class="px-8 py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-700 text-white font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden">
           <span [class.invisible]="loading">{{ loading ? 'Création...' : 'Créer le match' }}</span>
           <div *ngIf="loading" class="absolute inset-0 flex items-center justify-center">
             <i class="fas fa-spinner fa-spin text-xl"></i>
@@ -159,82 +168,21 @@
   </div>
 </div>
 
+<!-- ===================== STYLES & ANIMATIONS ===================== -->
 <style>
   /* Animations */
-  @keyframes fade-in {
-    0% {
-      opacity: 0;
-    }
+  @keyframes fade-in { 0% { opacity:0; } 100% { opacity:1; } }
+  @keyframes scale-in { 0% { opacity:0; transform:scale(0.9);} 100% { opacity:1; transform:scale(1); } }
+  @keyframes slide-in { 0% { opacity:0; transform:translateX(-20px);} 100% { opacity:1; transform:translateX(0);} }
+  @keyframes fade-in-up { 0% { opacity:0; transform:translateY(30px);} 100% { opacity:1; transform:translateY(0);} }
 
-    100% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes scale-in {
-    0% {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @keyframes slide-in {
-    0% {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes fade-in-up {
-    0% {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.3s ease-out;
-  }
-
-  .animate-scale-in {
-    animation: scale-in 0.3s ease-out;
-  }
-
-  .animate-slide-in {
-    animation: slide-in 0.4s ease-out;
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 0.5s ease-out;
-  }
+  .animate-fade-in { animation: fade-in 0.3s ease-out; }
+  .animate-scale-in { animation: scale-in 0.3s ease-out; }
+  .animate-slide-in { animation: slide-in 0.4s ease-out; }
+  .animate-fade-in-up { animation: fade-in-up 0.5s ease-out; }
 
   /* Scrollbar personnalisée */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, var(--Rouge), var(--Bleu));
-    border-radius: 10px;
-  }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background:#f1f1f1; border-radius:10px; }
+  ::-webkit-scrollbar-thumb { background:linear-gradient(to bottom, var(--Rouge), var(--Bleu)); border-radius:10px; }
 </style>

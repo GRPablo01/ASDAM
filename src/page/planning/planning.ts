@@ -20,7 +20,7 @@ export class Planning implements OnInit {
 
   ngOnInit(): void {
     // ✅ Titre dynamique
-    this.titleService.setTitle('TEAM ASDAM | Acceuil');
+    this.titleService.setTitle('TEAM ASDAM | Planning');
 
     // Simuler un préchargement ou attendre les données nécessaires
     setTimeout(() => {

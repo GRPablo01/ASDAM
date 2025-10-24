@@ -31,6 +31,7 @@ export class MMS implements OnInit, OnDestroy {
 
   private searchSubject = new Subject<string>();
   private subscriptions: Subscription[] = [];
+  private refreshIntervalId: any; // 👈 interval pour rafraîchir toutes les 10s
   isMobileScreen = window.innerWidth < 768; // < md
 
   constructor(private chatService: ChatService) {}
@@ -38,13 +39,22 @@ export class MMS implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadUser();
     this.loadContacts();
-    this.restoreLastContact(); // ✅ Restaurer la dernière conversation ouverte
+    this.restoreLastContact(); // Restaurer la dernière conversation ouverte
     this.setupSearch();
     this.listenNewMessages();
+
+    // 🔄 Rafraîchir automatiquement toutes les 10 secondes
+    this.refreshIntervalId = setInterval(() => {
+      this.loadContacts();
+      if (this.selectedContact) {
+        this.loadConversation(this.selectedContact);
+      }
+    }, 10000); // 10 secondes
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe());
+    if (this.refreshIntervalId) clearInterval(this.refreshIntervalId); // stop interval
   }
 
   @HostListener('window:resize')
@@ -102,7 +112,7 @@ export class MMS implements OnInit, OnDestroy {
 
   selectContact(contact: Contact) {
     this.selectedContact = contact;
-    localStorage.setItem(`lastContact_${this.userId}`, contact._id); // ✅ Sauvegarder la conversation
+    localStorage.setItem(`lastContact_${this.userId}`, contact._id);
     this.loadConversation(contact);
   }
 
@@ -144,7 +154,7 @@ export class MMS implements OnInit, OnDestroy {
           senderName: m.senderId === this.userId ? `${this.userPrenom} ${this.userNom}` : `${contact.firstName} ${contact.lastName}`,
           timestamp: m.timestamp ? new Date(m.timestamp) : new Date()
         }));
-        this.removeOldMessages(); // ✅ Supprimer les messages > 48h
+        this.removeOldMessages();
       }
     });
   }
@@ -165,7 +175,7 @@ export class MMS implements OnInit, OnDestroy {
         this.messages.push(sent);
         this.chatService.emitNewMessage(sent);
         this.isSending = false;
-        this.removeOldMessages(); // ✅ Toujours nettoyer les anciens messages
+        this.removeOldMessages();
       },
       error: () => { this.isSending = false; alert("Erreur d'envoi"); }
     });
@@ -181,13 +191,13 @@ export class MMS implements OnInit, OnDestroy {
          (msg.senderId === this.userId && msg.receiverId === this.selectedContact?._id))) {
       if (!msg.timestamp) msg.timestamp = new Date();
       this.messages.push(msg);
-      this.removeOldMessages(); // ✅ Nettoyage des messages > 48h
+      this.removeOldMessages();
     }
   }
 
   private removeOldMessages() {
     const now = new Date().getTime();
-    const limit = 48 * 60 * 60 * 1000; // 48h en ms
+    const limit = 48 * 60 * 60 * 1000; // 48h
     this.messages = this.messages.filter(m => {
       const ts = new Date(m.timestamp ?? 0).getTime();
       return now - ts <= limit;

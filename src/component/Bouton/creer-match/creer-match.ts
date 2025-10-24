@@ -99,29 +99,36 @@ export class CreerMatch implements OnInit, OnDestroy {
       this.errorMsg = 'Utilisateur non connecté';
       return;
     }
-
+  
     if (!this.match.equipeA || !this.match.equipeB || !this.match.date || !this.match.lieu || !this.match.categorie) {
       this.errorMsg = 'Tous les champs sont obligatoires';
       return;
     }
-
+  
+    // Convertir la date en ISO
     const dateISO = new Date(this.match.date).toISOString();
     if (isNaN(Date.parse(dateISO))) {
       this.errorMsg = 'La date est invalide';
       return;
     }
-
+  
     this.loading = true;
     this.successMsg = '';
     this.errorMsg = '';
     this.updateLogos();
-
-    const matchToSend = { ...this.match, date: dateISO };
+  
+    // → Mapper hourStart/hourEnd vers heureDebut/heureFin
+    const matchToSend = {
+      ...this.match,
+      date: dateISO,
+      heureDebut: this.match.heureDebut || '',  // mapping correct
+      heureFin: this.match.heureFin || ''       // mapping correct
+    };
+  
     console.log('Match à envoyer au backend :', matchToSend);
-
-    // ✅ Correction TS2345 : utiliser HttpHeaders
+  
     const headers = new HttpHeaders().set('x-user', JSON.stringify(this.user));
-
+  
     this.matchService.creerMatch(matchToSend, headers).subscribe({
       next: (res) => {
         console.log('Réponse backend création match :', res);
@@ -137,6 +144,7 @@ export class CreerMatch implements OnInit, OnDestroy {
       }
     });
   }
+  
 
   // ----------------- LOGOS -----------------
   updateLogos(): void {
@@ -167,11 +175,22 @@ export class CreerMatch implements OnInit, OnDestroy {
     this.resetTimer();
   }
 
-  private initMatch(): Match & { categorie: string; logoA?: string; logoB?: string; duree?: number; typeMatch: TypeMatch } {
+  private initMatch(): Match & {
+    categorie: string;
+    logoA?: string;
+    logoB?: string;
+    duree?: number;
+    typeMatch: TypeMatch;
+    hourStart?: string; // ajout heure de début pour le formulaire
+    hourEnd?: string;   // ajout heure de fin pour le formulaire
+    opponent?: string;
+  } {
     return {
       equipeA: 'ASDAM',
       equipeB: '',
       date: '',
+      hourStart: '',  // heure de début
+      hourEnd: '',    // heure de fin
       lieu: '',
       categorie: '',
       typeMatch: 'Championnat',
@@ -179,7 +198,9 @@ export class CreerMatch implements OnInit, OnDestroy {
       logoB: '',
       duree: 90,
       scoreA: 0,
-      scoreB: 0
+      scoreB: 0,
+      opponent: '',
     };
   }
+  
 }

@@ -8,7 +8,9 @@ export interface Match {
   _id?: string;
   equipeA: string;
   equipeB: string;
-  date: string;
+  date: string;         // date complète ISO
+  heureDebut?: string; // nouvelle propriété : heure de début "HH:mm"
+  heureFin?: string;    // nouvelle propriété : heure de fin "HH:mm"
   lieu: string;
   categorie: string;
   typeMatch?: 'Championnat' | 'Tournoi' | 'Amical' | 'Coup';
@@ -19,9 +21,9 @@ export interface Match {
   arbitre?: string;
   stade?: string;
   status?: 'A venir' | 'En directe' | 'Terminer';
-  duree?: number;
+  duree?: number;       // durée en minutes
   minute?: number;
-  
+  opponent: string;   
 }
 
 @Injectable({
@@ -52,15 +54,12 @@ export class MatchService {
   }
 
   // ------------------- MÉTHODE GÉNÉRIQUE POUR MISE À JOUR -------------------
-  // Permet de mettre à jour n'importe quel champ d'un match
   updateMatch(id: string, payload: Partial<Match>, headers?: HttpHeaders): Observable<Match> {
     return this.http.patch<Match>(`${this.apiUrl}/${id}`, payload, { headers });
   }
-
 
   // ------------------- SUPPRIMER UN MATCH -------------------
   deleteMatch(id: string, headers?: HttpHeaders): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers });
   }
-
 }

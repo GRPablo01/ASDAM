@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2, Input } from '@ang
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { catchError, throwError } from 'rxjs';
+import { catchError, throwError, interval, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { UtilisateurService, User } from '../../../services/userService/utilisateur.Service';
 import { MatchService, Match } from '../../../services/match.service';
@@ -58,7 +58,7 @@ interface Joueur {
   categorie?: string;
   poste?: string;
   initiales?: string;
-  equipe:string;
+  equipe: string;
 }
 
 interface Equipe {
@@ -99,8 +99,10 @@ interface ClassementCategorie {
   styleUrls: ['./dash.css']
 })
 export class Dash implements OnInit {
-
+  // ===== Navigation =====
   selectedSection: string = 'match';
+  navItems: any[] = [];
+  notification: { type: 'success' | 'error'; message: string } | null = null;
 
   // ===== MATCHS =====
   matches: Match[] = [];
@@ -121,6 +123,7 @@ export class Dash implements OnInit {
   errorPosts = '';
   successPosts = '';
   searchQuery = '';
+  private postsRefreshSub?: Subscription;
 
   // ===== JOUEURS =====
   @Input() joueurs: Joueur[] = [];
@@ -158,8 +161,8 @@ export class Dash implements OnInit {
   categories: string[] = ['U11','U13','U15','U18','U23','Senior B'];
   selectedCategorie: string | null = null;
   isSaving = false;
-
   private apiClassementUrl = 'http://localhost:3000/api/classements';
+  private classementRefreshSub?: Subscription;
 
   private equipeMapping: { [key: string]: string[] } = {
     U11: ['U11 Automne POULE 04','U11 Automne CRIT U10 POULE 1'],
@@ -172,11 +175,7 @@ export class Dash implements OnInit {
     'Senior D': ['Départemental 4 - Poule A'],
   };
 
-  // ===== NAVIGATION =====
-  navItems: any[] = [];
-  notification: { type: 'success' | 'error', message: string } | null = null;
-  animatingLike: string | null = null;
-
+  // ===== REF pour INPUTS =====
   @ViewChild('mediaInput') mediaInput!: ElementRef<HTMLInputElement>;
   @ViewChild('editMediaInput') editMediaInput!: ElementRef<HTMLInputElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -193,11 +192,19 @@ export class Dash implements OnInit {
   ngOnInit(): void {
     this.loadCurrentUser();
     this.setupNavItems();
+
     const lastSection = localStorage.getItem('lastSection');
     if (lastSection) this.selectedSection = lastSection;
+
     this.setSection(this.selectedSection);
   }
 
+  ngOnDestroy(): void {
+    this.postsRefreshSub?.unsubscribe();
+    this.classementRefreshSub?.unsubscribe();
+  }
+
+  // ===================== UTILISATEURS =====================
   private loadCurrentUser() {
     const storedUser = localStorage.getItem('utilisateur');
     if (!storedUser) return;
@@ -215,7 +222,7 @@ export class Dash implements OnInit {
     }
   }
 
-  // ===================== NAV ITEMS =====================
+  // ===================== NAVIGATION =====================
   setupNavItems() {
     const allItems = [
       { key:'match', label:'Matchs', icon:'fas fa-futbol' },
@@ -418,5 +425,4 @@ export class Dash implements OnInit {
 
   // ===================== UTILS =====================
   formatMediaUrl(url?:string){ return url?.startsWith('http')?url:`http://localhost:3000/uploads/${url}`; }
-
 }

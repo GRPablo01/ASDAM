@@ -15,7 +15,9 @@ exports.creerMatch = async (req, res) => {
       logoA,
       logoB,
       arbitre,
-      stade
+      stade,
+      heureDebut,
+      heureFin
     } = req.body;
 
     // Vérification des champs obligatoires
@@ -38,7 +40,9 @@ exports.creerMatch = async (req, res) => {
       scoreA: 0,
       scoreB: 0,
       status: 'scheduled',
-      duree: 90
+      duree: 90,
+      heureDebut: heureDebut || '', // format "HH:mm"
+      heureFin: heureFin || ''      // format "HH:mm"
     });
 
     const savedMatch = await match.save();
@@ -65,7 +69,7 @@ exports.getAllMatches = async (req, res) => {
 // Route PATCH /matches/:id
 exports.updateMatch = async (req, res) => {
   try {
-    const { scoreA, scoreB, status, minute } = req.body;
+    const { scoreA, scoreB, status, minute, heureDebut, heureFin } = req.body;
     const update = {};
 
     // Mise à jour conditionnelle : ne pas écraser les champs non fournis
@@ -73,6 +77,8 @@ exports.updateMatch = async (req, res) => {
     if (typeof scoreB !== 'undefined') update.scoreB = Number(scoreB);
     if (typeof status !== 'undefined') update.status = status;
     if (typeof minute !== 'undefined') update.minute = Number(minute);
+    if (typeof heureDebut !== 'undefined') update.heureDebut = heureDebut;
+    if (typeof heureFin !== 'undefined') update.heureFin = heureFin;
 
     if (Object.keys(update).length === 0) {
       return res.status(400).json({ message: 'Aucun champ valide fourni pour mise à jour' });

@@ -16,7 +16,9 @@ const matchSchema = new mongoose.Schema({
   stade: { type: String, default: '' },
   status: { type: String, enum: ['scheduled','live','finished'], default: 'scheduled' },
   duree: { type: Number, default: 90 },
-  minute: { type: Number, default: 0 }
+  minute: { type: Number, default: 0 },
+  heureDebut: { type: String, default: '' }, // format "HH:mm"
+  heureFin: { type: String, default: '' }    // format "HH:mm"
 });
 
 module.exports = mongoose.model('Match', matchSchema);
