@@ -1,10 +1,9 @@
-// routes/match.routes.js
 const express = require('express');
 const router = express.Router();
-const matchController = require('../controller/match.Controller'); // <-- adapte si besoin
+const matchController = require('../controller/match.Controller');
+const Match = require('../../src/Schema/Match'); // 🔹 Bien importer le modèle
 
-// Middleware pour vérifier le rôle coach
-
+// Middleware coach
 const verifyCoach = (req, res, next) => {
   if (!req.user || req.user.role !== 'coach') {
     return res.status(403).json({ message: 'Accès refusé : uniquement les coachs' });
@@ -12,6 +11,7 @@ const verifyCoach = (req, res, next) => {
   next();
 };
 
+// Parsing user header
 router.use((req, res, next) => {
   const userHeader = req.headers['x-user'];
   if (userHeader) {
@@ -24,7 +24,6 @@ router.use((req, res, next) => {
   next();
 });
 
-
 // Créer un match
 router.post('/', verifyCoach, matchController.creerMatch);
 
@@ -32,24 +31,18 @@ router.post('/', verifyCoach, matchController.creerMatch);
 router.get('/', matchController.getAllMatches);
 
 // Mettre à jour un match (scores, statut, minute)
-router.patch('/:id', verifyCoach, matchController.updateMatch);
-
-// routes/match.routes.js
-router.patch('/update-score/:id', async (req, res) => {
+// Ici tu peux envoyer un payload comme { scoreA, scoreB }
+router.patch('/:id', verifyCoach, async (req, res) => {
   const { id } = req.params;
-  const { scoreA, scoreB } = req.body;
+  const payload = req.body;
 
   try {
-    const updatedMatch = await Match.findByIdAndUpdate(
-      id,
-      { scoreA, scoreB },
-      { new: true } // 🔹 Retourne l'objet mis à jour
-    );
+    const updatedMatch = await Match.findByIdAndUpdate(id, payload, { new: true });
     res.json(updatedMatch);
   } catch (err) {
-    res.status(500).json({ message: 'Erreur mise à jour score', error: err });
+    console.error('Erreur update match:', err);
+    res.status(500).json({ message: 'Erreur mise à jour match', error: err });
   }
 });
-
 
 module.exports = router;

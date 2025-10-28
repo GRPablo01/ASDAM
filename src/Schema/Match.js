@@ -14,7 +14,7 @@ const matchSchema = new mongoose.Schema({
   logoB: { type: String, default: '' },
   arbitre: { type: String, default: '' },
   stade: { type: String, default: '' },
-  status: { type: String, enum: ['scheduled','live','finished'], default: 'scheduled' },
+  status: { type: String, enum: ['A venir','En directe','Terminer'], default: 'A venir' }, // ✅ modifié en français
   duree: { type: Number, default: 90 },
   minute: { type: Number, default: 0 },
   heureDebut: { type: String, default: '' }, // format "HH:mm"

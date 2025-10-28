@@ -1,6 +1,6 @@
 <app-icon></app-icon>
 
-<!-- ====== Header MODE CLAIR UI/UX ====== -->
+<!-- ====== Header MODE CLAIR / SOMBRE UI/UX ====== -->
 <header
   class="sticky top-0 z-50 w-full backdrop-blur-xl bg-[var(--Blanc)]/80 border-b border-[var(--Bleu-Clair)]/30 shadow-md">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -8,7 +8,7 @@
 
       <!-- Burger mobile -->
       <button type="button"
-        class="lg:hidden p-3 rounded-xl text-[var(--Black)]/70 hover:text-[var(--Or)] hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300"
+        class="lg:hidden p-3 rounded-xl text-[var(--Black)]/70  hover:text-[var(--Or)] hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300"
         aria-label="Ouvrir le menu" (click)="toggleMobileMenu()">
         <i class="fas fa-bars text-xl"></i>
       </button>
@@ -66,7 +66,7 @@
       </a>
 
       <!-- Nav droite desktop -->
-      <nav class="hidden lg:flex lg:gap-2">
+      <nav class="hidden lg:flex lg:gap-2 items-center">
         <div *ngFor="let menu of mobileMenus.slice(3,6)" class="relative flex items-center group">
           <a [routerLink]="menu.link || menu.items[0]?.link"
             class="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold text-[var(--Black)]/80 hover:text-[var(--Bleu-Foncé)] hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300 relative">
@@ -115,10 +115,16 @@
             </a>
           </div>
         </div>
+        <!-- Bouton bascule thème (desktop) -->
+        <button (click)="toggleTheme()"
+                class="ml-2 p-3 rounded-xl text-[var(--Black)]/70 hover:text-[var(--Or)] hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300"
+                title="Changer le thème">
+          <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+        </button>
       </nav>
 
       <!-- Profil mobile -->
-      <a routerLink="/dashboardC/profileC" class="lg:hidden ml-auto relative group"
+      <a routerLink="/dashboard" class="lg:hidden ml-auto relative group"
         title="Utilisateur {{ connectedUser?.initiales }}">
         <div
           class="w-10 h-10 rounded-full bg-[var(--Rouge-Clair)] text-white font-bold text-lg flex items-center justify-center shadow-md transition-all duration-300 ease-in-out hover:bg-[var(--Rouge)] hover:scale-110 hover:shadow-lg">
@@ -134,7 +140,7 @@
     class="-mb-150 -mt-5 fixed inset-0 z-[1200] bg-[var(--Blanc)] backdrop-blur-md flex flex-col animate-fade-in-up overflow-auto">
 
     <!-- Header du menu -->
-    <div class=" flex items-center justify-between p-6 border-b border-[var(--Bleu-Clair)]/30">
+    <div class="flex items-center justify-between p-6 border-b border-[var(--Bleu-Clair)]/30">
       <h2 class="text-2xl font-bold text-[var(--Black)] tracking-wide">Menu</h2>
       <button (click)="closeMobileMenu()"
         class="p-3 rounded-xl text-[var(--Black)]/60 hover:text-[var(--Or)] transition-all">
@@ -161,9 +167,15 @@
         <!-- Titre -->
         <span class="flex-1">{{ menu.title }}</span>
       </a>
+
+      <!-- Bouton bascule thème (mobile) -->
+      <button (click)="toggleTheme()"
+              class="mt-4 p-3 rounded-xl text-[var(--Black)]/70 hover:text-[var(--Or)] hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300 flex items-center justify-center gap-2">
+        <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+        <span>Changer le thème</span>
+      </button>
     </div>
   </div>
-
 </header>
 
 <!-- ====== Styles ====== -->
@@ -173,7 +185,6 @@
       opacity: 0;
       transform: translateY(20px) scale(0.95);
     }
-
     100% {
       opacity: 1;
       transform: translateY(0) scale(1);

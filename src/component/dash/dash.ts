@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { catchError, throwError, interval, Subscription } from 'rxjs';
+import { catchError, throwError, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { UtilisateurService, User } from '../../../services/userService/utilisateur.Service';
 import { MatchService, Match } from '../../../services/match.service';
@@ -11,6 +11,7 @@ import { CreerConvoque } from '../Bouton/creer-convoque/creer-convoque';
 import { CreerEvent } from '../Bouton/creer-event/creer-event';
 import { CreerMatch } from '../Bouton/creer-match/creer-match';
 import { CreerPost } from '../Bouton/creer-post/creer-post';
+import { MatchVue } from '../match-vue/match-vue';
 
 // ===================== Interfaces =====================
 interface Comment {
@@ -93,12 +94,13 @@ interface ClassementCategorie {
     CreerConvoque,
     CreerEvent,
     CreerMatch,
-    CreerPost
+    CreerPost,
+    MatchVue
   ],
   templateUrl: './dash.html',
   styleUrls: ['./dash.css']
 })
-export class Dash implements OnInit {
+export class Dash implements OnInit, OnDestroy {
   // ===== Navigation =====
   selectedSection: string = 'match';
   navItems: any[] = [];
@@ -133,26 +135,6 @@ export class Dash implements OnInit {
   currentUser: LocalUser | null = null;
   userRole: string | null = null;
 
-  // ===== MODALS POST =====
-  newPostContent = '';
-  newPostMedia: File | null = null;
-  newPostMediaPreview: string | null = null;
-  loading = false;
-  showCreateModal = false;
-
-  editingPost: Post | null = null;
-  editingContent = '';
-  editingMedia: File | null = null;
-  editingMediaPreview: string | null = null;
-  showEditModal = false;
-
-  selectedPost: Post | null = null;
-  selectedPostComments: Comment[] = [];
-  showCommentsModal = false;
-  commentsPage = 1;
-  commentsPerPage = 4;
-  totalCommentPages = 1;
-
   // ===== CLASSEMENT =====
   equipes: string[] = ['U11','U13','U15','U18','U23','Senior A','Senior B','Senior D'];
   selectedEquipe: string | null = 'Senior A';
@@ -179,6 +161,9 @@ export class Dash implements OnInit {
   @ViewChild('mediaInput') mediaInput!: ElementRef<HTMLInputElement>;
   @ViewChild('editMediaInput') editMediaInput!: ElementRef<HTMLInputElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
+  // ===== USER TEAM =====
+  userTeam: string = 'MonEquipe'; // à définir au moment de la connexion
 
   constructor(
     private matchService: MatchService,
@@ -228,6 +213,7 @@ export class Dash implements OnInit {
       { key:'match', label:'Matchs', icon:'fas fa-futbol' },
       { key:'actus', label:'Actus', icon:'fas fa-newspaper' },
       { key:'joueurs', label:'Mes Joueurs', icon:'fas fa-users' },
+      { key:'mon match', label:'Mon Match', icon:'fas fa-futbol' },
       { key:'communiquer', label:'Communiquer', icon:'fas fa-bullhorn' },
       { key:'bouton', label:'Création', icon:'fas fa-plus' },
       { key:'classement', label:'Classement', icon:'fas fa-trophy' },
@@ -254,7 +240,11 @@ export class Dash implements OnInit {
         } else this.matches = data;
         this.loadingMatches = false;
       },
-      error: err => { this.errorMatches = 'Erreur chargement matchs.'; console.error(err); this.loadingMatches = false; }
+      error: err => { 
+        this.errorMatches = 'Erreur chargement matchs.'; 
+        console.error(err); 
+        this.loadingMatches = false; 
+      }
     });
   }
 
@@ -266,8 +256,16 @@ export class Dash implements OnInit {
         this.successMatches = 'Match supprimé avec succès.';
         setTimeout(() => this.successMatches = '',3000);
       },
-      error: err => { this.errorMatches = 'Erreur suppression match.'; console.error(err); setTimeout(() => this.errorMatches='',3000); }
+      error: err => { 
+        this.errorMatches = 'Erreur suppression match.'; 
+        console.error(err); 
+        setTimeout(() => this.errorMatches='',3000); 
+      }
     });
+  }
+
+  getMatchesForUserTeam(): Match[] {
+    return this.matches.filter(match => match.equipeA === this.userTeam || match.equipeB === this.userTeam);
   }
 
   // ===================== COMMUNIQUÉS =====================
@@ -282,7 +280,11 @@ export class Dash implements OnInit {
   supprimerCommunique(id?: string): void {
     if (!id || !confirm('Voulez-vous vraiment supprimer ce communiqué ?')) return;
     this.communiqueService.supprimerCommunique(id).subscribe({
-      next: () => { this.communiques = this.communiques.filter(c => c._id !== id); this.successCommuniques='Communiqué supprimé'; setTimeout(()=>this.successCommuniques='',3000); },
+      next: () => { 
+        this.communiques = this.communiques.filter(c => c._id !== id); 
+        this.successCommuniques='Communiqué supprimé'; 
+        setTimeout(()=>this.successCommuniques='',3000); 
+      },
       error: err => { console.error(err); this.errorCommuniques='Erreur suppression communiqué'; setTimeout(()=>this.errorCommuniques='',3000); }
     });
   }
@@ -315,8 +317,15 @@ export class Dash implements OnInit {
   deletePost(post: Post, index: number) {
     if (!post._id || !confirm('Voulez-vous vraiment supprimer ce post ?')) return;
     this.http.delete<void>(`http://localhost:3000/api/posts/${post._id}`).subscribe({
-      next: () => { this.posts.splice(index,1); this.filterPosts(); this.showNotification('success','Post supprimé 🗑️'); },
-      error: err => { console.error(err); this.showNotification('error','Erreur suppression post ❌'); }
+      next: () => { 
+        this.posts.splice(index,1); 
+        this.filterPosts(); 
+        this.showNotification('success','Post supprimé 🗑️'); 
+      },
+      error: err => { 
+        console.error(err); 
+        this.showNotification('error','Erreur suppression post ❌'); 
+      }
     });
   }
 
@@ -425,4 +434,16 @@ export class Dash implements OnInit {
 
   // ===================== UTILS =====================
   formatMediaUrl(url?:string){ return url?.startsWith('http')?url:`http://localhost:3000/uploads/${url}`; }
+
+  get finishedMatches(): Match[] {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Met la date à minuit pour comparer uniquement les jours
+    return this.matches
+      ? this.matches.filter(m => new Date(m.date) < today)
+      : [];
+  }
+  
+  
+
+
 }

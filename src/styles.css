@@ -23,5 +23,30 @@
     --text-color: var(--Black);
     --card-color: var(--Gris);
 
-    --Or:#a28a03;
+    --Or: #a28a03;
+}
+
+/* Thème sombre */
+[data-theme="dark"] {
+    --Blanc: #1e1e1e;
+    --Black: #ffffff;
+    --Gris: #2c2c2c;
+
+    --Bleu-Foncé: #0d0d4a;
+    --Bleu: #141470;
+    --Bleu-Clair: #1a1acd;
+
+    --Rouge-Foncé: #8b0000;
+    --Rouge: #b22222;
+    --Rouge-Clair: #ff4c4c;
+    --Rouge-Clair2: #ff7b7b;
+
+    --Vert: #3a8c00;
+    --Vert--Foncé: #152e00;
+
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-color: #1f1f1f;
+
+    --Or: #d4af37;
 }

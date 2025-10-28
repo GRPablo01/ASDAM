@@ -46,40 +46,50 @@
         </div>
       </section>
   
-      <!-- ........................... MATCHS ........................... -->
-      <section *ngIf="selectedSection==='match'" class="animate-fadeIn">
-        <h2 class="text-2xl font-bold mb-6 text-[var(--Rouge)]">Matchs</h2>
-  
-        <div *ngIf="loadingMatches" class="text-[var(--Gris)]/30 italic text-sm">Chargement…</div>
-  
-        <div *ngIf="!loadingMatches && matches.length" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          <article *ngFor="let match of matches" class="group relative bg-[var(--Blanc)] rounded-xl border-2 border-[var(--Rouge)]
-                   hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 p-5">
-            <div class="flex items-start justify-between mb-3">
-              <h3 class="font-semibold text-gray-900">{{ match.equipeA }} <span class="text-gray-400">vs</span> {{
-                match.equipeB }}</h3>
-              <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{{ match.categorie }}</span>
-            </div>
-            <ul class="space-y-1 text-sm text-gray-600">
-              <li><strong>Date :</strong> {{ match.date | date:'dd/MM/yyyy' }}</li>
-              <li><strong>Lieu :</strong> {{ match.lieu }}</li>
-              <li><strong>Type :</strong> {{ match.typeMatch || 'Non précisé' }}</li>
-            </ul>
-            <div class="mt-4 text-center">
-              <span class="text-2xl font-extrabold text-[var(--Rouge)]">{{ match.scoreA ?? '-' }} – {{ match.scoreB ?? '-'
-                }}</span>
-            </div>
-            <button (click)="supprimerMatch(match._id)" aria-label="Supprimer le match" class="absolute top-4 right-4 w-8 h-8 grid place-content-center
+<!-- ........................... MATCHS ........................... -->
+<section *ngIf="selectedSection==='match'" class="animate-fadeIn">
+  <h2 class="text-2xl font-bold mb-6 text-[var(--Rouge)]">Matchs</h2>
+
+  <!-- Indicateur de chargement -->
+  <div *ngIf="loadingMatches" class="text-[var(--Gris)]/30 italic text-sm">Chargement…</div>
+
+  <!-- Liste des matchs terminés (date déjà passée) -->
+  <div *ngIf="!loadingMatches && finishedMatches.length" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+    <article *ngFor="let match of finishedMatches"
+             class="group relative bg-[var(--Blanc)] rounded-xl border-2 border-[var(--Rouge)]
+                    hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 p-5">
+      <div class="flex items-start justify-between mb-3">
+        <h3 class="font-semibold text-gray-900">
+          {{ match.equipeA }} <span class="text-gray-400">vs</span> {{ match.equipeB }}
+        </h3>
+        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{{ match.categorie }}</span>
+      </div>
+      <ul class="space-y-1 text-sm text-gray-600">
+        <li><strong>Date :</strong> {{ match.date | date:'dd/MM/yyyy' }}</li>
+        <li><strong>Lieu :</strong> {{ match.lieu }}</li>
+        <li><strong>Type :</strong> {{ match.typeMatch || 'Non précisé' }}</li>
+      </ul>
+      <div class="mt-4 text-center">
+        <span class="text-2xl font-extrabold text-[var(--Rouge)]">{{ match.scoreA ?? '-' }} – {{ match.scoreB ?? '-' }}</span>
+      </div>
+      <button (click)="supprimerMatch(match._id)" aria-label="Supprimer le match"
+              class="absolute top-4 right-4 w-8 h-8 grid place-content-center
                      bg-rose-100 text-rose-600 rounded-full opacity-0 group-hover:opacity-100
                      hover:bg-rose-200
                      transition">
-              <i class="fas fa-trash text-xs"></i>
-            </button>
-          </article>
-        </div>
-  
-        <p *ngIf="!loadingMatches && !matches.length" class="text-gray-500 italic text-sm">Aucun match.</p>
-      </section>
+        <i class="fas fa-trash text-xs"></i>
+      </button>
+    </article>
+  </div>
+
+  <!-- Message si aucun match terminé -->
+  <p *ngIf="!loadingMatches && finishedMatches.length === 0" class="text-gray-500 italic text-sm">
+    Aucun match terminé.
+  </p>
+</section>
+
+
+
   
       <!-- ........................... ACTUS ........................... -->
       <section *ngIf="selectedSection==='actus'" class="animate-fadeIn">
@@ -182,6 +192,12 @@
         <div *ngIf="!loadingJoueurs && joueurs.length === 0" class="text-center text-[var(--Gris)] italic">
           Aucun joueur trouvé.
         </div>
+      </section>
+
+      <!-- ........................... MON MATCHS ........................... -->
+      <section *ngIf="selectedSection==='mon match'" class="animate-fadeIn">
+        <h2 class="text-2xl font-bold mb-6 text-[var(--Rouge)]">Votre Match</h2>
+        <app-match-vue></app-match-vue>
       </section>
 
       <!-- ........................... COMMUNIQUER ........................... -->

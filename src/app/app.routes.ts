@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 /* ---- TOUT LE MONDE ----*/
-import { Inscription } from '../page/inscription/inscription';
+
 import { Connexion } from '../page/connexion/connexion';
 
 import { Accueil } from '../page/accueil/accueil';
@@ -14,13 +14,14 @@ import { Messages } from '../page/messages/messages';
 import { Classement } from '../page/classement/classement';
 import { Utilisateur } from '../page/utilisateur/utilisateur';
 import { Convocation } from '../page/convocation/convocation';
+import { Inscription } from '../page/inscription/inscription';
 
 
 /* ---- TOUT --- */
 export const routes: Routes = [
     { path: '', component: Connexion },
     { path: 'connexion', component: Connexion },
-    { path: 'inscription', component: Inscription },
+    { path: 'inscription', component: Inscription},
     { path: 'accueil', component: Accueil},
     { path: 'actualite', component: Actualite},
     { path: 'communiques', component: Communiquer},

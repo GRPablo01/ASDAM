@@ -44,22 +44,23 @@ export class MatchService {
     return this.http.get<Match[]>(this.apiUrl);
   }
 
-  // ------------------- METTRE À JOUR LE SCORE -------------------
-  updateScore(id: string, scoreA: number, scoreB: number, headers?: HttpHeaders): Observable<Match> {
-    return this.http.patch<Match>(
-      `${this.apiUrl}/${id}`,
-      { scoreA, scoreB },
-      { headers }
-    );
-  }
+// ------------------- MÉTHODE GÉNÉRIQUE POUR MISE À JOUR -------------------
+updateMatch(id: string, payload: Partial<Match>, headers?: HttpHeaders): Observable<Match> {
+  console.log('PATCH payload envoyé:', payload, 'ID:', id);
+  return this.http.patch<Match>(`${this.apiUrl}/${id}`, payload, { headers });
+}
 
-  // ------------------- MÉTHODE GÉNÉRIQUE POUR MISE À JOUR -------------------
-  updateMatch(id: string, payload: Partial<Match>, headers?: HttpHeaders): Observable<Match> {
-    return this.http.patch<Match>(`${this.apiUrl}/${id}`, payload, { headers });
-  }
+// ------------------- METTRE À JOUR LE SCORE -------------------
+updateScore(id: string, scoreA: number, scoreB: number, headers?: HttpHeaders): Observable<Match> {
+  console.log('PATCH score envoyé:', { scoreA, scoreB }, 'ID:', id);
+  return this.http.patch<Match>(`${this.apiUrl}/${id}`, { scoreA, scoreB }, { headers });
+}
+
 
   // ------------------- SUPPRIMER UN MATCH -------------------
   deleteMatch(id: string, headers?: HttpHeaders): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers });
   }
+
+  
 }

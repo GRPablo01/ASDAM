@@ -71,8 +71,6 @@ exports.updateMatch = async (req, res) => {
   try {
     const { scoreA, scoreB, status, minute, heureDebut, heureFin } = req.body;
     const update = {};
-
-    // Mise à jour conditionnelle : ne pas écraser les champs non fournis
     if (typeof scoreA !== 'undefined') update.scoreA = Number(scoreA);
     if (typeof scoreB !== 'undefined') update.scoreB = Number(scoreB);
     if (typeof status !== 'undefined') update.status = status;
@@ -80,20 +78,9 @@ exports.updateMatch = async (req, res) => {
     if (typeof heureDebut !== 'undefined') update.heureDebut = heureDebut;
     if (typeof heureFin !== 'undefined') update.heureFin = heureFin;
 
-    if (Object.keys(update).length === 0) {
-      return res.status(400).json({ message: 'Aucun champ valide fourni pour mise à jour' });
-    }
-
-    const match = await Match.findByIdAndUpdate(
-      req.params.id,
-      { $set: update },
-      { new: true } // renvoie le match mis à jour
-    );
-
+    const match = await Match.findByIdAndUpdate(req.params.id, { $set: update }, { new: true });
     if (!match) return res.status(404).json({ message: 'Match non trouvé' });
-
     res.status(200).json(match);
-
   } catch (err) {
     console.error('Erreur mise à jour match :', err);
     res.status(500).json({ message: 'Erreur mise à jour match', error: err });

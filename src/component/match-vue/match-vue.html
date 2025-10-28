@@ -1,0 +1,106 @@
+<!-- =======================================================
+   STATUT DE CHARGEMENT
+======================================================= -->
+<div *ngIf="loading" class="flex flex-col items-center justify-center py-8 text-gray-500">
+    <svg class="animate-spin h-8 w-8 mb-2" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+      </path>
+    </svg>
+    <p>Chargement des matchs...</p>
+  </div>
+  
+  <!-- =======================================================
+     MESSAGE D'ERREUR
+  ======================================================= -->
+  <div *ngIf="error" class="text-center py-6 text-red-600 font-semibold" role="alert">
+    {{ error }}
+  </div>
+  
+<!-- =======================================================
+   LISTE DES MATCHS
+======================================================= -->
+<div *ngIf="!loading && !error" class="flex flex-col gap-6 mt-4">
+
+  <!-- Si aucun match -->
+  <p *ngIf="activeMatches.length === 0" class="text-center text-gray-500 py-6">
+    Aucun match disponible pour le moment.
+  </p>
+
+  <!-- Liste des matchs -->
+  <div *ngFor="let match of activeMatches"
+     class="p-4 bg-white rounded-xl shadow flex flex-col md:flex-row items-center justify-between gap-6 animate-fadeIn cursor-pointer"
+     [class.opacity-50]="match.status !== 'En directe'"
+     (click)="match.status === 'En directe' ? openMatch(match) : null">
+
+    <!-- ÉQUIPE A -->
+    <div class="flex items-center gap-4 flex-1 justify-start">
+      <img [src]="match.logoA" [alt]="match.equipeA" class="w-16 h-16 rounded-full bg-white">
+      <div>
+        <p class="font-semibold text-[var(--Black)]">{{ match.equipeA }}</p>
+        <p *ngIf="match.scoreA !== null && match.scoreA !== undefined" class="text-3xl font-black"
+           [ngClass]="scoreColor(match.scoreA, match.scoreB, 'A')">
+          {{ match.scoreA }}
+        </p>
+      </div>
+    </div>
+
+    <!-- VS -->
+    <div class="text-2xl font-extrabold text-[var(--Rouge)] mx-4">VS</div>
+
+    <!-- ÉQUIPE B -->
+    <div class="flex items-center gap-4 flex-1 justify-end">
+      <div class="text-right">
+        <p class="font-semibold text-[var(--Black)]">{{ match.equipeB }}</p>
+        <p *ngIf="match.scoreB !== null && match.scoreB !== undefined" class="text-3xl font-black"
+           [ngClass]="scoreColor(match.scoreA, match.scoreB, 'B')">
+          {{ match.scoreB }}
+        </p>
+      </div>
+      <img [src]="match.logoB" [alt]="match.equipeB" class="w-16 h-16 rounded-full bg-white">
+    </div>
+
+    <!-- STATUT ET TEMPS RESTANT -->
+    <div class="mt-2 md:mt-0 text-center text-gray-500">
+      <p class="font-medium">{{ translateStatus(match.status) }}</p>
+      <p class="text-sm" *ngIf="match.status === 'En directe'">{{ getTimeLeft(match) }}</p>
+    </div>
+
+  </div>
+</div>
+
+
+  
+  <!-- =======================================================
+     POP-UP MODIFICATION SCORE
+  ======================================================= -->
+  <div *ngIf="selectedMatch" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md relative">
+      <h2 class="text-xl font-bold mb-4 text-center">Modifier le score</h2>
+  
+      <div class="flex items-center justify-around mb-6">
+        <!-- Équipe A -->
+        <div class="text-center">
+          <p class="font-semibold">{{ selectedMatch.equipeA }}</p>
+          <input type="number" [(ngModel)]="selectedMatch.scoreA" class="w-20 text-center border rounded" min="0">
+        </div>
+  
+        <!-- VS -->
+        <div class="text-2xl font-extrabold text-[var(--Rouge)]">VS</div>
+  
+        <!-- Équipe B -->
+        <div class="text-center">
+          <p class="font-semibold">{{ selectedMatch.equipeB }}</p>
+          <input type="number" [(ngModel)]="selectedMatch.scoreB" class="w-20 text-center border rounded" min="0">
+        </div>
+      </div>
+  
+      <!-- BOUTONS -->
+      <div class="flex justify-end gap-4">
+        <button (click)="closeMatch()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Annuler</button>
+        <button (click)="saveScore()" class="px-4 py-2 rounded bg-[var(--Rouge)] text-white hover:bg-red-700">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+  

@@ -20,10 +20,11 @@ const PORT = 3000;
 // ==============================
 app.use(cors({
   origin: ['http://localhost:4200'], // autorise Angular
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-user'], // ajouter x-user
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // ✅ PATCH ajouté ici
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-user'], // tu peux garder ça
   credentials: true
 }));
+
 
 // ==============================
 // 🧱 Middlewares globaux
