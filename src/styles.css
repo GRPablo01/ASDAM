@@ -1,52 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 
-/* Thème clair */
-:root {
-    --Blanc: #ffffff;
-    --Black: #000000;
-    --Gris: #494949;
+/* === Thème clair === */
+:root,
+[data-theme='light'] {
+  --Blanc: #ffffff;
+  --Black: #000000;
+  --Gris: #494949;
 
-    --Bleu-Foncé: #040142;
-    --Bleu: #06027e;
-    --Bleu-Clair: #0a03ce;
+  --Bleu-Foncé: #040142;
+  --Bleu: #06027e;
+  --Bleu-Clair: #0a03ce;
 
-    --Rouge-Foncé: #520000;
-    --Rouge: #8d0202;
-    --Rouge-Clair: #ca0303;
-    --Rouge-Clair2: #ca6363;
+  --Rouge-Foncé: #520000;
+  --Rouge: #8d0202;
+  --Rouge-Clair: #ff0000;
 
-    --Vert: #55b704;
-    --Vert--Foncé: #214900;
-
-    --bg-color: var(--Blanc);
-    --text-color: var(--Black);
-    --card-color: var(--Gris);
-
-    --Or: #a28a03;
+  --Or: #ffcc00;
 }
 
-/* Thème sombre */
-[data-theme="dark"] {
-    --Blanc: #1e1e1e;
-    --Black: #ffffff;
-    --Gris: #2c2c2c;
+/* === Thème sombre === */
+[data-theme='dark'] {
+  --Blanc: #1a1a1a;
+  --Black: #f5f5f5;
+  --Gris: #c4c4c4;
 
-    --Bleu-Foncé: #0d0d4a;
-    --Bleu: #141470;
-    --Bleu-Clair: #1a1acd;
+  --Bleu-Foncé: #0d0a55;
+  --Bleu: #2a2ad9;
+  --Bleu-Clair: #3b3bf5;
 
-    --Rouge-Foncé: #8b0000;
-    --Rouge: #b22222;
-    --Rouge-Clair: #ff4c4c;
-    --Rouge-Clair2: #ff7b7b;
+  --Rouge-Foncé: #7a0000;
+  --Rouge: #b00000;
+  --Rouge-Clair: #ff3b3b;
 
-    --Vert: #3a8c00;
-    --Vert--Foncé: #152e00;
-
-    --bg-color: #121212;
-    --text-color: #e0e0e0;
-    --card-color: #1f1f1f;
-
-    --Or: #d4af37;
+  --Or: #ffd700;
 }

@@ -10,151 +10,189 @@
                    hover:shadow-lg hover:-translate-y-0.5 hover:scale-105
                    transition-all duration-300 ease-out
                    focus:outline-none focus:ring-2 focus:ring-rose-400/40">
-      <i class="fa-solid fa-users text-2xl mb-1 transition-transform duration-300 group-hover:rotate-12"></i>
-      <span class="uppercase tracking-wide text-xs leading-tight">Créer</span>
-      <span class="text-[10px] opacity-80">Convocation</span>
+      <i class="fa-solid fa-users text-2xl text-white mb-1 transition-transform duration-300 group-hover:rotate-12"></i>
+      <span class="uppercase tracking-wide text-white text-xs leading-tight">Créer</span>
+      <span class="text-[10px] opacity-80 text-white">Convocation</span>
     </button>
 </div>
 
-<!-- 🟥 MODAL 1 : Infos du match -->
-<div *ngIf="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-    <div class="w-full max-w-5xl bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+<!-- 🟥 MODAL 1 : Nouvelle convocation -->
+<div *ngIf="showModal"
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xl p-4 animate-fadeIn">
 
-        <!-- Header -->
-        <header class="px-6 py-5 bg-gradient-to-r from-red-700 to-red-500 text-white flex justify-between items-center">
-            <h2 class="text-xl font-bold">Nouvelle convocation</h2>
-            <button (click)="closeModal()" aria-label="Fermer" class="p-2 rounded-full hover:bg-white/20 transition">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-        </header>
+  <div class="w-full max-w-5xl 
+              bg-[var(--Blanc)] dark:bg-[var(--Black)]/1 
+              text-[var(--Black)] dark:text-[var(--Blanc)]
+              rounded-3xl shadow-2xl flex flex-col overflow-hidden
+              border border-[var(--Gris)] dark:border-[var(--Gris)]/40 
+              animate-slideUp transition-colors duration-500">
 
-        <!-- Corps : grille responsive -->
-        <div class="flex-1 grid grid-cols-1 lg:grid-cols-3">
-            <!-- Formulaire -->
-            <form class="lg:col-span-2 px-6 py-6 space-y-5">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Match</label>
-                    <input [(ngModel)]="convocation.match" name="match" required placeholder="Ex : U13 vs FC Exemple"
-                        class="w-full rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" />
-                </div>
+    <!-- Header -->
+    <header class="px-6 py-5 bg-[var(--Rouge)] text-white flex justify-between items-center">
+      <h2 class="text-2xl font-bold tracking-wide">Nouvelle convocation</h2>
+      <button (click)="closeModal()" aria-label="Fermer"
+              class="p-2 rounded-full hover:bg-white/20 transition">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+    </header>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Équipe</label>
-                    <input [value]="convocation.equipe" readonly
-                        class="w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-gray-600 cursor-not-allowed" />
-                </div>
+    <!-- Corps -->
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Date & heure</label>
-                    <input [(ngModel)]="convocation.date" name="date" type="datetime-local" required
-                        class="w-full rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" />
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Lieu</label>
-                    <input [(ngModel)]="convocation.lieu" name="lieu" required placeholder="Ex : Stade municipal"
-                        class="w-full rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" />
-                </div>
-            </form>
-
-            <!-- Liste des convoqués – devient un side-panel sticky -->
-            <aside *ngIf="joueursConvoques.length"
-                class="lg:border-l lg:bg-gray-50/70 bg-white px-6 py-6 flex flex-col">
-                <h3 class="font-semibold text-gray-800 mb-3">Joueurs convoqués</h3>
-
-                <ul class="space-y-2 overflow-auto flex-1 max-h-96 pr-2">
-                    <li *ngFor="let joueur of joueursConvoques; index as i" class="flex items-center gap-3">
-                        <span class="font-bold text-red-600">{{ i + 1 }}.</span>
-                        <span class="text-gray-800">{{ joueur.prenom }} {{ joueur.nom }}</span>
-                    </li>
-                </ul>
-
-                <button (click)="validerConvocation()"
-                    class="mt-4 px-5 py-2 rounded-xl bg-green-600 text-white font-semibold hover:scale-105 transition self-end">
-                    Valider la convocation
-                </button>
-            </aside>
+      <!-- Formulaire -->
+      <form class="lg:col-span-2 space-y-5">
+        <!-- Match -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Match</label>
+          <input [(ngModel)]="convocation.match" name="match" required placeholder="Ex : U13 vs FC Exemple"
+                 class="w-full rounded-xl border border-[var(--Gris)] dark:border-[var(--Gris)]/50
+                        bg-transparent dark:bg-[var(--Gris-Foncé)]/30
+                        px-4 py-3 placeholder:text-[var(--Gris)] dark:placeholder:text-[var(--Gris-Clair)]
+                        focus:ring-2 focus:ring-[var(--Rouge-Clair)] transition" />
         </div>
 
-        <!-- Actions -->
-        <footer class="px-6 py-4 border-t bg-gray-50 flex justify-end">
-            <button type="button" (click)="openComposeModal()"
-                [disabled]="!convocation.match || !convocation.equipe || !convocation.date || !convocation.lieu"
-                class="flex items-center gap-2 px-5 py-2 rounded-xl bg-red-600 text-white font-semibold hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition">
-                Sélectionner les joueurs <i class="fa-solid fa-users-line"></i>
-            </button>
-        </footer>
+        <!-- Équipe -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Équipe</label>
+          <input [value]="convocation.equipe" readonly
+                 class="w-full rounded-xl border border-[var(--Gris)] dark:border-[var(--Gris)]/50
+                        bg-[var(--Gris)]/20 dark:bg-[var(--Gris-Foncé)]/40
+                        px-4 py-3 text-[var(--Gris)] dark:text-[var(--Gris-Clair)] cursor-not-allowed" />
+        </div>
+
+        <!-- Date & heure -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Date & heure</label>
+          <input [(ngModel)]="convocation.date" name="date" type="datetime-local" required
+                 class="w-full rounded-xl border border-[var(--Gris)] dark:border-[var(--Gris)]/50
+                        bg-transparent dark:bg-[var(--Gris-Foncé)]/30
+                        px-4 py-3 focus:ring-2 focus:ring-[var(--Rouge-Clair)] transition" />
+        </div>
+
+        <!-- Lieu -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Lieu</label>
+          <input [(ngModel)]="convocation.lieu" name="lieu" required placeholder="Ex : Stade municipal"
+                 class="w-full rounded-xl border border-[var(--Gris)] dark:border-[var(--Gris)]/50
+                        bg-transparent dark:bg-[var(--Gris-Foncé)]/30
+                        px-4 py-3 placeholder:text-[var(--Gris)] dark:placeholder:text-[var(--Gris-Clair)]
+                        focus:ring-2 focus:ring-[var(--Rouge-Clair)] transition" />
+        </div>
+      </form>
+
+      <!-- Liste des convoqués -->
+      <aside *ngIf="joueursConvoques.length"
+             class="lg:border-l border-[var(--Gris)] dark:border-[var(--Gris)]/50 
+                    bg-[var(--Blanc)]/40 dark:bg-[var(--Noir)]/30 
+                    rounded-2xl p-4 flex flex-col transition-colors duration-500">
+        <h3 class="font-semibold mb-3">Joueurs convoqués</h3>
+
+        <ul class="space-y-2 overflow-auto flex-1 max-h-80 pr-2">
+          <li *ngFor="let joueur of joueursConvoques; index as i"
+              class="flex items-center gap-3 p-2 rounded-lg bg-[var(--Gris)]/10 dark:bg-[var(--Gris-Foncé)]/50 transition">
+            <span class="font-bold text-[var(--Rouge-Clair)]">{{ i + 1 }}.</span>
+            <span>{{ joueur.prenom }} {{ joueur.nom }}</span>
+          </li>
+        </ul>
+
+        <button (click)="validerConvocation()"
+                class="mt-4 px-5 py-2 rounded-xl bg-[var(--Rouge)] text-white font-semibold
+                       hover-lift glow transition self-end">
+          Valider la convocation
+        </button>
+      </aside>
     </div>
+
+    <!-- Footer -->
+    <footer class="px-6 py-4 border-t border-[var(--Gris)] dark:border-[var(--Gris)]/50 flex justify-end">
+      <button type="button" (click)="openComposeModal()"
+              [disabled]="!convocation.match || !convocation.equipe || !convocation.date || !convocation.lieu"
+              class="flex items-center gap-2 px-5 py-2 rounded-xl 
+                     bg-[var(--Bleu)] text-white font-semibold
+                     hover-lift glow disabled:opacity-50 disabled:cursor-not-allowed transition">
+        Sélectionner les joueurs <i class="fa-solid fa-users-line"></i>
+      </button>
+    </footer>
+  </div>
 </div>
 
-<!-- 🟥 MODAL 2 : Sélection des joueurs -->
+
+<!-- 🟦 MODAL 2 : Sélection des joueurs -->
 <div *ngIf="showComposeModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-    <div class="w-full max-w-3xl bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xl p-4 animate-fadeIn">
 
-        <!-- Header -->
-        <header class="px-6 py-5 bg-red-600 text-white flex justify-between items-center">
-            <h3 class="text-xl font-bold">Sélection des joueurs</h3>
-            <button (click)="closeComposeModal()" aria-label="Fermer"
-                class="p-2 rounded-full hover:bg-white/20 transition">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-        </header>
+  <div class="w-full max-w-3xl 
+              bg-[var(--Blanc)] dark:bg-[var(--Black)]
+              text-[var(--Black)] dark:text-[var(--Blanc)]
+              rounded-3xl shadow-2xl flex flex-col overflow-hidden
+              border border-[var(--Gris)] dark:border-[var(--Gris)]/50
+              animate-slideUp transition-colors duration-500">
 
-        <!-- Compteur -->
-        <p class="px-6 pt-4 text-sm text-gray-700">
-            Joueurs sélectionnés : <span class="font-bold text-red-600">{{ composeJoueurs.length }}</span> / {{
-            maxJoueurs }}
-        </p>
+    <!-- Header -->
+    <header class="px-6 py-5 bg-[var(--Bleu-Foncé)] text-white flex justify-between items-center">
+      <h3 class="text-xl font-bold">Sélection des joueurs</h3>
+      <button (click)="closeComposeModal()" aria-label="Fermer"
+              class="p-2 rounded-full hover:bg-white/20 transition">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+    </header>
 
-        <!-- Liste joueurs -->
-        <div class="flex-1 px-6 py-4 overflow-y-auto">
-            <ul class="space-y-3">
-                <li *ngFor="let joueur of allJoueurs"
-                    class="flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-200 hover:shadow-md hover:scale-[1.01] transition relative"
-                    [class.ring-2]="isJoueurCompose(joueur)" [class.ring-green-400]="isJoueurCompose(joueur)">
+    <!-- Compteur -->
+    <p class="px-6 pt-4 text-sm text-[var(--Gris)] dark:text-[var(--Gris-Clair)]">
+      Joueurs sélectionnés : <span class="font-bold text-[var(--Rouge-Clair)]">{{ composeJoueurs.length }}</span> / {{ maxJoueurs }}
+    </p>
 
-                    <!-- Avatar + infos -->
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-lg">
-                            {{ getInitiale(joueur) }}
-                        </div>
-                        <div>
-                            <p class="font-semibold text-gray-800">{{ joueur.prenom }} {{ joueur.nom }}</p>
-                            <p class="text-sm text-gray-500">Équipe : {{ joueur.equipe }}</p>
-                        </div>
-                    </div>
+    <!-- Liste joueurs -->
+    <div class="flex-1 px-6 py-4 overflow-y-auto">
+      <ul class="space-y-3">
+        <li *ngFor="let joueur of allJoueurs"
+            class="flex items-center justify-between p-4 rounded-2xl 
+                   bg-[var(--Blanc)]/50 dark:bg-[var(--Gris-Foncé)]/50
+                   border border-[var(--Gris)] dark:border-[var(--Gris)]/40
+                   hover:shadow-lg hover-lift transition relative"
+            [class.ring-2]="isJoueurCompose(joueur)"
+            [class.ring-[var(--Or)]]="isJoueurCompose(joueur)">
 
-                    <!-- Bouton -->
-                    <button (click)="isJoueurCompose(joueur) ? retirerJoueur(joueur) : ajouterJoueur(joueur)"
-                        [class.bg-green-500]="!isJoueurCompose(joueur)" [class.bg-red-500]="isJoueurCompose(joueur)"
-                        class="px-4 py-2 rounded-full text-white text-sm font-medium hover:scale-105 transition focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        [class.focus:ring-green-300]="!isJoueurCompose(joueur)"
-                        [class.focus:ring-red-300]="isJoueurCompose(joueur)">
-                        <span *ngIf="!isJoueurCompose(joueur)">Ajouter</span>
-                        <span *ngIf="isJoueurCompose(joueur)">Retirer</span>
-                    </button>
+          <!-- Avatar + infos -->
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-[var(--Bleu)] text-white flex items-center justify-center font-bold text-lg">
+              {{ getInitiale(joueur) }}
+            </div>
+            <div>
+              <p class="font-semibold">{{ joueur.prenom }} {{ joueur.nom }}</p>
+              <p class="text-sm text-[var(--Gris)] dark:text-[var(--Gris-Clair)]">Équipe : {{ joueur.equipe }}</p>
+            </div>
+          </div>
 
-                    <!-- Badge check -->
-                    <div *ngIf="isJoueurCompose(joueur)"
-                        class="absolute top-3 right-3 px-2 py-1 bg-green-500 text-white text-xs rounded-full shadow-md badge-check">
-                        ✓
-                    </div>
-                </li>
-            </ul>
-        </div>
+          <!-- Bouton Ajouter / Retirer -->
+          <button (click)="isJoueurCompose(joueur) ? retirerJoueur(joueur) : ajouterJoueur(joueur)"
+                  [class.bg-[var(--Success)]]="!isJoueurCompose(joueur)"
+                  [class.bg-[var(--Rouge)]]="isJoueurCompose(joueur)"
+                  class="px-4 py-2 rounded-full text-white text-sm font-medium hover-lift transition">
+            <span *ngIf="!isJoueurCompose(joueur)">Ajouter</span>
+            <span *ngIf="isJoueurCompose(joueur)">Retirer</span>
+          </button>
 
-        <!-- Actions -->
-        <footer class="px-6 py-4 border-t bg-gray-50 flex justify-end gap-3">
-            <button (click)="closeComposeModal()"
-                class="px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-100 text-sm transition">
-                Annuler
-            </button>
-            <button (click)="validerCompo()" [disabled]="composeJoueurs.length === 0"
-                class="px-5 py-2 rounded-xl bg-red-600 text-white font-semibold hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition">
-                Valider la composition
-            </button>
-        </footer>
+          <!-- Badge check -->
+          <div *ngIf="isJoueurCompose(joueur)"
+               class="absolute top-3 right-3 px-2 py-1 bg-[var(--Or)] text-[var(--Black)] text-xs rounded-full shadow-md">
+            ✓
+          </div>
+        </li>
+      </ul>
     </div>
+
+    <!-- Footer -->
+    <footer class="px-6 py-4 border-t border-[var(--Gris)] dark:border-[var(--Gris)]/50 flex justify-end gap-3">
+      <button (click)="closeComposeModal()"
+              class="px-4 py-2 rounded-xl border border-[var(--Gris)] dark:border-[var(--Gris)]/50
+                     hover:bg-[var(--Gris)]/20 dark:hover:bg-[var(--Gris-Foncé)]/30 text-sm transition">
+        Annuler
+      </button>
+      <button (click)="validerCompo()" [disabled]="composeJoueurs.length === 0"
+              class="px-5 py-2 rounded-xl bg-[var(--Bleu)] text-white font-semibold hover-lift glow disabled:opacity-50 disabled:cursor-not-allowed transition">
+        Valider la composition
+      </button>
+    </footer>
+  </div>
 </div>

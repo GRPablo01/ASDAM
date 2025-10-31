@@ -14,7 +14,7 @@ import { faShieldHalved, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 })
 export class Footer {
   currentYear: number = new Date().getFullYear();
-
+  isDarkMode = false; // ✅ ajouter
   navLinks: { path: string, label: string }[] = [];
   ressources: { path: string, label: string }[] = [];
 
@@ -89,22 +89,33 @@ export class Footer {
   };
 
   constructor() {
-    const storedUser = localStorage.getItem('utilisateur'); // récupérer l'utilisateur connecté
+    // Charger l'utilisateur
+    const storedUser = localStorage.getItem('utilisateur');
     if (storedUser) {
       const userObj = JSON.parse(storedUser);
       this.user.nom = userObj.nom || '';
       this.user.prenom = userObj.prenom || '';
       this.user.role = userObj.role || 'joueur';
 
-      // Affecter les liens selon le rôle
       const roleLinks = this.navByRole[this.user.role] || this.navByRole['joueur'];
       this.navLinks = roleLinks.navLinks;
       this.ressources = roleLinks.ressources;
     } else {
-      // fallback si pas d'utilisateur connecté
       const roleLinks = this.navByRole['joueur'];
       this.navLinks = roleLinks.navLinks;
       this.ressources = roleLinks.ressources;
     }
+
+    // Charger le thème
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    this.isDarkMode = savedTheme === 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }
+
+  toggleTheme(): void {
+    this.isDarkMode = !this.isDarkMode;
+    const theme = this.isDarkMode ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
   }
 }

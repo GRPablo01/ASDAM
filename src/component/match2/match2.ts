@@ -7,7 +7,7 @@ interface Match {
   _id?: string;
   equipeA: string;
   equipeB: string;
-  date: string; // date du jour du match
+  date: string;
   lieu: string;
   categorie: string;
   typeMatch: string;
@@ -20,8 +20,8 @@ interface Match {
   duree?: number;
   status?: 'A venir' | 'En directe' | 'Terminé';
   minute?: number;
-  heureDebut?: string; // ex: "12:14"
-  heureFin?: string;   // ex: "16:00"
+  heureDebut?: string;
+  heureFin?: string;
 }
 
 @Component({
@@ -52,6 +52,12 @@ export class Match2 implements OnInit, OnDestroy {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
+    // 🔹 Charger le dernier filtre choisi (s'il existe)
+    const savedFilter = localStorage.getItem('lastFilter');
+    if (savedFilter === 'A venir' || savedFilter === 'En directe' || savedFilter === 'Terminé') {
+      this.selectedFilter = savedFilter;
+    }
+
     this.getMatches();
     this.refreshSubscription = interval(10000).subscribe(() => this.getMatches());
   }
@@ -67,10 +73,8 @@ export class Match2 implements OnInit, OnDestroy {
         const now = new Date();
 
         this.matches = data.map((match) => {
-          // Conversion de la date du match (jour)
           const dateMatch = new Date(match.date);
 
-          // Création d'une date complète avec heure de début et fin
           const [hDebut, mDebut] = (match.heureDebut || '00:00').split(':').map(Number);
           const [hFin, mFin] = (match.heureFin || '00:00').split(':').map(Number);
 
@@ -80,13 +84,11 @@ export class Match2 implements OnInit, OnDestroy {
           const end = new Date(dateMatch);
           end.setHours(hFin, mFin, 0, 0);
 
-          // Déterminer le statut du match selon l'heure actuelle
           let status: 'A venir' | 'En directe' | 'Terminé' = 'A venir';
           if (now < start) status = 'A venir';
           else if (now >= start && now <= end) status = 'En directe';
           else status = 'Terminé';
 
-          // Calcul des minutes écoulées si le match est en direct
           let minute = 0;
           if (status === 'En directe') {
             const diff = Math.floor((now.getTime() - start.getTime()) / 60000);
@@ -111,6 +113,7 @@ export class Match2 implements OnInit, OnDestroy {
   /** --- FILTRAGE --- **/
   setFilter(status: 'A venir' | 'En directe' | 'Terminé') {
     this.selectedFilter = status;
+    localStorage.setItem('lastFilter', status); // 🔹 Sauvegarde du filtre cliqué
     this.applyFilter();
   }
 
@@ -126,7 +129,7 @@ export class Match2 implements OnInit, OnDestroy {
       'En directe': 'bg-gradient-to-br from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white',
       'Terminé': 'bg-gradient-to-br from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 text-white'
     };
-    const active = this.selectedFilter === type ? 'ring-4 scale-105' : 'opacity-40';
+    const active = this.selectedFilter === type ? ' scale-105' : 'opacity-40';
     return `${base} ${colors[type]} ${active}`;
   }
 
@@ -138,15 +141,17 @@ export class Match2 implements OnInit, OnDestroy {
     return '';
   }
 
-  /** --- COULEUR DU SCORE --- **/
+  /** --- COULEUR DU SCORE ET DU NOM --- **/
   scoreColor(a: number | undefined, b: number | undefined, side: 'A' | 'B'): string {
-    if (a === undefined || b === undefined || a === b) return 'text-[var(--Black)]';
+    if (a === undefined || b === undefined || a === b)
+      return 'text-[var(--Black)] dark:text-[var(--Blanc)]';
+
     return side === 'A'
       ? a > b
-        ? 'text-[var(--Vert)]'
-        : 'text-[var(--Rouge-Clair)]'
+        ? 'text-[var(--Vert)] font-extrabold'
+        : 'text-[var(--Rouge-Clair)] opacity-80'
       : b > a
-      ? 'text-[var(--Vert)]'
-      : 'text-[var(--Rouge-Clair)]';
+      ? 'text-[var(--Vert)] font-extrabold'
+      : 'text-[var(--Rouge-Clair)] opacity-80';
   }
 }

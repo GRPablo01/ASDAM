@@ -1,43 +1,73 @@
-<div class="min-h-screen flex bg-gray-50">
-    <!-- ===== Sidebar : sélection des équipes ===== -->
-    <aside
-      class="w-64 bg-white shadow-lg p-6 flex flex-col gap-4 sticky top-0 h-screen"
-    >
-      <h2 class="text-lg font-bold mb-4 text-center">Équipes</h2>
-  
+<!-- ==========================================================
+   CLASSEMENT – VERSION UNIFIÉE AVEC DARK MODE
+   Design cohérent avec la page "Liste des utilisateurs"
+========================================================== -->
+<div class="min-h-screen flex flex-col md:flex-row bg-[var(--Blanc)] dark:bg-[var(--Black)]/90 transition-colors duration-500">
+
+  <!-- ===== SIDEBAR : Sélection des équipes ===== -->
+  <aside
+    class="w-full md:w-72 p-6 flex flex-col gap-4 sticky top-0 md:h-screen md:overflow-y-auto
+           bg-[var(--Blanc)]/90 dark:bg-[var(--Gris)]/90 border-b md:border-b-0 md:border-r border-gray-300 dark:border-gray-700
+           shadow-md md:shadow-lg rounded-b-3xl md:rounded-none transition-colors duration-500">
+
+    <h2 class="text-2xl font-extrabold mb-6 text-center text-[var(--Rouge)] drop-shadow-md">
+      Équipes
+    </h2>
+
+    <!-- Boutons d’équipes -->
+    <div class="flex flex-wrap md:flex-col gap-3 justify-center">
       <button
-      *ngFor="let equipe of equipes"
-      (click)="selectEquipe(equipe)"
-      [ngClass]="{
-        'opacity-100 bg-[var(--Rouge)]': selectedEquipe === equipe,
-        'opacity-40 bg-[var(--Bleu)]': selectedEquipe !== equipe
-      }"
-      class="flex items-center gap-3 px-4 py-3 text-white font-semibold rounded-xl shadow-md
-             hover:opacity-100 hover:scale-105 transition transform duration-200 ease-in-out text-left"
-    >
-      <i class="fas fa-users"></i>
-      <span>{{ equipe }}</span>
-    </button>
-    
-    </aside>
-  
-    <!-- ===== Contenu principal ===== -->
-    <main class="flex-1 p-8 overflow-x-auto">
-  
-      <!-- 🔹 Affichage de plusieurs classements -->
-      <div *ngIf="classementFiltre.length > 0" class="space-y-12">
-        <div
-          *ngFor="let cat of classementFiltre"
-          class="bg-white rounded-xl shadow-lg border border-[var(--Rouge)] p-6"
-        >
-          <h3
-            class="text-xl font-semibold text-[var(--Rouge)] mb-4 border-b pb-2 text-center"
-          >
-            {{ cat.categorie }}
-          </h3>
-  
-          <table class="min-w-full border-collapse">
-            <thead class="bg-[var(--Rouge)] text-[var(--Blanc)]">
+        *ngFor="let equipe of equipes"
+        (click)="selectEquipe(equipe)"
+        [ngClass]="{
+          'bg-[var(--Rouge)] text-[var(--Blanc)] shadow-lg scale-105': selectedEquipe === equipe,
+          'bg-[var(--Bleu)]/90 text-[var(--Blanc)] opacity-80 hover:opacity-100 hover:scale-105': selectedEquipe !== equipe
+        }"
+        class="flex items-center gap-3 px-5 py-3 font-semibold rounded-2xl transition-all duration-200 ease-in-out
+               hover:shadow-lg active:scale-95 w-full justify-center md:justify-start"
+      >
+        <i class="fas fa-users text-lg"></i>
+        <span class="truncate">{{ equipe }}</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ===== CONTENU PRINCIPAL ===== -->
+  <main class="flex-1 p-6 sm:p-10 overflow-x-auto transition-colors duration-500 text-[var(--Black)] dark:text-[var(--Blanc)]">
+
+    <!-- ===== TITRE PRINCIPAL ===== -->
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-10 text-[var(--Rouge)] text-center drop-shadow-lg">
+      Classements des Équipes
+    </h1>
+
+    <!-- 🔹 Si aucune équipe sélectionnée -->
+    <p *ngIf="!selectedEquipe"
+      class="text-center text-gray-500 dark:text-gray-300 text-lg mt-6 animate-fadeIn">
+      <i class="fas fa-hand-pointer mr-2 text-[var(--Rouge)]"></i>
+      Sélectionnez une équipe pour voir le classement.
+    </p>
+
+    <!-- 🔹 Si aucune donnée -->
+    <p *ngIf="selectedEquipe && classementFiltre.length === 0"
+      class="text-center text-gray-500 dark:text-gray-300 text-lg mt-6 animate-fadeIn">
+      <i class="fas fa-info-circle mr-2 text-[var(--Rouge)]"></i>
+      Aucun classement trouvé pour <strong>{{ selectedEquipe }}</strong>.
+    </p>
+
+    <!-- 🔹 Affichage des classements -->
+    <div *ngIf="classementFiltre.length > 0" class="space-y-12 animate-fadeIn">
+      <div
+        *ngFor="let cat of classementFiltre"
+        class="bg-[var(--Blanc)]/90 dark:bg-[var(--Gris)]/90 rounded-3xl shadow-lg border border-[var(--Rouge)]/60 p-6
+               hover:shadow-2xl hover:scale-[1.01] transition-all duration-300 ease-in-out">
+
+        <h3 class="text-2xl font-semibold text-[var(--Rouge)] mb-6 border-b border-[var(--Rouge)]/40 pb-2 text-center">
+          {{ cat.categorie }}
+        </h3>
+
+        <div class="overflow-x-auto rounded-2xl">
+          <table class="min-w-full border-collapse text-sm sm:text-base rounded-2xl overflow-hidden">
+            <thead class="bg-[var(--Rouge)] text-[var(--Blanc)] uppercase">
               <tr>
                 <th class="px-3 py-2 text-left">Pl</th>
                 <th class="px-3 py-2 text-left">Équipe</th>
@@ -52,18 +82,20 @@
                 <th class="px-3 py-2 text-center">Dif</th>
               </tr>
             </thead>
+
             <tbody>
               <tr
                 *ngFor="let e of cat.equipes; let i = index"
-                class="transition-colors"
+                class="transition-colors duration-200 border-b border-gray-100 dark:border-gray-700"
                 [ngClass]="{
-                  'bg-[var(--Rouge)] text-[var(--Blanc)] font-semibold':
+                  'bg-[var(--Rouge)] text-[var(--Blanc)] font-semibold shadow-inner':
                     e.equipe.toLowerCase().includes('danjoutin'),
-                  'hover:bg-gray-100': !e.equipe.toLowerCase().includes('danjoutin')
+                  'hover:bg-gray-100 dark:hover:bg-gray-700':
+                    !e.equipe.toLowerCase().includes('danjoutin')
                 }"
               >
                 <td class="px-3 py-2">{{ i + 1 }}</td>
-                <td class="px-3 py-2">{{ e.equipe }}</td>
+                <td class="px-3 py-2 truncate">{{ e.equipe }}</td>
                 <td class="px-3 py-2 text-center">{{ e.pts }}</td>
                 <td class="px-3 py-2 text-center">{{ e.jo }}</td>
                 <td class="px-3 py-2 text-center">{{ e.g }}</td>
@@ -78,19 +110,24 @@
           </table>
         </div>
       </div>
-  
-      <!-- 🔹 Si aucune équipe sélectionnée -->
-      <p *ngIf="!selectedEquipe" class="text-center text-gray-500 mt-4">
-        Sélectionnez une équipe pour voir le classement.
-      </p>
-  
-      <!-- 🔹 Si aucune donnée -->
-      <p
-        *ngIf="selectedEquipe && classementFiltre.length === 0"
-        class="text-center text-gray-500 mt-4"
-      >
-        Aucun classement trouvé pour {{ selectedEquipe }}.
-      </p>
-    </main>
+    </div>
+  </main>
 </div>
-  
+
+<!-- Animation douce -->
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.6s ease-in-out;
+  }
+</style>

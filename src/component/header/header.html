@@ -1,57 +1,76 @@
 <app-icon></app-icon>
 
-<!-- ====== Header MODE CLAIR / SOMBRE UI/UX ====== -->
+<!-- ====== HEADER MODE CLAIR / SOMBRE ====== -->
 <header
-  class="sticky top-0 z-50 w-full backdrop-blur-xl bg-[var(--Blanc)]/80 border-b border-[var(--Bleu-Clair)]/30 shadow-md">
+  class="sticky top-0 z-50 w-full backdrop-blur-xl bg-[var(--Blanc)]/80 dark:bg-[var(--Black)]/80 border-b border-[var(--Rouge)] shadow-md">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
 
       <!-- Burger mobile -->
       <button type="button"
-        class="lg:hidden p-3 rounded-xl text-[var(--Black)]/70  hover:text-[var(--Or)] hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300"
+        class="lg:hidden p-3 rounded-xl text-[var(--Black)]/70 dark:text-[var(--Blanc)]/70 hover:text-[var(--Blanc)] hover:bg-[var(--Bleu)]/20 transition-all duration-300"
         aria-label="Ouvrir le menu" (click)="toggleMobileMenu()">
         <i class="fas fa-bars text-xl"></i>
       </button>
 
-      <!-- Nav gauche desktop -->
+      <!-- NAV gauche desktop -->
       <nav class="hidden lg:flex lg:gap-2">
         <div *ngFor="let menu of mobileMenus.slice(0,3)" class="relative flex items-center group">
+
+          <!-- Lien principal -->
           <a [routerLink]="menu.link || menu.items[0]?.link"
-            class="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold text-[var(--Black)]/80 hover:text-[var(--Bleu-Foncé)] hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300">
-            <ng-container *ngIf="menu.initiales; else iconTemplate">
-              <div
-                class="w-8 h-8 rounded-full bg-[var(--Rouge-Clair)] text-white font-bold text-sm flex items-center justify-center">
+            class="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold
+                    text-[var(--Black)] dark:text-[var(--Blanc)]
+                    hover:text-[var(--Bleu-Foncé)] dark:hover:text-[var(--Blanc)]
+                    hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300">
+
+            <!-- Initiales -->
+            <ng-container *ngIf="menu.initiales; else iconTemplateLeft">
+              <div class="w-8 h-8 rounded-full font-bold text-sm flex items-center justify-center
+                          bg-[var(--Rouge-Clair)] dark:bg-[var(--Rouge)]
+                          text-[var(--Black)] dark:text-[var(--Blanc)]
+                          transition-colors duration-300">
                 {{ menu.initiales }}
               </div>
             </ng-container>
-            <ng-template #iconTemplate>
-              <i [class]="menu.icon"></i>
+
+            <!-- Icône -->
+            <ng-template #iconTemplateLeft>
+              <i
+                class="{{ menu.icon }} text-[var(--Black)] dark:text-[var(--Blanc)] transition-colors duration-300"></i>
             </ng-template>
+
             <span>{{ menu.title }}</span>
           </a>
 
-          <button *ngIf="menu.items.length" (click)="toggleDropdown(menu.title,$event)"
-            class="ml-1 p-2 rounded-xl text-[var(--Black)]/60 hover:text-[var(--Or)] transition-transform duration-300">
-            <i class="fas fa-chevron-down transform transition-transform"
-              [class.-rotate-180]="activeDropdown===menu.title"></i>
+          <!-- Bouton dropdown -->
+          <button *ngIf="menu.items.length" (click)="toggleDropdown(menu.title, $event)" class="ml-1 p-2 rounded-xl transition-all duration-300
+                         text-[var(--Black)] dark:text-[var(--Blanc)]
+                         hover:text-[var(--Or)] hover:bg-[var(--Bleu-Clair)]/20 flex items-center justify-center">
+            <i class="fas fa-chevron-down transform transition-transform duration-300"
+              [class.-rotate-180]="activeDropdown === menu.title"></i>
           </button>
 
           <!-- Dropdown -->
-          <div *ngIf="activeDropdown===menu.title"
-            class="absolute left-0 top-full mt-2 w-64 rounded-2xl bg-[var(--Blanc)]/95 backdrop-blur-xl shadow-xl p-3 border border-[var(--Bleu-Clair)]/40 animate-fade-in-up z-[1100]">
-            <div
-              class="absolute -top-2 left-6 w-4 h-4 bg-[var(--Blanc)]/95 transform rotate-45 border-l border-t border-[var(--Bleu-Clair)]/40">
-            </div>
+          <div *ngIf="activeDropdown === menu.title" class="absolute left-0 top-full mt-2 w-64 rounded-2xl shadow-xl p-3 border animate-fade-in-up z-[1100]
+                      bg-[var(--Blanc)]/95 dark:bg-[var(--Black)]/95 border-[var(--Bleu-Clair)]/40">
+            <div class="absolute -top-2 left-6 w-4 h-4 transform rotate-45 border-l border-t
+                        bg-[var(--Blanc)]/95 dark:bg-[var(--Black)]/95 border-[var(--Bleu-Clair)]/40"></div>
             <a *ngFor="let item of menu.items" [routerLink]="item.link"
-              class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-[var(--Black)]/80 hover:bg-gradient-to-r hover:from-[var(--Bleu-Clair)] hover:to-[var(--Bleu)] hover:text-white transition-all">
-              <ng-container *ngIf="item.initiales; else itemIcon">
-                <div
-                  class="w-6 h-6 rounded-full bg-[var(--Rouge-Clair)] text-white font-bold text-xs flex items-center justify-center">
+              class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm
+                      text-[var(--Black)]/80 dark:text-[var(--Blanc)]/80
+                      hover:bg-gradient-to-r hover:from-[var(--Bleu-Clair)] hover:to-[var(--Bleu)]
+                      hover:text-white transition-all duration-300">
+              <ng-container *ngIf="item.initiales; else itemIconLeft">
+                <div class="w-6 h-6 rounded-full font-bold text-xs flex items-center justify-center
+                            bg-[var(--Rouge-Clair)] dark:bg-[var(--Rouge)]
+                            text-[var(--Blanc)] transition-colors duration-300">
                   {{ item.initiales }}
                 </div>
               </ng-container>
-              <ng-template #itemIcon>
-                <i [class]="item.icon"></i>
+              <ng-template #itemIconLeft>
+                <i [class]="item.icon"
+                  class="text-[var(--Black)] dark:text-[var(--Blanc)] transition-colors duration-300"></i>
               </ng-template>
               <span>{{ item.title }}</span>
             </a>
@@ -60,125 +79,112 @@
       </nav>
 
       <!-- Logo -->
-      <a routerLink="/accueil" class="flex items-center justify-center relative">
+      <a routerLink="/accueil" class="flex items-center justify-center relative mx-4">
         <img src="assets/LOGO.png" alt="Accueil"
           class="h-12 w-12 sm:h-14 sm:w-14 object-contain hover:scale-110 transition-transform duration-300 drop-shadow-md">
       </a>
 
-      <!-- Nav droite desktop -->
-      <nav class="hidden lg:flex lg:gap-2 items-center">
-        <div *ngFor="let menu of mobileMenus.slice(3,6)" class="relative flex items-center group">
-          <a [routerLink]="menu.link || menu.items[0]?.link"
-            class="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold text-[var(--Black)]/80 hover:text-[var(--Bleu-Foncé)] hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300 relative">
-            <ng-container *ngIf="menu.initiales; else iconTemplateRight">
-              <div
-                class="w-8 h-8 rounded-full bg-[var(--Rouge-Clair)] text-white font-bold text-sm flex items-center justify-center">
-                {{ menu.initiales }}
-              </div>
-            </ng-container>
-            <ng-template #iconTemplateRight>
-              <i [class]="menu.icon"></i>
-            </ng-template>
-            <span>{{ menu.title }}</span>
-
-            <!-- Badge messages -->
-            <span *ngIf="menu.title==='Messages' && unreadMessages>0"
-              class="absolute -top-1 -right-1 min-w-[20px] h-5 flex items-center justify-center text-xs font-bold text-white bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)] rounded-full border-2 border-[var(--Blanc)]">
-              {{ unreadMessages }}
-            </span>
-          </a>
-
-          <button *ngIf="menu.items.length" (click)="toggleDropdown(menu.title,$event)"
-            class="ml-1 p-2 rounded-xl text-[var(--Black)]/60 hover:text-[var(--Or)] transition-transform duration-300">
-            <i class="fas fa-chevron-down transform transition-transform"
-              [class.-rotate-180]="activeDropdown===menu.title"></i>
-          </button>
-
-          <!-- Dropdown -->
-          <div *ngIf="activeDropdown===menu.title"
-            class="absolute right-0 top-full mt-2 w-64 rounded-2xl bg-[var(--Blanc)]/95 backdrop-blur-xl shadow-xl p-3 border border-[var(--Bleu-Clair)]/40 animate-fade-in-up z-[1100]">
-            <div
-              class="absolute -top-2 right-6 w-4 h-4 bg-[var(--Blanc)]/95 transform rotate-45 border-r border-t border-[var(--Bleu-Clair)]/40">
-            </div>
-            <a *ngFor="let item of menu.items" [routerLink]="item.link"
-              class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-[var(--Black)]/80 hover:bg-gradient-to-r hover:from-[var(--Bleu-Clair)] hover:to-[var(--Bleu)] hover:text-white transition-all">
-              <ng-container *ngIf="item.initiales; else itemIconRight">
-                <div
-                  class="w-9 h-9 rounded-full bg-[var(--Rouge-Clair)] text-white font-bold text-lg flex items-center justify-center">
-                  {{ item.initiales }}
-                </div>
-              </ng-container>
-              <ng-template #itemIconRight>
-                <i [class]="item.icon"></i>
-              </ng-template>
-              <span>{{ item.title }}</span>
-            </a>
-          </div>
-        </div>
-        <!-- Bouton bascule thème (desktop) -->
-        <button (click)="toggleTheme()"
-                class="ml-2 p-3 rounded-xl text-[var(--Black)]/70 hover:text-[var(--Or)] hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300"
-                title="Changer le thème">
-          <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
-        </button>
-      </nav>
+      <!-- Bouton thème (mobile uniquement) -->
+      <button (click)="toggleTheme()" class="lg:hidden mx-2 p-3 rounded-xl flex items-center justify-center transition-all duration-300 ease-in-out
+                 text-[var(--Black)] dark:text-[var(--Blanc)]
+                 hover:text-[var(--Blanc)] hover:bg-[var(--Bleu)]/20"
+        title="Changer le thème">
+        <i class="fas text-lg transition-all duration-300 transform"
+          [ngClass]="isDarkMode ? 'fa-sun rotate-180' : 'fa-moon rotate-0'"></i>
+      </button>
 
       <!-- Profil mobile -->
       <a routerLink="/dashboard" class="lg:hidden ml-auto relative group"
         title="Utilisateur {{ connectedUser?.initiales }}">
-        <div
-          class="w-10 h-10 rounded-full bg-[var(--Rouge-Clair)] text-white font-bold text-lg flex items-center justify-center shadow-md transition-all duration-300 ease-in-out hover:bg-[var(--Rouge)] hover:scale-110 hover:shadow-lg">
+        <div class="w-10 h-10 rounded-full font-bold text-lg flex items-center justify-center shadow-md
+                    bg-[var(--Rouge-Clair)] dark:bg-[var(--Rouge)]
+                    text-[var(--Blanc)] dark:text-[var(--Blanc)]
+                    transition-all duration-300 ease-in-out hover:scale-110">
           {{ connectedUser?.initiales }}
         </div>
       </a>
 
+      <!-- NAV droite desktop + bouton thème -->
+      <div class="hidden lg:flex lg:items-center lg:gap-2">
+        <nav class="flex lg:gap-2 items-center">
+          <div *ngFor="let menu of mobileMenus.slice(3,6)" class="relative flex items-center group">
+            <a [routerLink]="menu.link || menu.items[0]?.link"
+              class="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold
+                      text-[var(--Black)] dark:text-[var(--Blanc)]
+                      hover:text-[var(--Bleu-Foncé)] dark:hover:text-[var(--Blanc)]
+                      hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300 relative">
+              <ng-container *ngIf="menu.initiales; else iconTemplateRight">
+                <div class="w-8 h-8 rounded-full font-bold text-sm flex items-center justify-center
+                            bg-[var(--Rouge-Clair)] dark:bg-[var(--Rouge)]
+                            text-[var(--Black)] dark:text-[var(--Blanc)] transition-colors duration-300">
+                  {{ menu.initiales }}
+                </div>
+              </ng-container>
+              <ng-template #iconTemplateRight>
+                <i
+                  class="{{ menu.icon }} text-[var(--Black)] dark:text-[var(--Blanc)] transition-colors duration-300"></i>
+              </ng-template>
+              <span>{{ menu.title }}</span>
+              <span *ngIf="menu.title === 'Messages' && unreadMessages > 0"
+                class="absolute -top-1 -right-1 min-w-[20px] h-5 flex items-center justify-center text-xs font-bold text-white
+                           bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)]
+                           rounded-full border-2 border-[var(--Blanc)] dark:border-[var(--Black)]">
+                {{ unreadMessages }}
+              </span>
+            </a>
+          </div>
+        </nav>
+
+        <!-- Bouton bascule thème desktop -->
+        <button (click)="toggleTheme()" class="ml-4 p-3 rounded-xl flex items-center justify-center transition-all duration-300 ease-in-out
+                 text-[var(--Black)] dark:text-[var(--Blanc)]
+                 hover:text-[var(--Blanc)] hover:bg-[var(--Bleu)]/20" title="Changer le thème">
+          <i class="fas text-lg transition-all duration-300 transform"
+            [ngClass]="isDarkMode ? 'fa-sun rotate-180' : 'fa-moon rotate-0'"></i>
+        </button>
+      </div>
+
     </div>
   </div>
 
-  <!-- Menu mobile FULLSCREEN -->
-  <div #mobileMenu *ngIf="mobileMenuOpen"
-    class="-mb-150 -mt-5 fixed inset-0 z-[1200] bg-[var(--Blanc)] backdrop-blur-md flex flex-col animate-fade-in-up overflow-auto">
+  <!-- Menu mobile -->
+  <div *ngIf="mobileMenuOpen"
+    class="fixed inset-0 z-[1200] h-300 bg-[var(--Blanc)] dark:bg-[var(--Gris)] backdrop-blur-md flex flex-col animate-fade-in-up overflow-auto">
 
-    <!-- Header du menu -->
-    <div class="flex items-center justify-between p-6 border-b border-[var(--Bleu-Clair)]/30">
-      <h2 class="text-2xl font-bold text-[var(--Black)] tracking-wide">Menu</h2>
+    <!-- En-tête -->
+    <div class="flex items-center justify-between p-6 border-b border-[var(--Rouge)]">
+      <h2 class="text-2xl font-bold text-[var(--Black)] dark:text-[var(--Blanc)]">Menu</h2>
       <button (click)="closeMobileMenu()"
-        class="p-3 rounded-xl text-[var(--Black)]/60 hover:text-[var(--Or)] transition-all">
+        class="p-3 rounded-xl text-[var(--Black)]/60 dark:text-[var(--Blanc)]/60 hover:text-[var(--Or)] transition-all">
         <i class="fas fa-times text-2xl"></i>
       </button>
     </div>
 
-    <!-- Contenu scrollable -->
+    <!-- Contenu -->
     <div class="flex-1 flex flex-col px-4 sm:px-6 py-6 gap-3">
-      <a *ngFor="let menu of mobileMenus" [routerLink]="menu.link || menu.items[0]?.link"
-        class="group flex items-center gap-4 text-lg sm:text-xl font-medium text-[var(--Black)]/80 hover:text-[var(--Bleu-Foncé)] rounded-2xl px-4 py-3 hover:bg-[var(--Bleu-Clair)]/10 transition-all shadow-sm"
-        (click)="closeMobileMenu()">
-
-        <!-- Icon / Initiales menu -->
-        <div
-          class="w-12 h-12 rounded-xl flex items-center justify-center text-white text-lg shadow-md group-hover:scale-105 transform transition"
-          [ngClass]="menu.initiales ? 'bg-[var(--Rouge-Clair)]' : 'bg-gradient-to-br from-[var(--Rouge-Clair)] to-[var(--Rouge-Foncé)]'">
-          <span *ngIf="menu.initiales; else iconMobile" class="font-bold text-lg">{{ menu.initiales }}</span>
+      <a *ngFor="let menu of mobileMenus" [routerLink]="menu.link || menu.items[0]?.link" (click)="closeMobileMenu()"
+        class="group flex items-center gap-4 text-lg sm:text-xl font-medium
+         text-[var(--Black)]/80 dark:text-[var(--Blanc)]/80
+         hover:text-[var(--Bleu-Foncé)] dark:hover:text-[var(--Bleu-Clair)]
+         rounded-2xl px-4 py-3 hover:bg-[var(--Bleu-Clair)]/10 transition-all shadow-sm">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg shadow-md group-hover:scale-105 transform transition
+         bg-[var(--Rouge-Clair)] text-[var(--Black)] dark:bg-[var(--Rouge)] dark:text-[var(--Blanc)]">
+          <ng-container *ngIf="menu.initiales; else iconMobile">
+            <span class="font-bold text-lg transition-colors duration-300">
+              {{ menu.initiales }}
+            </span>
+          </ng-container>
           <ng-template #iconMobile>
-            <i [class]="menu.icon"></i>
+            <i [class]="menu.icon" class="transition-colors duration-300
+              group-hover:text-[var(--Blanc)] dark:group-hover:text-[var(--Bleu-Clair)]"></i>
           </ng-template>
         </div>
-
-        <!-- Titre -->
         <span class="flex-1">{{ menu.title }}</span>
       </a>
-
-      <!-- Bouton bascule thème (mobile) -->
-      <button (click)="toggleTheme()"
-              class="mt-4 p-3 rounded-xl text-[var(--Black)]/70 hover:text-[var(--Or)] hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300 flex items-center justify-center gap-2">
-        <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
-        <span>Changer le thème</span>
-      </button>
     </div>
   </div>
 </header>
 
-<!-- ====== Styles ====== -->
 <style>
   @keyframes fade-in-up {
     0% {

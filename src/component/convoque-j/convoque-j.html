@@ -1,9 +1,9 @@
 <div
-  class="relative min-h-screen flex flex-col justify-start items-center bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+  class="relative -mt-15 min-h-screen flex flex-col justify-start items-center bg-[var(--Gris)]/90 dark:[var(--Blanc)] p-6">
 
   <!-- ===== EN-TÊTE ===== -->
   <header *ngIf="!loading && userInConvocations.length"
-    class="text-center mb-12 flex flex-col items-center w-full max-w-6xl">
+    class="mt-15 text-center mb-12 flex flex-col items-center w-full max-w-6xl">
 
     <!-- ................ Logo ................ -->
     <div class="relative flex justify-center mt-5 mb-4">
@@ -12,21 +12,21 @@
     </div>
 
     <!-- ................ Sous-titre ................ -->
-    <p class="text-xs sm:text-sm uppercase tracking-widest text-gray-700 mt-3 font-medium">
+    <p class="text-xs sm:text-sm uppercase tracking-widest text-[var(--Black)] dark:text-[var(--Blanc)] mt-3 font-medium">
       Convocation officielle
     </p>
 
     <!-- ................ Titre ................ -->
     <h1
-      class="text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tex-[var(--Black)] drop-shadow-lg mt-2">
+      class="text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-[var(--Black)] dark:text-[var(--Blanc)] drop-shadow-lg mt-2">
       Liste des joueurs convoqués
     </h1>
 
     <!-- ................ Infos match ................ -->
     <div *ngIf="userInConvocations?.length"
-      class="mt-10 bg-[var(--Blanc)]/95 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[var(--Blanc)] w-full max-w-2xl">
+      class="mt-10 bg-[var(--Blanc)] dark:bg-[var(--Gris)] backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-red-700 w-full max-w-2xl">
       <div
-        class="flex flex-col sm:flex-row items-center justify-center gap-4 text-[var(--Black)] text-center sm:text-left">
+        class="flex flex-col sm:flex-row items-center justify-center gap-4 text-[var(--Black)] dark:text-[var(--Blanc)] text-center sm:text-left">
 
         <div class="flex items-center gap-2">
           <svg class="w-5 h-5 text-[var(--Rouge)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,7 +36,7 @@
           <span class="font-semibold">{{ userInConvocations[0]?.date | date:'fullDate':'':'fr' }}</span>
         </div>
 
-        <span aria-hidden="true" class="hidden sm:block text-[var(--Black)]">•</span>
+        <span aria-hidden="true" class="hidden sm:block text-[var(--Black)] dark:text-[var(--Blanc)]">•</span>
 
         <div class="flex items-center gap-2">
           <svg class="w-5 h-5 text-[var(--Rouge)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@
           <span class="font-semibold">à {{ userInConvocations[0]?.date | date:'shortTime':'':'fr' }}</span>
         </div>
 
-        <span aria-hidden="true" class="hidden sm:block text-[var(--Black)]">•</span>
+        <span aria-hidden="true" class="hidden sm:block text-[var(--Black)] dark:text-[var(--Blanc)]">•</span>
 
         <div class="flex items-center gap-2">
           <svg class="w-5 h-5 text-[var(--Rouge)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -60,7 +60,7 @@
       </div>
 
       <p
-        class="mt-4 text-xl sm:text-2xl font-bold text-[var(--Blanc)] tracking-wide bg-[var(--Rouge)] rounded-lg py-2 px-4 inline-block">
+        class="mt-4 text-xl sm:text-2xl font-bold text-white tracking-wide bg-[var(--Rouge)] rounded-lg py-2 px-4 inline-block">
         {{ userInConvocations[0]?.match }}
       </p>
     </div>
@@ -70,16 +70,16 @@
 
   <!-- ===== MESSAGE SI AUCUNE CONVOCATION ===== -->
   <div *ngIf="!loading && !userInConvocations.length" class="text-center mt-12">
-    <p class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700">
+    <p class="text-lg sm:text-xl md:text-2xl font-semibold text-[var(--Black)] dark:text-[var(--Blanc)]">
       Aucun joueur n'est convoqué pour le moment.
     </p>
-    <p class="text-gray-500 mt-2">Vérifiez plus tard pour les mises à jour des convocations.</p>
+    <p class="text-[var(--Black)] dark:text-[var(--Blanc)] mt-2">Vérifiez plus tard pour les mises à jour des convocations.</p>
   </div>
 
   <!-- ===== GRILLE DES CONVOCATIONS ===== -->
   <div *ngIf="!loading && userInConvocations.length"
     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-7xl mx-auto">
-    <div *ngFor="let c of userInConvocations; index as i" class="group bg-white/90 backdrop-blur-sm rounded-2xl p-4 border border-gray-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden
+    <div *ngFor="let c of userInConvocations; index as i" class="group bg-[var(--Blanc)] dark:bg-[var(--Gris)] backdrop-blur-sm rounded-2xl p-4 border border-red-700 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden
     sm:ml-20 sm:-mr-60
     md:-mr-100 md:ml-25
     lg:ml-57 lg:-mr-130
@@ -96,7 +96,7 @@
       <ul role="list" class="space-y-2 relative z-10">
         <li *ngFor="let joueur of c.joueurs; index as j" role="listitem"
           class="flex items-center gap-3 p-2 rounded-lg transition-all duration-200 cursor-pointer" [ngClass]="{
-              'bg-amber-50 border-2 border-amber-300 shadow-md': userConnecte && joueur.nom === userConnecte.nom && joueur.prenom === userConnecte.prenom && !joueur.hasClicked,
+              'border-2 border-red-700 shadow-md': userConnecte && joueur.nom === userConnecte.nom && joueur.prenom === userConnecte.prenom && !joueur.hasClicked,
               'bg-[var(--Vert)] border border-[var(--Vert)]': joueur.etatPresence === 'present',
               'bg-[var(--Rouge)] border border-[var(--Rouge)]': joueur.etatPresence === 'absent'
             }">
@@ -105,7 +105,7 @@
           <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" [ngClass]="{
                  'bg-[var(--Vert)] text-white': joueur.etatPresence === 'present',
                  'bg-[var(--Rouge)] text-white': joueur.etatPresence === 'absent',
-                 'bg-gray-100 text-gray-600': !joueur.etatPresence
+                 'bg-white text-black': !joueur.etatPresence
                }">
             {{ j + 1 }}
           </div>
@@ -130,7 +130,7 @@
 
           <!-- Nom du joueur -->
           <div class="flex-1 min-w-0">
-            <p class="text-[var(--Black)] font-semibold text-sm sm:text-base truncate">{{ joueur.prenom }} {{ joueur.nom
+            <p class="text-[var(--Black)] dark:text-[var(--Blanc)] font-semibold text-sm sm:text-base truncate">{{ joueur.prenom }} {{ joueur.nom
               }}</p>
             <p *ngIf="joueur.etatPresence" class="text-xs text-[var(--Black)] capitalize">{{ joueur.etatPresence ===
               'present' ? 'Présent' : 'Absent' }}</p>

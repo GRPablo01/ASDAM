@@ -45,8 +45,15 @@ export class Header implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    // Charger l'utilisateur connecté
     this.loadConnectedUser();
+  
+    // 🌙 Gérer le thème enregistré dans le localStorage
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    this.isDarkMode = savedTheme === 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
   }
+  
 
   ngAfterViewInit(): void {
     if (this.mobileMenuRef) {
@@ -341,8 +348,9 @@ export class Header implements OnInit, AfterViewInit {
 
   toggleTheme(): void {
     this.isDarkMode = !this.isDarkMode;
-    localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
-    this.updateTheme();
+    const theme = this.isDarkMode ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
   }
 
   private updateTheme(): void {
