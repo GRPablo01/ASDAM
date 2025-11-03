@@ -20,8 +20,8 @@
         *ngFor="let equipe of equipes"
         (click)="selectEquipe(equipe)"
         [ngClass]="{
-          'bg-[var(--Rouge)] text-[var(--Blanc)] shadow-lg scale-105': selectedEquipe === equipe,
-          'bg-[var(--Bleu)]/90 text-[var(--Blanc)] opacity-80 hover:opacity-100 hover:scale-105': selectedEquipe !== equipe
+          'bg-[var(--Rouge)] text-white scale-105': selectedEquipe === equipe,
+          'bg-[var(--Bleu)]/90 text-white opacity-80 hover:opacity-100 hover:scale-105': selectedEquipe !== equipe
         }"
         class="flex items-center gap-3 px-5 py-3 font-semibold rounded-2xl transition-all duration-200 ease-in-out
                hover:shadow-lg active:scale-95 w-full justify-center md:justify-start"

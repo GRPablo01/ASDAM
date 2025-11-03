@@ -403,7 +403,7 @@ text-[var(--Black)] dark:text-[var(--Blanc)]">
               </thead>
               <tbody>
                 <tr *ngFor="let eq of c.equipes; let i = index"
-                  class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-300 transition-colors"
                   [ngClass]="isHighlightedEquipe(eq) ? 'bg-blue-100 dark:bg-blue-900/40 font-bold' : ''">
                   <td class="px-4 py-3 text-center font-semibold">{{ i + 1 }}</td>
                   <td class="px-4 py-3 font-medium">{{ eq.equipe }}</td>
