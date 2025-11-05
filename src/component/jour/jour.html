@@ -2,215 +2,123 @@
    CALENDRIER – VERSION PREMIUM & MODERNE
    Design clair, espacé, responsive et fluide
 ======================================================= -->
-<div
-  class="min-h-150 -mt-15 bg-[var(--Gris)] dark:bg-[var(--Gris)]/90 text-[var(--Black)] dark:text-[var(--Blanc)] p-6 sm:p-10 relative">
-
-  <!-- ========= HEADER AMÉLIORÉ ========= -->
-  <header
-    class="mt-15 mb-10 p-6 bg-[var(--Gris)] dark:bg-[var(--Gris)]/90 rounded-3xl shadow-xl border border-red-700 transition-all duration-300">
-
-    <!-- Conteneur principal -->
+<div class="min-h-150 -mt-15 bg-[var(--Gris)] dark:bg-[var(--Gris)]/90 text-[var(--Black)] dark:text-[var(--Blanc)] p-6 sm:p-10 relative">
+  <!-- HEADER -->
+  <header class="mt-15 mb-10 p-6 bg-[var(--Gris)] dark:bg-[var(--Gris)]/90 rounded-3xl shadow-xl border border-red-700 transition-all duration-300">
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-
-      <!-- ===== TITRE + BOUTON AUJOURD’HUI ===== -->
       <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
         <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-[var(--Black)] dark:text-[var(--Blanc)]">
           {{ weekLabel() }}
         </h1>
-
-        <button (click)="goToday()" aria-label="Aller à aujourd’hui"
-          class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-full bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 dark:focus:ring-offset-[var(--Gris)] transition-all duration-200 shadow-md hover:scale-105">
+        <button (click)="goToday()" aria-label="Aller à aujourd’hui" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-full bg-red-600 text-white hover:bg-red-700 transition-all duration-200 shadow-md hover:scale-105">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.415L11 9.586V6z" />
+            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.415L11 9.586V6z" />
           </svg>
           Aujourd’hui
         </button>
       </div>
-
-      <!-- ===== NAVIGATION ===== -->
       <nav class="flex flex-wrap items-center gap-3" role="navigation" aria-label="Navigation semaine">
-
-        <button (click)="prevWeek()" aria-label="Semaine précédente"
-          class="px-4 py-2.5 rounded-xl bg-[var(--Gris)]/20 dark:bg-[var(--Black)]/70 text-[var(--Black)] dark:text-[var(--Blanc)] hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 transition-all duration-200 shadow-sm flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-red-400">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          <span class="hidden sm:inline">Précédent</span>
-        </button>
-
-        <label class="cursor-pointer relative group" aria-label="Sélectionner une date">
-          <svg xmlns="http://www.w3.org/2000/svg"
-            class="h-7 w-7 text-[var(--Black)] dark:text-[var(--Blanc)] group-hover:text-red-500 transition" fill="none"
-            viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <input type="date" (change)="jumpToDate($event.target.value)"
-            class="absolute inset-0 opacity-0 cursor-pointer" />
-        </label>
-
-        <button (click)="nextWeek()" aria-label="Semaine suivante"
-          class="px-4 py-2.5 rounded-xl bg-[var(--Gris)]/20 dark:bg-[var(--Black)]/70 text-[var(--Black)] dark:text-[var(--Blanc)] hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 transition-all duration-200 shadow-sm flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-red-400">
-          <span class="hidden sm:inline">Suivant</span>
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-
-        <button *ngIf="canEdit()" (click)="openPopup()" aria-label="Créer un nouvel événement"
-          class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--Rouge)] hover:bg-[var(--Bleu)] text-white transition-all duration-200 shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Créer
-        </button>
+        <button (click)="prevWeek()" class="px-4 py-2.5 rounded-xl ...">Précédent</button>
+        <label class="cursor-pointer relative group"><input type="date" (change)="jumpToDate($event.target.value)" class="absolute inset-0 opacity-0 cursor-pointer" /></label>
+        <button (click)="nextWeek()" class="px-4 py-2.5 rounded-xl ...">Suivant</button>
+        <button *ngIf="canEdit()" (click)="openPopup()" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--Rouge)] hover:bg-[var(--Bleu)] text-white transition-all duration-200 shadow-md hover:scale-105">Créer</button>
       </nav>
-
     </div>
-
-    <!-- ===== RÔLE + PUBLICS ===== -->
-    <div
-      class="mt-6 pt-4 border-t border-red-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm">
+    <div class="mt-6 pt-4 border-t border-red-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm">
       <div class="flex items-center gap-2 text-[var(--Black)] dark:text-[var(--Blanc)] font-semibold">
-        <i class="fas fa-user-shield" aria-hidden="true"></i>
+        <i class="fas fa-user-shield"></i>
         <span>Rôle : <span class="ml-1">{{ userRole | titlecase }}</span></span>
       </div>
-
       <div class="flex items-center gap-2 text-[var(--Black)] dark:text-[var(--Blanc)] flex-wrap">
-        <i class="fas fa-users" aria-hidden="true"></i>
+        <i class="fas fa-users"></i>
         <span>Accès autorisé :</span>
         <ng-container *ngIf="userPublics.length > 0; else noAccess">
-          <span *ngFor="let pub of userPublics"
-            class="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-medium">
-            {{ pub }}
-          </span>
+          <span *ngFor="let pub of userPublics" class="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-medium">{{ pub }}</span>
         </ng-container>
-        <ng-template #noAccess>
-          <span class="italic text-gray-400">Aucun</span>
-        </ng-template>
+        <ng-template #noAccess><span class="italic text-gray-400">Aucun</span></ng-template>
       </div>
     </div>
-
   </header>
 
-  <!-- ========================= CALENDRIER SEMAINE ========================= -->
+  <!-- CALENDRIER -->
   <section class="flex flex-col w-full h-full gap-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-6">
-
-      <div *ngFor="let day of weekDays" class="flex flex-col 
-             bg-[var(--Blanc)] dark:bg-[var(--Gris)]/90
-             rounded-2xl shadow-lg border border-red-700
-             overflow-hidden hover:shadow-2xl hover:scale-[1.02]
-             transition-all duration-200">
-
-        <!-- En-tête jour -->
-        <div class="text-center font-extrabold text-lg py-4 uppercase tracking-wide shadow-md" [ngClass]="isToday(day)
-          ? 'bg-gradient-to-r from-[var(--Bleu)] to-[var(--Bleu-Foncé)] text-white'
-          : 'bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white'">
+      <div *ngFor="let day of weekDays" class="flex flex-col bg-[var(--Blanc)] dark:bg-[var(--Gris)]/90 rounded-2xl shadow-lg border border-red-700 overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-200">
+        <div class="text-center font-extrabold text-lg py-4 uppercase tracking-wide shadow-md" [ngClass]="isToday(day) ? 'bg-gradient-to-r from-[var(--Bleu)] to-[var(--Bleu-Foncé)] text-white' : 'bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white'">
           {{ (day | date:'EEEE dd') | titlecase }}
         </div>
-
-
-
-        <!-- Contenu jour -->
         <div class="flex flex-col flex-1 gap-4 p-5">
-
-          <!-- Événements -->
           <ng-container *ngFor="let evt of getEventsForDay(day)">
-            <article class="group flex flex-col gap-2 p-4 rounded-2xl cursor-pointer
-                   text-white hover:scale-[1.04] transition-all shadow-md" [ngClass]="getEventColor(evt)"
-              (click)="openEventDetails(evt)">
-
+            <article class="group flex flex-col gap-2 p-4 rounded-2xl cursor-pointer text-white hover:scale-[1.04] transition-all shadow-md" [ngClass]="getEventColor(evt)" (click)="openEventDetails(evt)">
               <div class="flex items-start justify-between">
                 <div class="flex items-center gap-3 min-w-0">
                   <i [class]="getEventIcon(evt) + ' text-xl flex-shrink-0'"></i>
-                  <h4 class="font-semibold text-lg truncate" style="max-width: 180px;">
-                    {{ evt.title }}
-                  </h4>
+                  <h4 class="font-semibold text-lg truncate" style="max-width: 180px;">{{ evt.title }}</h4>
                 </div>
-                <span
-                  class="bg-white/90 dark:bg-gray-800/90
-                       text-gray-900 dark:text-gray-100
-                       text-xs px-3 py-1 rounded-full font-medium flex-shrink-0 border border-gray-300 dark:border-gray-600">
-                  {{ evt.level }}
-                </span>
+                <span class="bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-gray-100 text-xs px-3 py-1 rounded-full font-medium flex-shrink-0 border border-gray-300 dark:border-gray-600">{{ evt.level }}</span>
               </div>
-
-              <div class="text-sm opacity-90 truncate dark:opacity-80" style="max-width: 220px;">
-                {{ evt.category }}
-              </div>
-
-              <div class="text-sm flex items-center gap-2 opacity-90 dark:opacity-80">
-                <i class="far fa-clock"></i>
-                <span>{{ evt.hour }} - {{ evt.endHour }}</span>
-              </div>
+              <div class="text-sm opacity-90 truncate dark:opacity-80" style="max-width: 220px;">{{ evt.category }}</div>
+              <div class="text-sm flex items-center gap-2 opacity-90 dark:opacity-80"><i class="far fa-clock"></i><span>{{ evt.hour }} - {{ evt.endHour }}</span></div>
             </article>
           </ng-container>
 
-          <!-- Matchs -->
           <ng-container *ngFor="let match of getMatchesForDay(day)">
-            <div class="group flex flex-col p-4 rounded-2xl 
-                   bg-gradient-to-r from-indigo-600 to-blue-600
-                   text-white cursor-pointer hover:scale-[1.04]
-                   transition-all shadow-md" (click)="openMatchDetails(match)">
-
+            <div class="group flex flex-col p-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 text-white cursor-pointer hover:scale-[1.04] transition-all shadow-md" (click)="openMatchDetails(match)">
               <div class="flex items-center justify-between mb-3">
-
-                <!-- Équipe A -->
                 <div class="flex items-center gap-3 min-w-0">
-                  <img *ngIf="match.logoA" [src]="match.logoA" alt="{{ match.equipeA }}"
-                    class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" />
+                  <img *ngIf="match.logoA" [src]="match.logoA" alt="{{ match.equipeA }}" class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" />
                   <span class="font-semibold text-base truncate">{{ match.equipeA }}</span>
                 </div>
-
                 <span class="text-sm px-3 font-bold tracking-wider">VS</span>
-
-                <!-- Équipe B -->
                 <div class="flex items-center gap-3 min-w-0 justify-end">
                   <span class="font-semibold text-base truncate">{{ match.equipeB }}</span>
-                  <img *ngIf="match.logoB" [src]="match.logoB" alt="{{ match.equipeB }}"
-                    class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" />
+                  <img *ngIf="match.logoB" [src]="match.logoB" alt="{{ match.equipeB }}" class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" />
                 </div>
               </div>
-
-              <div class="flex items-center justify-between text-sm text-white/85">
-                <span class="truncate">{{ match.lieu }} · {{ match.categorie }}</span>
-                <span class="flex items-center gap-1 bg-white/10 px-3 py-1 rounded-full">
-                  <i class="far fa-clock"></i> {{ match.heureDebut }}
-                </span>
-              </div>
+              <div class="flex items-center justify-between text-sm text-white/85"><span class="truncate">{{ match.lieu }} · {{ match.categorie }}</span><span class="flex items-center gap-1 bg-white/10 px-3 py-1 rounded-full"><i class="far fa-clock"></i> {{ match.heureDebut }}</span></div>
             </div>
           </ng-container>
 
-          <!-- Message si vide -->
-          <div *ngIf="getEventsForDay(day).length === 0 && getMatchesForDay(day).length === 0" class="flex-1 flex items-center justify-center
-                 text-[var(--Gris)] dark:text-[var(--Blanc)]
-                 text-base italic py-10">
+          <div *ngIf="getEventsForDay(day).length === 0 && getMatchesForDay(day).length === 0" class="flex-1 flex items-center justify-center text-[var(--Gris)] dark:text-[var(--Blanc)] text-base italic py-10">
             Aucun événement
           </div>
         </div>
-
-        <!-- Footer -->
-        <div class="px-4 py-3 text-center text-sm font-medium
-               text-[var(--Black)] dark:text-[var(--Blanc)]
-               
-               border-t border-red-700">
-          {{ getEventsForDay(day).length + getMatchesForDay(day).length }}
-          élément<span *ngIf="getEventsForDay(day).length + getMatchesForDay(day).length !== 1">s</span>
+        <div class="px-4 py-3 text-center text-sm font-medium text-[var(--Black)] dark:text-[var(--Blanc)] border-t border-red-700">
+          {{ getEventsForDay(day).length + getMatchesForDay(day).length }} élément<span *ngIf="getEventsForDay(day).length + getMatchesForDay(day).length !== 1">s</span>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- BOUTON MOBILE -->
+  <button *ngIf="canEdit()" (click)="openPopup()" class="md:hidden fixed bottom-6 right-6 w-16 h-16 bg-red-600 text-white rounded-full shadow-xl flex items-center justify-center text-3xl hover:bg-red-700 transition-all" aria-label="Créer événement">+</button>
 
-  <!-- ==================== BOUTON MOBILE + ==================== -->
-  <button *ngIf="canEdit()" (click)="openPopup()"
-    class="md:hidden fixed bottom-6 right-6 w-16 h-16 bg-red-600 text-white rounded-full shadow-xl flex items-center justify-center text-3xl hover:bg-red-700 transition-all"
-    aria-label="Créer événement">
-    +
-  </button>
-  <!-- ================= POPUPS ================= -->
+  <!-- POPUP CRÉER/MODIFIER -->
+  <div *ngIf="showPopup" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/70 backdrop-blur-md p-4 animate-fadeIn">
+    <div class="relative w-full max-w-3xl bg-[var(--Blanc)] dark:bg-[var(--Black)]/90 text-[var(--Black)] dark:text-[var(--Blanc)] rounded-3xl border border-red-700 shadow-2xl p-6 flex flex-col transition-colors duration-200">
+      <button (click)="closePopup()" class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-[var(--Rouge)] hover:text-white transition-all duration-200 shadow-sm" aria-label="Fermer">✕</button>
+      <header class="bg-gradient-to-r from-red-600 to-red-700 rounded-2xl px-4 py-4 text-white text-center mb-6 shadow-md">
+        <h2 class="text-2xl font-bold">{{ isEditing ? 'Modifier l’événement' : 'Créer un événement' }}</h2>
+      </header>
+      <section class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <label class="flex flex-col gap-1"><span class="font-semibold">Titre</span><input type="text" [(ngModel)]="newEventTitle" class="rounded-lg border border-gray-300 dark:border-gray-600 bg-[var(--Blanc)] dark:bg-[var(--Black)]/80 text-[var(--Black)] dark:text-[var(--Blanc)] px-3 py-2 transition-colors" /></label>
+        <label class="flex flex-col gap-1"><span class="font-semibold">Catégorie</span><select [(ngModel)]="newEventCategory" class="rounded-lg border border-gray-300 dark:border-gray-600 bg-[var(--Blanc)] dark:bg-[var(--Black)]/80 text-[var(--Black)] dark:text-[var(--Blanc)] px-3 py-2 transition-colors"><option *ngFor="let cat of categories">{{ cat }}</option></select></label>
+        <label class="flex flex-col gap-1"><span class="font-semibold">Niveau/Public</span><select [(ngModel)]="newEventLevel" class="rounded-lg border border-gray-300 dark:border-gray-600 bg-[var(--Blanc)] dark:bg-[var(--Black)]/80 text-[var(--Black)] dark:text-[var(--Blanc)] px-3 py-2 transition-colors"><option *ngFor="let p of public">{{ p }}</option></select></label>
+        <label class="flex flex-col gap-1"><span class="font-semibold">Responsable</span><input type="text" [(ngModel)]="newEventCoach" class="rounded-lg border border-gray-300 dark:border-gray-600 bg-[var(--Blanc)] dark:bg-[var(--Black)]/80 text-[var(--Black)] dark:text-[var(--Blanc)] px-3 py-2 transition-colors" /></label>
+        <label class="flex flex-col gap-1"><span class="font-semibold">Date</span><input type="date" [(ngModel)]="newEventDate" class="rounded-lg border border-gray-300 dark:border-gray-600 bg-[var(--Blanc)] dark:bg-[var(--Black)]/80 text-[var(--Black)] dark:text-[var(--Blanc)] px-3 py-2 transition-colors" /></label>
+        <label class="flex flex-col gap-1"><span class="font-semibold">Heure début</span><input type="time" [(ngModel)]="newEventHour" class="rounded-lg border border-gray-300 dark:border-gray-600 bg-[var(--Blanc)] dark:bg-[var(--Black)]/80 text-[var(--Black)] dark:text-[var(--Blanc)] px-3 py-2 transition-colors" /></label>
+        <label class="flex flex-col gap-1"><span class="font-semibold">Heure fin</span><input type="time" [(ngModel)]="newEventEndHour" class="rounded-lg border border-gray-300 dark:border-gray-600 bg-[var(--Blanc)] dark:bg-[var(--Black)]/80 text-[var(--Black)] dark:text-[var(--Blanc)] px-3 py-2 transition-colors" /></label>
+        <label class="flex flex-col gap-1 col-span-2"><span class="font-semibold">Description</span><textarea [(ngModel)]="newEventDescription" class="rounded-lg border border-gray-300 dark:border-gray-600 bg-[var(--Blanc)] dark:bg-[var(--Black)]/80 text-[var(--Black)] dark:text-[var(--Blanc)] px-3 py-2 transition-colors"></textarea></label>
+      </section>
+      <div *ngIf="isSlotTaken(newEventDate,newEventHour,newEventEndHour)" class="mt-4 text-red-600 font-semibold text-center">⚠️ Un événement existe déjà pour ce créneau horaire !</div>
+      <footer class="flex justify-end gap-3 mt-6">
+        <button (click)="closePopup()" class="px-5 py-2 rounded-xl bg-gray-400 dark:bg-gray-600 text-white font-semibold hover:bg-gray-500 dark:hover:bg-gray-700 transition">Annuler</button>
+        <button (click)="submitEvent()" [disabled]="isSubmitting || isSlotTaken(newEventDate,newEventHour,newEventEndHour)" class="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition">{{ isEditing ? 'Modifier' : 'Créer' }}</button>
+      </footer>
+    </div>
+  </div>
+
+    <!-- ================= POPUPS ================= -->
   <!-- ==================== POPUP ÉVÉNEMENT CENTRÉ (UI/UX PREMIUM - DARK MODE READY) ==================== -->
   <div *ngIf="selectedEvent" class="fixed inset-0 z-50 flex items-center justify-center 
        bg-black/50 dark:bg-black/70 backdrop-blur-md p-4 animate-fadeIn">
@@ -398,124 +306,6 @@
     </div>
   </div>
 
-
-
-
-  <!-- ==================== POPUP CRÉER / MODIFIER ÉVÉNEMENT – DARK MODE READY ==================== -->
-  <div *ngIf="showPopup" class="fixed inset-0 z-50 flex items-center justify-center
-bg-black/50 dark:bg-black/70 backdrop-blur-md p-4 animate-fadeIn">
-
-    <div class="relative w-full max-w-3xl
-  bg-[var(--Blanc)] dark:bg-[var(--Black)]/90
-  text-[var(--Black)] dark:text-[var(--Blanc)]
-  rounded-3xl border border-red-700
-  shadow-2xl p-6 flex flex-col transition-colors duration-200">
-
-      <!-- Bouton Fermer -->
-      <button (click)="closePopup()" class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center
-       rounded-full bg-gray-100 dark:bg-gray-800
-       text-gray-600 dark:text-gray-300
-       hover:bg-[var(--Rouge)] hover:text-white
-       transition-all duration-200 shadow-sm" aria-label="Fermer">
-        ✕
-      </button>
-
-      <!-- Header -->
-      <header class="bg-gradient-to-r from-red-600 to-red-700
-       rounded-2xl px-4 py-4 text-white text-center mb-6 shadow-md">
-        <h2 class="text-2xl font-bold">
-          {{ isEditing ? 'Modifier l’événement' : 'Créer un événement' }}
-        </h2>
-      </header>
-
-      <!-- Formulaire -->
-      <section class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-
-        <label class="flex flex-col gap-1">
-          <span class="font-semibold">Titre</span>
-          <input type="text" [(ngModel)]="newEventTitle" class="rounded-lg border border-gray-300 dark:border-gray-600
-          bg-[var(--Blanc)] dark:bg-[var(--Black)]/80
-          text-[var(--Black)] dark:text-[var(--Blanc)]
-          px-3 py-2 transition-colors" />
-        </label>
-
-        <label class="flex flex-col gap-1">
-          <span class="font-semibold">Catégorie</span>
-          <select [(ngModel)]="newEventCategory" class="rounded-lg border border-gray-300 dark:border-gray-600
-          bg-[var(--Blanc)] dark:bg-[var(--Black)]/80
-          text-[var(--Black)] dark:text-[var(--Blanc)]
-          px-3 py-2 transition-colors">
-            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-          </select>
-        </label>
-
-        <label class="flex flex-col gap-1">
-          <span class="font-semibold">Niveau</span>
-          <select [(ngModel)]="newEventLevel" class="rounded-lg border border-gray-300 dark:border-gray-600
-          bg-[var(--Blanc)] dark:bg-[var(--Black)]/80
-          text-[var(--Black)] dark:text-[var(--Blanc)]
-          px-3 py-2 transition-colors">
-            <option *ngFor="let lvl of public" [value]="lvl">{{ lvl }}</option>
-          </select>
-        </label>
-
-        <label class="flex flex-col gap-1">
-          <span class="font-semibold">Responsable</span>
-          <input type="text" [(ngModel)]="newEventCoach" class="rounded-lg border border-gray-300 dark:border-gray-600
-          bg-[var(--Blanc)] dark:bg-[var(--Black)]/80
-          text-[var(--Black)] dark:text-[var(--Blanc)]
-          px-3 py-2 transition-colors" />
-        </label>
-
-        <label class="flex flex-col gap-1">
-          <span class="font-semibold">Date</span>
-          <input type="date" [(ngModel)]="newEventDate" class="rounded-lg border border-gray-300 dark:border-gray-600
-          bg-[var(--Blanc)] dark:bg-[var(--Black)]/80
-          text-[var(--Black)] dark:text-[var(--Blanc)]
-          px-3 py-2 transition-colors" />
-        </label>
-
-        <label class="flex flex-col gap-1">
-          <span class="font-semibold">Heure début</span>
-          <input type="time" [(ngModel)]="newEventHour" class="rounded-lg border border-gray-300 dark:border-gray-600
-          bg-[var(--Blanc)] dark:bg-[var(--Black)]/80
-          text-[var(--Black)] dark:text-[var(--Blanc)]
-          px-3 py-2 transition-colors" />
-        </label>
-
-        <label class="flex flex-col gap-1">
-          <span class="font-semibold">Heure fin</span>
-          <input type="time" [(ngModel)]="newEventEndHour" class="rounded-lg border border-gray-300 dark:border-gray-600
-          bg-[var(--Blanc)] dark:bg-[var(--Black)]/80
-          text-[var(--Black)] dark:text-[var(--Blanc)]
-          px-3 py-2 transition-colors" />
-        </label>
-
-        <label class="flex flex-col gap-1 col-span-2 sm:col-span-3 md:col-span-4">
-          <span class="font-semibold">Description</span>
-          <textarea [(ngModel)]="newEventDescription" class="rounded-lg border border-gray-300 dark:border-gray-600
-             bg-[var(--Blanc)] dark:bg-[var(--Black)]/80
-             text-[var(--Black)] dark:text-[var(--Blanc)]
-             px-3 py-2 min-h-[80px] resize-none transition-colors"></textarea>
-        </label>
-      </section>
-
-      <!-- Footer -->
-      <footer class="flex justify-end gap-3 mt-6">
-        <button (click)="closePopup()" class="px-5 py-2 rounded-xl
-         bg-gray-400 dark:bg-gray-600
-         text-white font-semibold hover:bg-gray-500 dark:hover:bg-gray-700
-         transition">
-          Annuler
-        </button>
-        <button (click)="submitEvent()" [disabled]="isSubmitting" class="px-5 py-2 rounded-xl
-         bg-red-600 hover:bg-red-700
-         text-white font-semibold transition">
-          {{ isEditing ? 'Modifier' : 'Créer' }}
-        </button>
-      </footer>
-
-    </div>
-  </div>
-
 </div>
+
+
