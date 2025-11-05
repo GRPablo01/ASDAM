@@ -94,38 +94,57 @@
   </div>
 </section>
 
-<!-- MODAL -->
+<!-- MODAL OVERLAY -->
 <div *ngIf="activeFeatureIndex !== null"
-     class="fixed inset-0 z-50 flex items-center justify-center
-            bg-[var(--Black)]/40 dark:bg-[var(--Black)]/70 backdrop-blur-xl px-4 py-6 animate-fadeIn"
+     class="fixed inset-0 z-[9999] flex items-center justify-center
+            bg-black/50 backdrop-blur-md animate-fadeIn px-4 sm:px-6"
      (click)="closeFeature()">
-  <div class="bg-gradient-to-br from-white/90 to-white/70 dark:from-[var(--Black)]/80 dark:to-[var(--Black)]/60
-              backdrop-blur-xl border border-gray-300 dark:border-gray-600 rounded-2xl shadow-2xl max-w-[90vw] w-full p-8 relative animate-slideUp"
+
+  <!-- MODAL CARD -->
+  <div class="relative w-full max-w-xl rounded-3xl overflow-hidden
+              bg-[var(--Blanc)]/80 dark:bg-[var(--Gris)]/80
+              border border-red-700
+              shadow-[0px_12px_45px_rgba(0,0,0,0.35)]
+              p-8 animate-scaleIn"
        (click)="$event.stopPropagation()">
 
+    <!-- CLOSE BUTTON -->
     <button (click)="closeFeature()"
-            class="absolute top-4 right-4 text-[var(--Black)] dark:text-[var(--Blanc)]
-                   hover:text-[var(--Rouge)] dark:hover:text-[var(--Rouge-Foncé)]
-                   text-2xl p-2 rounded-full transition-colors"
-            aria-label="Fermer la fenêtre">
-      <i class="fas fa-xmark"></i>
+            class="absolute top-4 right-4 p-2 rounded-full
+                   text-[var(--Black)] dark:text-[var(--Blanc)] hover:text-red-700
+                   transition-all duration-200"
+            aria-label="Fermer">
+      <i class="fas fa-xmark text-xl"></i>
     </button>
 
-    <div class="flex flex-col items-center text-center space-y-6">
-      <div class="w-16 h-16 flex items-center justify-center rounded-xl
+    <!-- CONTENT -->
+    <div class="flex flex-col items-center text-center space-y-5">
+
+      <!-- ICON BADGE -->
+      <div class="w-16 h-16 flex items-center justify-center rounded-2xl
                   bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)]
-                  text-white text-3xl shadow-md">
+                  text-white text-3xl shadow-lg">
         <i [ngClass]="features[activeFeatureIndex!].icon"></i>
       </div>
-      <h2 class="text-2xl font-black text-[var(--Black)] dark:text-[var(--Blanc)]">
+
+      <!-- TITLE -->
+      <h2 class="text-3xl font-extrabold tracking-tight
+      text-[var(--Black)] dark:text-[var(--Blanc)]">
         {{ features[activeFeatureIndex!].title }}
       </h2>
-      <p class="text-[var(--Black)]/90 dark:text-[var(--Blanc)]/90 leading-relaxed text-base">
-        {{ showFullDescription ? features[activeFeatureIndex!].description : (features[activeFeatureIndex!].description | slice:0:120) + '...' }}
+
+      <!-- DESCRIPTION -->
+      <p class="text-[var(--Black)] dark:text-[var(--Blanc)] leading-relaxed text-base">
+        {{ showFullDescription ? features[activeFeatureIndex!].description : (features[activeFeatureIndex!].description | slice:0:160) + '...' }}
       </p>
-      <button (click)="toggleDescription()" class="text-[var(--Rouge)] dark:text-[var(--Rouge-Foncé)] hover:underline text-sm">
+
+      <!-- SEE MORE -->
+      <button (click)="toggleDescription()"
+              class="text-sm font-medium text-[var(--Rouge)] dark:text-[var(--Rouge-Foncé)]
+                     hover:opacity-80 transition-all">
         {{ showFullDescription ? 'Voir moins' : 'Voir plus' }}
       </button>
+
     </div>
   </div>
 </div>

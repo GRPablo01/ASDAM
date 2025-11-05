@@ -20,8 +20,8 @@
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" (click)="message = null"></div>
         <div
           class="relative z-10 w-full max-w-sm p-6 rounded-2xl 
-                    bg-gradient-to-r from-[var(--Rouge-Foncé)] to-[var(--Rouge)] 
-                    text-white text-center shadow-2xl border border-[var(--Rouge-Clair)]/30 animate-fade-in-up">
+                 bg-gradient-to-r from-[var(--Rouge-Foncé)] to-[var(--Rouge)] 
+                 text-white text-center shadow-2xl border border-[var(--Rouge-Clair)]/30 animate-fade-in-up">
           <p class="text-base font-medium">{{ message }}</p>
           <button (click)="message = null"
             class="mt-4 px-4 py-2 bg-white/20 text-white rounded-md hover:bg-white/40 transition">
@@ -30,16 +30,15 @@
         </div>
       </div>
 
-      <!-- 🧠 Formulaire d’inscription -->
+      <!-- 🧠 Formulaire scrollable -->
       <form (ngSubmit)="valider()" #inscriptionForm="ngForm"
-        class=" bg-white/10 backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-2xl 
-               border border-white/20 space-y-6 transition-transform duration-300">
+        class="bg-white/10 backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 space-y-6 transition-transform duration-300 hover:scale-[1.02] max-h-[90vh] overflow-y-auto">
 
         <!-- 🧩 Header -->
         <div class="text-center mb-8">
           <div
             class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)]
-                    rounded-full flex items-center justify-center shadow-lg">
+                   rounded-full flex items-center justify-center shadow-lg">
             <i class="fas fa-user-plus text-2xl sm:text-3xl text-white"></i>
           </div>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Inscription</h2>
@@ -48,9 +47,7 @@
 
         <!-- 🌈 Étape 1 -->
         <div *ngIf="etape === 1" class="space-y-4">
-
-          <!-- Nom et Prénom -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-semibold text-white mb-1">
                 <i class="fas fa-id-badge mr-2 text-[var(--Rouge-Clair)]"></i> Nom
@@ -71,7 +68,6 @@
             </div>
           </div>
 
-          <!-- Email -->
           <div>
             <label class="block text-sm font-semibold text-white mb-1">
               <i class="fas fa-envelope mr-2 text-[var(--Rouge-Clair)]"></i> Adresse e-mail
@@ -82,7 +78,6 @@
                      border border-white/20 focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/30 transition-all" />
           </div>
 
-          <!-- Mot de passe -->
           <div>
             <label class="block text-sm font-semibold text-white mb-1">
               <i class="fas fa-lock mr-2 text-[var(--Rouge-Clair)]"></i> Mot de passe
@@ -99,7 +94,6 @@
             </div>
           </div>
 
-          <!-- Bouton Suivant -->
           <button type="button" (click)="etapeSuivante()" [disabled]="!etape1Valide()"
             class="w-full py-3 rounded-xl font-bold text-white
                    bg-gradient-to-r from-[var(--Rouge-Foncé)] to-[var(--Rouge)]
@@ -109,12 +103,11 @@
             Suivant
           </button>
 
-          <!-- Lien vers Connexion -->
           <div class="text-center mt-6">
             <p class="text-white/80 text-sm">
               Déjà un compte ?
               <a routerLink="/connexion"
-                class="inline-block ml-2 px-4 py-2 bg-[var(--Rouge)] text-[var(--Blanc)] font-semibold rounded-lg 
+                class="inline-block ml-2 px-4 py-2 bg-[var(--Rouge)] text-white font-semibold rounded-lg 
                        hover:bg-white/20 hover:text-[var(--Rouge-Clair)] hover:scale-105 transition-all duration-300">
                 Connectez-vous
               </a>
@@ -124,7 +117,6 @@
 
         <!-- 🌈 Étape 2 -->
         <div *ngIf="etape === 2" class="space-y-4">
-          <!-- Choix profil -->
           <div class="flex flex-wrap justify-center gap-3 mb-4">
             <button *ngFor="let role of roles"
               type="button"
@@ -137,7 +129,6 @@
             </button>
           </div>
 
-          <!-- Codes spécifiques -->
           <div *ngIf="actif === 'coach' || actif === 'joueur' || actif === 'admin'" class="space-y-4">
             <div>
               <label class="block text-sm font-semibold text-white mb-1">
@@ -157,7 +148,6 @@
             </div>
           </div>
 
-          <!-- CGU -->
           <div class="flex items-center space-x-2">
             <input type="checkbox" id="cgu" [(ngModel)]="cguAccepte" name="cgu" />
             <label for="cgu" class="text-white text-sm">
@@ -165,7 +155,6 @@
             </label>
           </div>
 
-          <!-- Boutons navigation -->
           <div class="flex justify-between mt-4">
             <button type="button" (click)="etapePrecedente()"
               class="px-6 py-3 rounded-xl font-bold text-white
@@ -204,6 +193,12 @@
     100% { opacity: 1; transform: translateY(0) scale(1); }
   }
 
+  /* Scrollable */
+  form { max-height: 90vh; overflow-y: auto; }
+  form::-webkit-scrollbar { width: 6px; }
+  form::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.3); border-radius: 3px; }
+
+  /* 📱 Mobile */
   @media (max-width: 640px) {
     .inscription-container { padding: 0; }
     form { padding: 1.25rem !important; margin: 0 0.5rem; }

@@ -2,31 +2,46 @@
 
 <!-- ====== HEADER MODE CLAIR / SOMBRE ====== -->
 <header
-  class="sticky top-0 z-50 w-full backdrop-blur-xl bg-[var(--Blanc)]/80 dark:bg-[var(--Black)]/80 border-b border-[var(--Rouge)] shadow-md">
+  class="sticky top-0 z-50 w-full backdrop-blur-xl bg-[var(--Blanc)]/80 dark:bg-[var(--Gris)]/80 border-b border-[var(--Rouge)] shadow-md">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
 
       <!-- Burger mobile -->
-      <button type="button"
-        class="lg:hidden p-3 rounded-xl text-[var(--Black)]/70 dark:text-[var(--Blanc)]/70 hover:text-[var(--Blanc)] hover:bg-[var(--Bleu)]/20 transition-all duration-300"
-        aria-label="Ouvrir le menu" (click)="toggleMobileMenu()">
-        <i class="fas fa-bars text-xl"></i>
+      <button type="button" (click)="toggleMobileMenu()" class="lg:hidden relative flex items-center justify-center w-12 h-12 rounded-full
+       text-[var(--Black)] dark:text-[var(--Blanc)]
+       bg-transparent
+       focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+       focus-visible:ring-[var(--Primary)] transition-all duration-300 ease-out
+       transform hover:scale-110 active:scale-95" aria-label="Ouvrir le menu" aria-expanded="false"
+        aria-controls="mobile-menu">
+
+        <!-- Icône animée (hamburger ⇄ croix) -->
+        <span class="block w-6 h-6 pointer-events-none">
+          <span
+            class="bar top    block w-full h-0.5 bg-current rounded-full transition-all duration-300 ease-in-out"></span>
+          <span
+            class="bar middle block w-full h-0.5 bg-current rounded-full my-1.5 transition-all duration-300 ease-in-out"></span>
+          <span
+            class="bar bottom block w-full h-0.5 bg-current rounded-full transition-all duration-300 ease-in-out"></span>
+        </span>
       </button>
 
+
       <!-- NAV gauche desktop -->
-      <nav class="hidden lg:flex lg:gap-2">
+      <nav class="hidden lg:flex lg:gap-2 px-4 py-3">
         <div *ngFor="let menu of mobileMenus.slice(0,3)" class="relative flex items-center group">
 
-          <!-- Lien principal -->
-          <a [routerLink]="menu.link || menu.items[0]?.link"
-            class="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold
+          <!-- LIEN PRINCIPAL (icône + texte) -->
+          <a [routerLink]="menu.link || menu.items[0]?.link" class="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold
                     text-[var(--Black)] dark:text-[var(--Blanc)]
                     hover:text-[var(--Bleu-Foncé)] dark:hover:text-[var(--Blanc)]
-                    hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300">
+                    hover:bg-[var(--Bleu-Clair)]/20
+                    transition-all duration-300">
 
             <!-- Initiales -->
             <ng-container *ngIf="menu.initiales; else iconTemplateLeft">
-              <div class="w-8 h-8 rounded-full font-bold text-sm flex items-center justify-center
+              <div class="w-8 h-8 rounded-full font-bold text-sm
+                          flex items-center justify-center
                           bg-[var(--Rouge-Clair)] dark:bg-[var(--Rouge)]
                           text-[var(--Black)] dark:text-[var(--Blanc)]
                           transition-colors duration-300">
@@ -36,42 +51,59 @@
 
             <!-- Icône -->
             <ng-template #iconTemplateLeft>
-              <i
-                class="{{ menu.icon }} text-[var(--Black)] dark:text-[var(--Blanc)] transition-colors duration-300"></i>
+              <i class="{{ menu.icon }}
+                        text-[var(--Black)] dark:text-[var(--Blanc)]
+                        transition-colors duration-300"></i>
             </ng-template>
 
+            <!-- Titre -->
             <span>{{ menu.title }}</span>
           </a>
 
-          <!-- Bouton dropdown -->
-          <button *ngIf="menu.items.length" (click)="toggleDropdown(menu.title, $event)" class="ml-1 p-2 rounded-xl transition-all duration-300
-                         text-[var(--Black)] dark:text-[var(--Blanc)]
-                         hover:text-[var(--Or)] hover:bg-[var(--Bleu-Clair)]/20 flex items-center justify-center">
+          <!-- BOUTON DROPDOWN (hors du lien) -->
+          <button *ngIf="menu.items.length" (click)="toggleDropdown(menu.title, $event)" class="ml-1 p-2 rounded-xl
+                        text-[var(--Black)] dark:text-[var(--Blanc)]
+                        hover:bg-[var(--Bleu-Clair)]/20
+                        flex items-center justify-center
+                        transition-all duration-300">
             <i class="fas fa-chevron-down transform transition-transform duration-300"
               [class.-rotate-180]="activeDropdown === menu.title"></i>
           </button>
 
-          <!-- Dropdown -->
+          <!-- DROPDOWN -->
           <div *ngIf="activeDropdown === menu.title" class="absolute left-0 top-full mt-2 w-64 rounded-2xl shadow-xl p-3 border animate-fade-in-up z-[1100]
-                      bg-[var(--Blanc)]/95 dark:bg-[var(--Black)]/95 border-[var(--Bleu-Clair)]/40">
-            <div class="absolute -top-2 left-6 w-4 h-4 transform rotate-45 border-l border-t
-                        bg-[var(--Blanc)]/95 dark:bg-[var(--Black)]/95 border-[var(--Bleu-Clair)]/40"></div>
-            <a *ngFor="let item of menu.items" [routerLink]="item.link"
-              class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm
-                      text-[var(--Black)]/80 dark:text-[var(--Blanc)]/80
-                      hover:bg-gradient-to-r hover:from-[var(--Bleu-Clair)] hover:to-[var(--Bleu)]
-                      hover:text-white transition-all duration-300">
+            bg-[var(--Blanc)]/80 dark:bg-[var(--Gris)]/80 border-[var(--Rouge)]">
+
+            <!-- Flèche décorative -->
+            <div class="absolute -top-2 left-6 w-4 h-4 transform rotate-45
+              border-l border-t
+              bg-[var(--Blanc)]/95 dark:bg-[var(--Gris)]/80
+              border-[var(--Rouge)]">
+              </div>
+
+            <a *ngFor="let item of menu.items" [routerLink]="item.link" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm
+              text-[var(--Black)] dark:text-[var(--Blanc)]          
+              hover:bg-gradient-to-r hover:from-[var(--Bleu)] hover:to-[var(--Rouge)]
+              hover:text-white                                    
+              transition-all duration-300">
+
+              <!-- Initiales item -->
               <ng-container *ngIf="item.initiales; else itemIconLeft">
-                <div class="w-6 h-6 rounded-full font-bold text-xs flex items-center justify-center
-                            bg-[var(--Rouge-Clair)] dark:bg-[var(--Rouge)]
-                            text-[var(--Blanc)] transition-colors duration-300">
+                <div class="w-6 h-6 rounded-full font-bold text-xs
+             flex items-center justify-center
+             bg-[var(--Rouge-Clair)] dark:bg-[var(--Rouge)]
+             text-[var(--Blanc)]                                 
+             transition-colors duration-300">
                   {{ item.initiales }}
                 </div>
               </ng-container>
+
+              <!-- Icône item -->
               <ng-template #itemIconLeft>
-                <i [class]="item.icon"
-                  class="text-[var(--Black)] dark:text-[var(--Blanc)] transition-colors duration-300"></i>
+                <i [class]="item.icon" class="transition-colors duration-300"></i>
+                <!-- plus de dark:text-[var(--Blanc)] ici -->
               </ng-template>
+
               <span>{{ item.title }}</span>
             </a>
           </div>
@@ -86,12 +118,46 @@
 
 
       <!-- Bouton thème (mobile uniquement) -->
-      <button (click)="toggleTheme()" class="lg:hidden mx-2 p-3 rounded-xl flex items-center justify-center transition-all duration-300 ease-in-out
-                 text-[var(--Black)] dark:text-[var(--Blanc)]
-                 hover:text-[var(--Blanc)] hover:bg-[var(--Bleu)]/20"
-        title="Changer le thème">
-        <i class="fas text-lg transition-all duration-300 transform"
-          [ngClass]="isDarkMode ? 'fa-sun rotate-180' : 'fa-moon rotate-0'"></i>
+      <button (click)="toggleTheme()" class="lg:hidden relative mx-2 p-3 rounded-xl flex items-center justify-center 
+       transition-all duration-300 ease-in-out
+       text-[var(--Black)] dark:text-[var(--Blanc)]
+       hover:text-white hover:bg-gradient-to-r hover:from-[var(--Bleu)] hover:to-[var(--Rouge)]
+       focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--Bleu)] focus-visible:ring-offset-2
+       dark:focus-visible:ring-offset-[var(--Background)]
+       group" [attr.aria-label]="isDarkMode ? 'Activer le mode clair' : 'Activer le mode sombre'"
+        [attr.aria-pressed]="isDarkMode" role="switch">
+
+        <!-- Icône avec animation améliorée -->
+        <div class="relative w-6 h-6 flex items-center justify-center">
+          <!-- Soleil -->
+          <i class="fas fa-sun text-lg absolute transition-all duration-500 ease-out
+           transform" [ngClass]="{
+       'opacity-100 scale-100 rotate-0': isDarkMode,
+       'opacity-0 scale-75 -rotate-90': !isDarkMode
+     }"></i>
+
+          <!-- Lune -->
+          <i class="fas fa-moon text-lg absolute transition-all duration-500 ease-out
+           transform" [ngClass]="{
+       'opacity-100 scale-100 rotate-0': !isDarkMode,
+       'opacity-0 scale-75 rotate-90': isDarkMode
+     }"></i>
+        </div>
+
+        <!-- Indicateur de focus ripple effect -->
+        <span class="absolute inset-0 rounded-xl bg-[var(--Bleu)]/10 
+             transform scale-0 group-active:scale-100 transition-transform duration-200">
+        </span>
+
+        <!-- Tooltip accessible -->
+        <span class="absolute -top-10 left-1/2 transform -translate-x-1/2 
+             px-2 py-1 text-xs rounded-md
+             bg-[var(--Noir)] dark:bg-[var(--Blanc)] 
+             text-[var(--Blanc)] dark:text-[var(--Noir)]
+             opacity-0 group-hover:opacity-100 transition-opacity duration-200
+             pointer-events-none whitespace-nowrap">
+          {{ isDarkMode ? 'Mode clair' : 'Mode sombre' }}
+        </span>
       </button>
 
       <!-- Profil mobile -->
@@ -99,7 +165,7 @@
         title="Utilisateur {{ connectedUser?.initiales }}">
         <div class="w-10 h-10 rounded-full font-bold text-lg flex items-center justify-center shadow-md
                     bg-[var(--Rouge-Clair)] dark:bg-[var(--Rouge)]
-                    text-[var(--Blanc)] dark:text-[var(--Blanc)]
+                    text-white
                     transition-all duration-300 ease-in-out hover:scale-110">
           {{ connectedUser?.initiales }}
         </div>
@@ -109,8 +175,7 @@
       <div class="hidden lg:flex lg:items-center lg:gap-2">
         <nav class="flex lg:gap-2 items-center">
           <div *ngFor="let menu of mobileMenus.slice(3,6)" class="relative flex items-center group">
-            <a [routerLink]="menu.link || menu.items[0]?.link"
-              class="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold
+            <a [routerLink]="menu.link || menu.items[0]?.link" class="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold
                       text-[var(--Black)] dark:text-[var(--Blanc)]
                       hover:text-[var(--Bleu-Foncé)] dark:hover:text-[var(--Blanc)]
                       hover:bg-[var(--Bleu-Clair)]/20 transition-all duration-300 relative">
@@ -126,8 +191,7 @@
                   class="{{ menu.icon }} text-[var(--Black)] dark:text-[var(--Blanc)] transition-colors duration-300"></i>
               </ng-template>
               <span>{{ menu.title }}</span>
-              <span *ngIf="menu.title === 'Messages' && unreadMessages > 0"
-                class="absolute -top-1 -right-1 min-w-[20px] h-5 flex items-center justify-center text-xs font-bold text-white
+              <span *ngIf="menu.title === 'Messages' && unreadMessages > 0" class="absolute -top-1 -right-1 min-w-[20px] h-5 flex items-center justify-center text-xs font-bold text-white
                            bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)]
                            rounded-full border-2 border-[var(--Blanc)] dark:border-[var(--Black)]">
                 {{ unreadMessages }}
@@ -192,6 +256,7 @@
       opacity: 0;
       transform: translateY(20px) scale(0.95);
     }
+
     100% {
       opacity: 1;
       transform: translateY(0) scale(1);
@@ -204,5 +269,19 @@
 
   body.menu-open {
     overflow: hidden;
+  }
+</style>
+<style>
+  /* petite feuille de style inline pour l’animation */
+  [aria-expanded="true"] .top {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  [aria-expanded="true"] .middle {
+    opacity: 0;
+  }
+
+  [aria-expanded="true"] .bottom {
+    transform: translateY(-5px) rotate(-45deg);
   }
 </style>

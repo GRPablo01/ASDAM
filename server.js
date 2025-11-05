@@ -16,15 +16,14 @@ const app = express();
 const PORT = 3000;
 
 // ==============================
-// ✅ Middleware CORS (Angular + tests mobiles)
+// ✅ Middleware CORS (Autorise PC & mobile)
 // ==============================
 app.use(cors({
-  origin: ['http://localhost:4200'], // autorise Angular
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // ✅ PATCH ajouté ici
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-user'], // tu peux garder ça
-  credentials: true
+  origin: '*', // ✅ Permet accès depuis ton téléphone
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-user'],
+  credentials: false
 }));
-
 
 // ==============================
 // 🧱 Middlewares globaux
@@ -63,7 +62,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/asdam')
 const postController = require('./backend/controller/post.controller');
 
 const userRoutes = require('./backend/routes/User.Routes');
-const authRoutes = require('./backend/routes/User.Routes'); // vérifier si c’est voulu
+const authRoutes = require('./backend/routes/User.Routes');
 const utilisateurRoutes = require('./backend/routes/utilisateur.Routes');
 const eventRoutes = require('./backend/routes/Events.Routes');
 const matchRoutes = require('./backend/routes/Match.Routes');
@@ -81,7 +80,7 @@ const categorieRoutes = require('./backend/routes/categorie.routes');
 // 🧭 Déclaration des routes API
 // ==============================
 app.use('/api/users', userRoutes);
-app.use('/api/asdam', authRoutes);
+app.use('/api/asdam', authRoutes)
 app.use('/api/utilisateurs', utilisateurRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/matches', matchRoutes);
@@ -109,9 +108,9 @@ app.get('/api', (req, res) => res.json({ message: 'Bienvenue sur l’API ASDAM !
 // ==============================
 // 🚀 Lancement du serveur
 // ==============================
-const IP_LOCALE = '192.168.1.43'; // 🟢 à remplacer par TON IP locale exacte
+const IP_LOCALE = '192.168.1.43'; // 🟢 Mets ton IP locale ici (ifconfig / ipconfig)
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Serveur backend démarré sur http://${IP_LOCALE}:${PORT}`);
-  console.log(`📡 Accessible depuis ton téléphone via http://${IP_LOCALE}:${PORT}`);
+  console.log(`📱 Accessible depuis téléphone : http://${IP_LOCALE}:${PORT}`);
 });
