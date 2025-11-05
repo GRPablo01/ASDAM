@@ -4,15 +4,15 @@
           (click)="openModal()"
           aria-label="Créer un nouveau match"
           class="group flex flex-col items-center justify-center w-28 h-28
-                 bg-gradient-to-br from-[var(--Rouge-Foncé)] to-[var(--Rouge)]
-                 text-[var(--Blanc)] font-semibold rounded-xl shadow-md
-                 hover:from-[var(--Bleu)] hover:to-[var(--Bleu-Foncé)]
+                 bg-gradient-to-br from-red-700 to-red-500
+                 text-white font-semibold rounded-xl shadow-md
+                 hover:from-blue-500 hover:to-blue-700
                  hover:shadow-lg hover:-translate-y-0.5 hover:scale-105
                  transition-all duration-300 ease-out
                  focus:outline-none focus:ring-2 focus:ring-rose-400/40">
-    <i class="fa-solid fa-futbol text-2xl mb-1 transition-transform duration-300 group-hover:rotate-12 text-white "></i>
-    <span class="uppercase tracking-wide text-xs leading-tight text-white ">Créer</span>
-    <span class="text-[10px] opacity-80 text-white ">Match</span>
+    <i class="fa-solid fa-futbol text-2xl mb-1 transition-transform duration-300 group-hover:rotate-12"></i>
+    <span class="uppercase tracking-wide text-xs leading-tight">Créer</span>
+    <span class="text-[10px] opacity-80">Match</span>
   </button>
 </div>
 
@@ -21,23 +21,22 @@
      class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-fade-in"
      (click)="closeModal()">
 
-  <div class="rounded-3xl p-6 sm:p-8 max-w-2xl w-full mx-4 shadow-2xl border
-              bg-[var(--Blanc)] text-[var(--Black)] border-gray-100
-              dark:bg-[var(--Black)] dark:text-[var(--Blanc)] dark:border-[var(--Gris)]/40
-              animate-scale-in transition-colors duration-500"
-       (click)="$event.stopPropagation()">
+  <div (click)="$event.stopPropagation()"
+       class="rounded-3xl p-6 sm:p-8 max-w-2xl w-full mx-4 shadow-2xl border
+              bg-white text-black border-gray-100
+              dark:bg-black dark:text-white dark:border-gray-600
+              animate-scale-in transition-colors duration-500">
 
     <!-- HEADER -->
     <div class="flex items-center justify-between mb-8 relative">
-      <h2 class="text-3xl font-bold bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)]
-                 dark:from-[var(--Rouge-Clair)] dark:to-[var(--Rouge)]
+      <h2 class="text-3xl font-bold bg-gradient-to-r from-red-500 to-red-700
                  bg-clip-text text-transparent">
         Créer un match
       </h2>
       <button (click)="closeModal()"
-              class="text-gray-500 hover:text-[var(--Rouge)] dark:text-gray-400 dark:hover:text-[var(--Rouge-Clair)]
+              class="text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-300
                      text-3xl font-light w-10 h-10 flex items-center justify-center rounded-full
-                     hover:bg-gray-100 dark:hover:bg-[var(--Blanc)]/10
+                     hover:bg-gray-100 dark:hover:bg-white/10
                      transition-all duration-300 hover:rotate-90">
         ✕
       </button>
@@ -46,36 +45,36 @@
     <!-- PREVIEW DES EQUIPES -->
     <div class="rounded-2xl p-6 mb-8 animate-fade-in-up
                 bg-gradient-to-br from-gray-50 to-gray-100
-                dark:from-[var(--Gris)]/40 dark:to-[var(--Noir)]/60 transition">
+                dark:from-gray-600/40 dark:to-black/60 transition">
       <div class="flex items-center justify-center gap-6">
         <!-- Équipe A -->
         <div class="text-center transform hover:scale-105 transition-transform duration-300">
           <div class="relative">
-            <img [src]="match.logoA" class="h-20 w-20 rounded-full shadow-lg border-4 border-white dark:border-[var(--Gris)]" />
+            <img [src]="match.logoA" class="h-20 w-20 rounded-full shadow-lg border-4 border-white dark:border-gray-600" />
           </div>
-          <span class="block mt-3 font-bold text-gray-800 dark:text-[var(--Blanc)] text-lg">
+          <span class="block mt-3 font-bold text-gray-800 dark:text-white text-lg">
             {{ match.equipeA }}
           </span>
         </div>
 
         <!-- VS animé -->
-        <div class="text-2xl font-bold text-gray-600 dark:text-[var(--Blanc)] relative">
+        <div class="text-2xl font-bold text-gray-600 dark:text-white relative">
           <span class="animate-pulse">VS</span>
-          <div class="absolute -inset-4 bg-gradient-to-r from-[var(--Rouge)]/20 to-[var(--Bleu)]/20 rounded-full blur-xl"></div>
+          <div class="absolute -inset-4 bg-gradient-to-r from-red-500/20 to-blue-500/20 rounded-full blur-xl"></div>
         </div>
 
         <!-- Équipe B -->
         <div class="text-center transform hover:scale-105 transition-transform duration-300">
           <div class="relative">
             <img *ngIf="match.equipeB" [src]="match.logoB"
-                 class="h-20 w-20 rounded-full shadow-lg border-4 border-white dark:border-[var(--Gris)] animate-fade-in" />
+                 class="h-20 w-20 rounded-full shadow-lg border-4 border-white dark:border-gray-600 animate-fade-in" />
             <div *ngIf="!match.equipeB"
                  class="h-20 w-20 rounded-full shadow-lg border-4 border-dashed border-gray-300 dark:border-gray-600
-                        flex items-center justify-center bg-gray-50 dark:bg-[var(--Noir)]/50">
+                        flex items-center justify-center bg-gray-50 dark:bg-black/50">
               <i class="fas fa-question text-gray-400 dark:text-gray-500 text-2xl"></i>
             </div>
           </div>
-          <span class="block mt-3 font-bold text-gray-800 dark:text-[var(--Blanc)] text-lg">
+          <span class="block mt-3 font-bold text-gray-800 dark:text-white text-lg">
             {{ match.equipeB || 'Sélectionnez' }}
           </span>
         </div>
@@ -84,19 +83,18 @@
 
     <!-- FORMULAIRE CREATION MATCH -->
     <form (ngSubmit)="creerMatch()" class="space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Équipe Adverse -->
         <div>
           <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Équipe Adverse</label>
           <select [(ngModel)]="match.equipeB" name="equipeB" required (ngModelChange)="updateLogos()"
                   class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600
-                         bg-white dark:bg-[var(--Noir)]/40
-                         focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/30
-                         text-[var(--Black)] dark:text-[var(--Blanc)]
-                         transition-all duration-300">
+                         bg-white dark:bg-black/40
+                         text-black dark:text-white
+                         focus:border-red-500 focus:ring-4 focus:ring-red-500/30 transition-all duration-300">
             <option value="" disabled selected>-- Choisir une équipe --</option>
-            <option *ngFor="let club of equipesAdverses" [value]="club" class="py-2">{{ club }}</option>
+            <option *ngFor="let club of equipesAdverses" [value]="club">{{ club }}</option>
           </select>
         </div>
 
@@ -105,35 +103,58 @@
           <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Date</label>
           <input type="date" [(ngModel)]="match.date" name="date" required
                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600
-                        bg-white dark:bg-[var(--Noir)]/40 text-[var(--Black)] dark:text-[var(--Blanc)]
-                        focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/30 transition-all duration-300" />
+                        bg-white dark:bg-black/40 text-black dark:text-white
+                        focus:border-red-500 focus:ring-4 focus:ring-red-500/30 transition-all duration-300" />
         </div>
 
-        <!-- Heure de début -->
+        <!-- Heure début -->
         <div>
           <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Heure de début</label>
-          <input type="time" [(ngModel)]="match.heureDebut" name="hourStart"
+          <input type="time" [(ngModel)]="match.hourStart" name="hourStart"
                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600
-                        bg-white dark:bg-[var(--Noir)]/40 text-[var(--Black)] dark:text-[var(--Blanc)]
-                        focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/30 transition-all duration-300" />
+                        bg-white dark:bg-black/40 text-black dark:text-white
+                        focus:border-red-500 focus:ring-4 focus:ring-red-500/30 transition-all duration-300" />
         </div>
 
-        <!-- Heure de fin -->
+        <!-- Heure fin -->
         <div>
           <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Heure de fin</label>
-          <input type="time" [(ngModel)]="match.heureFin" name="hourEnd"
+          <input type="time" [(ngModel)]="match.hourEnd" name="hourEnd"
                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600
-                        bg-white dark:bg-[var(--Noir)]/40 text-[var(--Black)] dark:text-[var(--Blanc)]
-                        focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/30 transition-all duration-300" />
+                        bg-white dark:bg-black/40 text-black dark:text-white
+                        focus:border-red-500 focus:ring-4 focus:ring-red-500/30 transition-all duration-300" />
         </div>
 
-        <!-- Lieu -->
-        <div>
+        <!-- Lieu et Domicile/Extérieur -->
+        <div class="md:col-span-2">
           <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Lieu</label>
-          <input [(ngModel)]="match.lieu" name="lieu" required placeholder="Stade, Ville..."
-                 class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600
-                        bg-white dark:bg-[var(--Noir)]/40 text-[var(--Black)] dark:text-[var(--Blanc)]
-                        focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/30 transition-all duration-300" />
+          <div class="flex gap-4 mb-4">
+            <button type="button" (click)="setDomicile(true)"
+                    [ngClass]="match.domicile ? 'bg-red-500 text-white' : 'bg-gray-200 dark:bg-gray-600 text-black dark:text-white'"
+                    class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all">
+              <i class="fas fa-home"></i> Domicile
+            </button>
+            <button type="button" (click)="setDomicile(false)"
+                    [ngClass]="!match.domicile ? 'bg-red-500 text-white' : 'bg-gray-200 dark:bg-gray-600 text-black dark:text-white'"
+                    class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all">
+              <i class="fas fa-plane"></i> Extérieur
+            </button>
+          </div>
+
+          <div *ngIf="match.domicile">
+            <select [(ngModel)]="match.lieu" name="lieu"
+                    class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600
+                           bg-white dark:bg-black/40 text-black dark:text-white
+                           focus:border-red-500 focus:ring-4 focus:ring-red-500/30 transition-all duration-300">
+              <option *ngFor="let stade of stades" [value]="stade">{{ stade }}</option>
+            </select>
+          </div>
+          <div *ngIf="!match.domicile">
+            <input [(ngModel)]="match.lieu" name="lieu" placeholder="Tapez le lieu..."
+                   class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600
+                          bg-white dark:bg-black/40 text-black dark:text-white
+                          focus:border-red-500 focus:ring-4 focus:ring-red-500/30 transition-all duration-300" />
+          </div>
         </div>
 
         <!-- Catégorie -->
@@ -141,38 +162,38 @@
           <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Catégorie</label>
           <select [(ngModel)]="match.categorie" name="categorie" required
                   class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600
-                         bg-white dark:bg-[var(--Noir)]/40 text-[var(--Black)] dark:text-[var(--Blanc)]
-                         focus:border-[var(--Rouge)] focus:ring-4 focus:ring-[var(--Rouge)]/30 transition-all duration-300">
+                         bg-white dark:bg-black/40 text-black dark:text-white
+                         focus:border-red-500 focus:ring-4 focus:ring-red-500/30 transition-all duration-300">
             <option value="" disabled selected>-- Sélectionner --</option>
             <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
           </select>
         </div>
-      </div>
 
-      <!-- Type de match -->
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Type de match</label>
-        <div class="flex gap-3 flex-wrap">
-          <button *ngFor="let type of typesMatch" type="button" (click)="match.typeMatch = type"
-                  [class]="'px-4 py-2 rounded-lg border-2 transition-all duration-300 ' +
-                            (match.typeMatch === type
-                            ? 'border-[var(--Rouge)] bg-[var(--Rouge)]/10 text-[var(--Rouge)] dark:border-[var(--Rouge-Clair)] dark:text-[var(--Rouge-Clair)] dark:bg-[var(--Rouge-Clair)]/20'
-                            : 'border-gray-300 dark:border-gray-600 hover:border-[var(--Gris)] hover:bg-[var(--Blanc)]/10 text-[var(--Black)] dark:text-[var(--Blanc)]')">
-            {{ type }}
-          </button>
+        <!-- Type de match -->
+        <div class="md:col-span-2">
+          <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Type de match</label>
+          <div class="flex gap-3 flex-wrap">
+            <button *ngFor="let type of typesMatch" type="button" (click)="match.typeMatch = type"
+                    [class]="'px-4 py-2 rounded-lg border-2 transition-all duration-300 ' +
+                              (match.typeMatch === type
+                              ? 'border-red-500 bg-red-100 text-red-700 dark:border-red-300 dark:text-red-300 dark:bg-red-900/20'
+                              : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 text-black dark:text-white')">
+              {{ type }}
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Messages succès / erreur -->
       <div *ngIf="successMsg" class="animate-slide-in">
-        <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/20 border-l-4 border-green-500 rounded-lg p-4 flex items-center gap-3">
+        <div class="bg-green-50 dark:bg-green-900/30 border-l-4 border-green-500 rounded-lg p-4 flex items-center gap-3">
           <i class="fas fa-check-circle text-green-500 text-xl"></i>
           <span class="text-green-800 dark:text-green-300 font-medium">{{ successMsg }}</span>
         </div>
       </div>
 
       <div *ngIf="errorMsg" class="animate-slide-in">
-        <div class="bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-900/30 dark:to-rose-900/20 border-l-4 border-red-500 rounded-lg p-4 flex items-center gap-3">
+        <div class="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 rounded-lg p-4 flex items-center gap-3">
           <i class="fas fa-exclamation-circle text-red-500 text-xl"></i>
           <span class="text-red-800 dark:text-red-300 font-medium">{{ errorMsg }}</span>
         </div>
@@ -181,17 +202,17 @@
       <!-- Boutons d'action -->
       <div class="flex justify-end gap-4 mt-8">
         <button type="button" (click)="closeModal()"
-                class="px-6 py-3 rounded-xl bg-gray-100 dark:bg-[var(--Blanc)]/10
-                       text-gray-700 dark:text-[var(--Blanc)]
-                       hover:bg-gray-200 dark:hover:bg-[var(--Blanc)]/20
+                class="px-6 py-3 rounded-xl bg-gray-100 dark:bg-white/10
+                       text-gray-700 dark:text-white
+                       hover:bg-gray-200 dark:hover:bg-white/20
                        font-semibold transition-all duration-300 hover:scale-105">
           Annuler
         </button>
 
         <button type="submit" [disabled]="loading"
-                class="px-8 py-3 rounded-xl bg-gradient-to-r from-[var(--Rouge)] to-[var(--Rouge-Foncé)]
-                       dark:from-[var(--Rouge-Clair)] dark:to-[var(--Rouge)]
-                       text-[var(--Blanc)] font-bold transition-all duration-300
+                class="px-8 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-700
+                       dark:from-red-300 dark:to-red-500
+                       text-white font-bold transition-all duration-300
                        hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden">
           <span [class.invisible]="loading">{{ loading ? 'Création...' : 'Créer le match' }}</span>
           <div *ngIf="loading" class="absolute inset-0 flex items-center justify-center">
@@ -199,11 +220,12 @@
           </div>
         </button>
       </div>
+
     </form>
   </div>
 </div>
 
-<!-- ===================== STYLES & ANIMATIONS ===================== -->
+<!-- ===================== ANIMATIONS TAILWIND ===================== -->
 <style>
   @keyframes fade-in { 0% { opacity:0; } 100% { opacity:1; } }
   @keyframes scale-in { 0% { opacity:0; transform:scale(0.9);} 100% { opacity:1; transform:scale(1); } }
