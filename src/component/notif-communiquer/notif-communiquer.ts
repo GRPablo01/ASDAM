@@ -61,6 +61,7 @@ export class NotifCommunique implements OnInit, OnDestroy {
       (data) => {
         if (!data || !data.length) return;
   
+        // Trouver le plus récent communiqué
         const latestRaw = data.reduce((prev, curr) => {
           const prevDate = new Date(prev.date || new Date()).getTime();
           const currDate = new Date(curr.date || new Date()).getTime();
@@ -69,26 +70,46 @@ export class NotifCommunique implements OnInit, OnDestroy {
   
         if (!latestRaw._id) return;
   
-        // Vérifier si la notif a déjà été affichée
-        if (!this.displayedCommuniqueIds.has(latestRaw._id)) {
-          this.displayedCommuniqueIds.add(latestRaw._id);
-          // Sauvegarder dans localStorage
-          localStorage.setItem('displayedCommuniqueIds', JSON.stringify([...this.displayedCommuniqueIds]));
+        const storedData = JSON.parse(localStorage.getItem('displayedCommuniqueData') || '{}');
+        const lastDisplayedId = storedData.id;
+        const lastDisplayedTime = storedData.timestamp;
   
-          this.visibleCommuniques = [{
-            _id: latestRaw._id,
-            receiverId: this.currentUserId,
-            text: '📢 Nouveau communiqué disponible !',
-            createdAt: latestRaw.date || new Date(),
-            removing: false
-          }];
+        const now = Date.now();
   
-          setTimeout(() => this.visibleCommuniques = [], 10000);
+        // Si c’est le même communiqué et qu’il est encore dans les 10s → afficher la notif à nouveau
+        if (lastDisplayedId === latestRaw._id && lastDisplayedTime && now - lastDisplayedTime < 10000) {
+          this.showCommunique(latestRaw, 10000 - (now - lastDisplayedTime));
+          return;
+        }
+  
+        // Si le communiqué est nouveau
+        if (lastDisplayedId !== latestRaw._id) {
+          localStorage.setItem(
+            'displayedCommuniqueData',
+            JSON.stringify({ id: latestRaw._id, timestamp: now })
+          );
+          this.showCommunique(latestRaw, 10000);
         }
       },
       (err) => console.error('❌ Erreur lors du chargement des communiqués', err)
     );
   }
+  
+  private showCommunique(latestRaw: any, remainingTime: number): void {
+    this.visibleCommuniques = [{
+      _id: latestRaw._id,
+      receiverId: this.currentUserId,
+      text: '📢 Nouveau communiqué disponible !',
+      createdAt: latestRaw.date || new Date(),
+      removing: false
+    }];
+  
+    // Supprimer la notif après le temps restant
+    setTimeout(() => {
+      this.visibleCommuniques = [];
+    }, remainingTime);
+  }
+  
   
 
   remove(id: string): void {

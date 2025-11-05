@@ -6,12 +6,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Sections2 } from '../../component/section2/section2';
 import { Footer } from "../../component/footer/footer";
-import { Jour } from "../../component/jour2/jour2";
+import { Jour2 } from "../../component/jour2/jour2";
 import { NotifMessage } from "../../component/notif-message/notif-message";
 
 @Component({
   selector: 'app-accueil',
-  imports: [Header, Sections2, Sections1C, CommonModule, FormsModule, Footer, Jour, NotifMessage],
+  imports: [Header, Sections2, Sections1C, CommonModule, FormsModule, Footer, Jour2, NotifMessage],
   templateUrl: './accueil.html',
   styleUrl: './accueil.css'
 })

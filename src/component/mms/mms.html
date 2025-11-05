@@ -121,31 +121,44 @@
         </header>
 
         <!-- Messages -->
-        <section #scrollContainer
-          class="grow flex flex-col gap-3 px-4 py-3 max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400/40 scrollbar-track-transparent">
-          <!-- Bouton pour charger plus de messages -->
-          <button *ngIf="messages.length > 5" (click)="loadOlder()"
-            class="text-sm font-medium text-[var(--Bleu)] hover:text-[var(--Rouge)] transition mx-auto underline">
-            Voir plus de messages
-          </button>
+<section #scrollContainer
+class="grow flex flex-col gap-3 px-4 py-3 max-h-[90vh] overflow-y-auto 
+       scrollbar-thin scrollbar-thumb-gray-400/40 scrollbar-track-transparent">
 
-          <!-- Messages -->
-          <article *ngFor="let msg of messages; trackBy: trackByMsgId" class="flex items-end gap-3 text-sm"
-            [class.flex-row-reverse]="msg.senderId === userId">
-            <div
-              class="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--Bleu)] to-[var(--Bleu-Foncé)] text-white grid place-items-center font-semibold shadow-md">
-              {{ msg.senderId === userId ? userInitiales : getInitiales(msg.senderName) }}
-            </div>
-            <div class="max-w-[70%]">
-              <div [ngClass]="msg.senderId === userId
-            ? 'bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white'
-            : 'bg-gray-100 text-[var(--Black)]'"
-                class="px-3 py-2 rounded-xl shadow-md break-words transition hover:scale-[1.02]">
-                {{ msg.text }}
-              </div>
-            </div>
-          </article>
-        </section>
+<!-- Bouton pour charger plus de messages -->
+<button *ngIf="messages.length > 5" (click)="loadOlder()"
+  class="text-sm font-medium text-[var(--Bleu)] hover:text-[var(--Rouge)] transition mx-auto underline">
+  Voir plus de messages
+</button>
+
+<!-- Messages -->
+<article
+  *ngFor="let msg of messages; trackBy: trackByMsgId"
+  class="flex items-end gap-3 text-sm"
+  [class.flex-row-reverse]="msg.senderId === userId">
+
+  <!-- Avatar -->
+  <div
+    class="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--Bleu)] to-[var(--Bleu-Foncé)] 
+           text-white grid place-items-center font-semibold shadow-md">
+    {{ msg.senderId === userId ? userInitiales : getInitiales(msg.senderName) }}
+  </div>
+
+  <!-- Bulle de message -->
+  <div class="max-w-[70%]">
+    <div
+      [ngClass]="msg.senderId === userId
+        ? 'bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] text-white'
+        : 'bg-gray-100 dark:bg-gray-800 text-black dark:text-gray-100'"
+      class="px-3 py-2 rounded-xl shadow-md break-words transition 
+             hover:scale-[1.02] duration-150">
+      {{ msg.text }}
+    </div>
+  </div>
+
+</article>
+</section>
+
 
         <!-- Input -->
           <footer class="shrink-0 border-t border-red-700 p-3 bg-white/90 dark:bg-[var(--Gris)]">

@@ -1,12 +1,12 @@
-<!-- ====== CONTENEUR DES COMMUNIQUÉS ====== -->
+<!-- ====== CONTENEUR DES ACTUS ====== -->
 <div
   aria-live="polite"
   aria-atomic="true"
   class="fixed top-20 right-4 z-50 flex flex-col gap-3 w-80">
 
-  <!-- ====== COMMUNIQUÉ ANIMÉ ====== -->
+  <!-- ====== ACTU ANIMÉE ====== -->
   <div
-    *ngFor="let comm of visibleCommuniques; trackBy: trackById"
+    *ngFor="let actu of visibleActus; trackBy: trackById"
     class="relative rounded-xl border p-4 flex flex-col gap-2 shadow-lg
            bg-[var(--Blanc)] border-gray-200
            dark:bg-[var(--Black)] dark:border-gray-700
@@ -17,24 +17,24 @@
            data-[enter]:fade-in
            data-[exit]:slide-out-to-right-full
            data-[exit]:fade-out"
-    [attr.data-enter]="!comm.removing ? '' : null"
-    [attr.data-exit]="comm.removing ? '' : null">
+    [attr.data-enter]="!actu.removing ? '' : null"
+    [attr.data-exit]="actu.removing ? '' : null">
 
     <!-- ====== EN-TÊTE ====== -->
     <div class="flex items-center justify-between gap-2">
       <div class="flex items-center gap-2">
-        <!-- Icône de communiqué -->
+        <!-- Icône de l'actu -->
         <div
           class="w-10 h-10 flex items-center justify-center rounded-full
                  bg-gradient-to-br from-[var(--Bleu)] to-[var(--Bleu-Foncé)]
                  text-white text-xl shadow-md">
-          <i class="fa-solid fa-bullhorn"></i>
+          <i class="fa-solid fa-newspaper"></i>
         </div>
 
-        <!-- Heure du communiqué -->
+        <!-- Heure de l'actu -->
         <div class="flex flex-col">
           <time class="text-xs text-gray-400 dark:text-gray-500">
-            {{ comm.createdAt | date:'HH:mm' }}
+            {{ actu.createdAt | date:'HH:mm' }}
           </time>
         </div>
       </div>
@@ -42,7 +42,7 @@
       <!-- ====== BOUTON FERMER ====== -->
       <button
         type="button"
-        (click)="animateAndRemove(comm._id)"
+        (click)="animateAndRemove(actu._id)"
         aria-label="Fermer"
         class="text-[var(--Black)] hover:text-red-700 dark:text-[var(--Blanc)] dark:hover:text-red-700 transition">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,9 +54,9 @@
 
     <!-- ====== CORPS ====== -->
     <p class="text-sm text-[var(--Black)] dark:text-[var(--Blanc)] leading-relaxed font-medium flex items-center gap-2">
-      <i class="fa-solid fa-bullhorn text-[var(--Bleu)]"></i>
-      {{ comm.text }}
+      <i class="fa-solid fa-newspaper text-[var(--Bleu)]"></i>
+      {{ actu.text }}
     </p>
-    
+
   </div>
 </div>

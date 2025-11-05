@@ -1,15 +1,16 @@
-<!-- Conteneur des toasts (inchangé) -->
+<!-- ====== CONTENEUR DES TOASTS ====== -->
 <div
   aria-live="polite"
   aria-atomic="true"
   class="fixed top-20 right-4 z-50 flex flex-col gap-3 w-80">
 
-  <!-- Notification animée -->
+  <!-- ====== NOTIFICATION ANIMÉE ====== -->
   <div
     *ngFor="let msg of visibleNotifications; index as i; trackBy: trackById"
-    class="relative bg-white rounded-xl shadow-lg border border-gray-100 p-4 flex flex-col gap-2
-           transform-gpu
-           transition-all duration-300 ease-out
+    class="relative rounded-xl border p-4 flex flex-col gap-2 shadow-lg
+           bg-[var(--Blanc)] border-gray-200
+           dark:bg-[var(--Black)] dark:border-gray-700
+           transform-gpu transition-all duration-300 ease-out
            data-[enter]:animate-in
            data-[exit]:animate-out
            data-[enter]:slide-in-from-right-full
@@ -19,29 +20,31 @@
     [attr.data-enter]="!msg.removing ? '' : null"
     [attr.data-exit]="msg.removing ? '' : null">
 
-    <!-- Entête -->
+    <!-- ====== ENTÊTE ====== -->
     <div class="flex items-start justify-between gap-2">
       <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)] flex items-center justify-center text-white font-semibold">
+        <div
+          class="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--Rouge)] to-[var(--Rouge-Foncé)]
+                     flex items-center justify-center text-white font-semibold">
           {{ getInitials(msg.sender || {}) }}
         </div>
-        <div class="flex">
-            <p class="text-sm font-semibold text-gray-800">
-              {{ msg.sender?.nom || '' }} {{ msg.sender?.prenom || '' }}
-            </p>
-            <time class="text-xs text-gray-400">
-              {{ msg.createdAt | date:'HH:mm' }}
-            </time>
+
+        <div class="flex flex-col leading-tight">
+          <p class="text-sm font-semibold text-[var(--Black)] dark:text-[var(--Blanc)]">
+            {{ msg.sender?.nom || '' }} {{ msg.sender?.prenom || '' }}
+          </p>
+          <time class="text-xs text-[var(--Black)] dark:text-[var(--Blanc)]">
+            {{ msg.createdAt | date:'HH:mm' }}
+          </time>
         </div>
-          
       </div>
 
-      <!-- Bouton fermer -->
+      <!-- ====== BOUTON FERMER ====== -->
       <button
         type="button"
         (click)="animateAndRemove(msg._id)"
         aria-label="Fermer"
-        class="text-gray-400 hover:text-gray-600 transition">
+        class="text-[var(--Black)] hover:text-red-700 dark:text-[var(--Blanc)] dark:hover:text-red-700 transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M6 18L18 6M6 6l12 12" />
@@ -49,9 +52,11 @@
       </button>
     </div>
 
-    <!-- Corps -->
-    <p class="text-sm text-gray-700 leading-relaxed">
+    <!-- ====== CORPS ====== -->
+    <p class="text-sm text-[var(--Black)] dark:text-[var(--Blanc)] leading-relaxed flex items-center gap-2">
+      <i class="fas fa-comment-dots text-[var(--Rouge)]"></i>
       {{ msg.text }}
     </p>
+    
   </div>
 </div>
