@@ -1,0 +1,265 @@
+<!-- ===================================================== -->
+<!-- PAGE ECRAN NON COMPATIBLE -->
+<!-- ===================================================== -->
+<!-- <app-icon></app-icon> -->
+
+<section
+  *ngIf="isMobile"
+  class="w-full h-screen overflow-hidden flex flex-col justify-between px-4 py-3 relative"
+  [ngStyle]="{
+    'background': themeService.Backgroundprincipal
+  }"
+>
+
+  <!-- BACKGROUND GLOW -->
+  <div class="absolute top-0 right-0 w-52 h-52 bg-red-500 opacity-10 blur-3xl rounded-full"></div>
+  <div class="absolute bottom-0 left-0 w-52 h-52 bg-white opacity-5 blur-3xl rounded-full"></div>
+
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
+
+  <header class="w-full flex items-center justify-between relative z-10">
+
+    <!-- LOGO -->
+    <div class="flex items-center gap-3">
+
+      <div
+        class="w-10 h-10 rounded-2xl flex items-center justify-center overflow-hidden"
+        [ngStyle]="{
+          'background': themeService.Backgroundcards,
+          'box-shadow': '0 4px 15px rgba(0,0,0,0.15)'
+        }"
+      >
+        <img
+          class="w-7 object-contain"
+          src="assets/LOGO.png"
+          alt="Logo ASDAM"
+        >
+      </div>
+
+      <div class="leading-none">
+        <h1
+          class="text-base font-black tracking-wide"
+          [ngStyle]="{ 'color': themeService.Textprincipal }"
+        >
+          ASDAM
+        </h1>
+
+        <span
+          class="text-[10px] opacity-70"
+          [ngStyle]="{ 'color': themeService.Textsecondaire }"
+        >
+          Club Football
+        </span>
+      </div>
+
+    </div>
+
+    <!-- THEME -->
+    <div class="p-2 rounded-2xl">
+      <app-theme></app-theme>
+    </div>
+
+  </header>
+
+  <!-- ===================================================== -->
+  <!-- CENTER CONTENT -->
+  <!-- ===================================================== -->
+
+  <main class="flex-1 flex items-center justify-center relative z-10">
+
+    <div
+      class="w-full max-w-sm rounded-[30px] p-5 relative overflow-hidden"
+      [ngStyle]="{
+        'background': themeService.GlassBackground,
+        'border': '1px solid ' + themeService.GlassBorder,
+        'backdrop-filter': 'blur(18px)',
+        '-webkit-backdrop-filter': 'blur(18px)',
+        'box-shadow': '0 10px 40px rgba(0,0,0,0.18)'
+      }"
+    >
+
+      <!-- Glow -->
+      <div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-red-500 opacity-10 blur-3xl"></div>
+
+      <!-- ICONES -->
+      <div class="flex justify-center items-end gap-4 mb-5 relative z-10">
+
+        <!-- Petit écran -->
+        <div class="flex flex-col items-center gap-2">
+
+          <div
+            class="w-12 h-20 rounded-2xl border-2 flex items-center justify-center"
+            style="border-color:#E8272A;background:rgba(232,39,42,0.08)"
+          >
+            <i class="fa-solid fa-mobile-screen text-xl text-red-500"></i>
+          </div>
+
+          <span
+            class="text-[10px] font-black tracking-widest text-red-500"
+          >
+            382px
+          </span>
+
+        </div>
+
+        <!-- X -->
+        <div class="mb-7">
+          <i class="fa-solid fa-xmark text-red-500 text-xl opacity-80"></i>
+        </div>
+
+        <!-- Compatible -->
+        <div class="flex flex-col items-center gap-2">
+
+          <div
+            class="w-14 h-24 rounded-2xl border-2 flex items-center justify-center"
+            [ngStyle]="{
+              'border-color': themeService.Textprincipal,
+              'background': 'rgba(255,255,255,0.04)'
+            }"
+          >
+            <i
+              class="fa-solid fa-mobile-screen text-2xl"
+              [ngStyle]="{ 'color': themeService.Textprincipal }"
+            ></i>
+          </div>
+
+          <span
+            class="text-[10px] font-black tracking-widest"
+            [ngStyle]="{ 'color': themeService.Textsecondaire }"
+          >
+            OK
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- TITRE -->
+      <div class="text-center relative z-10">
+
+        <h2
+          class="text-xl font-black mb-3 leading-tight"
+          [ngStyle]="{ 'color': themeService.Textprincipal }"
+        >
+          Écran trop petit
+        </h2>
+
+        <p
+          class="text-[13px] leading-6 font-medium opacity-80"
+          [ngStyle]="{ 'color': themeService.Textsecondaire }"
+        >
+          Cette application n’est pas optimisée
+          pour les écrans inférieurs à
+          <span class="font-black text-red-500">382px</span>.
+        </p>
+
+        <!-- BADGE -->
+        <div class="flex justify-center mt-5">
+
+          <div
+            class="px-4 py-2 rounded-full text-[10px] font-black flex items-center gap-2"
+            [ngStyle]="{
+              'background': 'rgba(232,39,42,0.12)',
+              'border': '1px solid rgba(232,39,42,0.25)',
+              'color': '#E8272A'
+            }"
+          >
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Minimum : 382px
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ===================================================== -->
+  <!-- FOOTER -->
+  <!-- ===================================================== -->
+
+  <footer class="w-full relative z-10">
+
+    <div
+      class="w-full rounded-3xl px-4 py-4"
+      [ngStyle]="{
+        'background': themeService.GlassBackground,
+        'border': '1px solid ' + themeService.GlassBorder,
+        'backdrop-filter': 'blur(18px)',
+        '-webkit-backdrop-filter': 'blur(18px)'
+      }"
+    >
+
+      <div class="flex items-center justify-between">
+
+        <!-- LEFT -->
+        <div class="flex items-center gap-3">
+
+          <div
+            class="w-10 h-10 rounded-2xl flex items-center justify-center"
+            [ngStyle]="{
+              'background': themeService.Backgroundcards
+            }"
+          >
+            <img
+              class="w-7 object-contain"
+              src="assets/LOGO.png"
+              alt="Logo ASDAM"
+            >
+          </div>
+
+          <div class="leading-none">
+
+            <h3
+              class="text-sm font-black"
+              [ngStyle]="{ 'color': themeService.Textprincipal }"
+            >
+              ASDAM
+            </h3>
+
+            <span
+              class="text-[10px] opacity-70"
+              [ngStyle]="{ 'color': themeService.Textsecondaire }"
+            >
+              Football App
+            </span>
+
+          </div>
+
+        </div>
+
+        <!-- ICON -->
+        <div
+          class="w-9 h-9 rounded-2xl flex items-center justify-center"
+          style="background:rgba(232,39,42,0.10)"
+        >
+          <i class="fa-solid fa-futbol text-red-500 text-sm"></i>
+        </div>
+
+      </div>
+
+      <!-- LINE -->
+      <div
+        class="w-full h-[1px] opacity-15 my-3"
+        [ngStyle]="{
+          'background': themeService.Textprincipal
+        }"
+      ></div>
+
+      <!-- TEXT -->
+      <p
+        class="text-center text-[10px] leading-5 opacity-70 font-medium"
+        [ngStyle]="{ 'color': themeService.Textsecondaire }"
+      >
+        © 2026 ASDAM — Tous droits réservés
+      </p>
+
+    </div>
+
+  </footer>
+
+</section>

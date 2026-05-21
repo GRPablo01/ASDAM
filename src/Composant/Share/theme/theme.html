@@ -1,0 +1,31 @@
+<button
+  type="button"
+  (click)="toggleTheme()"
+  (mouseenter)="hover = true"
+  (mouseleave)="hover = false"
+  class="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-300 hover:scale-110 active:scale-95"
+  [attr.aria-label]="themeService.isDarkMode ? 'Passer en clair' : 'Passer en sombre'"
+  [ngStyle]="{
+    'background': themeService.GlassBackground,
+    'border': '1px solid ' + themeService.GlassBorder,
+    'backdrop-filter': 'blur(22px) saturate(180%)',
+    '-webkit-backdrop-filter': 'blur(22px) saturate(180%)',
+    'box-shadow': '0 10px 30px rgba(0,0,0,0.08)'
+  }"
+>
+  <!-- Cercle hover plus petit -->
+  <span
+    class="absolute w-10 h-10 rounded-full transition-colors duration-300"
+    [ngStyle]="{
+      'background': hover ? themeService.primary : 'transparent'
+    }"
+  ></span>
+
+  <!-- Icône au-dessus -->
+  <i
+    class="fa-solid text-xl relative transition-colors duration-300"
+    [class.fa-sun]="themeService.isDarkMode"
+    [class.fa-moon]="!themeService.isDarkMode"
+    [ngStyle]="{ 'color': hover ? '#ffffff' : themeService.Iconnormal }"
+  ></i>
+</button>
