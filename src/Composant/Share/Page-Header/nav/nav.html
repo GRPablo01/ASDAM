@@ -1,0 +1,258 @@
+<!-- ========================================================= -->
+<!-- NAVIGATION PREMIUM RESPONSIVE -->
+<!-- ========================================================= -->
+
+<app-icon></app-icon>
+
+<!-- ========================================================= -->
+<!-- DESKTOP + LAPTOP -->
+<!-- ≥ 1024px -->
+<!-- ========================================================= -->
+
+<nav
+  class="
+    hidden
+    lg:flex
+    items-center
+    justify-center
+    w-full
+    relative
+    z-[100]
+  "
+>
+
+  <div
+    class="
+      flex
+      items-center
+      justify-between
+      w-full
+      max-w-[1700px]
+      px-6
+      xl:px-8
+      py-3
+    "
+  >
+
+    <!-- LEFT MENU -->
+    <div class="flex items-center">
+
+      <ul class="flex items-center gap-2 xl:gap-3">
+
+        <li *ngFor="let item of menu; let i = index" class="relative">
+
+          <a
+            [routerLink]="item.link"
+            class="
+              relative
+              flex
+              items-center
+              gap-2
+              px-4
+              xl:px-5
+              py-3
+              rounded-2xl
+              overflow-hidden
+              transition-all
+              duration-300
+              group
+              cursor-pointer
+              hover:-translate-y-[2px]
+            "
+
+            (mouseenter)="hoveredMobileIndex = i; item.children ? openMenuIndex = i : null"
+            (mouseleave)="hoveredMobileIndex = -1"
+
+            [ngStyle]="{
+              'background':
+              hoveredMobileIndex === i
+                  ? themeService.c1Base + '1A'
+                  : 'transparent',
+
+              'border':
+                '1px solid ' +
+                (hoveredMobileIndex === i
+                  ? themeService.c1Base + '4D'
+                  : 'transparent'),
+
+              'box-shadow':
+              hoveredMobileIndex === i
+                  ? '0 0 20px ' + themeService.c1Base + '4D'
+                  : 'none'
+            }"
+          >
+
+            <!-- ICON -->
+            <i
+              *ngIf="item.icon"
+              [class]="item.icon + ' relative z-10 text-[15px]'"
+              [ngStyle]="{
+                'color':
+                hoveredMobileIndex === i
+                    ? themeService.c1Base
+                    : themeService.Textsecondaire
+              }"
+            ></i>
+
+            <!-- LABEL -->
+            <span
+              class="relative z-10 text-[14px] xl:text-[15px] font-semibold"
+              [ngStyle]="{
+                'color':
+                hoveredMobileIndex === i
+                    ? themeService.c1Base
+                    : themeService.Textprincipal
+              }"
+            >
+              {{ item.label }}
+            </span>
+
+            <!-- BADGE -->
+            <span
+              *ngIf="item.badge"
+              class="relative z-10 px-2 py-0.5 rounded-full text-[10px] text-white font-bold animate-pulse"
+              [ngStyle]="{
+                'background': 'linear-gradient(135deg, ' + themeService.c1Base + ', ' + themeService.c2Base + ')'
+              }"
+            >
+              {{ item.badge }}
+            </span>
+
+          </a>
+
+        </li>
+
+      </ul>
+
+    </div>
+
+    <!-- RIGHT SLOT -->
+    <div class="flex items-center gap-3">
+      <ng-content select="[nav-right]"></ng-content>
+    </div>
+
+  </div>
+
+</nav>
+
+<!-- ========================================================= -->
+<!-- TABLET + MOBILE -->
+<!-- < 1024px -->
+<!-- FIXED BOTTOM FULL WIDTH -->
+<!-- ========================================================= -->
+<nav
+  class="
+    flex
+    lg:hidden
+
+    fixed
+    bottom-0
+    left-0
+    right-0
+
+    w-full
+    z-[9999]
+  "
+>
+
+  <div
+    class="
+      w-full
+
+      px-0
+
+      py-3
+
+      border-t
+
+      overflow-hidden
+    "
+    [ngStyle]="{
+      'background': themeService.Backgroundheader,
+      'border-color': themeService.c2Base + '33'
+    }"
+  >
+
+    <!-- MENU -->
+    <ul
+      class="
+        relative
+        z-10
+
+        flex
+        items-center
+        justify-between
+
+        w-full
+      "
+    >
+
+      <li
+        *ngFor="let item of menu; let i = index"
+        class="flex-1"
+      >
+
+        <a
+          [routerLink]="item.link"
+          class="
+            flex
+            flex-col
+            items-center
+            justify-center
+            gap-1
+            py-2
+            w-full
+            transition-all
+            duration-300
+          "
+          (mouseenter)="hoveredMobileIndex = i"
+          (mouseleave)="hoveredMobileIndex = -1"
+          [ngStyle]="{
+            'background':
+              hoveredMobileIndex === i
+                ? themeService.c1Base + '1A'
+                : 'transparent',
+            'border-radius': '12px'
+          }"
+        >
+
+          <!-- ICON -->
+          <i
+            *ngIf="item.icon"
+            [class]="item.icon + ' text-[20px]'"
+            [ngStyle]="{
+              'color':
+                hoveredMobileIndex === i
+                  ? themeService.c1Base
+                  : themeService.Textprincipal
+            }"
+          ></i>
+
+          <!-- LABEL -->
+          <span
+            class="text-[10px] sm:text-[11px] font-semibold"
+            [ngStyle]="{
+              'color':
+                hoveredMobileIndex === i
+                  ? themeService.c1Base
+                  : themeService.Textprincipal
+            }"
+          >
+            {{ item.label }}
+          </span>
+
+        </a>
+
+      </li>
+
+    </ul>
+
+  </div>
+
+</nav>
+
+<!-- ========================================================= -->
+<!-- SPACER MOBILE/TABLET -->
+<!-- ========================================================= -->
+
+<div class="block lg:hidden h-20 w-full"></div>

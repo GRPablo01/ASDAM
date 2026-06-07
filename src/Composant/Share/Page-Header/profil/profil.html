@@ -1,0 +1,524 @@
+<!-- ========================================== -->
+<!-- USER FOOTBALL COMPONENT V5 - PREMIUM UI/UX -->
+<!-- ========================================== -->
+<section class="relative inline-block font-sans select-none"
+  [ngStyle]="{'color': themeService.Textprincipal}">
+
+  <!-- ======================= -->
+  <!-- BOUTON USER -->
+  <!-- ======================= -->
+  <button
+    id="userMenuButton"
+    type="button"
+    (click)="toggleMenu()"
+    [attr.aria-expanded]="menuOpen"
+    [attr.aria-haspopup]="true"
+    [attr.aria-controls]="'userMenuDropdown'"
+    class="group flex items-center gap-3 px-3 py-2 rounded-full transition-all duration-300
+           hover:scale-[1.02] active:scale-[0.98]"
+    [ngStyle]="{
+      'background': themeService.Backgroundheader1,
+      'color':themeService.Textprincipal
+    }">
+
+    <!-- AVATAR -->
+    <div class="relative">
+      <div
+        class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-[11px]
+               shadow-md ring-2 ring-white/30 transition-transform duration-300 group-hover:scale-110"
+        [ngStyle]="{'background': getRoleGradient(role)}">
+
+        <ng-container *ngIf="role === 'superadmin'; else normalUser">
+          <i class="fa-solid fa-crown text-[15px]"></i>
+        </ng-container>
+
+        <ng-template #normalUser>
+          {{ initials || 'IN' }}
+        </ng-template>
+      </div>
+
+    </div>
+
+    <!-- INFOS -->
+    <div class="flex flex-col text-left leading-tight min-w-[95px]">
+      <span class="text-[12px] font-semibold truncate">
+        {{ prenom || 'Supporter'  }} {{ nom }}
+      </span>
+
+      <span class="text-[10px] uppercase tracking-widest opacity-60"
+        [ngStyle]="{'color': themeService.Textsecondaire}">
+        {{ formatRole(role) }}
+      </span>
+    </div>
+
+    <!-- CHEVRON -->
+    <i
+      class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300"
+      [class.rotate-180]="menuOpen"
+      [ngStyle]="{'color': themeService.Textprincipal}">
+    </i>
+
+  </button>
+
+  <!-- ======================= -->
+  <!-- DROPDOWN -->
+  <!-- ======================= -->
+  <div
+    *ngIf="menuOpen"
+    id="userMenuDropdown"
+    class="absolute right-0 top-full mt-3 w-80 rounded-2xl overflow-hidden z-101]
+           shadow-2xl animate-dropdown"
+    (clickOutside)="closeMenu()"
+    [ngStyle]="{
+      'background': themeService.Backgroundheader1,
+      'border': '1px solid ' + themeService.Bordernormal,
+    }">
+
+    <!-- HEADER -->
+    <div class="relative p-5 border-b"
+      [ngStyle]="{'border-color': themeService.GlassBorder}">
+
+      <div class="absolute inset-0 opacity-[0.08]"
+        [ngStyle]="{'background': getRoleGradient(role)}"></div>
+
+      <div class="relative flex items-center gap-4">
+
+        <!-- AVATAR LARGE -->
+        <div class="relative">
+          <div
+            class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-white shadow-lg ring-2 ring-white/40"
+            [ngStyle]="{'background': getRoleGradient(role)}">
+
+            <ng-container *ngIf="role === 'superadmin'; else normalBig">
+              <i class="fa-solid fa-crown text-[15px]"></i>
+            </ng-container>
+
+            <ng-template #normalBig>
+              {{ initials || 'IN' }}
+            </ng-template>
+          </div>
+        </div>
+
+        <!-- INFOS -->
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-bold truncate">
+            {{ prenom || 'Invité' }} {{ nom || '' }}
+          </p>
+
+          <p class="text-xs opacity-60 truncate">
+            {{ email }}
+          </p>
+
+          <span class="inline-flex items-center gap-1 mt-2 px-2 py-1 rounded-full text-[10px] font-bold uppercase"
+            [ngStyle]="{
+              'background': getRoleBadgeBg(role),
+              'color': getRoleBadgeColor(role)
+            }">
+
+            <span class="w-1.5 h-1.5 rounded-full"
+              [ngStyle]="{'background': getRoleBadgeColor(role)}"></span>
+
+            {{ formatRole(role) }}
+          </span>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="py-2 max-h-[65vh] overflow-y-auto custom-scrollbar">
+
+      <!-- ADMIN / SUPERADMIN -->
+      <ng-container *ngIf="role === 'superadmin' || role === 'admin'">
+
+        <div class="menu-title">Administration</div>
+
+        <!-- DASHBOARD -->
+        <a routerLink="/dashboard" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-chart-line icon"
+            [ngStyle]="{
+              'color': themeService.dashboardPrimary,
+              'background-color': themeService.dashboardPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.dashboardPrimary}">
+            Dashboard
+          </span>
+
+        </a>
+
+        <!-- LOGS SYSTEME -->
+        <a routerLink="/logs" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-clipboard-list icon"
+            [ngStyle]="{
+              'color': themeService.primary,
+              'background-color': themeService.primarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.primary}">
+            Logs système
+          </span>
+
+        </a>
+
+        <!-- TEAMS -->
+        <a routerLink="/teams" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-people-group icon"
+            [ngStyle]="{
+              'color': themeService.teamPrimary,
+              'background-color': themeService.teamPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.teamPrimary}">
+            Équipes
+          </span>
+
+        </a>
+
+        <!-- PLANNING -->
+        <a routerLink="/planning" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-calendar-days icon"
+            [ngStyle]="{
+              'color': themeService.eventPrimary,
+              'background-color': themeService.eventPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.eventPrimary}">
+            Planning
+          </span>
+
+        </a>
+
+      </ng-container>
+
+      <!-- ENTRAINEUR -->
+      <ng-container *ngIf="role === 'entraineur'">
+
+        <div class="menu-title">Entraîneur</div>
+
+        <a routerLink="/dashboard" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-chart-line icon"
+            [ngStyle]="{
+              'color': themeService.dashboardPrimary,
+              'background-color': themeService.dashboardPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.dashboardPrimary}">
+            Dashboard
+          </span>
+
+        </a>
+
+        <a routerLink="/team-management" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-people-group icon"
+            [ngStyle]="{
+              'color': themeService.teamPrimary,
+              'background-color': themeService.teamPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.teamPrimary}">
+            Mon équipe
+          </span>
+
+        </a>
+
+        <a routerLink="/players" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-user-group icon"
+            [ngStyle]="{
+              'color': themeService.teamPrimary,
+              'background-color': themeService.teamPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.teamPrimary}">
+            Joueurs
+          </span>
+
+        </a>
+
+        <a routerLink="/convocations" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-clipboard-list icon"
+            [ngStyle]="{
+              'color': themeService.convocationPrimary,
+              'background-color': themeService.convocationPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.convocationPrimary}">
+            Convocations
+          </span>
+
+        </a>
+
+      </ng-container>
+
+      <!-- JOUEUR -->
+      <ng-container *ngIf="role === 'joueur'">
+
+        <div class="menu-title">Joueur</div>
+
+        <a routerLink="/dashboard" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-chart-line icon"
+            [ngStyle]="{
+              'color': themeService.dashboardPrimary,
+              'background-color': themeService.dashboardPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.dashboardPrimary}">
+            Dashboard
+          </span>
+
+        </a>
+
+        <a routerLink="/my-team" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-people-group icon"
+            [ngStyle]="{
+              'color': themeService.teamPrimary,
+              'background-color': themeService.teamPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.teamPrimary}">
+            Mon équipe
+          </span>
+
+        </a>
+
+        <a routerLink="/message" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-regular fa-message icon"
+            [ngStyle]="{
+              'color': themeService.dashboardPrimary,
+              'background-color': themeService.dashboardPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.dashboardPrimary}">
+            Messagerie
+          </span>
+
+        </a>
+
+        <a routerLink="/convocations" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-clipboard-list icon"
+            [ngStyle]="{
+              'color': themeService.convocationPrimary,
+              'background-color': themeService.convocationPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.convocationPrimary}">
+            Convocations
+          </span>
+
+        </a>
+
+      </ng-container>
+
+      <!-- INVITE -->
+      <ng-container *ngIf="role === 'invité'">
+
+        <div class="menu-title">Invité</div>
+
+        <a routerLink="/home" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-house icon"
+            [ngStyle]="{
+              'color': themeService.dashboardPrimary,
+              'background-color': themeService.dashboardPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.dashboardPrimary}">
+            Accueil
+          </span>
+
+        </a>
+
+        <a routerLink="/teams-public" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-people-group icon"
+            [ngStyle]="{
+              'color': themeService.teamPrimary,
+              'background-color': themeService.teamPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.teamPrimary}">
+            Équipes
+          </span>
+
+        </a>
+
+        <a routerLink="/matches-public" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-futbol icon"
+            [ngStyle]="{
+              'color': themeService.eventPrimary,
+              'background-color': themeService.eventPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.eventPrimary}">
+            Matchs
+          </span>
+
+        </a>
+
+        <a routerLink="/login" class="menu-item group flex items-center gap-2">
+
+          <i class="fa-solid fa-right-to-bracket icon"
+            [ngStyle]="{
+              'color': themeService.teamPrimary,
+              'background-color': themeService.teamPrimarySoft
+            }">
+          </i>
+
+          <span [ngStyle]="{'color': themeService.teamPrimary}">
+            Connexion
+          </span>
+
+        </a>
+
+      </ng-container>
+
+      <!-- COMPTE -->
+      <div class="divider"></div>
+
+      <div class="menu-title">Compte</div>
+
+      <a routerLink="/profil" class="menu-item group flex items-center gap-2">
+
+        <i class="fa-solid fa-user icon"
+          [ngStyle]="{
+            'color': '#6B7280',
+            'background-color': '#F3F4F6'
+          }">
+        </i>
+
+        <span>Profil</span>
+
+      </a>
+
+      <a routerLink="/settings" class="menu-item group flex items-center gap-2">
+
+        <i class="fa-solid fa-gear icon"
+          [ngStyle]="{
+            'color': '#6B7280',
+            'background-color': '#F3F4F6'
+          }">
+        </i>
+
+        <span>Paramètres</span>
+
+      </a>
+
+      <div class="divider"></div>
+
+      <!-- DECONNEXION -->
+      <button (click)="deconnecter()" class="menu-item danger group flex items-center gap-2">
+
+        <i class="fa-solid fa-right-from-bracket icon"
+          [ngStyle]="{
+            'color': '#EF4444',
+            'background-color': '#FEE2E2'
+          }">
+        </i>
+
+        <span class="text-red-500">Déconnexion</span>
+
+      </button>
+
+    </nav>
+  </div>
+
+</section>
+
+<style>
+  .animate-dropdown {
+  animation: dropdown 0.18s ease-out;
+  transform-origin: top right;
+}
+
+@keyframes dropdown {
+  from { opacity: 0; transform: translateY(-10px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* MENU ITEM */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.menu-item:hover {
+  background: rgba(255,255,255,0.06);
+  transform: translateX(4px);
+}
+
+/* DANGER BUTTON */
+.menu-item.danger:hover {
+  background: rgba(255,0,0,0.08);
+}
+
+/* ICON */
+.icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+/* SECTION TITLE */
+.menu-title {
+  font-size: 10px;
+  font-weight: 700;
+  opacity: 0.5;
+  padding: 10px 14px 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+
+
+/* SCROLL */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+}
+</style>

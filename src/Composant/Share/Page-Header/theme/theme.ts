@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ThemeService } from '../../../../Backend/Services/theme.service';
+import { ThemeService } from '../../../../../Backend/Services/theme.service';
+
 
 
 @Component({
@@ -12,6 +13,7 @@ import { ThemeService } from '../../../../Backend/Services/theme.service';
 })
 export class Theme {
   hover = false;
+  hoverTheme = false;
 
   constructor(public themeService: ThemeService) {}
 

@@ -23,7 +23,7 @@
     <div class="absolute top-4 left-4 z-10 flex items-center gap-2">
 
       <div class="w-9 h-9 rounded-xl flex items-center justify-center overflow-hidden" [ngStyle]="{
-          'background': themeService.Backgroundcards,
+          'background': themeService.Background1,
           'box-shadow': themeService.GlassShadow,
           'border': '1px solid ' + themeService.GlassBorder
         }">
@@ -54,7 +54,7 @@
   <!-- ═══════════════════════════════════════════ -->
 
   <div class="flex-1 rounded-t-[28px] px-6 pt-6 pb-4 flex flex-col justify-between" [ngStyle]="{
-  'background': themeService.Backgroundcards,
+  'background': themeService.Background1,
   'box-shadow': '0 -10px 30px rgba(0,0,0,0.08)'
 }">
 
@@ -99,7 +99,7 @@
             <input type="text" formControlName="nom" placeholder="Votre nom"
               class="w-full h-12 pl-13 pr-4 rounded-2xl text-sm font-medium transition-all duration-300 hover:shadow-md focus:ring-2 outline-none"
               [ngStyle]="{
-          'background': themeService.Backgroundcards1,
+          'background': themeService.Background2,
           'color': themeService.Textprincipal,
           'border': '2px solid ' + themeService.primary
         }" />
@@ -130,7 +130,7 @@
             <input type="text" formControlName="prenom" placeholder="Votre prénom"
               class="w-full h-12 pl-13 pr-4 rounded-2xl text-sm font-medium transition-all duration-300 hover:shadow-md focus:ring-2 outline-none"
               [ngStyle]="{
-          'background': themeService.Backgroundcards1,
+          'background': themeService.Background2,
           'color': themeService.Textprincipal,
           'border': '2px solid ' + themeService.primary
         }" />
@@ -167,7 +167,7 @@
             <input type="email" formControlName="email" placeholder="Votre e-mail"
               class="w-full h-12 pl-13 pr-4 rounded-2xl text-sm font-medium transition-all duration-300 hover:shadow-md focus:ring-2 outline-none"
               [ngStyle]="{
-          'background': themeService.Backgroundcards1,
+          'background': themeService.Background2,
           'color': themeService.Textprincipal,
           'border': '2px solid ' + themeService.primary
         }" />
@@ -198,7 +198,7 @@
               placeholder="Votre mot de passe"
               class="w-full h-12 pl-13 pr-13 rounded-2xl text-sm font-medium transition-all duration-300 hover:shadow-md focus:ring-2 outline-none"
               [ngStyle]="{
-          'background': themeService.Backgroundcards1,
+          'background': themeService.Background2,
           'color': themeService.Textprincipal,
           'border': '2px solid ' + themeService.primary
         }" />
@@ -226,7 +226,7 @@
         <input type="text" formControlName="club" placeholder="Nom du club"
           class="w-full h-12 px-4 rounded-2xl text-sm font-medium transition-all duration-300 hover:shadow-md focus:ring-2 outline-none"
           [ngStyle]="{
-      'background': themeService.Backgroundcards1,
+      'background': themeService.Background2,
       'color': themeService.Textprincipal,
       'border': '2px solid ' + themeService.primary
     }" />
@@ -235,7 +235,7 @@
         <select formControlName="equipe"
           class="w-full h-12 px-4 rounded-2xl text-sm font-medium transition-all duration-300 hover:shadow-md focus:ring-2 outline-none"
           [ngStyle]="{
-      'background': themeService.Backgroundcards1,
+      'background': themeService.Background2,
       'color': themeService.Textprincipal,
       'border': '2px solid ' + themeService.primary
     }">
@@ -256,7 +256,7 @@
         <select formControlName="role"
           class="w-full h-12 px-4 rounded-2xl text-sm font-medium transition-all duration-300 hover:shadow-md focus:ring-2 outline-none"
           [ngStyle]="{
-      'background': themeService.Backgroundcards1,
+      'background': themeService.Background2,
       'color': themeService.Textprincipal,
       'border': '2px solid ' + themeService.primary
     }">
@@ -274,7 +274,7 @@
     " type="text" formControlName="codeAcces" placeholder="Code d'accès"
           class="w-full h-12 px-4 rounded-2xl text-sm font-medium transition-all duration-300 hover:shadow-md focus:ring-2 outline-none"
           [ngStyle]="{
-      'background': themeService.Backgroundcards1,
+      'background': themeService.Background2,
       'color': themeService.Textprincipal,
       'border': '2px solid ' + themeService.primary
     }" />
@@ -289,7 +289,7 @@
         <!-- RETOUR -->
         <button *ngIf="currentStep > 1" type="button" (click)="prevStep()"
           class="h-12 rounded-2xl font-bold transition-all duration-300 hover:scale-[1.02]" [ngStyle]="{
-      'background': themeService.Backgroundcards1,
+      'background': themeService.Background2,
       'color': themeService.Textprincipal
     }">
           Retour
@@ -453,7 +453,7 @@
         <div class="flex items-center gap-2 mb-4 px-1">
           <div *ngFor="let step of [1,2,3,4]; let i = index" class="flex-1 h-1.5 rounded-full transition-all duration-500"
             [ngStyle]="{
-              'background': currentStep >= step ? themeService.primary : themeService.Backgroundcards,
+              'background': currentStep >= step ? themeService.primary : themeService.Background1,
               'opacity': currentStep >= step ? '1' : '0.3'
             }">
           </div>
@@ -495,7 +495,7 @@
                 'focus:ring-2': true
               }"
               [ngStyle]="{
-                'background': themeService.Backgroundcards,
+                'background': themeService.Background1,
                 'color': themeService.Textprincipal,
                 'border': '2px solid ' + (registerForm.get('nom')?.dirty && registerForm.get('nom')?.invalid ? '#ef4444' : themeService.primary + '40'),
                 'box-shadow': registerForm.get('nom')?.dirty && registerForm.get('nom')?.invalid ? '0 0 0 4px rgba(239,68,68,0.1)' : 'none'
@@ -531,7 +531,7 @@
                 'focus:ring-2': true
               }"
               [ngStyle]="{
-                'background': themeService.Backgroundcards,
+                'background': themeService.Background1,
                 'color': themeService.Textprincipal,
                 'border': '2px solid ' + (registerForm.get('prenom')?.dirty && registerForm.get('prenom')?.invalid ? '#ef4444' : themeService.primary + '40'),
                 'box-shadow': registerForm.get('prenom')?.dirty && registerForm.get('prenom')?.invalid ? '0 0 0 4px rgba(239,68,68,0.1)' : 'none'
@@ -574,7 +574,7 @@
                 'focus:ring-2': true
               }"
               [ngStyle]="{
-                'background': themeService.Backgroundcards,
+                'background': themeService.Background1,
                 'color': themeService.Textprincipal,
                 'border': '2px solid ' + (registerForm.get('email')?.dirty && registerForm.get('email')?.invalid ? '#ef4444' : themeService.primary + '40'),
                 'box-shadow': registerForm.get('email')?.dirty && registerForm.get('email')?.invalid ? '0 0 0 4px rgba(239,68,68,0.1)' : 'none'
@@ -613,7 +613,7 @@
                 'focus:ring-2': true
               }"
               [ngStyle]="{
-                'background': themeService.Backgroundcards,
+                'background': themeService.Background1,
                 'color': themeService.Textprincipal,
                 'border': '2px solid ' + (registerForm.get('password')?.dirty && registerForm.get('password')?.invalid ? '#ef4444' : themeService.primary + '40'),
                 'box-shadow': registerForm.get('password')?.dirty && registerForm.get('password')?.invalid ? '0 0 0 4px rgba(239,68,68,0.1)' : 'none'
@@ -671,7 +671,7 @@
                 'focus:ring-2': true
               }"
               [ngStyle]="{
-                'background': themeService.Backgroundcards,
+                'background': themeService.Background1,
                 'color': themeService.Textprincipal,
                 'border': '2px solid ' + (registerForm.get('club')?.dirty && registerForm.get('club')?.invalid ? '#ef4444' : themeService.primary + '40'),
                 'box-shadow': registerForm.get('club')?.dirty && registerForm.get('club')?.invalid ? '0 0 0 4px rgba(239,68,68,0.1)' : 'none'
@@ -707,7 +707,7 @@
                 'focus:ring-2': true
               }"
               [ngStyle]="{
-                'background': themeService.Backgroundcards,
+                'background': themeService.Background1,
                 'color': registerForm.get('equipe')?.value ? themeService.Textprincipal : themeService.Textsecondaire,
                 'border': '2px solid ' + (registerForm.get('equipe')?.dirty && registerForm.get('equipe')?.invalid ? '#ef4444' : themeService.primary + '40')
               }">
@@ -761,7 +761,7 @@
                 'focus:ring-2': true
               }"
               [ngStyle]="{
-                'background': themeService.Backgroundcards,
+                'background': themeService.Background1,
                 'color': registerForm.get('role')?.value ? themeService.Textprincipal : themeService.Textsecondaire,
                 'border': '2px solid ' + (registerForm.get('role')?.dirty && registerForm.get('role')?.invalid ? '#ef4444' : themeService.primary + '40')
               }">
@@ -813,7 +813,7 @@
                 'focus:ring-2': true
               }"
               [ngStyle]="{
-                'background': themeService.Backgroundcards,
+                'background': themeService.Background1,
                 'color': themeService.Textprincipal,
                 'border': '2px solid ' + (registerForm.get('codeAcces')?.dirty && registerForm.get('codeAcces')?.invalid ? '#ef4444' : themeService.primary + '40'),
                 'box-shadow': registerForm.get('codeAcces')?.dirty && registerForm.get('codeAcces')?.invalid ? '0 0 0 4px rgba(239,68,68,0.1)' : 'none'
@@ -843,7 +843,7 @@
           <button *ngIf="currentStep > 1" type="button" (click)="prevStep()"
             class="h-14 rounded-2xl font-bold transition-all duration-300 hover:scale-[1.02] hover:shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
             [ngStyle]="{
-              'background': themeService.Backgroundcards,
+              'background': themeService.Background1,
               'color': themeService.Textprincipal,
               'border': '2px solid ' + themeService.primary + '20'
             }">

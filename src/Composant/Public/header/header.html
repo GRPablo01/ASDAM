@@ -1,0 +1,183 @@
+<!-- ========================================================= -->
+<!-- HEADER RESPONSIVE FIXED -->
+<!-- Desktop • Laptop • Tablet • Mobile -->
+<!-- ========================================================= -->
+<header
+  [ngStyle]="{
+    'background': themeService.Backgroundheader,
+    'border-bottom': '1px solid ' + themeService.c2Base + '33',
+    'box-shadow': '0 4px 20px ' + themeService.c16Dark + '40'
+  }"
+  class="
+    fixed
+    top-0
+    left-0
+    w-full
+    h-16
+    px-4
+    sm:px-6
+    lg:px-10
+    flex
+    items-center
+    z-50
+  "
+>
+
+  <!-- ========================================================= -->
+  <!-- DESKTOP + LAPTOP -->
+  <!-- ≥ 1024px -->
+  <!-- Logo extrême gauche -->
+  <!-- Nav à côté du logo -->
+  <!-- Icon2 à côté du profil -->
+  <!-- Profil extrême droite -->
+  <!-- ========================================================= -->
+  <div class="hidden lg:flex items-center justify-between w-full h-full">
+
+    <!-- LEFT -->
+    <div class="flex items-center gap-6 h-full">
+
+      <!-- LOGO -->
+      <div class="flex items-center h-full">
+        <app-logo></app-logo>
+      </div>
+
+      <!-- NAV -->
+      <div class="flex items-center h-full">
+        <app-nav></app-nav>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="flex items-center gap-5 h-full">
+
+      <!-- ICON -->
+      <div class="flex items-center h-full">
+        <app-icon2></app-icon2>
+      </div>
+
+      <!-- PROFIL -->
+      <div class="flex items-center h-full">
+        <app-profil></app-profil>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- TABLET -->
+  <!-- 640px → 1023px -->
+  <!-- Logo gauche -->
+  <!-- Icon2 centré -->
+  <!-- Profil droite -->
+  <!-- ========================================================= -->
+  <div class="hidden sm:flex lg:hidden items-center justify-between w-full h-full">
+
+    <!-- LOGO -->
+    <div class="flex items-center h-full">
+      <app-logo></app-logo>
+    </div>
+
+    <!-- ICON CENTER -->
+    <div class="flex items-center justify-center flex-1 h-full">
+      <app-icon2></app-icon2>
+    </div>
+
+    <!-- PROFIL -->
+    <div class="flex items-center justify-end h-full">
+      <app-profil></app-profil>
+    </div>
+
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MOBILE -->
+  <!-- < 640px -->
+  <!-- Logo gauche -->
+  <!-- Profil droite -->
+  <!-- PAS DE ICON2 -->
+  <!-- ========================================================= -->
+  <div class="flex sm:hidden items-center justify-between w-full h-full">
+
+    <!-- LOGO -->
+    <div class="flex items-center h-full">
+      <app-logo></app-logo>
+    </div>
+
+    <!-- PROFIL -->
+    <div class="flex items-center h-full">
+      <app-profil></app-profil>
+    </div>
+
+  </div>
+
+</header>
+
+<!-- ========================================================= -->
+<!-- NAVIGATION BOTTOM • TABLET -->
+<!-- 640px → 1023px -->
+<!-- ========================================================= -->
+<nav
+  class="
+    hidden
+    sm:flex
+    lg:hidden
+    fixed
+    bottom-0
+    left-0
+    w-full
+    h-16
+    items-center
+    justify-center
+    z-50
+    px-6
+  "
+  [ngStyle]="{
+    'background': themeService.Backgroundheader1,
+    'border-top': '1px solid ' + themeService.c2Base + '33',
+    'box-shadow': '0 -4px 20px ' + themeService.c16Dark + '40'
+  }"
+>
+  <app-nav></app-nav>
+</nav>
+
+<!-- ========================================================= -->
+<!-- NAVIGATION BOTTOM • MOBILE -->
+<!-- < 640px -->
+<!-- ========================================================= -->
+<nav
+  class="
+    flex
+    sm:hidden
+    fixed
+    bottom-0
+    left-0
+    w-full
+    h-16
+    items-center
+    justify-center
+    z-50
+    px-4
+  "
+  [ngStyle]="{
+    'background': themeService.Backgroundheader1,
+    'border-top': '1px solid ' + themeService.c2Base + '33',
+    'box-shadow': '0 -4px 20px ' + themeService.c16Dark + '40'
+  }"
+>
+  <app-nav></app-nav>
+</nav>
+
+<!-- ========================================================= -->
+<!-- SPACER TOP -->
+<!-- Évite que le contenu passe sous le header fixed -->
+<!-- ========================================================= -->
+<div class="h-16 w-full"></div>
+
+<!-- ========================================================= -->
+<!-- SPACER BOTTOM -->
+<!-- Évite que le contenu passe derrière le nav bottom -->
+<!-- TABLET + MOBILE -->
+<!-- ========================================================= -->
+<div class="block lg:hidden h-16 w-full"></div>

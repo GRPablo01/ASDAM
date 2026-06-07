@@ -11,8 +11,9 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 
 import { ThemeService } from '../../../../Backend/Services/theme.service';
-import { Theme } from '../../Share/theme/theme';
+
 import { Icon } from '../../Share/icon/icon';
+import { Theme } from '../../Share/Page-Header/theme/theme';
 
 
 

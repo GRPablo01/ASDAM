@@ -1,0 +1,29 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap"
+rel="stylesheet">
+
+
+<a routerLink="/accueil">
+  <!-- Container Logo -->
+  <div class="flex items-center p-3 select-none font-[Inter] transition-all duration-300 -ml-4">
+
+    <!-- Bloc Logo + Texte -->
+    <div class="flex items-center gap-3 cursor-pointer group">
+
+      <!-- Logo dynamique selon le thème -->
+      <img [src]="themeService.ThemeImage" alt="Logo UniDys"
+        class="w-12 h-12 transition-all duration-300 ease-in-out group-hover:scale-110">
+
+      <!-- Nom -->
+      <h1 class="text-2xl font-light tracking-wider transition-colors duration-300" [ngStyle]="{
+          'color': themeService.Textprincipal,
+          'font-family': 'Google Sans Flex, sans-serif'
+        }">
+        ASDAM
+      </h1>
+
+    </div>
+
+  </div>
+</a>

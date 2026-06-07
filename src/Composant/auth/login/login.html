@@ -24,7 +24,7 @@
     <div class="absolute top-4 left-4 z-10 flex items-center gap-2">
 
       <div class="w-9 h-9 rounded-xl flex items-center justify-center overflow-hidden" [ngStyle]="{
-          'background': themeService.Backgroundcards,
+          'background': themeService.Background1,
           'box-shadow': themeService.GlassShadow,
           'border': '1px solid ' + themeService.GlassBorder
         }">
@@ -55,7 +55,7 @@
   <!-- ═══════════════════════════════════════════ -->
 
   <div class="flex-1 rounded-t-[28px] px-6 pt-6 pb-4 flex flex-col justify-between" [ngStyle]="{
-  'background': themeService.Backgroundcards,
+  'background': themeService.Background1,
   'box-shadow': '0 -10px 30px rgba(0,0,0,0.08)'
 }">
 
@@ -97,7 +97,7 @@
           <input type="email" formControlName="email" placeholder="Entrez votre e-mail" autocomplete="email"
             class="w-full h-12 pl-13 pr-11 rounded-2xl text-sm font-medium transition-all duration-300 hover:shadow-md focus:ring-2 focus:ring-offset-1 outline-none"
             [ngStyle]="{
-            'background': themeService.Backgroundcards1,
+            'background': themeService.Background2,
             'color': themeService.Textprincipal,
             'border': '2px solid ' + themeService.primary
           }" />
@@ -141,7 +141,7 @@
             placeholder="Entrez votre mot de passe" autocomplete="current-password"
             class="w-full h-12 pl-13 pr-13 rounded-2xl text-sm font-medium transition-all duration-300 hover:shadow-md focus:ring-2 focus:ring-offset-1 outline-none"
             [ngStyle]="{
-            'background': themeService.Backgroundcards1,
+            'background': themeService.Background2,
             'color': themeService.Textprincipal,
             'border': '2px solid ' + themeService.primary
           }" />
@@ -340,7 +340,7 @@
               'focus:ring-2': true
             }"
             [ngStyle]="{
-              'background': themeService.Backgroundcards,
+              'background': themeService.Background1,
               'color': themeService.Textprincipal,
               'border': '2px solid ' + (loginForm.get('email')?.dirty && loginForm.get('email')?.invalid ? '#ef4444' : themeService.primary + '40'),
               'box-shadow': loginForm.get('email')?.dirty && loginForm.get('email')?.invalid ? '0 0 0 4px rgba(239,68,68,0.1)' : 'none'
@@ -379,7 +379,7 @@
               'focus:ring-2': true
             }"
             [ngStyle]="{
-              'background': themeService.Backgroundcards,
+              'background': themeService.Background1,
               'color': themeService.Textprincipal,
               'border': '2px solid ' + (loginForm.get('password')?.dirty && loginForm.get('password')?.invalid ? '#ef4444' : themeService.primary + '40')
             }" />

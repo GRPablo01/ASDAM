@@ -2,7 +2,8 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ThemeService } from '../../../../Backend/Services/theme.service';
-import { Theme } from '../theme/theme';
+import { Theme } from '../Page-Header/theme/theme';
+
 
 
 @Component({

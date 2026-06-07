@@ -1,0 +1,53 @@
+<button
+  type="button"
+  (click)="toggleTheme()"
+  (mouseenter)="hoverTheme = true"
+  (mouseleave)="hoverTheme = false"
+
+  class="
+    w-10 h-10
+    rounded-full
+    flex items-center justify-center
+    relative
+    overflow-hidden
+    transition-all duration-300
+    hover:scale-110
+    active:scale-95
+    group
+  "
+
+  [attr.aria-label]="themeService.isDarkMode ? 'Passer en clair' : 'Passer en sombre'"
+
+  [ngStyle]="{
+    'background': themeService.GlassBackground,
+    'border': '1px solid ' + themeService.GlassBorder,
+    'backdrop-filter': 'blur(22px) saturate(180%)',
+    '-webkit-backdrop-filter': 'blur(22px) saturate(180%)',
+    'box-shadow': '0 10px 30px rgba(0,0,0,0.08)'
+  }"
+>
+
+  <!-- Glow -->
+  <span
+    class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300"
+    [ngStyle]="{
+      'background': 'linear-gradient(135deg, transparent, ' + themeService.primary + '25)'
+    }"
+  ></span>
+
+  <!-- Pulse -->
+  <span
+    class="absolute inset-0 rounded-full scale-0 group-hover:scale-100 transition-all duration-300 opacity-20"
+    [ngStyle]="{ background: themeService.primarySoft }"
+  ></span>
+
+  <!-- Icon -->
+  <i
+    class="fa-solid text-xl relative z-10 transition-colors duration-300"
+    [class.fa-sun]="themeService.isDarkMode"
+    [class.fa-moon]="!themeService.isDarkMode"
+    [ngStyle]="{
+      color: hoverTheme ? themeService.primary : themeService.Textprincipal
+    }"
+  ></i>
+</button>
