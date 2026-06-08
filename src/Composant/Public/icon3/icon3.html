@@ -1,4 +1,8 @@
-<div class="flex flex-col min-[541px]:hidden max-[360px]:flex gap-3">
+<div  class="flex py-2 px-2 rounded-2xl flex-col min-[541px]:hidden max-[360px]:flex gap-3 backdrop-blur-xl" [ngStyle]="{
+  'background': themeService.c5Base + '0D',
+  'border': '1px solid ' + themeService.c2Base + '33',
+  'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+}">
   <app-news></app-news>
   <app-theme></app-theme>
   <app-notif></app-notif>

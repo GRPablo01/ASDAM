@@ -4,6 +4,7 @@ import { Icon } from '../../Share/icon/icon';
 import { Notif } from '../../Share/Page-Header/notif/notif';
 import { News } from '../../Share/Page-Header/news/news';
 import { Theme } from '../../Share/Page-Header/theme/theme';
+import { ThemeService } from '../../../../Backend/Services/theme.service';
 
 
 
@@ -15,5 +16,9 @@ import { Theme } from '../../Share/Page-Header/theme/theme';
   styleUrl: './icon3.css',
 })
 export class Icon3 {
+
+  constructor(
+      public themeService: ThemeService
+    ) {}
 
 }
