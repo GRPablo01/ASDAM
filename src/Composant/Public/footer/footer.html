@@ -1,0 +1,277 @@
+<app-icon></app-icon>
+
+<!-- ========================================================= -->
+<!-- DESKTOP + LAPTOP (1024px +) -->
+<!-- ========================================================= -->
+<footer class="desktop-laptop w-full py-14 relative overflow-hidden"
+  [ngStyle]="{
+    'background':
+      'linear-gradient(135deg, ' +
+      themeService.Backgroundprincipal + ' 0%, ' +
+      themeService.Background1 + ' 45%, ' +
+      themeService.Background2 + ' 100%)'
+  }"
+>
+
+  <div class="relative z-10 flex flex-col w-full max-w-[1600px] mx-auto">
+
+    <div class="flex justify-between gap-12 px-16 py-12">
+
+      <!-- LEFT -->
+      <div class="flex flex-col gap-6 w-[32%]">
+        <app-logo></app-logo>
+
+        <div class="p-6 rounded-3xl backdrop-blur-xl"
+          [ngStyle]="{
+        'background': themeService.c5Base + '0D',
+        'border': '1px solid ' + themeService.c2Base + '33',
+        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+      }"
+        >
+          <p [ngStyle]="{ 'color': themeService.Textprincipal }">
+            Rejoignez notre communauté pour
+            <span class="font-bold" [ngStyle]="{ 'color': themeService.primary }">suivre vos activités</span>,
+            <span class="font-bold" [ngStyle]="{ 'color': themeService.primary }">consulter vos convocations</span>
+            et rester informé.
+          </p>
+        </div>
+
+        <div class="flex gap-3">
+          <a class="w-11 h-11 flex items-center justify-center rounded-xl"
+            *ngFor="let icon of ['facebook-f','instagram','x-twitter','youtube']"
+            [ngStyle]="{
+              'background': themeService.GlassBackground,
+              'border': '1px solid ' + themeService.GlassBorder,
+              'color': themeService.primary
+            }"
+          >
+            <i class="fab fa-{{icon}}"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- CENTER -->
+      <div class="flex gap-20 w-[34%] justify-center">
+
+        <nav>
+          <h3 class="font-bold uppercase mb-3"
+            [ngStyle]="{ 'color': themeService.Textprincipal }">
+            Navigation
+          </h3>
+
+          <a *ngFor="let item of ['Accueil','Équipe','Matchs','Contact','Billetterie']"
+            class="block text-sm mb-2"
+            [ngStyle]="{ 'color': themeService.Textsecondaire }"
+          >
+            {{ item }}
+          </a>
+        </nav>
+
+        <nav>
+          <h3 class="font-bold uppercase mb-3"
+            [ngStyle]="{ 'color': themeService.Textprincipal }">
+            Services
+          </h3>
+
+          <a *ngFor="let s of ['Formation','Académie','Boutique','Partenaires','Événements']"
+            class="block text-sm mb-2"
+            [ngStyle]="{ 'color': themeService.Textsecondaire }"
+          >
+            {{ s }}
+          </a>
+        </nav>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="flex flex-col gap-4 w-[30%]">
+
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center"
+            [ngStyle]="{ 'background': themeService.primary }">
+            <i class="fa-solid fa-headset text-white"></i>
+          </div>
+          <div>
+            <h4 class="font-bold" [ngStyle]="{ 'color': themeService.Textprincipal }">Contact</h4>
+            <p class="text-xs" [ngStyle]="{ 'color': themeService.Textsecondaire }">Support</p>
+          </div>
+        </div>
+
+        <a class="flex items-center gap-3 p-4 rounded-xl backdrop-blur-xl"
+          [ngStyle]="{
+        'background': themeService.c5Base + '0D',
+        'border': '1px solid ' + themeService.c2Base + '33',
+        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+      }"
+        >
+          <i [ngStyle]="{
+            'color':themeService.Textprincipal
+          }" class="fa-solid fa-envelope"></i>
+          <span [ngStyle]="{
+            'color':themeService.Textprincipal
+          }">contact@monsite.com</span>
+        </a>
+
+        <a class="flex items-center gap-3 p-4 rounded-xl backdrop-blur-xl"
+          [ngStyle]="{
+        'background': themeService.c5Base + '0D',
+        'border': '1px solid ' + themeService.c2Base + '33',
+        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+      }"
+        >
+          <i [ngStyle]="{
+            'color':themeService.Textprincipal
+          }" class="fa-solid fa-phone"></i>
+          <span [ngStyle]="{
+            'color':themeService.Textprincipal
+          }">+33 0 00 00 00 00</span>
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="border-t px-16 py-6 flex justify-between"
+      [ngStyle]="{ 'border-color': themeService.GlassBorder }">
+
+      <p [ngStyle]="{ 'color': themeService.Textsecondaire }">
+        © 2026 ASDAM
+      </p>
+
+      <div class="flex gap-6 text-sm">
+        <a [ngStyle]="{
+            'color':themeService.Textprincipal
+          }">Mentions légales</a>
+        <a [ngStyle]="{
+            'color':themeService.Textprincipal
+          }">Confidentialité</a>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- ========================================================= -->
+<!-- TABLETTE + MOBILE (0px → 1023px) -->
+<!-- ========================================================= -->
+<footer class="mobile-tablet w-full py-12 pb-20 relative overflow-hidden"
+  [ngStyle]="{
+    'background':
+      'linear-gradient(135deg, ' +
+      themeService.Backgroundprincipal + ' 0%, ' +
+      themeService.Background1 + ' 50%, ' +
+      themeService.Background2 + ' 100%)'
+  }"
+>
+
+  <div class="max-w-[1600px] mx-auto px-6 flex flex-col gap-10">
+
+    <!-- LOGO + DESC -->
+    <div class="flex flex-col gap-4">
+      <app-logo></app-logo>
+
+      <p class="p-4 rounded-2xl backdrop-blur-xl"
+        [ngStyle]="{
+        'background': themeService.c5Base + '0D',
+        'border': '1px solid ' + themeService.c2Base + '33',
+        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+      }"
+      >
+        Rejoignez notre communauté pour suivre vos activités et rester informé.
+      </p>
+
+      <div class="flex gap-3 flex-wrap">
+        <a *ngFor="let i of ['facebook-f','instagram','x-twitter','youtube']"
+          class="w-10 h-10 flex items-center justify-center rounded-full"
+          [ngStyle]="{
+            'background': themeService.GlassBackground,
+            'color': themeService.primary
+          }"
+        >
+          <i class="fab fa-{{i}}"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- LINKS -->
+    <div class="flex justify-between gap-10">
+
+      <div>
+        <h3 [ngStyle]="{ 'color': themeService.Textprincipal }" class="font-bold mb-2">Navigation</h3>
+        <a *ngFor="let i of ['Accueil','Équipe','Matchs','Contact']"
+          class="block text-sm mb-1"
+          [ngStyle]="{ 'color': themeService.Textsecondaire }">
+          {{ i }}
+        </a>
+      </div>
+
+      <div>
+        <h3 [ngStyle]="{ 'color': themeService.Textprincipal }" class="font-bold mb-2">Services</h3>
+        <a *ngFor="let s of ['Formation','Boutique','Événements']"
+          class="block text-sm mb-1"
+          [ngStyle]="{ 'color': themeService.Textsecondaire }">
+          {{ s }}
+        </a>
+      </div>
+
+    </div>
+
+    <!-- CONTACT -->
+    <div class="flex flex-col gap-3">
+
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 flex items-center justify-center rounded-lg"
+          [ngStyle]="{ 'background': themeService.primary }">
+          <i class="fa-solid fa-headset text-white"></i>
+        </div>
+        <div>
+          <h4 [ngStyle]="{ 'color': themeService.Textprincipal }">Contact</h4>
+          <p class="text-xs">Support</p>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-xl backdrop-blur-xl"
+        [ngStyle]="{
+        'background': themeService.c5Base + '0D',
+        'border': '1px solid ' + themeService.c2Base + '33',
+        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+      }">
+        contact@monsite.com
+      </div>
+
+      <div class="p-4 rounded-xl backdrop-blur-xl"
+        [ngStyle]="{
+        'background': themeService.c5Base + '0D',
+        'border': '1px solid ' + themeService.c2Base + '33',
+        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+      }">
+        +33 0 00 00 00 00
+      </div>
+
+    </div>
+
+    
+
+  </div>
+</footer>
+
+
+<!-- ========================================================= -->
+<!-- RESPONSIVE SWITCH -->
+<!-- ========================================================= -->
+<style>
+  .desktop-laptop { display: none; }
+  .mobile-tablet { display: none; }
+
+  @media (min-width: 1024px) {
+    .desktop-laptop { display: flex; }
+  }
+
+  @media (max-width: 1023px) {
+    .mobile-tablet { display: flex; }
+  }
+
+  body { overflow-x: hidden; }
+</style>

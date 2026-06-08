@@ -1,0 +1,50 @@
+/* <!-- ═══════════════════════════════════════════ -->
+<!-- RESPONSIVE COMPLET -->
+<!-- Mobile / Tablette / Laptop / Desktop -->
+<!-- ═══════════════════════════════════════════ --> */
+
+
+  /* ========================================= */
+  /* RESET */
+  /* ========================================= */
+
+  .mobile-only,
+.tablet-only,
+.laptop-only,
+.desktop-only {
+    display: none;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* MOBILE */
+@media screen and (max-width: 639px) {
+    .mobile-only {
+        display: block;
+    }
+}
+
+/* TABLET */
+@media screen and (min-width: 640px) and (max-width: 1023px) {
+    .tablet-only {
+        display: block;
+    }
+}
+
+/* LAPTOP */
+@media screen and (min-width: 1024px) and (max-width: 1439px) {
+    .laptop-only {
+        display: block;
+    }
+}
+
+/* DESKTOP */
+@media screen and (min-width: 1440px) {
+    .desktop-only {
+        display: block;
+    }
+}
+
+

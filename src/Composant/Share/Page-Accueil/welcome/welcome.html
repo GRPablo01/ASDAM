@@ -1,0 +1,278 @@
+<!-- ========================================================= -->
+<!-- HERO SECTION - ASDAM -->
+<!-- 2 BLOCS : DESKTOP/LAPTOP + TABLET/MOBILE -->
+<!-- ========================================================= -->
+
+<!-- ========================================================= -->
+<!-- DESKTOP + LAPTOP (HORIZONTAL) -->
+<!-- ========================================================= -->
+<section class="hidden md:flex w-full mt-12 h-auto items-center justify-between py-10 px-10 overflow-hidden relative">
+
+  <!-- ======================= -->
+  <!-- TEXTE -->
+  <!-- ======================= -->
+  <div class="flex-1 text-left relative z-10">
+
+    <!-- BADGE -->
+    <div class="inline-flex items-center gap-3 px-5 py-3 rounded-full mb-8 backdrop-blur-xl" [ngStyle]="{
+        'background': themeService.c5Base + '0D',
+        'border': '1px solid ' + themeService.c2Base + '33',
+        'color': themeService.Textsecondaire,
+        'box-shadow': '0 4px 15px ' + themeService.c16Dark + '20'
+      }">
+      <i class="fa-solid fa-futbol" [ngStyle]="{ 'color': themeService.c1Base }"></i>
+
+      <span class="font-medium">
+        Application officielle du club
+      </span>
+    </div>
+
+    <!-- TITRE -->
+    <h1 class="text-5xl lg:text-6xl font-bold leading-tight mb-6" [ngStyle]="{ 'color': themeService.Textprincipal }">
+      L'application officielle<br>
+      de
+      <span [ngStyle]="{
+          'color':themeService.primary
+        }">
+        l'ASDAM
+      </span>
+    </h1>
+
+    <!-- DESCRIPTION -->
+    <div class="max-w-[700px] p-7 rounded-3xl backdrop-blur-xl" [ngStyle]="{
+        'background': themeService.c5Base + '0D',
+        'border': '1px solid ' + themeService.c2Base + '33',
+        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+      }">
+      <p class="text-lg leading-relaxed" [ngStyle]="{ 'color': themeService.Textsecondaire }">
+        Suivez en temps réel les matchs de l'ASDAM,
+        consultez les rencontres à venir et les matchs en direct.
+        Les joueurs peuvent accéder à leurs convocations dans une interface moderne dédiée au club.
+      </p>
+    </div>
+
+    <!-- CTA -->
+    <div class="flex items-center gap-5 mt-8">
+
+      <button class="
+    group
+    relative
+    overflow-hidden
+
+    flex
+    items-center
+    gap-3
+
+    px-8
+    py-4
+
+    rounded-2xl
+    font-semibold
+
+    transform-gpu
+    will-change-transform
+
+    transition-all
+    duration-500
+    ease-[cubic-bezier(0.22,1,0.36,1)]
+
+    hover:scale-[1.04]
+    hover:-translate-y-[2px]
+
+    active:scale-[0.98]
+  " [ngStyle]="{
+    'background': themeService.primary,
+    'color': '#fff',
+  }">
+        <!-- Shine effect -->
+        <div class="
+      absolute
+      inset-0
+
+      opacity-0
+      group-hover:opacity-100
+
+      transition-opacity
+      duration-500
+    " [ngStyle]="{
+      'background': 'linear-gradient(120deg, transparent, ' + themeService.c5Base + '40, transparent)'
+    }">
+        </div>
+
+        <i class="fa-solid fa-futbol relative z-10"></i>
+
+        <span class="relative z-10">
+          Voir les matchs
+        </span>
+      </button>
+
+      <button class="
+    flex
+    items-center
+    gap-3
+
+    px-8
+    py-4
+
+    rounded-2xl
+    font-semibold
+
+    backdrop-blur-xl
+
+    transform-gpu
+    will-change-transform
+
+    transition-all
+    duration-500
+    ease-[cubic-bezier(0.22,1,0.36,1)]
+
+    hover:scale-[1.04]
+    hover:-translate-y-[2px]
+
+    active:scale-[0.98]
+  " [ngStyle]="{
+    'background': themeService.c5Base + '0D',
+    'border': '1px solid ' + themeService.c2Base + '33',
+    'color': themeService.Textprincipal,
+  }">
+        <i class="fa-solid fa-compass" [ngStyle]="{ 'color': themeService.c2Base }">
+        </i>
+
+        Explorer
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- ======================= -->
+  <!-- LOGO -->
+  <!-- ======================= -->
+  <div class="flex-1 flex justify-center items-center relative z-10">
+
+    <div class="relative group">
+
+      <!-- Glow behind logo -->
+      <div
+        class="
+          absolute
+          inset-0
+          rounded-full
+
+          opacity-20
+          blur-3xl
+          scale-150
+
+          transition-all
+          duration-700
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+
+          group-hover:scale-[1.7]
+          group-hover:opacity-30
+        ">
+      </div>
+
+      <img
+        src="assets/LOGO.png"
+        alt="ASDAM Logo"
+
+        class="
+          w-[420px]
+          lg:w-[520px]
+
+          object-contain
+          drop-shadow-2xl
+
+          relative
+          z-10
+
+          transform-gpu
+          will-change-transform
+
+          transition-all
+          duration-700
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+
+          hover:scale-[1.04]
+          hover:-translate-y-[4px]
+        "
+
+        style="opacity: 0.3;"
+      />
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ========================================================= -->
+<!-- TABLET + MOBILE (VERTICAL CENTRÉ) -->
+<!-- ========================================================= -->
+<section class="relative flex -mt-8 sm:mt-0 md:hidden w-full h-auto flex-col items-center justify-center text-center px-5 py-5 sm:py-10 sm:px-10">
+
+  <!-- ICON3 FIXED EN HAUT À GAUCHE -->
+  <div class="fixed top-18 left-3 z-50">
+    <app-icon3></app-icon3>
+  </div>
+
+  <!-- TITRE -->
+  <h1 class="text-4xl font-bold leading-tight mb-6 relative z-10" [ngStyle]="{ 'color': themeService.Textprincipal }">
+    L'application officielle<br>
+    <span class="bg-clip-text text-transparent" [ngStyle]="{
+        'color':themeService.primary
+      }">
+      l'ASDAM
+    </span>
+  </h1>
+
+  <!-- DESCRIPTION -->
+  <div class="w-full max-w-[600px] p-6 rounded-2xl backdrop-blur-md mb-6 relative z-10" [ngStyle]="{
+    'background': themeService.c5Base + '0D',
+    'border': '1px solid ' + themeService.c2Base + '33',
+    'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20',
+    'color':themeService.Textprincipal
+  }">
+    Suivez en temps réel les matchs de l'ASDAM,
+    consultez les rencontres à venir et les matchs en direct.
+    Les joueurs peuvent accéder à leurs convocations dans une interface moderne dédiée au club.
+  </div>
+
+  <!-- CTA -->
+  <div class="flex flex-col gap-4 w-full max-w-[280px] relative z-10">
+
+    <button
+      class="group relative overflow-hidden px-6 py-3 rounded-xl font-semibold transition hover:scale-105 active:scale-95"
+      [ngStyle]="{
+    'background': themeService.primary,
+    'color': '#fff',
+  }">
+      <!-- Shine effect -->
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500" [ngStyle]="{
+          'background': 'linear-gradient(120deg, transparent, ' + themeService.c5Base + '40, transparent)'
+        }">
+      </div>
+      <i class="fa-solid fa-futbol mr-2 relative z-10"></i>
+      <span class="relative z-10">Voir les matchs</span>
+    </button>
+
+    <button class="px-6 py-3 rounded-xl font-semibold backdrop-blur-md transition hover:scale-105 active:scale-95"
+      [ngStyle]="{
+    'background': themeService.c5Base + '0D',
+    'border': '1px solid ' + themeService.c2Base + '33',
+    'color': themeService.Textprincipal,
+  }">
+      <i class="fa-solid fa-compass mr-2" [ngStyle]="{ 'color': themeService.c2Base }"></i>
+      Explorer
+    </button>
+
+  </div>
+
+  <!-- LOGO -->
+  <div class="relative mt-10">
+    
+    <img src="assets/LOGO.png" alt="ASDAM Logo"
+      class="w-[296px] object-contain opacity-30 drop-shadow-2xl relative z-10" />
+  </div>
+
+</section>

@@ -6,8 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { Header } from '../../../Composant/Public/header/header';
 import { Mobile } from '../../../Composant/Share/mobile/mobile';
 import { ThemeService } from '../../../../Backend/Services/theme.service';
-
-
+import { Cookie } from '../../../Composant/Public/cookie/cookie';
+import { Welcome } from '../../../Composant/Share/Page-Accueil/welcome/welcome';
+import { ProchainMatch } from '../../../Composant/Share/Page-Accueil/prochain-match/prochain-match';
+import { Fonctionalite } from "../../../Composant/Share/Page-Accueil/fonctionalite/fonctionalite";
+import { Plannig2 } from "../../../Composant/Share/Page-Accueil/plannig2/plannig2";
+import { Footer } from "../../../Composant/Public/footer/footer";
 
 
 
@@ -23,6 +27,12 @@ import { ThemeService } from '../../../../Backend/Services/theme.service';
     Header,
     FormsModule,
     Mobile,
+    Cookie,
+    Welcome,
+    ProchainMatch,
+    Fonctionalite,
+    Plannig2,
+    Footer
 ],
   templateUrl: './accueil.html',
   styleUrls: ['./accueil.css'],
