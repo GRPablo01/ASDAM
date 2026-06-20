@@ -1,0 +1,241 @@
+<!-- ========================================================= -->
+<!-- PAGE GESTION THEME AS DAM (FULL DYNAMIC COLORS) -->
+<!-- ========================================================= -->
+<section class="w-full py-5 px-5 sm:py-10 sm:px-10"[ngStyle]="{ 'background': themeService.Backgroundprincipal }">
+
+  <!-- ===================================================== -->
+  <!-- DESKTOP -->
+  <!-- ===================================================== -->
+  <div class="hidden lg:block px-4 lg:px-8 xl:px-12 2xl:px-16">
+
+    <!-- HEADER -->
+    <div
+      class="relative overflow-hidden rounded-3xl border px-6 py-6 shadow-xl backdrop-blur-xl"
+      [ngStyle]="{
+        'background': themeService.GlassBackground,
+        'border': '1px solid ' + themeService.GlassBorder,
+        'box-shadow': themeService.GlassShadow
+      }"
+    >
+
+      <div class="flex items-center gap-4">
+
+        <div
+          class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg"
+          [ngStyle]="{
+            'background': themeService.primary,
+            'box-shadow': themeService.primaryGlow
+          }"
+        >
+          <i class="fa-solid fa-shield-halved text-white text-xl"></i>
+        </div>
+
+        <div>
+          <h1 class="text-3xl font-black"
+              [ngStyle]="{ 'color': themeService.Textprincipal }">
+            Centre du Contenue
+          </h1>
+
+          <p class="text-base max-w-2xl"
+             [ngStyle]="{ 'color': themeService.Textsecondaire }">
+            Gérez matchs, actualités, équipe et événements et convocation du club.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- CARDS (PAGINATION 3 PAR PAGE) -->
+    <!-- ===================================================== -->
+    <div class="mt-10 grid grid-cols-3 gap-6 auto-rows-fr">
+
+      <ng-container *ngFor="let item of paginatedItems">
+
+        <div
+          class="group relative overflow-hidden rounded-3xl border min-h-[420px]
+                 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+          [ngStyle]="{
+            'border': '2px solid ' + themeService.GlassBorder,
+            'background': themeService.Background1
+          }"
+        >
+
+          <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"
+               [src]="item.image">
+
+          <div class="absolute inset-0"
+               [ngStyle]="{ 'background': 'linear-gradient(to top,' + themeService.c16Dark + 'E6,' + themeService.c16Base + '66,' + themeService.c16Dark + '10)' }">
+          </div>
+
+          <div class="relative z-10 h-full flex flex-col justify-between p-6">
+
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl"
+                 [ngStyle]="{
+                   'background': themeService.primary,
+                   'box-shadow': themeService.primaryGlow
+                 }">
+
+              <i [class]="item.icon + ' text-white text-xl'"></i>
+            </div>
+
+            <div>
+              <h2 class="text-3xl font-black"
+                  [ngStyle]="{ 'color': '#FFFFFF' }">
+                {{ item.title }}
+              </h2>
+
+              <a [routerLink]="item.link">
+                <button
+                  class="mt-6 px-5 py-3 rounded-2xl font-semibold shadow-lg hover:scale-105 transition"
+                  [ngStyle]="{
+                    'background': themeService.primary,
+                    'color': themeService.c5Base,
+                    'box-shadow': themeService.primaryGlow
+                  }"
+                >
+                  Gérer
+                </button>
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </ng-container>
+
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="flex justify-center mt-10 gap-4 items-center">
+
+      <button (click)="prevPage()"
+              class="px-4 py-2 rounded-xl font-semibold"
+              [ngStyle]="{
+                'background': themeService.c2Base,
+                'color': themeService.c5Base
+              }">
+        Précédent
+      </button>
+
+      <span [ngStyle]="{ 'color': themeService.Textprincipal }">
+        Page {{ currentPage + 1 }} / {{ totalPages }}
+      </span>
+
+      <button (click)="nextPage()"
+              class="px-4 py-2 rounded-xl font-semibold"
+              [ngStyle]="{
+                'background': themeService.c1Base,
+                'color': themeService.c5Base
+              }">
+        Suivant
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- MOBILE -->
+  <!-- ===================================================== -->
+  <div class="block lg:hidden px-4 sm:px-6">
+
+    <!-- HEADER MOBILE -->
+    <div
+      class="relative overflow-hidden rounded-3xl border px-6 py-6 shadow-xl backdrop-blur-xl"
+      [ngStyle]="{
+        'background': themeService.GlassBackground,
+        'border': '1px solid ' + themeService.GlassBorder
+      }"
+    >
+
+      <div class="flex items-center gap-4">
+
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center"
+             [ngStyle]="{ 'background': themeService.primary }">
+          <i class="fa-solid fa-shield-halved text-white"></i>
+        </div>
+
+        <h1 class="text-xl font-black"
+            [ngStyle]="{ 'color': themeService.Textprincipal }">
+          Centre de Gestion
+        </h1>
+
+      </div>
+
+    </div>
+
+    <!-- CARDS MOBILE -->
+    <div class="mt-8 flex flex-col gap-6">
+
+      <ng-container *ngFor="let item of paginatedItems">
+
+        <div class="relative overflow-hidden rounded-3xl h-56 border"
+             [ngStyle]="{
+               'border': '2px solid ' + themeService.GlassBorder,
+               'background': themeService.Background1
+             }">
+
+          <div class="absolute inset-0"
+               [ngStyle]="{
+                 'background': 'linear-gradient(to right,' + themeService.c16Dark + 'E6,' + themeService.c16Base + '66,' + themeService.c16Dark + '10)'
+               }">
+          </div>
+
+          <div class="relative z-10 h-full flex items-center justify-between px-5">
+
+            <h2 class="text-xl font-black"
+                [ngStyle]="{ 'color': themeService.Textprincipal }">
+              {{ item.title }}
+            </h2>
+
+            <a [routerLink]="item.link">
+              <button class="w-11 h-11 rounded-2xl"
+                      [ngStyle]="{
+                        'background': themeService.primary,
+                        'color': themeService.c5Base
+                      }">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </a>
+
+          </div>
+
+        </div>
+
+      </ng-container>
+
+    </div>
+
+    <!-- PAGINATION MOBILE -->
+    <div class="flex justify-center mt-8 gap-3 items-center">
+
+      <button (click)="prevPage()"
+              class="px-3 py-2 rounded-xl"
+              [ngStyle]="{
+                'background': themeService.c2Base,
+                'color': themeService.c5Base
+              }">
+        Prev
+      </button>
+
+      <span [ngStyle]="{ 'color': themeService.Textprincipal }">
+        {{ currentPage + 1 }} / {{ totalPages }}
+      </span>
+
+      <button (click)="nextPage()"
+              class="px-3 py-2 rounded-xl"
+              [ngStyle]="{
+                'background': themeService.c1Base,
+                'color': themeService.c5Base
+              }">
+        Next
+      </button>
+
+    </div>
+
+  </div>
+
+</section>

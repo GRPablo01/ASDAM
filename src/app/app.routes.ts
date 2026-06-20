@@ -6,10 +6,7 @@ import { Gestion } from '../Page/Public/gestion/gestion';
 import { Utilisateur } from '../Page/Public/utilisateur/utilisateur';
 import { ModifierUser } from '../Page/Public/modifier-user/modifier-user';
 import { SupprimerUser } from '../Page/Public/suprimer-user/suprimer-user';
-
-
-
-
+import { Contenue } from '../Page/Public/contenue/contenue';
 
 
 
@@ -21,7 +18,8 @@ export const routes: Routes = [
     { path: 'accueil', component: Accueil },
     { path: 'gestion', component: Gestion },
     { path: 'user', component: Utilisateur },
-    { path: 'users/edit/:id', component: ModifierUser},
-    { path: 'users/delete/:id', component: SupprimerUser }
+    { path: 'users/edit/:id', component: ModifierUser },
+    { path: 'users/delete/:id', component: SupprimerUser },
+    { path: 'cont', component: Contenue },
 
 ];
