@@ -1,0 +1,486 @@
+<app-icon></app-icon>
+
+<!-- ====================================================== -->
+<!-- PAGE MODIFIER UTILISATEUR FULLSCREEN -->
+<!-- ====================================================== -->
+
+<section
+  class="relative w-full min-h-screen overflow-hidden flex flex-col lg:flex-row"
+  [ngStyle]="{ 'background': themeService.Backgroundprincipal }">
+
+  <!-- ====================================================== -->
+  <!-- BACKGROUND DECOR -->
+  <!-- ====================================================== -->
+
+  <div
+    class="absolute inset-0 opacity-20 pointer-events-none"
+    style="
+      background:
+      radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 30%),
+      radial-gradient(circle at bottom right, rgba(255,255,255,0.05), transparent 30%);
+    ">
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- LEFT SIDE -->
+  <!-- ====================================================== -->
+
+  <div
+    class="relative hidden lg:flex lg:w-1/2 min-h-screen overflow-hidden">
+
+    <!-- IMAGE -->
+    <img
+      src="assets/imagefonctionalite.jpg"
+      alt="Background"
+      class="absolute inset-0 w-full h-full object-cover transition-transform duration-[12s] hover:scale-110" />
+
+    <!-- OVERLAY -->
+    <div
+      class="absolute inset-0"
+      [ngStyle]="{
+        'background':
+        'linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.70))'
+      }">
+    </div>
+
+    <!-- CONTENT -->
+    <div class="relative z-10 flex flex-col justify-between h-full w-full p-10">
+
+      <!-- LOGO -->
+      <div class="flex items-center gap-4 animate-fade-in-down">
+
+        <div
+          class="w-16 h-16 rounded-3xl flex items-center justify-center backdrop-blur-xl border shadow-xl"
+          [ngStyle]="{
+            'background': 'rgba(255,255,255,0.12)',
+            'border-color': 'rgba(255,255,255,0.20)'
+          }">
+
+          <i class="fa-solid fa-user-gear text-white text-2xl"></i>
+
+        </div>
+
+        <div>
+
+          <h1 class="text-2xl font-black text-white tracking-wide">
+            ASDAM
+          </h1>
+
+          <p class="text-xs uppercase tracking-[4px] text-white/60">
+            Gestion utilisateur
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- TEXT -->
+      <div class="max-w-[420px] animate-fade-in-up">
+
+        <h2 class="text-5xl leading-tight font-black text-white mb-6">
+          Modifier <br>
+          un utilisateur
+        </h2>
+
+        <p class="text-white/70 text-base leading-relaxed">
+          Gérez les informations des utilisateurs grâce à une
+          interface moderne, responsive et ultra fluide.
+        </p>
+
+        <!-- INDICATOR -->
+        <div class="flex items-center gap-2 mt-8">
+
+          <div class="w-12 h-2 rounded-full bg-white"></div>
+          <div class="w-2 h-2 rounded-full bg-white/40"></div>
+          <div class="w-2 h-2 rounded-full bg-white/40"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- RIGHT SIDE -->
+  <!-- ====================================================== -->
+
+  <div
+    class="relative flex-1 min-h-screen overflow-y-auto flex items-center justify-center px-5 py-8 lg:px-16">
+
+    <!-- CONTAINER -->
+    <div class="w-full max-w-2xl animate-fade-in-up">
+
+      <!-- HEADER -->
+      <div class="flex items-center justify-between mb-10">
+
+        <div>
+
+          <div class="flex items-center gap-3 mb-2">
+
+            <div
+              class="w-1 h-10 rounded-full"
+              [ngStyle]="{
+                'background': themeService.primary
+              }">
+            </div>
+
+            <h2
+              class="text-4xl font-black tracking-tight"
+              [ngStyle]="{
+                'color': themeService.Textprincipal
+              }">
+
+              Modifier utilisateur
+
+            </h2>
+
+          </div>
+
+          <p
+            class="text-sm ml-4"
+            [ngStyle]="{
+              'color': themeService.Textsecondaire
+            }">
+
+            Mettre à jour les informations du compte
+
+          </p>
+
+        </div>
+
+        <!-- BUTTON -->
+        <button
+          (click)="goBack()"
+          class="group h-12 px-5 rounded-2xl text-sm font-bold transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-lg"
+          [ngStyle]="{
+            'background': themeService.Background2,
+            'color': themeService.Textprincipal,
+            'border': '1px solid ' + themeService.GlassBorder
+          }">
+
+          <i class="fa-solid fa-arrow-left transition-transform duration-300 group-hover:-translate-x-1"></i>
+
+          Retour
+
+        </button>
+
+      </div>
+
+      <!-- ====================================================== -->
+      <!-- FORM -->
+      <!-- ====================================================== -->
+
+      <form
+        (ngSubmit)="updateUser()"
+        class="space-y-7">
+
+        <!-- NOM -->
+        <div class="relative group">
+
+          <label
+            class="block mb-2 ml-2 text-xs uppercase tracking-widest font-bold"
+            [ngStyle]="{
+              'color': themeService.Textsecondaire
+            }">
+
+            Nom
+
+          </label>
+
+          <div
+            class="absolute left-4 top-[53px] -translate-y-1/2 w-11 h-11 rounded-xl flex items-center justify-center shadow-md z-10"
+            [ngStyle]="{
+              'background': themeService.primary,
+              'color': '#fff'
+            }">
+
+            <i class="fa-solid fa-user text-sm"></i>
+
+          </div>
+
+          <input
+            type="text"
+            [(ngModel)]="user.nom"
+            name="nom"
+            placeholder="Entrez le nom"
+            class="w-full h-16 pl-18 pr-5 rounded-3xl text-sm font-medium transition-all duration-300 outline-none hover:shadow-xl"
+            [ngStyle]="{
+              'background': themeService.Background1,
+              'color': themeService.Textprincipal,
+              'border': '2px solid ' + themeService.primary + '35'
+            }" />
+
+        </div>
+
+        <!-- PRENOM -->
+        <div class="relative group">
+
+          <label
+            class="block mb-2 ml-2 text-xs uppercase tracking-widest font-bold"
+            [ngStyle]="{
+              'color': themeService.Textsecondaire
+            }">
+
+            Prénom
+
+          </label>
+
+          <div
+            class="absolute left-4 top-[53px] -translate-y-1/2 w-11 h-11 rounded-xl flex items-center justify-center shadow-md z-10"
+            [ngStyle]="{
+              'background': themeService.primary,
+              'color': '#fff'
+            }">
+
+            <i class="fa-solid fa-id-card text-sm"></i>
+
+          </div>
+
+          <input
+            type="text"
+            [(ngModel)]="user.prenom"
+            name="prenom"
+            placeholder="Entrez le prénom"
+            class="w-full h-16 pl-18 pr-5 rounded-3xl text-sm font-medium transition-all duration-300 outline-none hover:shadow-xl"
+            [ngStyle]="{
+              'background': themeService.Background1,
+              'color': themeService.Textprincipal,
+              'border': '2px solid ' + themeService.primary + '35'
+            }" />
+
+        </div>
+
+        <!-- EMAIL -->
+        <div class="relative group">
+
+          <label
+            class="block mb-2 ml-2 text-xs uppercase tracking-widest font-bold"
+            [ngStyle]="{
+              'color': themeService.Textsecondaire
+            }">
+
+            Adresse e-mail
+
+          </label>
+
+          <div
+            class="absolute left-4 top-[53px] -translate-y-1/2 w-11 h-11 rounded-xl flex items-center justify-center shadow-md z-10"
+            [ngStyle]="{
+              'background': themeService.primary,
+              'color': '#fff'
+            }">
+
+            <i class="fa-solid fa-envelope text-sm"></i>
+
+          </div>
+
+          <input
+            type="email"
+            [(ngModel)]="user.email"
+            name="email"
+            placeholder="Entrez l'adresse e-mail"
+            class="w-full h-16 pl-18 pr-5 rounded-3xl text-sm font-medium transition-all duration-300 outline-none hover:shadow-xl"
+            [ngStyle]="{
+              'background': themeService.Background1,
+              'color': themeService.Textprincipal,
+              'border': '2px solid ' + themeService.primary + '35'
+            }" />
+
+        </div>
+
+        <!-- ROLE -->
+        <div class="relative group">
+
+          <label
+            class="block mb-2 ml-2 text-xs uppercase tracking-widest font-bold"
+            [ngStyle]="{
+              'color': themeService.Textsecondaire
+            }">
+
+            Rôle utilisateur
+
+          </label>
+
+          <div
+            class="absolute left-4 top-[53px] -translate-y-1/2 w-11 h-11 rounded-xl flex items-center justify-center shadow-md z-10"
+            [ngStyle]="{
+              'background': themeService.primary,
+              'color': '#fff'
+            }">
+
+            <i class="fa-solid fa-shield-halved text-sm"></i>
+
+          </div>
+
+          <select
+            [(ngModel)]="user.role"
+            name="role"
+            class="w-full h-16 pl-18 pr-14 rounded-3xl text-sm font-medium transition-all duration-300 outline-none hover:shadow-xl appearance-none"
+            [ngStyle]="{
+              'background': themeService.Background1,
+              'color': themeService.Textprincipal,
+              'border': '2px solid ' + themeService.primary + '35'
+            }">
+
+            <option value="joueur">Joueur</option>
+            <option value="admin">Admin</option>
+            <option value="entraineur">Entraîneur</option>
+            <option value="invite">Invité</option>
+
+          </select>
+
+          <!-- ARROW -->
+          <div
+            class="absolute right-5 top-[53px] -translate-y-1/2 pointer-events-none"
+            [ngStyle]="{
+              'color': themeService.Textsecondaire
+            }">
+
+            <i class="fa-solid fa-chevron-down text-xs"></i>
+
+          </div>
+
+        </div>
+
+        <!-- BUTTON -->
+        <button
+          type="submit"
+          class="relative overflow-hidden group w-full h-16 rounded-3xl font-black text-white transition-all duration-300 hover:scale-[1.01] active:scale-[0.99]"
+          [ngStyle]="{
+            'background': themeService.primary,
+            'box-shadow': '0 10px 35px ' + themeService.primary + '55'
+          }">
+
+          <!-- SHINE -->
+          <div
+            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000">
+            </div>
+
+          </div>
+
+          <span class="relative z-10 flex items-center justify-center gap-3">
+
+            <i class="fa-solid fa-floppy-disk"></i>
+
+            Enregistrer les modifications
+
+          </span>
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- 🔔 TOAST NOTIFICATION -->
+<!-- ====================================================== -->
+
+<div *ngIf="showNotification"
+  class="fixed top-5 left-1/2 -translate-x-1/2 z-[999999] animate-toast">
+
+  <div
+    [ngStyle]="{
+      'background':
+        'linear-gradient(135deg,' +
+        themeService.c18Base + ',' +
+        themeService.c18Base + ')'
+    }"
+    class="relative flex items-center gap-4 px-6 py-4 rounded-3xl text-white shadow-2xl backdrop-blur-xl border border-white/10 min-w-[320px] max-w-[90vw]">
+
+    <!-- ICON -->
+    <div
+      class="w-11 h-11 rounded-2xl flex items-center justify-center bg-white/15">
+
+      <i class="fa-solid fa-circle-check text-lg"></i>
+
+    </div>
+
+    <!-- TEXT -->
+    <div class="flex-1">
+
+      <p class="font-black text-sm tracking-wide">
+        Notification
+      </p>
+
+      <p class="text-sm opacity-90">
+        {{ notificationMessage }}
+      </p>
+
+    </div>
+
+    <!-- CLOSE -->
+    <button
+      (click)="closeNotification()"
+      class="w-8 h-8 rounded-full hover:bg-white/10 transition-all duration-300">
+
+      <i class="fa-solid fa-xmark"></i>
+
+    </button>
+
+    <!-- SHINE -->
+    <div
+      class="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
+
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-shine">
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- ANIMATIONS -->
+<!-- ====================================================== -->
+
+<style>
+
+  @keyframes fade-in-up {
+
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+  }
+
+  @keyframes fade-in-down {
+
+    from {
+      opacity: 0;
+      transform: translateY(-25px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.7s ease forwards;
+  }
+
+  .animate-fade-in-down {
+    animation: fade-in-down 0.7s ease forwards;
+  }
+
+</style>

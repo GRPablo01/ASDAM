@@ -14,8 +14,12 @@ require('dotenv').config();
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-const IP_LOCALE = process.env.IP_LOCALE || '192.168.1.43';
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/asdam';
+const IP_LOCALE = process.env.IP_LOCALE || '0.0.0.0';
+
+// 👉 IMPORTANT : Docker = mongo / Local = 127.0.0.1
+const MONGO_URI =
+  process.env.MONGO_URI ||
+  'mongodb://mongo:27017/asdam';
 
 // ==============================
 // 🌐 CORS
@@ -34,56 +38,54 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ==============================
-// 📁 UPLOADS (IMPORTANT CLEAN)
+// 📁 UPLOADS
 // ==============================
 const uploadDir = path.join(__dirname, 'uploads');
 
-// créer dossier si absent
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
   console.log(`📂 Uploads créé : ${uploadDir}`);
 }
 
-// servir fichiers statiques
 app.use('/uploads', express.static(uploadDir));
 
 // ==============================
-// 🌍 MongoDB
+// 🌍 MongoDB (SAFE + RECONNECT)
 // ==============================
-mongoose.connect(MONGO_URI)
-  .then(() => console.log('✅ MongoDB connecté'))
-  .catch(err => {
-    console.error('❌ Erreur MongoDB :', err.message);
-    process.exit(1);
-  });
+const connectMongo = async () => {
+  try {
+    console.log('⏳ Connexion MongoDB...');
+
+    await mongoose.connect(MONGO_URI);
+
+    console.log('✅ MongoDB connecté');
+  } catch (err) {
+    console.error('❌ MongoDB erreur :', err.message);
+
+    console.log('🔁 Nouvelle tentative dans 5 secondes...');
+    setTimeout(connectMongo, 5000);
+  }
+};
+
+connectMongo();
 
 // ==============================
 // 🧩 Routes
 // ==============================
 const authRoutes = require('./Backend/Routes/auth.Routes');
+const userRoutes = require('./Backend/Routes/user.routes');
 const matchRoutes = require('./Backend/Routes/match.Route');
 const equipeRoutes = require('./Backend/Routes/equipe.Routes');
 const eventRoutes = require('./Backend/Routes/event.Routes');
-// const actusRoutes = require('./Backend/Routes/actus.Routes');
-// const userRoutes = require('./Backend/Routes/user.Routes');
-// const convocationRoutes = require('./Backend/Routes/convocation.routes');
-// const messageRoutes = require('./Backend/Routes/message.Routes');
-// const contactRoutes = require('./Backend/Routes/contact.Routes');
-// const logRoutes = require('./Backend/Routes/log.Routes');
 
 // ==============================
 // 🧭 API ROUTES
 // ==============================
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/matchs', matchRoutes);
 app.use('/api/equipes', equipeRoutes);
 app.use('/api/events', eventRoutes);
-// app.use('/api/actus', actusRoutes);
-// app.use('/api/users', userRoutes);
-// app.use('/api/convocation', convocationRoutes);
-// app.use('/api/messages', messageRoutes);
-// app.use('/api/contact', contactRoutes);
-// app.use('/api/logs', logRoutes);
 
 // ==============================
 // 🏠 TEST ROUTES

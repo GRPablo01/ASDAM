@@ -20,40 +20,37 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
 
+    console.log('🚀 AuthService initialisé');
+
     const data = localStorage.getItem('utilisateur');
 
     if (data) {
       this.utilisateur = JSON.parse(data);
+      console.log('👤 Utilisateur chargé depuis localStorage :', this.utilisateur);
+    } else {
+      console.log('⚠️ Aucun utilisateur dans localStorage');
     }
   }
 
   // ==========================
-  // GET CURRENT USER
+  // CURRENT USER
   // ==========================
   private getCurrentUser() {
-
-    return this.utilisateur ||
-      JSON.parse(localStorage.getItem('utilisateur') || '{}');
+    return this.utilisateur || JSON.parse(localStorage.getItem('utilisateur') || '{}');
   }
 
   // ==========================
-  // SAVE USER
+  // SET USER
   // ==========================
   setUser(user: any) {
-
     this.utilisateur = user;
-
-    localStorage.setItem(
-      'utilisateur',
-      JSON.stringify(user)
-    );
+    localStorage.setItem('utilisateur', JSON.stringify(user));
   }
 
   // ==========================
   // GET USER
   // ==========================
   getUser() {
-
     return this.utilisateur;
   }
 
@@ -61,9 +58,7 @@ export class AuthService {
   // CLEAR USER
   // ==========================
   clearUser() {
-
     this.utilisateur = null;
-
     localStorage.removeItem('utilisateur');
   }
 
@@ -71,275 +66,223 @@ export class AuthService {
   // IS LOGGED
   // ==========================
   isLoggedIn(): boolean {
-
-    return !!this.utilisateur;
+    return !!this.getCurrentUser();
   }
 
   // ==========================
-  // USER ROLE
+  // ROLE
   // ==========================
   getUserRole(): string {
-
-    return (
-      this.utilisateur?.role
-        ?.trim()
-        .toLowerCase()
-      || ''
-    );
+    return this.getCurrentUser()?.role?.trim()?.toLowerCase() || '';
   }
 
   // ==========================
-  // RESET PASSWORD MAIL
+  // RESET LINK
   // ==========================
   envoyerLienReinitialisation(email: string) {
-
     return firstValueFrom(
-      this.http.post(
-        `${this.apiUrl}/reset-link`,
-        { email }
-      )
+      this.http.post(`${this.apiUrl}/reset-link`, { email })
     );
   }
 
   // ==========================
   // RESET PASSWORD
   // ==========================
-  async reinitialiserMotDePasse(
-    email: string,
-    password: string
-  ) {
-
-    return fetch(
-      'http://localhost:3000/api/auth/reset-password',
-      {
-        method: 'POST',
-
-        headers: {
-          'Content-Type': 'application/json'
-        },
-
-        body: JSON.stringify({
-          email,
-          password
-        })
-      }
-    );
+  async reinitialiserMotDePasse(email: string, password: string) {
+    return fetch(`${this.authUrl}/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
   }
 
   // ==========================
-  // CONFIRM RESET PASSWORD
+  // CONFIRM RESET
   // ==========================
-  confirmerResetMotDePasse(
-    token: string,
-    motDePasse: string
-  ) {
-
+  confirmerResetMotDePasse(token: string, motDePasse: string) {
     return this.http.post(
       `${this.apiUrl}/reset-link/confirm`,
-      {
-        token,
-        password: motDePasse
-      }
+      { token, password: motDePasse }
     ).toPromise();
   }
 
   // ==========================
-  // GET ALL USERS
+  // USERS
   // ==========================
   getAllUsers() {
+    return this.http.get(`${this.authUrl}/users`);
+  }
 
-    return this.http.get(
-      `${this.authUrl}/users`
-    );
+  // 👉 lecture par ID backend
+  getUserById(id: string) {
+    return this.http.get(`${this.apiUrl}/${id}`);
+  }
+
+  // 👉 lecture par KEY (IMPORTANT)
+  getUserByKey(key: string) {
+    return this.http.get(`${this.apiUrl}/key/${key}`);
+  }
+
+  // 👉 update par KEY
+  updateUserByKey(key: string, data: any) {
+    return this.http.put(`${this.authUrl}/key/${key}`, data);
   }
 
   // ==========================
-  // AJOUTER SUIVIE + LOG
+  // FOLLOW + LOG
   // ==========================
-  ajouterSuivie(
-    followKey: string
-  ): Observable<any> {
+  ajouterSuivie(followKey: string): Observable<any> {
 
     const currentUser = this.getCurrentUser();
 
-    if (!currentUser || !currentUser.key) {
-
-      throw new Error(
-        'Utilisateur non connecté'
-      );
+    if (!currentUser?.key) {
+      throw new Error('Utilisateur non connecté');
     }
 
-    return this.http.put(
-      `${this.apiUrl}/follow`,
-      {
-        myKey: currentUser.key,
-        followKey
-      }
-    ).pipe(
+    return this.http.put(`${this.apiUrl}/follow`, {
+      myKey: currentUser.key,
+      followKey
+    }).pipe(
 
       switchMap((response: any) => {
 
         const logData = {
-
-          user:
-            `${currentUser.prenom || 'Inconnu'} ` +
-            `${currentUser.nom || ''}`,
-
-          role:
-            currentUser.role || 'unknown',
-
+          user: `${currentUser.prenom || ''} ${currentUser.nom || ''}`,
+          role: currentUser.role || 'unknown',
           action: 'FOLLOW_USER',
-
-          description:
-            `${currentUser.role || 'Utilisateur'} ` +
-            `a ajouté un suivi utilisateur`,
-
+          description: 'Ajout d’un suivi utilisateur',
           type: 'UPDATE',
-
           field: 'follow',
-
-          newValue: {
-            followKey
-          },
-
+          newValue: { followKey },
           date: new Date()
         };
 
-        return this.http.post(
-          this.logUrl,
-          logData
-        ).pipe(
-
+        return this.http.post(this.logUrl, logData).pipe(
           map(() => response)
         );
       })
     );
   }
 
+
   // ==========================
-  // UPDATE USER + LOG
+  // UPDATE USER + LOG (ID ONLY)
   // ==========================
-  updateUser(
-    id: string,
-    data: any
-  ): Observable<any> {
+  updateUser(id: string, data: any): Observable<any> {
+
+    // ==========================
+    // CHECK ID
+    // ==========================
+
+    if (!id) {
+      throw new Error('ID manquant');
+    }
+
+    console.log('===================================');
+    console.log('🔥 UPDATE USER');
+    console.log('===================================');
+
+    console.log('🆔 ID :', id);
+
+    console.log('📤 DATA :', data);
+
+    // ==========================
+    // UPDATE USER
+    // ==========================
 
     return this.http.put(
-      `${this.apiUrl}/${id}`,
+
+      `${this.authUrl}/${id}`,
       data
+
     ).pipe(
 
       switchMap((updatedUser: any) => {
 
-        const currentUser =
-          this.getCurrentUser();
+        const currentUser = this.getCurrentUser();
+
+        // ==========================
+        // LOG DATA
+        // ==========================
 
         const logData = {
 
           user:
-            `${currentUser.prenom || 'Inconnu'} ` +
+            `${currentUser.prenom || ''} ` +
             `${currentUser.nom || ''}`,
 
-          role:
-            currentUser.role || 'unknown',
+          role: currentUser.role || 'unknown',
 
           action: 'UPDATE_USER',
 
-          description:
-            `${currentUser.role || 'Utilisateur'} ` +
-            `a modifié l'utilisateur ` +
-            `${updatedUser.nom || data.nom || ''}`,
+          description: 'Modification utilisateur',
 
           type: 'UPDATE',
 
           field: 'user',
 
           newValue: {
+
             nom: data.nom,
             prenom: data.prenom,
             email: data.email,
             role: data.role
+
           },
 
           date: new Date()
         };
 
+        // ==========================
+        // SAVE LOG
+        // ==========================
+
         return this.http.post(
+
           this.logUrl,
           logData
+
         ).pipe(
 
           map(() => updatedUser)
+
         );
       })
     );
   }
 
   // ==========================
-  // DELETE USER + LOG
+  // DELETE USER (KEY ONLY)
   // ==========================
-  deleteUser(
-    id: string
-  ): Observable<any> {
+  deleteUser(key: string): Observable<any> {
 
-    console.log(
-      '📡 HTTP DELETE CALL:',
-      id
-    );
+    if (!key) {
+      throw new Error('KEY manquante');
+    }
 
-    return this.http.get<any>(
-      `${this.apiUrl}/${id}`
-    ).pipe(
+    const currentUser = this.getCurrentUser();
 
-      switchMap((userToDelete) => {
+    const url = `${this.authUrl}/key/${key}`;
 
-        return this.http.delete(
-          `${this.apiUrl}/${id}`
-        ).pipe(
+    return this.http.delete(url).pipe(
 
-          switchMap((deletedUser) => {
+      switchMap((deletedUser: any) => {
 
-            const currentUser =
-              this.getCurrentUser();
+        const logData = {
+          user: `${currentUser?.prenom || ''} ${currentUser?.nom || ''}`,
+          role: currentUser?.role || 'unknown',
+          action: 'DELETE_USER',
+          description: 'Suppression utilisateur',
+          type: 'DELETE',
+          field: 'user',
+          oldValue: {
+            deletedKey: key
+          },
+          date: new Date()
+        };
 
-            const logData = {
-
-              user:
-                `${currentUser.prenom || 'Inconnu'} ` +
-                `${currentUser.nom || ''}`,
-
-              role:
-                currentUser.role || 'unknown',
-
-              action: 'DELETE_USER',
-
-              description:
-                `${currentUser.role || 'Utilisateur'} ` +
-                `a supprimé l'utilisateur ` +
-                `${userToDelete.nom || ''}`,
-
-              type: 'DELETE',
-
-              field: 'user',
-
-              oldValue: {
-                nom: userToDelete.nom,
-                prenom: userToDelete.prenom,
-                email: userToDelete.email,
-                role: userToDelete.role
-              },
-
-              date: new Date()
-            };
-
-            return this.http.post(
-              this.logUrl,
-              logData
-            ).pipe(
-
-              map(() => deletedUser)
-            );
-          })
+        return this.http.post(this.logUrl, logData).pipe(
+          map(() => deletedUser)
         );
       })
     );

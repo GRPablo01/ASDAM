@@ -6,9 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { Header } from '../../../Composant/Public/header/header';
 import { Mobile } from '../../../Composant/Share/mobile/mobile';
 import { ThemeService } from '../../../../Backend/Services/theme.service';
+import { Cookie } from '../../../Composant/Public/cookie/cookie';
+import { Welcome } from '../../../Composant/Share/Page-Accueil/welcome/welcome';
+import { ProchainMatch } from '../../../Composant/Share/Page-Accueil/prochain-match/prochain-match';
+import { Fonctionalite } from "../../../Composant/Share/Page-Accueil/fonctionalite/fonctionalite";
+import { Plannig2 } from "../../../Composant/Share/Page-Accueil/plannig2/plannig2";
 import { Footer } from "../../../Composant/Public/footer/footer";
-import { Gest } from '../../../Composant/Share/Page-Gestion/gest/gest';
-
+import { User } from '../../../Composant/Share/Page-User/user/user';
 
 
 
@@ -16,7 +20,7 @@ import { Gest } from '../../../Composant/Share/Page-Gestion/gest/gest';
 
 
 @Component({
-  selector: 'app-gestion',
+  selector: 'app-utilisateur',
   standalone: true,
   imports: [
     CommonModule,
@@ -24,13 +28,18 @@ import { Gest } from '../../../Composant/Share/Page-Gestion/gest/gest';
     Header,
     FormsModule,
     Mobile,
+    Cookie,
+    Welcome,
+    ProchainMatch,
+    Fonctionalite,
+    Plannig2,
     Footer,
-    Gest
+    User
 ],
-  templateUrl: './gestion.html',
-  styleUrls: ['./gestion.css'],
+  templateUrl: './utilisateur.html',
+  styleUrls: ['./utilisateur.css'],
 })
-export class Gestion implements OnInit {
+export class Utilisateur implements OnInit {
 
   isLoaded: boolean = false;
   isLoggedIn: boolean = false;
@@ -42,7 +51,7 @@ export class Gestion implements OnInit {
 
   ngOnInit(): void {
     // 🧠 Titre de la page
-    this.titleService.setTitle('ASDAM | Gestion');
+    this.titleService.setTitle('ASDAM | Utilisateur');
 
     // 👤 Vérification de la connexion utilisateur
     const utilisateurString = localStorage.getItem('utilisateur');

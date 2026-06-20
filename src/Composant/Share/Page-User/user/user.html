@@ -1,0 +1,376 @@
+<!-- ========================================================= -->
+<!-- DESKTOP + LAPTOP -->
+<!-- ========================================================= -->
+<section class="w-full space-y-8 px-6 py-8 hidden lg:block">
+
+  <!-- HEADER -->
+  <div class="relative w-full overflow-hidden rounded-[32px] border px-8 py-8 backdrop-blur-2xl shadow-2xl" [ngStyle]="{
+        
+        'border': '1px solid ' + themeService.c2Base + '25',
+        'box-shadow': '0 24px 80px ' + themeService.c16Dark + '18'
+      }">
+
+    <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+
+      <!-- TITLE -->
+      <div class="flex items-center gap-5 min-w-0">
+
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center shadow-xl relative overflow-hidden"
+          [ngStyle]="{ 'background': themeService.primary }">
+
+          <div class="absolute inset-0 opacity-30"
+            [ngStyle]="{ 'background': 'linear-gradient(135deg, #ffffff55 0%, transparent 60%)' }">
+          </div>
+
+          <i class="fa-solid fa-users text-2xl text-white relative z-10"></i>
+        </div>
+
+        <div class="min-w-0">
+          <h1 class="text-3xl md:text-4xl font-black" [ngStyle]="{ 'color': themeService.Textprincipal }">
+            Gestion Utilisateurs
+          </h1>
+
+          <p class="text-sm md:text-base mt-1" [ngStyle]="{ 'color': themeService.Textsecondaire }">
+            Gérez les utilisateurs, leurs rôles et permissions
+          </p>
+        </div>
+
+      </div>
+
+      <!-- FILTERS -->
+      <div class="flex flex-wrap gap-3">
+
+        <button *ngFor="let role of ['tous','joueur','admin','entraineur','invite']" (click)="filtrerRole(role)"
+          class="px-5 py-3 rounded-2xl text-sm font-black transition-all duration-300 cursor-pointer" [ngStyle]="{
+              'background': selectedRole === role ? getRoleColor(role) : themeService.c5Base + '15',
+              'border': '1px solid ' + (selectedRole === role ? getRoleColor(role) : themeService.c2Base + '30'),
+              'color': selectedRole === role ? '#fff' : themeService.Textprincipal,
+              'box-shadow': selectedRole === role ? '0 10px 30px ' + getRoleColor(role) + '50' : 'none',
+              'transform': selectedRole === role ? 'translateY(-2px)' : 'translateY(0)'
+            }">
+          {{ role | titlecase }}
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div *ngIf="(filteredUsers?.length || 0) > 0; else emptyDesktop"
+    class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+
+    <button *ngFor="let user of (filteredUsers || [])"
+      class="group relative overflow-hidden rounded-[28px] min-h-[460px] flex flex-col transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] cursor-pointer"
+      [ngStyle]="{
+          'box-shadow': '0 20px 50px ' + getRoleColor(user?.role) + '20, 0 8px 20px ' + getRoleColor(user?.role) + '10'
+        }">
+
+
+
+      <!-- ROLE BADGE -->
+      <div class="relative z-10 flex justify-center pt-6">
+        <div class="px-5 py-2 rounded-b-[14px] text-[21px] font-black uppercase tracking-wider shadow-lg backdrop-blur-md" [ngStyle]="{
+            
+            'color': themeService.Textprincipal
+            
+          }">
+          {{ user?.role }}
+        </div>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="relative z-10 flex flex-col items-center justify-center flex-1 px-6 pt-8 pb-4">
+
+        <!-- AVATAR -->
+        <div class="relative">
+          <div class="w-24 h-24 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-2xl relative z-10 ring-4 ring-white/20 backdrop-blur-sm"
+            [ngStyle]="{ 'background': getRoleColor(user?.role) + 'cc' }">
+            {{ (user?.nom || '')?.charAt(0) }}{{ (user?.prenom || '')?.charAt(0) }}
+          </div>
+          <!-- Glow effect behind avatar -->
+          <div class="absolute inset-0 w-24 h-24 rounded-full blur-xl opacity-40 -z-10 scale-110" [ngStyle]="{
+              'background': getRoleColor(user?.role)
+            }"></div>
+        </div>
+
+        <!-- NAME -->
+        <h2 class="mt-5 text-xl font-black text-center" [ngStyle]="{ 'color': themeService.Textprincipal }">
+          {{ user?.nom }} {{ user?.prenom }}
+        </h2>
+
+        <!-- EMAIL -->
+        <p class="mt-2 text-xs text-center break-all opacity-70 max-w-[90%]" [ngStyle]="{ 'color': themeService.Textsecondaire }">
+          {{ user?.email }}
+        </p>
+
+        <!-- ROLE INFO -->
+        <div class="mt-4 flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-bold backdrop-blur-sm" [ngStyle]="{
+            'background': getRoleColor(user?.role) + '18',
+            'color': getRoleColor(user?.role),
+            'border': '1px solid ' + getRoleColor(user?.role) + '30'
+          }">
+          <i class="fa-solid fa-shield-halved text-[10px]"></i>
+          <span>Utilisateur {{ user?.role }}</span>
+        </div>
+
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="relative z-10 grid grid-cols-2 gap-3 p-5 border-t" [ngStyle]="{ 'border-color': getRoleColor(user?.role) + '20' }">
+
+        <!-- EDIT BUTTON -->
+        <button
+          class="group/btn relative h-12 rounded-2xl font-bold text-sm overflow-hidden transition-all duration-300 hover:shadow-lg active:scale-95"
+          [ngStyle]="{ 
+            'background': themeService.secondary + '15',
+            'color': themeService.secondary,
+            'border': '2px solid ' + themeService.secondary + '40'
+          }"
+          (click)="goToEdit(user._id); $event.stopPropagation()"
+        >
+          <div class="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" [ngStyle]="{
+              'background': 'linear-gradient(135deg, ' + themeService.secondary + '20 0%, ' + themeService.secondary + '10 100%)'
+            }"></div>
+          <span class="relative z-10 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-pen text-xs"></i>
+            <span>Modifier</span>
+          </span>
+        </button>
+
+        <!-- DELETE BUTTON -->
+        <button 
+          class="group/btn relative h-12 rounded-2xl font-bold text-sm overflow-hidden transition-all duration-300 hover:shadow-lg active:scale-95"
+          [ngStyle]="{ 
+            'background': themeService.primary + '15',
+            'color': themeService.primary,
+            'border': '2px solid ' + themeService.primary + '40'
+          }"
+          (click)="supprimerUser(user); $event.stopPropagation()"
+        >
+          <div class="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" [ngStyle]="{
+              'background': 'linear-gradient(135deg, ' + themeService.primary + '20 0%, ' + themeService.primary + '10 100%)'
+            }"></div>
+          <span class="relative z-10 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-trash text-xs"></i>
+            <span>Supprimer</span>
+          </span>
+        </button>
+
+      </div>
+
+    </button>
+
+  </div>
+
+  <!-- EMPTY DESKTOP -->
+  <ng-template #emptyDesktop>
+    <div class="w-full flex flex-col items-center justify-center py-28 text-center">
+
+      <div class="w-24 h-24 rounded-3xl flex items-center justify-center mb-6"
+        [ngStyle]="{ 'background': themeService.c5Base + '20' }">
+
+        <i class="fa-solid fa-user-slash text-3xl opacity-70" [ngStyle]="{ 'color': themeService.Textsecondaire }"></i>
+
+      </div>
+
+      <h2 class="text-2xl font-black" [ngStyle]="{ 'color': themeService.Textprincipal }">
+
+        Aucun utilisateur trouvé
+
+      </h2>
+
+      <p class="mt-2 text-sm" [ngStyle]="{ 'color': themeService.Textsecondaire }">
+
+        Aucun utilisateur ne correspond au filtre sélectionné
+
+      </p>
+
+    </div>
+  </ng-template>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- MOBILE + TABLET -->
+<!-- ========================================================= -->
+<section class="w-full space-y-6 px-4 py-5 block lg:hidden">
+
+  <!-- HEADER -->
+  <div class="relative w-full overflow-hidden rounded-[28px] border px-5 py-6 backdrop-blur-2xl shadow-2xl" [ngStyle]="{
+        'background': themeService.c5Base + '15',
+        'border': '1px solid ' + themeService.c2Base + '25',
+        'box-shadow': '0 20px 60px ' + themeService.c16Dark + '15'
+      }">
+
+    <div class="flex flex-col gap-5">
+
+      <div class="flex items-center gap-4">
+
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg"
+          [ngStyle]="{ 'background': themeService.primary }">
+
+          <i class="fa-solid fa-users text-white text-lg"></i>
+
+        </div>
+
+        <div>
+          <h1 class="text-2xl font-black" [ngStyle]="{ 'color': themeService.Textprincipal }">
+            Gestion Utilisateurs
+          </h1>
+
+          <p class="text-sm" [ngStyle]="{ 'color': themeService.Textsecondaire }">
+            Rôles & permissions
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- FILTERS -->
+      <div class="flex flex-wrap gap-2">
+
+        <button *ngFor="let role of ['tous','joueur','admin','entraineur','invite']" (click)="filtrerRole(role)"
+          class="px-4 py-2.5 rounded-2xl text-sm font-black transition-all duration-300 cursor-pointer" [ngStyle]="{
+              'background': selectedRole === role ? getRoleColor(role) : themeService.c5Base + '15',
+              'border': '1px solid ' + (selectedRole === role ? getRoleColor(role) : themeService.c2Base + '30'),
+              'color': selectedRole === role ? '#fff' : themeService.Textprincipal,
+              'box-shadow': selectedRole === role ? '0 6px 20px ' + getRoleColor(role) + '50' : 'none',
+              'transform': selectedRole === role ? 'translateY(-1px)' : 'translateY(0)'
+            }">
+
+          {{ role | titlecase }}
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- GRID -->
+  <div *ngIf="(filteredUsers?.length || 0) > 0; else emptyMobile" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+    <button *ngFor="let user of (filteredUsers || [])"
+      class="group relative overflow-hidden rounded-[24px] flex flex-col transition-all duration-400 hover:-translate-y-1 cursor-pointer"
+      [ngStyle]="{
+          'box-shadow': '0 12px 35px ' + getRoleColor(user?.role) + '18, 0 4px 12px ' + getRoleColor(user?.role) + '08'
+        }">
+
+      <!-- BACKGROUND IMAGE / GRADIENT -->
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0" [ngStyle]="{
+            'background': 'linear-gradient(160deg, ' + getRoleColor(user?.role) + ' 0%, ' + getRoleColor(user?.role) + 'dd 35%, ' + themeService.c5Base + ' 100%)'
+          }"></div>
+        <div class="absolute -top-8 -right-8 w-28 h-28 rounded-full opacity-20" [ngStyle]="{
+            'background': 'radial-gradient(circle, #ffffff 0%, transparent 70%)'
+          }"></div>
+        <div class="absolute -bottom-10 -left-10 w-32 h-32 rounded-full opacity-10" [ngStyle]="{
+            'background': 'radial-gradient(circle, #ffffff 0%, transparent 70%)'
+          }"></div>
+        <div class="absolute inset-0" [ngStyle]="{
+            'background': 'linear-gradient(180deg, transparent 0%, ' + themeService.c5Base + 'ee 50%, ' + themeService.c5Base + ' 100%)'
+          }"></div>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="relative z-10 p-4 flex flex-col gap-3">
+
+        <!-- TOP ROW: AVATAR + INFO -->
+        <div class="flex items-center gap-3">
+
+          <div class="relative">
+            <div class="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg ring-2 ring-white/20"
+              [ngStyle]="{ 'background': getRoleColor(user?.role) + 'cc' }">
+              {{ (user?.nom || '')?.charAt(0) }}{{ (user?.prenom || '')?.charAt(0) }}
+            </div>
+            <div class="absolute inset-0 w-14 h-14 rounded-full blur-lg opacity-30 -z-10 scale-125" [ngStyle]="{
+                'background': getRoleColor(user?.role)
+              }"></div>
+          </div>
+
+          <div class="min-w-0 flex-1">
+
+            <div class="flex items-center gap-2 mb-1">
+              <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider" [ngStyle]="{
+                  'background': getRoleColor(user?.role),
+                  'color': '#fff'
+                }">
+                {{ user?.role }}
+              </span>
+            </div>
+
+            <p class="font-bold truncate text-sm" [ngStyle]="{ 'color': themeService.Textprincipal }">
+              {{ user?.nom }} {{ user?.prenom }}
+            </p>
+
+            <p class="text-[11px] opacity-60 truncate" [ngStyle]="{ 'color': themeService.Textsecondaire }">
+              {{ user?.email }}
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="flex gap-2 mt-1">
+
+          <button class="flex-1 h-10 rounded-xl font-bold text-xs overflow-hidden transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5"
+            [ngStyle]="{ 
+              'background': themeService.secondary + '15',
+              'color': themeService.secondary,
+              'border': '1.5px solid ' + themeService.secondary + '35'
+            }"
+            (click)="modifierUser(user); $event.stopPropagation()">
+            <i class="fa-solid fa-pen text-[10px]"></i>
+            Modifier
+          </button>
+
+          <button class="flex-1 h-10 rounded-xl font-bold text-xs overflow-hidden transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5"
+            [ngStyle]="{ 
+              'background': themeService.primary + '15',
+              'color': themeService.primary,
+              'border': '1.5px solid ' + themeService.primary + '35'
+            }"
+            (click)="supprimerUser(user); $event.stopPropagation()">
+            <i class="fa-solid fa-trash text-[10px]"></i>
+            Supprimer
+          </button>
+
+        </div>
+
+      </div>
+
+    </button>
+
+  </div>
+
+</section>
+
+<!-- EMPTY MOBILE -->
+<ng-template #emptyMobile>
+  <div class="w-full flex flex-col items-center justify-center py-20 text-center">
+
+    <div class="w-20 h-20 rounded-3xl flex items-center justify-center mb-5"
+      [ngStyle]="{ 'background': themeService.c5Base + '20' }">
+
+      <i class="fa-solid fa-user-slash text-2xl opacity-70" [ngStyle]="{ 'color': themeService.Textsecondaire }"></i>
+
+    </div>
+
+    <h2 class="text-xl font-black" [ngStyle]="{ 'color': themeService.Textprincipal }">
+
+      Aucun utilisateur
+
+    </h2>
+
+    <p class="mt-2 text-sm" [ngStyle]="{ 'color': themeService.Textsecondaire }">
+
+      Aucun résultat pour ce filtre
+
+    </p>
+
+  </div>
+</ng-template>
