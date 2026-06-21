@@ -7,6 +7,9 @@ import { Utilisateur } from '../Page/Public/utilisateur/utilisateur';
 import { ModifierUser } from '../Page/Public/modifier-user/modifier-user';
 import { SupprimerUser } from '../Page/Public/suprimer-user/suprimer-user';
 import { Contenue } from '../Page/Public/contenue/contenue';
+import { Evenement } from '../Page/Public/evenement/evenement';
+import { SupriperEvent } from '../Page/Public/supriper-event/supriper-event';
+import { ModifierEvent } from '../Page/Public/modifier-event/modifier-event';
 
 
 
@@ -21,5 +24,8 @@ export const routes: Routes = [
     { path: 'users/edit/:id', component: ModifierUser },
     { path: 'users/delete/:id', component: SupprimerUser },
     { path: 'cont', component: Contenue },
+    { path: 'event', component: Evenement },
+    { path: 'delete-event/:id', component: SupriperEvent },
+    { path: 'modify-event/:id', component: ModifierEvent },
 
 ];

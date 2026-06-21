@@ -69,3 +69,109 @@ exports.deleteEvent = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// ======================================================
+// ✏️ UPDATE EVENT
+// ======================================================
+
+exports.updateEvent = async (req, res) => {
+
+  try {
+
+    const {
+      titre,
+      description,
+      date,
+      lieu,
+      heureDebut,
+      heureFin,
+      image,
+      categorie,
+      status
+    } = req.body;
+
+    // =====================================
+    // VALIDATION
+    // =====================================
+
+    if (
+      !titre ||
+      !description ||
+      !date ||
+      !lieu ||
+      !heureDebut ||
+      !heureFin
+    ) {
+
+      return res.status(400).json({
+        message: 'Champs manquants'
+      });
+    }
+
+    // =====================================
+    // VALIDATION HEURES
+    // =====================================
+
+    if (heureDebut >= heureFin) {
+
+      return res.status(400).json({
+        message:
+          "L'heure de début doit être inférieure à l'heure de fin",
+      });
+    }
+
+    // =====================================
+    // UPDATE DATABASE
+    // =====================================
+
+    const updatedEvent =
+      await Event.findByIdAndUpdate(
+
+        req.params.id,
+
+        {
+          titre,
+          description,
+          date,
+          lieu,
+          heureDebut,
+          heureFin,
+          image,
+          categorie,
+          status
+        },
+
+        {
+          new: true
+        }
+      );
+
+    // =====================================
+    // EVENT NOT FOUND
+    // =====================================
+
+    if (!updatedEvent) {
+
+      return res.status(404).json({
+        message: 'Événement introuvable'
+      });
+    }
+
+    // =====================================
+    // SUCCESS
+    // =====================================
+
+    res.status(200).json(updatedEvent);
+
+  } catch (error) {
+
+    console.error(
+      '❌ Erreur modification event :',
+      error
+    );
+
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};

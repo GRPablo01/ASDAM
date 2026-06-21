@@ -6,14 +6,14 @@ export interface Evenement {
   _id?: string;
   titre: string;
   date: string;
-  description : string;
-  lieu : string;
-  heureDebut : string;
-  heureFin : string;
+  description: string;
+  lieu: string;
+  heureDebut: string;
+  heureFin: string;
   image?: string;
-  categorie : string;
-  status : string;
-  
+  categorie: string;
+  status: string;
+
 }
 
 @Injectable({
@@ -23,7 +23,7 @@ export class EventService {
 
   private apiUrl = 'http://localhost:3000/api/events';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   createEvent(data: any): Observable<Evenement> {
     return this.http.post<Evenement>(this.apiUrl, data);
@@ -35,5 +35,20 @@ export class EventService {
 
   deleteEvent(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  // ======================================================
+  // ✏️ UPDATE EVENT
+  // ======================================================
+
+  updateEvent(
+    id: string,
+    data: Evenement
+  ): Observable<Evenement> {
+
+    return this.http.put<Evenement>(
+      `${this.apiUrl}/${id}`,
+      data
+    );
   }
 }
