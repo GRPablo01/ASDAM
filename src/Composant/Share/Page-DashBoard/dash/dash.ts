@@ -42,7 +42,7 @@ export class Dash implements OnInit {
       description: 'Gérez les convocations des joueurs et équipes.',
       icon: 'fa-solid fa-list-check',
       image: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1400&auto=format&fit=crop',
-      route: '/create-convocation'
+      route: '/createconvocation'
     },
 
     {

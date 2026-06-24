@@ -16,6 +16,7 @@ import { SuprimerMatch } from '../Page/Public/suprimer-match/suprimer-match';
 import { DashBoard } from '../Page/Public/dash-board/dash-board';
 import { CreationActus } from '../Page/Public/creation-actus/creation-actus';
 import { CreationEvent } from '../Page/Public/creation-event/creation-event';
+import { CreationConvoque } from '../Page/Public/creation-convoque/creation-convoque';
 
 
 
@@ -40,4 +41,5 @@ export const routes: Routes = [
     { path: 'dashboard', component: DashBoard },
     { path: 'createactus', component: CreationActus },
     { path: 'createevent', component: CreationEvent },
+    { path: 'createconvocation', component: CreationConvoque },
 ];

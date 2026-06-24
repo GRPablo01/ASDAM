@@ -182,12 +182,11 @@ export class Registrer implements OnInit {
 
     // ================= CLEAN DATA =================
     const payload: any = {
-      nom: form.nom,
-      prenom: form.prenom,
-      email: form.email,
+      nom: form.nom?.trim(),
+      prenom: form.prenom?.trim(),
+      email: form.email?.trim(),
       password: form.password,
       role: form.role,
-      club: form.club
     };
 
     if (form.equipe) payload.equipe = form.equipe;
