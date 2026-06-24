@@ -1,0 +1,304 @@
+<!-- ===================================================== -->
+<!-- CONTAINER -->
+<!-- ===================================================== -->
+
+<section class="w-full h-auto flex flex-col py-10 px-10">
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <div class="w-full">
+
+        <p
+            class="uppercase tracking-[5px] text-xs font-semibold mb-3"
+            [ngStyle]="{
+                'color': themeService.primary
+            }">
+
+            Tableau de bord
+
+        </p>
+
+        <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-6">
+
+            <!-- LEFT -->
+
+            <div>
+
+                <h2
+                    class="text-4xl md:text-5xl font-black leading-tight"
+                    [ngStyle]="{
+                        'color': themeService.Textprincipal
+                    }">
+
+                    Bienvenue sur ASDAM
+
+                </h2>
+
+                <p
+                    class="mt-4 max-w-2xl text-base md:text-lg leading-relaxed"
+                    [ngStyle]="{
+                        'color': themeService.Textsecondaire
+                    }">
+
+                    Gérez facilement votre club depuis votre centre de contrôle.
+
+                </p>
+
+            </div>
+
+            <!-- RIGHT INFO -->
+
+            <div
+                class="flex items-center gap-4 rounded-3xl px-6 py-4 border backdrop-blur-xl shadow-xl"
+                [ngStyle]="{
+                    'background': themeService.Background2,
+                    'border': '1px solid ' + themeService.GlassBorder
+                }">
+
+                <!-- ICON -->
+
+                <div
+                    class="w-14 h-14 rounded-2xl flex items-center justify-center"
+                    [ngStyle]="{
+                        'background': themeService.primary
+                    }">
+
+                    <i class="fa-solid fa-shield-halved text-white text-xl"></i>
+
+                </div>
+
+                <!-- TEXT -->
+
+                <div>
+
+                    <p
+                        class="text-xs uppercase tracking-[3px]"
+                        [ngStyle]="{
+                            'color': themeService.Textsecondaire
+                        }">
+
+                        Centre de contrôle
+
+                    </p>
+
+                    <h3
+                        class="text-lg font-bold"
+                        [ngStyle]="{
+                            'color': themeService.Textprincipal
+                        }">
+
+                        Gestion complète du club
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- CARDS FULL WIDTH -->
+    <!-- ===================================================== -->
+
+    <div class="hidden lg:block w-full flex-1">
+
+        <!-- GRID -->
+
+        <div class="mt-10 grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-8">
+
+            <!-- CARD -->
+
+            <div
+                *ngFor="let card of paginatedCards"
+                class="group relative overflow-hidden rounded-[32px] border h-[460px]
+                       transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+                [ngStyle]="{
+                    'border': '2px solid ' + themeService.GlassBorder,
+                    'background': themeService.Background2
+                }">
+
+                <!-- IMAGE -->
+
+                <img
+                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    [src]="card.image">
+
+                <!-- DARK OVERLAY -->
+
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/10"></div>
+
+                <!-- GLOW -->
+
+                <div
+                    class="absolute -top-24 -right-24 w-60 h-60 rounded-full blur-3xl opacity-30"
+                    [ngStyle]="{
+                        'background': themeService.primary
+                    }">
+
+                </div>
+
+                <!-- CONTENT -->
+
+                <div class="relative z-10 h-full flex flex-col justify-between p-8">
+
+                    <!-- TOP -->
+
+                    <div class="flex items-start justify-between">
+
+                        <!-- ICON -->
+
+                        <div
+                            class="w-16 h-16 rounded-3xl flex items-center justify-center shadow-2xl border"
+                            [ngStyle]="{
+                                'background': themeService.primary,
+                                'border': '1px solid rgba(255,255,255,0.2)'
+                            }">
+
+                            <i
+                                [class]="card.icon + ' text-white text-2xl'">
+                            </i>
+
+                        </div>
+
+                        <!-- BADGE -->
+
+                        <div
+                            class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[2px] backdrop-blur-xl"
+                            [ngStyle]="{
+                                'background': 'rgba(255,255,255,0.1)',
+                                'color': '#fff',
+                                'border': '1px solid rgba(255,255,255,0.2)'
+                            }">
+
+                            ASDAM
+
+                        </div>
+
+                    </div>
+
+                    <!-- TEXT -->
+
+                    <div>
+
+                        <h2 class="text-3xl xl:text-4xl font-black text-white leading-tight">
+
+                            {{ card.titre }}
+
+                        </h2>
+
+                        <p class="text-white/75 text-sm md:text-base mt-4 leading-relaxed">
+
+                            {{ card.description }}
+
+                        </p>
+
+                        <!-- ACTION -->
+
+                        <div class="mt-8 flex items-center gap-4">
+
+                            <a [routerLink]="card.route">
+
+                                <button
+                                    class="px-6 py-3 rounded-2xl text-white font-bold shadow-2xl hover:scale-105 transition-all duration-300"
+                                    [ngStyle]="{
+                                        'background': themeService.primary
+                                    }">
+
+                                    Créer
+
+                                </button>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- PAGINATION -->
+        <!-- ===================================================== -->
+
+        <div class="w-full flex justify-center mt-14">
+
+            <div
+                class="flex items-center gap-3 p-3 rounded-3xl backdrop-blur-2xl border shadow-2xl"
+                [ngStyle]="{
+                    'background': themeService.Background2,
+                    'border': '1px solid ' + themeService.GlassBorder
+                }">
+
+                <!-- PREVIOUS -->
+
+                <button
+                    (click)="previousPage()"
+                    [disabled]="currentPage === 1"
+                    class="w-12 h-12 rounded-2xl font-bold transition-all duration-300 disabled:opacity-40 hover:scale-105"
+                    [ngStyle]="{
+                        'background': themeService.Background1,
+                        'color': themeService.Textprincipal,
+                        'border': '1px solid ' + themeService.GlassBorder
+                    }">
+
+                    ←
+
+                </button>
+
+                <!-- PAGES -->
+
+                <button
+                    *ngFor="let page of pages"
+                    (click)="goToPage(page)"
+                    class="w-12 h-12 rounded-2xl font-black transition-all duration-300 hover:scale-105"
+                    [ngStyle]="{
+                        'background':
+                            currentPage === page
+                            ? themeService.primary
+                            : themeService.Background1,
+
+                        'color':
+                            currentPage === page
+                            ? '#ffffff'
+                            : themeService.Textprincipal,
+
+                        'border':
+                            '1px solid ' + themeService.GlassBorder
+                    }">
+
+                    {{ page }}
+
+                </button>
+
+                <!-- NEXT -->
+
+                <button
+                    (click)="nextPage()"
+                    [disabled]="currentPage === totalPages"
+                    class="w-12 h-12 rounded-2xl font-bold transition-all duration-300 disabled:opacity-40 hover:scale-105"
+                    [ngStyle]="{
+                        'background': themeService.Background1,
+                        'color': themeService.Textprincipal,
+                        'border': '1px solid ' + themeService.GlassBorder
+                    }">
+
+                    →
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
-import { MatchService, Match } from '../../../../../Backend/Services/match.service';
+import { MatchService, Match2 } from '../../../../../Backend/Services/match.service';
 import { EquipeService, Equipe } from '../../../../../Backend/Services/equipe.Service';
 import { ThemeService } from '../../../../../Backend/Services/theme.service';
 import { Icon } from '../../icon/icon';
@@ -17,7 +17,7 @@ import { Icon } from '../../icon/icon';
 })
 export class ProchainMatch implements OnInit {
 
-  matchs: Match[] = [];
+  matchs: Match2[] = [];
   equipes: Equipe[] = [];
   
 

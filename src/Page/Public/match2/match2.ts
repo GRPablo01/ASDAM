@@ -6,17 +6,16 @@ import { FormsModule } from '@angular/forms';
 import { Header } from '../../../Composant/Public/header/header';
 import { Mobile } from '../../../Composant/Share/mobile/mobile';
 import { ThemeService } from '../../../../Backend/Services/theme.service';
-import { Cookie } from '../../../Composant/Public/cookie/cookie';
-import { Welcome } from '../../../Composant/Share/Page-Accueil/welcome/welcome';
-import { ProchainMatch } from '../../../Composant/Share/Page-Accueil/prochain-match/prochain-match';
-import { Fonctionalite } from "../../../Composant/Share/Page-Accueil/fonctionalite/fonctionalite";
-import { Plannig2 } from "../../../Composant/Share/Page-Accueil/plannig2/plannig2";
 import { Footer } from "../../../Composant/Public/footer/footer";
+import { Match } from '../../../Composant/Share/Page-Match/match/match';
+
+
+
 
 
 
 @Component({
-  selector: 'app-accueil',
+  selector: 'app-match2',
   standalone: true,
   imports: [
     CommonModule,
@@ -24,17 +23,13 @@ import { Footer } from "../../../Composant/Public/footer/footer";
     Header,
     FormsModule,
     Mobile,
-    Cookie,
-    Welcome,
-    ProchainMatch,
-    Fonctionalite,
-    Plannig2,
-    Footer
+    Footer,
+    Match
 ],
-  templateUrl: './accueil.html',
-  styleUrls: ['./accueil.css'],
+  templateUrl: './match2.html',
+  styleUrls: ['./match2.css'],
 })
-export class Accueil implements OnInit {
+export class Match2 implements OnInit {
 
   isLoaded: boolean = false;
   isLoggedIn: boolean = false;

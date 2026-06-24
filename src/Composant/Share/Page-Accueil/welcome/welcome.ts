@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
-import { MatchService, Match } from '../../../../../Backend/Services/match.service';
+
 import { Icon } from '../../icon/icon';
 import { Header } from '../../../Public/header/header';
 import { ThemeService } from '../../../../../Backend/Services/theme.service';
@@ -22,27 +22,7 @@ interface Utilisateur {
   role?: string;
 }
 
-interface MatchUI extends Match {
-  positionDom?: number;
-  positionExt?: number;
-  classementDom?: number;
-  classementExt?: number;
 
-  enCours: boolean; // ✅ obligatoire
-
-  statut?: string;
-
-  // ✅ PROPRIÉTÉ UI (remplace conflit avec Match)
-  compteReboursObj?: {
-    jours: number;
-    heures: number;
-    minutes: number;
-  } | null;
-
-  progress?: number;
-  actions?: any[];
-  competition?: string;
-}
 
 @Component({
   selector: 'app-welcome',
@@ -74,7 +54,7 @@ export class Welcome{
   iconExploreHover = false;
 
   // ================= MATCH =================
-  matchs: MatchUI[] = [];
+  // matchs: MatchUI[] = [];
   totalMatches = 0;
   currentMatch = 0;
 

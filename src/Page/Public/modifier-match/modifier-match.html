@@ -1,7 +1,7 @@
 <app-icon></app-icon>
 
 <!-- ====================================================== -->
-<!-- PAGE MODIFIER EVENT -->
+<!-- PAGE MODIFIER MATCH -->
 <!-- ====================================================== -->
 
 <section
@@ -19,13 +19,12 @@
   </div>
 
   <!-- LEFT -->
-  <div
-    class="relative hidden lg:flex lg:w-1/2 min-h-screen overflow-hidden">
+  <div class="relative hidden lg:flex lg:w-1/2 min-h-screen overflow-hidden">
 
     <img
       src="assets/imagefonctionalite.jpg"
-      alt="Background"
-      class="absolute inset-0 w-full h-full object-cover transition-transform duration-[12s] hover:scale-110" />
+      class="absolute inset-0 w-full h-full object-cover transition-transform duration-[12s] hover:scale-110"
+    />
 
     <div
       class="absolute inset-0"
@@ -37,101 +36,68 @@
 
     <div class="relative z-10 flex flex-col justify-between h-full w-full p-10">
 
-      <!-- LOGO -->
-      <div class="flex items-center gap-4 animate-fade-in-down">
+      <div class="flex items-center gap-4">
 
-        <div
-          class="w-16 h-16 rounded-3xl flex items-center justify-center backdrop-blur-xl border shadow-xl"
+        <div class="w-16 h-16 rounded-3xl flex items-center justify-center backdrop-blur-xl border shadow-xl"
           [ngStyle]="{
             'background': 'rgba(255,255,255,0.12)',
             'border-color': 'rgba(255,255,255,0.20)'
           }">
 
-          <i class="fa-solid fa-calendar-days text-white text-2xl"></i>
+          <i class="fa-solid fa-futbol text-white text-2xl"></i>
 
         </div>
 
         <div>
-
-          <h1 class="text-2xl font-black text-white tracking-wide">
-            ASDAM
-          </h1>
-
+          <h1 class="text-2xl font-black text-white">ASDAM</h1>
           <p class="text-xs uppercase tracking-[4px] text-white/60">
-            Gestion événement
+            Gestion des matchs
           </p>
-
         </div>
 
       </div>
 
-      <!-- TEXT -->
-      <div class="max-w-[420px] animate-fade-in-up">
-
-        <h2 class="text-5xl leading-tight font-black text-white mb-6">
-          Modifier <br>
-          un événement
+      <div class="max-w-[420px]">
+        <h2 class="text-5xl font-black text-white mb-6">
+          Modifier <br> un match
         </h2>
 
-        <p class="text-white/70 text-base leading-relaxed">
-          Gérez vos événements grâce à une interface moderne,
-          responsive et ultra fluide.
+        <p class="text-white/70">
+          Gérez les scores et informations des matchs en toute simplicité.
         </p>
-
       </div>
 
     </div>
-
   </div>
 
   <!-- RIGHT -->
-  <div
-    class="relative flex-1 min-h-screen overflow-y-auto flex items-center justify-center px-5 py-8 lg:px-16">
+  <div class="relative flex-1 min-h-screen flex items-center justify-center px-5 py-8 lg:px-16">
 
-    <div class="w-full max-w-2xl animate-fade-in-up">
+    <div class="w-full max-w-2xl">
 
       <!-- HEADER -->
       <div class="flex items-center justify-between mb-10">
 
         <div>
-
           <div class="flex items-center gap-3 mb-2">
+            <div class="w-1 h-10 rounded-full"
+              [ngStyle]="{ 'background': themeService.primary }"></div>
 
-            <div
-              class="w-1 h-10 rounded-full"
-              [ngStyle]="{
-                'background': themeService.primary
-              }">
-            </div>
-
-            <h2
-              class="text-4xl font-black tracking-tight"
-              [ngStyle]="{
-                'color': themeService.Textprincipal
-              }">
-
-              Modifier événement
-
+            <h2 class="text-4xl font-black"
+              [ngStyle]="{ 'color': themeService.Textprincipal }">
+              Modifier match
             </h2>
-
           </div>
 
-          <p
-            class="text-sm ml-4"
-            [ngStyle]="{
-              'color': themeService.Textsecondaire
-            }">
-
-            Mettre à jour les informations de l'événement
-
+          <p class="text-sm ml-4"
+            [ngStyle]="{ 'color': themeService.Textsecondaire }">
+            Mettre à jour les informations du match
           </p>
-
         </div>
 
-        <!-- BACK -->
         <button
           (click)="goBack()"
-          class="group h-12 px-5 rounded-2xl text-sm font-bold transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-lg"
+          class="h-12 px-5 rounded-2xl font-bold flex items-center gap-2"
           [ngStyle]="{
             'background': themeService.Background2,
             'color': themeService.Textprincipal,
@@ -139,91 +105,98 @@
           }">
 
           <i class="fa-solid fa-arrow-left"></i>
-
           Retour
-
         </button>
 
       </div>
 
       <!-- FORM -->
-      <form
-        (ngSubmit)="updateEvent()"
-        class="space-y-7">
+      <form (ngSubmit)="updateMatch()" class="space-y-7">
 
-        <!-- TITRE -->
         <input
-          type="text"
-          [(ngModel)]="event.titre"
-          name="titre"
-          placeholder="Titre"
+          [(ngModel)]="match.equipeDomicile"
+          name="equipe1"
+          placeholder="Équipe 1"
           class="w-full h-16 px-5 rounded-3xl outline-none"
           [ngStyle]="{
             'background': themeService.Background1,
-            'color': themeService.Textprincipal,
-            'border': '2px solid ' + themeService.primary + '35'
-          }" />
+            'color': themeService.Textprincipal
+          }"
+        />
 
-        <!-- DESCRIPTION -->
-        <textarea
-          [(ngModel)]="event.description"
-          name="description"
-          placeholder="Description"
-          rows="5"
-          class="w-full p-5 rounded-3xl outline-none resize-none"
+        <input
+          [(ngModel)]="match.equipeExterieur"
+          name="equipe2"
+          placeholder="Équipe 2"
+          class="w-full h-16 px-5 rounded-3xl outline-none"
           [ngStyle]="{
             'background': themeService.Background1,
-            'color': themeService.Textprincipal,
-            'border': '2px solid ' + themeService.primary + '35'
-          }"></textarea>
+            'color': themeService.Textprincipal
+          }"
+        />
 
-        <!-- DATE -->
+        <div class="grid grid-cols-2 gap-4">
+
+          <input
+            type="number"
+            [(ngModel)]="match.scoreDomicile"
+            name="score1"
+            placeholder="Score équipe 1"
+            class="h-16 px-5 rounded-3xl outline-none"
+            [ngStyle]="{
+              'background': themeService.Background1,
+              'color': themeService.Textprincipal
+            }"
+          />
+
+          <input
+            type="number"
+            [(ngModel)]="match.scoreExterieur"
+            name="score2"
+            placeholder="Score équipe 2"
+            class="h-16 px-5 rounded-3xl outline-none"
+            [ngStyle]="{
+              'background': themeService.Background1,
+              'color': themeService.Textprincipal
+            }"
+          />
+
+        </div>
+
         <input
           type="date"
-          [(ngModel)]="event.date"
+          [(ngModel)]="match.dateMatch"
           name="date"
           class="w-full h-16 px-5 rounded-3xl outline-none"
           [ngStyle]="{
             'background': themeService.Background1,
-            'color': themeService.Textprincipal,
-            'border': '2px solid ' + themeService.primary + '35'
-          }" />
+            'color': themeService.Textprincipal
+          }"
+        />
 
-        <!-- LIEU -->
         <input
-          type="text"
-          [(ngModel)]="event.lieu"
+          [(ngModel)]="match.stade"
           name="lieu"
           placeholder="Lieu"
           class="w-full h-16 px-5 rounded-3xl outline-none"
           [ngStyle]="{
             'background': themeService.Background1,
-            'color': themeService.Textprincipal,
-            'border': '2px solid ' + themeService.primary + '35'
-          }" />
+            'color': themeService.Textprincipal
+          }"
+        />
 
-        <!-- BUTTON -->
         <button
           type="submit"
-          class="w-full h-16 rounded-3xl font-black text-white transition-all duration-300 hover:scale-[1.01]"
-          [ngStyle]="{
-            'background': themeService.primary
-          }">
+          class="w-full h-16 rounded-3xl font-black text-white"
+          [ngStyle]="{ 'background': themeService.primary }">
 
-          <span class="flex items-center justify-center gap-3">
-
-            <i class="fa-solid fa-floppy-disk"></i>
-
-            Enregistrer les modifications
-
-          </span>
-
+          <i class="fa-solid fa-floppy-disk mr-2"></i>
+          Enregistrer
         </button>
 
       </form>
 
     </div>
-
   </div>
 
 </section>

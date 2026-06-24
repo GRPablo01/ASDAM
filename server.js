@@ -77,6 +77,7 @@ const userRoutes = require('./Backend/Routes/user.routes');
 const matchRoutes = require('./Backend/Routes/match.Route');
 const equipeRoutes = require('./Backend/Routes/equipe.Routes');
 const eventRoutes = require('./Backend/Routes/event.Routes');
+const actusRoutes = require('./Backend/Routes/actus.Routes');
 
 // ==============================
 // 🧭 API ROUTES
@@ -86,6 +87,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/matchs', matchRoutes);
 app.use('/api/equipes', equipeRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/actus', actusRoutes);
 
 // ==============================
 // 🏠 TEST ROUTES

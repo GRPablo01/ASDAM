@@ -1,0 +1,572 @@
+<app-icon></app-icon>
+
+<!-- ====================================================== -->
+<!-- PAGE CREATE ACTUS RESPONSIVE PREMIUM -->
+<!-- ====================================================== -->
+<section class="relative w-full min-h-screen overflow-hidden flex flex-col lg:flex-row"
+  [ngStyle]="{ 'background': themeService.Backgroundprincipal }">
+
+  <!-- ====================================================== -->
+  <!-- BACKGROUND -->
+  <!-- ====================================================== -->
+
+  <div class="absolute inset-0 opacity-20 pointer-events-none" style="
+      background:
+      radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 35%),
+      radial-gradient(circle at bottom right, rgba(255,255,255,0.05), transparent 30%);
+    "></div>
+
+  <!-- ====================================================== -->
+  <!-- LEFT SIDE -->
+  <!-- ====================================================== -->
+
+  <div class="relative w-full lg:w-[42%] min-h-[420px] lg:min-h-screen overflow-hidden flex-shrink-0">
+
+    <!-- IMAGE -->
+    <img src="assets/ImageActus.png" alt="Actualités"
+      class="absolute inset-0 w-full h-full object-cover transition-transform duration-[12s] hover:scale-110" />
+
+    <!-- OVERLAY -->
+    <div class="absolute inset-0" [ngStyle]="{
+        'background':
+          'linear-gradient(to bottom, rgba(0,0,0,0.50), rgba(0,0,0,0.82))'
+      }"></div>
+
+    <!-- CONTENT -->
+    <div class="relative z-10 flex flex-col justify-between h-full
+      px-6 py-8
+      sm:px-10 sm:py-10
+      lg:px-14 lg:py-14">
+
+      <!-- LOGO -->
+      <div class="flex items-center justify-center lg:justify-start gap-4 animate-fade-in-down">
+
+        <div
+          class="w-14 h-14 sm:w-16 sm:h-16 rounded-3xl flex items-center justify-center backdrop-blur-xl border shadow-2xl"
+          [ngStyle]="{
+            'background': 'rgba(255,255,255,0.10)',
+            'border-color': 'rgba(255,255,255,0.18)'
+          }">
+          <i class="fa-solid fa-newspaper text-white text-xl sm:text-2xl"></i>
+        </div>
+
+        <div class="text-center lg:text-left">
+
+          <h1 class="text-2xl sm:text-3xl font-black tracking-wide text-white">
+            ASDAM
+          </h1>
+
+          <p class="text-[10px] sm:text-[11px] uppercase tracking-[4px] text-white/60">
+            Gestion des actualités
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- TEXT -->
+      <div class="max-w-[480px] mx-auto lg:mx-0 text-center lg:text-left animate-fade-in-up">
+
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl leading-[1.05] font-black text-white mb-5">
+          Créer<br />
+          une actualité
+        </h2>
+
+        <p class="text-white/70 text-sm sm:text-[15px] lg:text-base leading-relaxed">
+          Publiez des informations importantes pour vos utilisateurs
+          avec une interface moderne, élégante et responsive.
+        </p>
+
+        <!-- STATS -->
+        <div class="flex items-center justify-center lg:justify-start gap-3 mt-8">
+          <div class="w-12 h-2 rounded-full bg-white"></div>
+          <div class="w-2 h-2 rounded-full bg-white/40"></div>
+          <div class="w-2 h-2 rounded-full bg-white/40"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- RIGHT SIDE -->
+  <!-- ====================================================== -->
+
+  <div class="relative w-full lg:w-[58%]
+    flex items-center justify-center
+    px-4 py-8 mt-0 md:-mt-25
+    sm:px-8 sm:py-10
+    lg:px-16 lg:py-12">
+
+    <!-- ====================================================== -->
+    <!-- FORM CONTAINER -->
+    <!-- ====================================================== -->
+
+    <div class="w-full max-w-5xl">
+
+      <!-- HEADER -->
+      <div class="mb-8 sm:mb-10">
+
+        <!-- TOP ROW -->
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+
+          <!-- LEFT CONTENT -->
+          <div class="flex-1 text-center lg:text-left">
+
+            <div class="flex items-center justify-center lg:justify-start gap-4 mb-3">
+
+              <div class="w-1.5 h-8 sm:h-10 rounded-full" [ngStyle]="{ 'background': themeService.primary }"></div>
+
+              <h2 class="text-3xl sm:text-4xl font-black" [ngStyle]="{ 'color': themeService.Textprincipal }">
+                Nouvelle actualité
+              </h2>
+
+            </div>
+
+            <p class="text-sm sm:text-base lg:ml-6" [ngStyle]="{ 'color': themeService.Textsecondaire }">
+              Remplissez les informations ci-dessous
+            </p>
+
+          </div>
+
+          <!-- RIGHT BUTTON -->
+          <div class="flex justify-center sm:justify-end">
+
+            <button (click)="goBack()"
+              class="h-12 px-5 rounded-2xl font-bold transition-all duration-300 hover:scale-105" [ngStyle]="{
+        'background': themeService.Background2,
+        'color': themeService.Textprincipal
+      }">
+              Retour
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ====================================================== -->
+      <!-- FORM -->
+      <!-- ====================================================== -->
+
+      <form class="space-y-6">
+
+        <!-- ====================================================== -->
+        <!-- GRID INPUTS -->
+        <!-- ====================================================== -->
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+
+          <!-- ====================================================== -->
+          <!-- TITRE -->
+          <!-- ====================================================== -->
+
+          <div>
+
+            <label class="block mb-2 ml-2 text-[10px] sm:text-[11px] uppercase font-bold tracking-[3px]"
+              [ngStyle]="{ 'color': themeService.Textsecondaire }">
+              Titre
+            </label>
+
+            <div class="flex items-center w-full
+              h-14 sm:h-16
+              rounded-2xl sm:rounded-3xl
+              px-5 sm:px-6
+              gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
+                'background': themeService.Background1,
+                'border': '2px solid ' + themeService.primary + '30'
+              }">
+
+              <i class="fa-solid fa-heading text-sm sm:text-base" [ngStyle]="{ 'color': themeService.primary }"></i>
+
+              <input type="text" [(ngModel)]="titre" name="titre" placeholder="Titre de l'actualité"
+                class="w-full h-full bg-transparent outline-none text-sm sm:text-[15px]"
+                [ngStyle]="{ 'color': themeService.Textprincipal }" />
+
+            </div>
+
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- CATEGORIE -->
+          <!-- ====================================================== -->
+
+          <div>
+
+            <label class="block mb-2 ml-2 text-[10px] sm:text-[11px] uppercase font-bold tracking-[3px]"
+              [ngStyle]="{ 'color': themeService.Textsecondaire }">
+              Catégorie
+            </label>
+
+            <div class="relative flex items-center w-full
+              h-14 sm:h-16
+              rounded-2xl sm:rounded-3xl
+              px-5 sm:px-6
+              gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
+                'background': themeService.Background1,
+                'border': '2px solid ' + themeService.primary + '30'
+              }">
+
+              <i class="fa-solid fa-tags text-sm sm:text-base" [ngStyle]="{ 'color': themeService.primary }"></i>
+
+              <select [(ngModel)]="categorie" name="categorie"
+                class="w-full bg-transparent outline-none appearance-none cursor-pointer text-sm sm:text-[15px]"
+                [ngStyle]="{ 'color': themeService.Textprincipal }">
+
+                <option value="" disabled selected>
+                  Choisir une catégorie
+                </option>
+
+                <option value="Sport">Sport</option>
+                <option value="Technologie">Technologie</option>
+                <option value="Éducation">Éducation</option>
+                <option value="Santé">Santé</option>
+                <option value="Culture">Culture</option>
+                <option value="Politique">Politique</option>
+                <option value="Économie">Économie</option>
+                <option value="Divertissement">Divertissement</option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- AUTEUR -->
+          <!-- ====================================================== -->
+
+          <div>
+
+            <label class="block mb-2 ml-2 text-[10px] sm:text-[11px] uppercase font-bold tracking-[3px]"
+              [ngStyle]="{ 'color': themeService.Textsecondaire }">
+              Auteur
+            </label>
+
+            <div class="flex items-center w-full
+              h-14 sm:h-16
+              rounded-2xl sm:rounded-3xl
+              px-5 sm:px-6
+              gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
+                'background': themeService.Background1,
+                'border': '2px solid ' + themeService.primary + '30'
+              }">
+
+              <i class="fa-solid fa-user text-sm sm:text-base" [ngStyle]="{ 'color': themeService.primary }"></i>
+
+              <input type="text" [(ngModel)]="auteur" name="auteur" placeholder="Nom de l'auteur"
+                class="w-full h-full bg-transparent outline-none text-sm sm:text-[15px]"
+                [ngStyle]="{ 'color': themeService.Textprincipal }" />
+
+            </div>
+
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- IMAGE -->
+          <!-- ====================================================== -->
+
+          <div>
+
+            <label class="block mb-2 ml-2 text-[10px] sm:text-[11px] uppercase font-bold tracking-[3px]"
+              [ngStyle]="{ 'color': themeService.Textsecondaire }">
+              Image
+            </label>
+
+            <!-- SWITCH -->
+            <div class="flex items-center gap-5 mb-3 ml-2 text-xs sm:text-sm">
+
+              <button type="button" (click)="mode = 'url'" class="font-semibold transition-all duration-300" [ngStyle]="{
+                  'color':
+                    mode === 'url'
+                      ? themeService.primary
+                      : themeService.Textsecondaire
+                }">
+                Lien URL
+              </button>
+
+              <button type="button" (click)="mode = 'file'" class="font-semibold transition-all duration-300" [ngStyle]="{
+                  'color':
+                    mode === 'file'
+                      ? themeService.primary
+                      : themeService.Textsecondaire
+                }">
+                Fichier PC
+              </button>
+
+            </div>
+
+            <!-- URL -->
+            <div *ngIf="mode === 'url'" class="flex items-center w-full
+              h-14 sm:h-16
+              rounded-2xl sm:rounded-3xl
+              px-5 sm:px-6
+              gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
+                'background': themeService.Background1,
+                'border': '2px solid ' + themeService.primary + '30'
+              }">
+
+              <i class="fa-solid fa-link text-sm sm:text-base" [ngStyle]="{ 'color': themeService.primary }"></i>
+
+              <input type="text" [(ngModel)]="imageUrl" name="imageUrl" placeholder="Lien de l'image"
+                class="w-full h-full bg-transparent outline-none text-sm sm:text-[15px]"
+                [ngStyle]="{ 'color': themeService.Textprincipal }" />
+
+            </div>
+
+            <!-- FILE -->
+            <div *ngIf="mode === 'file'" class="flex items-center w-full
+              h-14 sm:h-16
+              rounded-2xl sm:rounded-3xl
+              px-5 sm:px-6
+              gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
+                'background': themeService.Background1,
+                'border': '2px solid ' + themeService.primary + '30'
+              }">
+
+              <i class="fa-solid fa-upload text-sm sm:text-base" [ngStyle]="{ 'color': themeService.primary }"></i>
+
+              <input type="file" accept="image/*" (change)="onFileSelected($event)" class="w-full text-xs sm:text-sm
+                file:mr-4
+                file:px-4
+                file:py-2
+                file:rounded-full
+                file:border-0
+                file:font-semibold" [ngStyle]="{ 'color': themeService.Textprincipal }" />
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- DESCRIPTION FULL WIDTH -->
+        <!-- ====================================================== -->
+
+        <div>
+
+          <label class="block mb-2 ml-2 text-[10px] sm:text-[11px] uppercase font-bold tracking-[3px]"
+            [ngStyle]="{ 'color': themeService.Textsecondaire }">
+            Contenu
+          </label>
+
+          <div class="flex items-start w-full
+            rounded-2xl sm:rounded-3xl
+            px-5 sm:px-6
+            py-4 sm:py-5
+            gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
+              'background': themeService.Background1,
+              'border': '2px solid ' + themeService.primary + '30'
+            }">
+
+            <i class="fa-solid fa-align-left text-sm sm:text-base mt-1"
+              [ngStyle]="{ 'color': themeService.primary }"></i>
+
+            <textarea rows="8" [(ngModel)]="description" name="description" placeholder="Contenu de l'actualité"
+              class="w-full bg-transparent outline-none resize-none text-sm sm:text-[15px]"
+              [ngStyle]="{ 'color': themeService.Textprincipal }"></textarea>
+
+          </div>
+
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- BUTTON -->
+        <!-- ====================================================== -->
+
+        <button type="button" (click)="createActus()" class="relative w-full
+          h-14 sm:h-16
+          rounded-2xl sm:rounded-3xl
+          font-black text-white overflow-hidden group transition-all duration-300
+          hover:scale-[1.01] hover:shadow-2xl" [ngStyle]="{
+            'background': themeService.primary,
+            'box-shadow': '0 12px 35px ' + themeService.primary + '55'
+          }">
+
+          <!-- SHINE -->
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000">
+            </div>
+          </div>
+
+          <span class="relative z-10 flex items-center justify-center gap-3 text-xs sm:text-sm">
+            <i class="fa-solid fa-paper-plane"></i>
+            Publier l'actualité
+          </span>
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- TOAST NOTIFICATION -->
+<!-- ====================================================== -->
+
+<div *ngIf="showNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-[999999] animate-toast">
+
+  <div [ngStyle]="{
+      'background':
+        'linear-gradient(135deg,' +
+        themeService.c18Base +
+        ',' +
+        themeService.c18Base +
+        ')'
+    }"
+    class="relative flex items-center gap-4 px-5 py-3 rounded-2xl text-white shadow-2xl backdrop-blur-xl border border-white/10 min-w-[280px] max-w-[90vw]">
+
+    <!-- ICON -->
+    <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-white/15 flex-shrink-0">
+      <i class="fa-solid fa-circle-check"></i>
+    </div>
+
+    <!-- TEXT -->
+    <div class="flex-1 min-w-0">
+      <p class="font-black text-xs tracking-wide">Notification</p>
+      <p class="text-xs opacity-90 truncate">
+        {{ notificationMessage }}
+      </p>
+    </div>
+
+    <!-- CLOSE -->
+    <button (click)="closeNotification()"
+      class="w-7 h-7 rounded-full hover:bg-white/10 transition-all duration-300 flex items-center justify-center flex-shrink-0">
+      <i class="fa-solid fa-xmark text-xs"></i>
+    </button>
+
+    <!-- SHINE -->
+    <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-shine">
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- STYLES -->
+<!-- ====================================================== -->
+
+<style>
+  /* ====================================================== */
+  /* SCROLLBAR */
+  /* ====================================================== */
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  /* ====================================================== */
+  /* ANIMATIONS */
+  /* ====================================================== */
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in-down {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes shine {
+    100% {
+      transform: translateX(200%);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.7s ease forwards;
+  }
+
+  .animate-fade-in-down {
+    animation: fade-in-down 0.7s ease forwards;
+  }
+
+  .animate-shine {
+    animation: shine 3s linear infinite;
+  }
+
+  /* ====================================================== */
+  /* SELECT CUSTOM */
+  /* ====================================================== */
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23999' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1rem;
+    padding-right: 2rem;
+  }
+
+  /* ====================================================== */
+  /* FILE INPUT */
+  /* ====================================================== */
+
+  input[type="file"]::-webkit-file-upload-button {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: inherit;
+    cursor: pointer;
+  }
+
+  /* ====================================================== */
+  /* MOBILE OPTIMIZATION */
+  /* ====================================================== */
+
+  @media (max-width: 1024px) {
+
+    section {
+      height: auto !important;
+    }
+
+  }
+
+  @media (max-width: 640px) {
+
+    textarea {
+      min-height: 120px;
+    }
+
+  }
+</style>

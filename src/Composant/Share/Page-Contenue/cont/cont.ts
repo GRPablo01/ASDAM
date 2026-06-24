@@ -28,7 +28,7 @@ export class Cont {
       title: 'Matchs',
       icon: 'fa-solid fa-futbol',
       image: '/assets/ImageMatch.png',
-      link: '/match'
+      link: '/match2'
     },
     {
       title: 'Actualités',

@@ -46,7 +46,7 @@ export class Plannig2 implements OnInit {
     this.loading = true;
 
     forkJoin({
-      matchs: this.matchService.getMatchs(),
+      matchs: this.matchService.getMatches(),
       events: this.eventService.getEvents(),
       equipes: this.equipeService.getTeams()
     }).subscribe({

@@ -10,6 +10,13 @@ import { Contenue } from '../Page/Public/contenue/contenue';
 import { Evenement } from '../Page/Public/evenement/evenement';
 import { SupriperEvent } from '../Page/Public/supriper-event/supriper-event';
 import { ModifierEvent } from '../Page/Public/modifier-event/modifier-event';
+import { Match2 } from '../Page/Public/match2/match2';
+import { ModifierMatch } from '../Page/Public/modifier-match/modifier-match';
+import { SuprimerMatch } from '../Page/Public/suprimer-match/suprimer-match';
+import { DashBoard } from '../Page/Public/dash-board/dash-board';
+import { CreationActus } from '../Page/Public/creation-actus/creation-actus';
+import { CreationEvent } from '../Page/Public/creation-event/creation-event';
+
 
 
 
@@ -27,5 +34,10 @@ export const routes: Routes = [
     { path: 'event', component: Evenement },
     { path: 'delete-event/:id', component: SupriperEvent },
     { path: 'modify-event/:id', component: ModifierEvent },
-
+    { path: 'match2', component: Match2 },
+    { path: 'delete-match/:id', component: SuprimerMatch },
+    { path: 'modify-match/:id', component: ModifierMatch },
+    { path: 'dashboard', component: DashBoard },
+    { path: 'createactus', component: CreationActus },
+    { path: 'createevent', component: CreationEvent },
 ];

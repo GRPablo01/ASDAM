@@ -1,0 +1,329 @@
+<!-- ====================================================== -->
+<!-- HEADER -->
+<!-- ====================================================== -->
+
+<app-icon></app-icon>
+
+<section class="w-full space-y-8 px-6 py-8 hidden lg:block">
+
+  <div class="relative w-full overflow-hidden rounded-[32px] border px-8 py-8 backdrop-blur-2xl shadow-2xl"
+    [ngStyle]="{
+      'background': themeService.c5Base + '15',
+      'border': '1px solid ' + themeService.c2Base + '25',
+      'box-shadow': '0 24px 80px ' + themeService.c16Dark + '18'
+    }">
+
+    <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+
+      <div class="flex items-center gap-5">
+
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center shadow-xl"
+          [ngStyle]="{ 'background': themeService.primary }">
+
+          <i class="fa-solid fa-futbol text-2xl text-white"></i>
+
+        </div>
+
+        <div>
+
+          <h1 class="text-3xl md:text-4xl font-black"
+            [ngStyle]="{ 'color': themeService.Textprincipal }">
+            Gestion des matchs
+          </h1>
+
+          <p class="text-sm md:text-base mt-1"
+            [ngStyle]="{ 'color': themeService.Textsecondaire }">
+            Tous les matchs disponibles en direct
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- LOADING -->
+  <div *ngIf="loading"
+    class="w-full flex flex-col items-center justify-center py-28 text-center rounded-[32px]"
+    [ngStyle]="{
+      'background': themeService.c5Base + '10',
+      'border': '1px solid ' + themeService.c2Base + '20'
+    }">
+
+    <div class="w-24 h-24 rounded-full border-4 animate-spin mb-6"
+      [ngStyle]="{
+        'border-color': themeService.primary + '20',
+        'border-top-color': themeService.primary
+      }"></div>
+
+    <h2 class="text-2xl font-black"
+      [ngStyle]="{ 'color': themeService.Textprincipal }">
+      Chargement...
+    </h2>
+
+  </div>
+
+  <!-- ERROR -->
+  <div *ngIf="errorMessage"
+    class="w-full rounded-[28px] p-8 text-center"
+    [ngStyle]="{
+      'background': themeService.primary + '10',
+      'border': '1px solid ' + themeService.primary + '30'
+    }">
+
+    <i class="fa-solid fa-circle-exclamation text-4xl mb-4"
+      [ngStyle]="{ 'color': themeService.primary }"></i>
+
+    <h2 class="text-2xl font-black"
+      [ngStyle]="{ 'color': themeService.Textprincipal }">
+      Une erreur est survenue
+    </h2>
+
+    <p class="mt-2"
+      [ngStyle]="{ 'color': themeService.Textsecondaire }">
+      {{ errorMessage }}
+    </p>
+
+  </div>
+
+  <!-- GRID MATCHS -->
+  <div *ngIf="!loading && matchs.length > 0"
+    class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+
+    <div *ngFor="let match of matchs"
+      class="group relative overflow-hidden rounded-[28px] min-h-[560px] flex flex-col transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02]"
+      [ngStyle]="{
+        'border': '1px solid ' + themeService.c2Base + '20',
+        'box-shadow': '0 20px 50px ' + themeService.primary + '15'
+      }">
+
+      <!-- BACKGROUND -->
+      <div class="absolute inset-0 z-0">
+        <img
+          [src]="match.logoDom || 'https://images.unsplash.com/photo-1521412644187-c49fa049e84d?q=80&w=1400&auto=format&fit=crop'"
+          class="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" />
+      </div>
+
+      <!-- OVERLAY -->
+      <div class="absolute inset-0 z-[1]"
+        [ngStyle]="{
+          'background': themeService.c16Dark + 'aa',
+          'backdrop-filter': 'blur(8px)'
+        }"></div>
+
+      <!-- CONTENT -->
+      <div class="relative z-[2] flex flex-col flex-1 p-6 text-white">
+
+        <div class="text-xs uppercase tracking-wider opacity-80 mb-2">
+          {{ match.competition || 'Match' }}
+        </div>
+
+        <h2 class="text-xl font-black">
+          {{ match.equipeDomicile }} vs {{ match.equipeExterieur }}
+        </h2>
+
+        <div class="mt-4 text-3xl font-black">
+          {{ match.scoreDomicile ?? 0 }} - {{ match.scoreExterieur ?? 0 }}
+        </div>
+
+        <div class="mt-6 grid grid-cols-2 gap-3 text-sm">
+
+          <div class="px-4 py-3 rounded-2xl"
+            [ngStyle]="{
+              'background': themeService.primary + '25',
+              'border': '1px solid ' + themeService.primary + '40'
+            }">
+
+            <i class="fa-solid fa-calendar mr-2"></i>
+            {{ match.dateMatch | date:'dd/MM/yyyy' }}
+
+          </div>
+
+          <div class="px-4 py-3 rounded-2xl"
+            [ngStyle]="{
+              'background': themeService.secondary + '25',
+              'border': '1px solid ' + themeService.secondary + '40'
+            }">
+
+            <i class="fa-solid fa-clock mr-2"></i>
+            {{ match.heureMatch }}
+
+          </div>
+
+          <div class="px-4 py-3 rounded-2xl col-span-2"
+            [ngStyle]="{
+              'background': themeService.c7Base + '25',
+              'border': '1px solid ' + themeService.c7Base + '40'
+            }">
+
+            <i class="fa-solid fa-location-dot mr-2"></i>
+            {{ match.stade }}
+
+          </div>
+
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- ACTIONS -->
+        <!-- ====================================================== -->
+        <div class="mt-auto pt-6 flex gap-4">
+
+          <!-- MODIFIER -->
+          <button
+            class="flex-1 h-14 rounded-2xl font-black text-sm transition-all duration-300 hover:scale-[1.02] active:scale-95"
+            [ngStyle]="{
+              'background': themeService.c8Base + '25',
+              'color': '#fff',
+              'border': '2px solid ' + themeService.c8Dark + '50',
+              'backdrop-filter': 'blur(8px)'
+            }"
+            (click)="modifierMatch(match)">
+
+            <span class="flex items-center justify-center gap-3">
+              <i class="fa-solid fa-pen"></i>
+              <span>Modifier</span>
+            </span>
+
+          </button>
+
+          <!-- SUPPRIMER -->
+          <button
+            class="flex-1 h-14 rounded-2xl font-black text-sm transition-all duration-300 hover:scale-[1.02] active:scale-95"
+            [ngStyle]="{
+              'background': themeService.primary + '30',
+              'color': '#fff',
+              'border': '2px solid ' + themeService.primary + '50',
+              'backdrop-filter': 'blur(8px)'
+            }"
+            (click)="supprimerMatch(match)">
+
+            <span class="flex items-center justify-center gap-3">
+              <i class="fa-solid fa-trash"></i>
+              <span>Supprimer</span>
+            </span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- EMPTY -->
+  <div *ngIf="!loading && matchs.length === 0"
+    class="w-full flex flex-col items-center justify-center py-28 text-center">
+
+    <h2 class="text-2xl font-black"
+      [ngStyle]="{ 'color': themeService.Textprincipal }">
+      Aucun match
+    </h2>
+
+    <p class="mt-2"
+      [ngStyle]="{ 'color': themeService.Textsecondaire }">
+      Aucun match disponible pour le moment
+    </p>
+
+  </div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- MOBILE -->
+<!-- ====================================================== -->
+
+<section class="w-full space-y-6 px-4 py-5 block lg:hidden">
+
+  <div class="relative w-full overflow-hidden rounded-[28px] border px-5 py-6 backdrop-blur-2xl shadow-2xl"
+    [ngStyle]="{
+      'background': themeService.c5Base + '15',
+      'border': '1px solid ' + themeService.c2Base + '25'
+    }">
+
+    <div class="flex items-center gap-4">
+
+      <div class="w-14 h-14 rounded-2xl flex items-center justify-center"
+        [ngStyle]="{ 'background': themeService.primary }">
+
+        <i class="fa-solid fa-futbol text-white"></i>
+
+      </div>
+
+      <div>
+
+        <h1 class="text-2xl font-black"
+          [ngStyle]="{ 'color': themeService.Textprincipal }">
+          Matchs
+        </h1>
+
+        <p class="text-sm"
+          [ngStyle]="{ 'color': themeService.Textsecondaire }">
+          Tous les matchs
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- GRID MOBILE -->
+  <div *ngIf="!loading && matchs.length > 0"
+    class="grid grid-cols-1 gap-5">
+
+    <div *ngFor="let match of matchs"
+      class="rounded-[24px] overflow-hidden relative p-5 border backdrop-blur-xl"
+      [ngStyle]="{
+        'border': '1px solid ' + themeService.c2Base + '20',
+        'background': themeService.c16Dark + 'cc'
+      }">
+
+      <h2 class="text-lg font-black text-white">
+        {{ match.equipeDomicile }} vs {{ match.equipeExterieur }}
+      </h2>
+
+      <p class="text-sm text-white/70 mt-2">
+        {{ match.stade }}
+      </p>
+
+      <div class="mt-4 flex justify-between text-white text-sm">
+        <span>{{ match.dateMatch | date:'dd/MM' }}</span>
+        <span>{{ match.heureMatch }}</span>
+      </div>
+
+      <!-- ACTIONS MOBILE -->
+      <div class="mt-5 flex gap-3">
+
+        <button
+          class="flex-1 py-3 rounded-xl text-sm font-bold"
+          [ngStyle]="{
+            'background': themeService.c8Base + '25',
+            'border': '1px solid ' + themeService.c8Dark + '50',
+            'color': '#fff'
+          }"
+          (click)="modifierMatch(match)">
+          <i class="fa-solid fa-pen mr-2"></i> Modifier
+        </button>
+
+        <button
+          class="flex-1 py-3 rounded-xl text-sm font-bold"
+          [ngStyle]="{
+            'background': themeService.primary + '30',
+            'border': '1px solid ' + themeService.primary + '50',
+            'color': '#fff'
+          }"
+          (click)="supprimerMatch(match)">
+          <i class="fa-solid fa-trash mr-2"></i> Supprimer
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

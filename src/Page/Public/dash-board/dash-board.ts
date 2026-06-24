@@ -12,11 +12,15 @@ import { ProchainMatch } from '../../../Composant/Share/Page-Accueil/prochain-ma
 import { Fonctionalite } from "../../../Composant/Share/Page-Accueil/fonctionalite/fonctionalite";
 import { Plannig2 } from "../../../Composant/Share/Page-Accueil/plannig2/plannig2";
 import { Footer } from "../../../Composant/Public/footer/footer";
+import { Dash } from '../../../Composant/Share/Page-DashBoard/dash/dash';
+
+
+
 
 
 
 @Component({
-  selector: 'app-accueil',
+  selector: 'app-dash-board',
   standalone: true,
   imports: [
     CommonModule,
@@ -24,17 +28,13 @@ import { Footer } from "../../../Composant/Public/footer/footer";
     Header,
     FormsModule,
     Mobile,
-    Cookie,
-    Welcome,
-    ProchainMatch,
-    Fonctionalite,
-    Plannig2,
-    Footer
+    Footer,
+    Dash
 ],
-  templateUrl: './accueil.html',
-  styleUrls: ['./accueil.css'],
+  templateUrl: './dash-board.html',
+  styleUrls: ['./dash-board.css'],
 })
-export class Accueil implements OnInit {
+export class DashBoard implements OnInit {
 
   isLoaded: boolean = false;
   isLoggedIn: boolean = false;
@@ -46,7 +46,7 @@ export class Accueil implements OnInit {
 
   ngOnInit(): void {
     // 🧠 Titre de la page
-    this.titleService.setTitle('ASDAM | Accueil');
+    this.titleService.setTitle('ASDAM | DashBoard');
 
     // 👤 Vérification de la connexion utilisateur
     const utilisateurString = localStorage.getItem('utilisateur');
