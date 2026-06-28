@@ -1,11 +1,13 @@
 /* =========================================================
-   ADD CONVO COMPONENT - FINAL REFACTORED VERSION
-========================================================= */
+   ADD CONVO COMPONENT - FINAL VERSION
+   ========================================================= */
 
 import {
   Component,
   OnInit,
-  HostListener
+  HostListener,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -27,16 +29,14 @@ import {
 } from '../../../../../Backend/Services/convocation.service';
 
 import { ThemeService } from '../../../../../Backend/Services/theme.service';
-
 import { AuthService } from '../../../../../Backend/Services/auth.service';
 
-import { JoueurService, Joueur } from '../../../../../Backend/Services/joueur.service';
+import {
+  JoueurService,
+  Joueur
+} from '../../../../../Backend/Services/joueur.service';
 
 import { Icon } from '../../icon/icon';
-
-/* =========================================================
-   INTERFACES
-========================================================= */
 
 interface Formation {
   id: string;
@@ -49,49 +49,32 @@ interface Formation {
 }
 
 interface StoredUser {
-  id?: string;
   role: string;
   equipe: string;
   theme?: 'clair' | 'sombre';
   [key: string]: any;
 }
 
-/* =========================================================
-   COMPONENT
-========================================================= */
-
 @Component({
   selector: 'app-add-convo',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    Icon
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, Icon],
   templateUrl: './add-convo.html',
-  styleUrls: ['./add-convo.css']
+  styleUrls: ['./add-convo.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddConvo implements OnInit {
 
-  /* =========================================================
-     DATA
-  ========================================================= */
-
   convocations: Convocation[] = [];
 
-  joueursEquipe: Joueur[] = [];      // équipe coach
-  autresJoueurs: Joueur[] = [];      // autres équipes
-  allJoueurs: Joueur[] = [];         // global cache
+  joueursEquipe: Joueur[] = [];
+  autresJoueurs: Joueur[] = [];
+  allJoueurs: Joueur[] = [];
 
   joueursSelectionnes: Joueur[] = [];
 
-  openOtherTeams: boolean = false;
+  openOtherTeams = false;
   showFieldCompo = false;
-
-  get selectedJoueurs(): Joueur[] {
-    return this.joueursSelectionnes;
-  }
 
   convocationForm!: FormGroup;
 
@@ -102,46 +85,48 @@ export class AddConvo implements OnInit {
   step = 1;
 
   searchTerm = '';
+  searchOtherTeams = '';
 
   role = '';
   equipeUser = '';
-
-  message: string | null = null;
 
   theme: 'clair' | 'sombre' = 'sombre';
 
   isLoggedIn = false;
   isMobile = false;
 
-  /* =========================================================
-     TOAST
-  ========================================================= */
-
-  showNotification = false;
-  notificationMessage = '';
-  notificationType: 'success' | 'error' | 'info' = 'info';
-
-  /* =========================================================
-     FORMATION
-  ========================================================= */
-
   selectedFormation = '4-4-2';
 
-  availableFormations: Formation[] = [
-    { id: '4-4-2', name: 'Classique', structure: '4-4-2', defense: 4, midfield: 4, attack: 2, description: 'Équilibre parfait' },
-    { id: '4-3-3', name: 'Offensif', structure: '4-3-3', defense: 4, midfield: 3, attack: 3, description: 'Pressing offensif' },
-    { id: '4-5-1', name: 'Défensif', structure: '4-5-1', defense: 4, midfield: 5, attack: 1, description: 'Bloc solide' },
-    { id: '3-5-2', name: 'Polyvalent', structure: '3-5-2', defense: 3, midfield: 5, attack: 2, description: 'Flexible' },
-    { id: '5-3-2', name: 'Ultra défensif', structure: '5-3-2', defense: 5, midfield: 3, attack: 2, description: 'Mur défensif' },
-    { id: '3-4-3', name: 'Tout attaque', structure: '3-4-3', defense: 3, midfield: 4, attack: 3, description: 'Offensif' },
-    { id: '4-2-3-1', name: 'Moderne', structure: '4-2-3-1', defense: 4, midfield: 5, attack: 1, description: 'Double pivot' }
-  ];
-
-  private logUrl = 'http://localhost:3000/api/logs';
+  animateStep = false;
+  showSuccessToast = false;
+  toastMessage = '';
 
   /* =========================================================
-     CONSTRUCTOR
-  ========================================================= */
+     JOUEURS DÉJÀ CONVOQUÉS
+     ========================================================= */
+
+  private convokedPlayers = new Set<string>();
+
+  availableFormations: Formation[] = [
+    {
+      id: '4-4-2',
+      name: 'Classique',
+      structure: '4-4-2',
+      defense: 4,
+      midfield: 4,
+      attack: 2,
+      description: 'Equilibre parfait'
+    },
+    {
+      id: '4-3-3',
+      name: 'Offensif',
+      structure: '4-3-3',
+      defense: 4,
+      midfield: 3,
+      attack: 3,
+      description: 'Pressing offensif'
+    }
+  ];
 
   constructor(
     private convocationService: ConvocationService,
@@ -150,24 +135,250 @@ export class AddConvo implements OnInit {
     public themeService: ThemeService,
     private http: HttpClient,
     private router: Router,
-    private joueurService: JoueurService
+    private joueurService: JoueurService,
+    private cdr: ChangeDetectorRef
   ) {}
-
-  /* =========================================================
-     INIT
-  ========================================================= */
 
   ngOnInit(): void {
     this.checkResponsive();
     this.loadUserFromStorage();
     this.initializeForm();
-    this.loadConvocations();
-    this.loadAllJoueurs();
+
+    this.loading = true;
+    this.loadingPlayers = true;
+
+    this.loadAllData();
   }
 
   /* =========================================================
-     RESPONSIVE
-  ========================================================= */
+     LOAD DATA
+     ========================================================= */
+
+  private loadAllData(): void {
+
+    this.joueurService.getAllJoueurs().subscribe({
+
+      next: (joueurs) => {
+
+        this.convocationService.getConvocations().subscribe({
+
+          next: (convocs) => {
+
+            console.log('CONVOCATIONS :', convocs);
+
+            this.handleJoueurs(joueurs || []);
+            this.handleConvocations(convocs || []);
+
+            this.loading = false;
+            this.loadingPlayers = false;
+
+            this.cdr.markForCheck();
+          },
+
+          error: (err) => {
+
+            console.error(err);
+
+            this.handleJoueurs(joueurs || []);
+
+            this.loading = false;
+            this.loadingPlayers = false;
+
+            this.cdr.markForCheck();
+          }
+
+        });
+
+      },
+
+      error: (err) => {
+
+        console.error(err);
+
+        this.loadingPlayers = false;
+
+        this.cdr.markForCheck();
+      }
+
+    });
+
+  }
+
+  /* =========================================================
+     HANDLE JOUEURS
+     ========================================================= */
+
+  private handleJoueurs(joueurs: Joueur[]): void {
+
+    this.allJoueurs = joueurs.map(j => ({
+      ...j,
+      selected: false
+    }));
+
+    this.joueursEquipe = this.allJoueurs.filter(
+      j => this.normalizeEquipe(j.equipe) === this.normalizeEquipe(this.equipeUser)
+    );
+
+    this.autresJoueurs = this.allJoueurs.filter(
+      j => this.normalizeEquipe(j.equipe) !== this.normalizeEquipe(this.equipeUser)
+    );
+
+  }
+
+  /* =========================================================
+     HANDLE CONVOCATIONS
+     ========================================================= */
+
+  private handleConvocations(data: any[]): void {
+
+    this.convocations = data;
+
+    this.convokedPlayers.clear();
+
+    data.forEach(convocation => {
+
+      (convocation.joueurs || []).forEach((joueur: any) => {
+
+        const fullname =
+          `${joueur.prenom || ''} ${joueur.nom || ''}`
+            .trim()
+            .toLowerCase();
+
+        if (fullname) {
+          this.convokedPlayers.add(fullname);
+        }
+
+      });
+
+    });
+
+    console.log('JOUEURS BLOQUÉS :');
+    console.log(this.convokedPlayers);
+
+  }
+
+  /* =========================================================
+     CHECK JOUEUR
+     ========================================================= */
+
+  isAlreadyConvoked(joueur: Joueur): boolean {
+
+    const fullname =
+      `${joueur.prenom || ''} ${joueur.nom || ''}`
+        .trim()
+        .toLowerCase();
+
+    return this.convokedPlayers.has(fullname);
+
+  }
+
+  /* =========================================================
+     SELECTION
+     ========================================================= */
+
+  toggleJoueur(j: Joueur): void {
+
+    if (this.isAlreadyConvoked(j)) {
+      return;
+    }
+
+    const index = this.joueursSelectionnes.findIndex(
+      x =>
+        x.prenom === j.prenom &&
+        x.nom === j.nom
+    );
+
+    if (index >= 0) {
+
+      this.joueursSelectionnes.splice(index, 1);
+
+      j.selected = false;
+
+      this.showToast(`${j.prenom} ${j.nom} retiré`);
+
+    } else {
+
+      this.joueursSelectionnes.push(j);
+
+      j.selected = true;
+
+      this.showToast(`${j.prenom} ${j.nom} ajouté`);
+
+    }
+
+    this.updateFormJoueur();
+
+    this.cdr.markForCheck();
+
+  }
+
+  retirerJoueur(j: Joueur): void {
+
+    j.selected = false;
+
+    this.joueursSelectionnes =
+      this.joueursSelectionnes.filter(
+        x =>
+          !(x.prenom === j.prenom && x.nom === j.nom)
+      );
+
+    this.updateFormJoueur();
+
+    this.cdr.markForCheck();
+  }
+
+  updateFormJoueur(): void {
+
+    const value = this.joueursSelectionnes
+      .map(j => `${j.prenom} ${j.nom}`)
+      .join(', ');
+
+    this.convocationForm.patchValue({
+      joueur: value
+    });
+
+  }
+
+  initializeForm(): void {
+
+    this.convocationForm = this.fb.group({
+      match: ['', Validators.required],
+      equipe: [this.equipeUser, Validators.required],
+      lieu: ['', Validators.required],
+      dateMatch: ['', Validators.required],
+      statut: ['Convoque', Validators.required],
+      joueur: ['', Validators.required]
+    });
+
+  }
+
+  normalizeEquipe(value: string | undefined): string {
+    return (value || '').trim().toLowerCase();
+  }
+
+  loadUserFromStorage(): void {
+
+    const userString = localStorage.getItem('utilisateur');
+
+    if (!userString) {
+
+      const user = this.authService.getUser();
+
+      this.role = user?.role || '';
+      this.equipeUser = user?.equipe || '';
+
+      return;
+    }
+
+    const user: StoredUser = JSON.parse(userString);
+
+    this.role = user.role;
+    this.equipeUser = user.equipe;
+
+    this.theme = user.theme || 'sombre';
+
+    this.isLoggedIn = true;
+  }
 
   @HostListener('window:resize')
   onResize(): void {
@@ -178,288 +389,163 @@ export class AddConvo implements OnInit {
     this.isMobile = window.innerWidth <= 970;
   }
 
-  /* =========================================================
-     FORM
-  ========================================================= */
+  nextStep(): void {
 
-  initializeForm(): void {
-    this.convocationForm = this.fb.group({
-      match: ['', Validators.required],
-      equipe: [this.equipeUser, Validators.required],
-      lieu: ['', Validators.required],
-      dateMatch: ['', Validators.required],
-      statut: ['Convoqué', Validators.required],
-      joueur: ['', Validators.required]
-    });
-  }
+    if (
+      this.step === 1 &&
+      this.convocationForm.get('match')?.valid &&
+      this.convocationForm.get('lieu')?.valid &&
+      this.convocationForm.get('dateMatch')?.valid
+    ) {
 
-  /* =========================================================
-     USER
-  ========================================================= */
+      this.step = 2;
 
-  loadUserFromStorage(): void {
+    } else if (
+      this.step === 2 &&
+      this.joueursSelectionnes.length > 0
+    ) {
 
-    const userString = localStorage.getItem('utilisateur');
+      this.step = 3;
 
-    if (!userString) {
-      const user = this.authService.getUser();
-      this.role = user?.role || '';
-      this.equipeUser = user?.equipe || '';
-      return;
     }
 
-    const user: StoredUser = JSON.parse(userString);
-
-    this.role = user.role;
-    this.equipeUser = user.equipe;
-    this.theme = user.theme || 'sombre';
-    this.isLoggedIn = true;
   }
 
-  /* =========================================================
-     LOAD ALL PLAYERS (IMPORTANT FIX)
-  ========================================================= */
-
-  loadAllJoueurs(): void {
-
-    this.loadingPlayers = true;
-
-    this.joueurService.getAllJoueurs().subscribe({
-      next: (joueurs) => {
-
-        this.allJoueurs = joueurs.map(j => ({
-          ...j,
-          selected: false
-        }));
-
-        this.joueursEquipe = this.allJoueurs.filter(
-          j => j.equipe === this.equipeUser
-        );
-
-        this.autresJoueurs = this.allJoueurs.filter(
-          j => j.equipe !== this.equipeUser
-        );
-
-        this.loadingPlayers = false;
-      },
-      error: () => {
-        this.loadingPlayers = false;
-      }
-    });
+  prevStep(): void {
+    this.step = Math.max(1, this.step - 1);
   }
 
-  /* =========================================================
-     PLAYERS SELECTION
-  ========================================================= */
-
-  toggleJoueur(j: Joueur): void {
-
-    j.selected = !j.selected;
-
-    const id = j.key || (j as any)._id;
-
-    if (j.selected) {
-      if (!this.joueursSelectionnes.find(x => (x.key || (x as any)._id) === id)) {
-        this.joueursSelectionnes.push(j);
-      }
-    } else {
-      this.joueursSelectionnes =
-        this.joueursSelectionnes.filter(x => (x.key || (x as any)._id) !== id);
-    }
-
-    this.updateFormJoueur();
+  goToStep(step: number): void {
+    this.step = step;
   }
-
-  retirerJoueur(j: Joueur): void {
-    j.selected = false;
-
-    const id = j.key || (j as any)._id;
-
-    this.joueursSelectionnes =
-      this.joueursSelectionnes.filter(x => (x.key || (x as any)._id) !== id);
-
-    this.updateFormJoueur();
-  }
-
-  updateFormJoueur(): void {
-    const value = this.joueursSelectionnes
-      .map(j => `${j.prenom} ${j.nom}`)
-      .join(', ');
-
-    this.convocationForm.patchValue({ joueur: value });
-  }
-
-  /* =========================================================
-     FILTER
-  ========================================================= */
-
-  get filteredJoueurs(): Joueur[] {
-
-    if (!this.searchTerm?.trim()) {
-      return this.joueursEquipe;
-    }
-
-    const term = this.searchTerm.toLowerCase();
-
-    return this.joueursEquipe.filter(j =>
-      j.nom?.toLowerCase().includes(term) ||
-      j.prenom?.toLowerCase().includes(term)
-    );
-  }
-
-  /* =========================================================
-     FORMATION
-  ========================================================= */
-
-  onFormationChange(id: string): void {
-    this.selectedFormation = id;
-  }
-
-  get currentFormation(): Formation {
-    return this.availableFormations.find(f => f.id === this.selectedFormation)
-      || this.availableFormations[0];
-  }
-
-  /* =========================================================
-     CREATE CONVOCATION
-  ========================================================= */
 
   ajouterConvocation(): void {
 
-    if (this.convocationForm.invalid || this.joueursSelectionnes.length === 0) {
+    if (
+      this.convocationForm.invalid ||
+      !this.joueursSelectionnes.length
+    ) {
       return;
     }
 
     this.creatingConvocation = true;
 
-    const joueursNoms = this.joueursSelectionnes.map(j => `${j.prenom} ${j.nom}`);
-
-    const data = {
-      ...this.convocationForm.value,
-      joueurs: joueursNoms,
-      joueursDetails: this.joueursSelectionnes,
-      formation: this.selectedFormation
+    const data: Convocation = {
+      key: crypto.randomUUID(),
+      joueurs: this.joueursSelectionnes.map(j => ({
+        key: j.key,
+        prenom: j.prenom,
+        nom: j.nom,
+        email: j.email || '',
+        present: 'non_repondu'
+      })),
+      equipe: this.convocationForm.value.equipe,
+      match: this.convocationForm.value.match,
+      dateMatch: this.convocationForm.value.dateMatch,
+      lieu: this.convocationForm.value.lieu,
+      statut: this.convocationForm.value.statut,
+      expanded: false,
+      isRead: false
     };
 
     this.convocationService.createConvocation(data).subscribe({
+
       next: () => {
+
         this.creatingConvocation = false;
+
+        this.showToast('Convocation envoyée avec succès !');
+
         this.resetForm();
-        this.loadConvocations();
+
+        this.loadAllData();
       },
-      error: () => {
+
+      error: (err) => {
+
+        console.error(err);
+
         this.creatingConvocation = false;
+
+        this.cdr.markForCheck();
       }
+
     });
+
   }
-
-  /* =========================================================
-     LOAD CONVOCATIONS
-  ========================================================= */
-
-  loadConvocations(): void {
-    this.loading = true;
-
-    this.convocationService.getConvocations().subscribe({
-      next: (data) => {
-        this.convocations = data;
-        this.loading = false;
-      },
-      error: () => this.loading = false
-    });
-  }
-
-  /* =========================================================
-     RESET
-  ========================================================= */
 
   resetForm(): void {
 
     this.convocationForm.reset({
-      statut: 'Convoqué',
+      statut: 'Convoque',
       equipe: this.equipeUser
     });
 
     this.joueursSelectionnes = [];
-    this.joueursEquipe.forEach(j => j.selected = false);
 
-    this.selectedFormation = '4-4-2';
+    this.joueursEquipe.forEach(j => j.selected = false);
+    this.autresJoueurs.forEach(j => j.selected = false);
+
     this.step = 1;
+
+    this.searchTerm = '';
+    this.searchOtherTeams = '';
   }
 
-  /* =========================================================
-     NAV
-  ========================================================= */
+  showToast(message: string): void {
+
+    this.toastMessage = message;
+
+    this.showSuccessToast = true;
+
+    this.cdr.markForCheck();
+
+    setTimeout(() => {
+
+      this.showSuccessToast = false;
+
+      this.cdr.markForCheck();
+
+    }, 2000);
+
+  }
+
+  get filteredJoueurs(): Joueur[] {
+
+    const list = this.joueursEquipe || [];
+
+    if (!this.searchTerm.trim()) {
+      return list;
+    }
+
+    const t = this.searchTerm.toLowerCase();
+
+    return list.filter(j =>
+      j.nom?.toLowerCase().includes(t) ||
+      j.prenom?.toLowerCase().includes(t)
+    );
+
+  }
+
+  get filtrerAutresJoueurs(): Joueur[] {
+
+    const list = this.autresJoueurs || [];
+
+    if (!this.searchOtherTeams?.trim()) {
+      return list;
+    }
+
+    const t = this.searchOtherTeams.toLowerCase();
+
+    return list.filter(j =>
+      j.nom?.toLowerCase().includes(t) ||
+      j.prenom?.toLowerCase().includes(t)
+    );
+
+  }
 
   goBack(): void {
     this.router.navigate(['/dashboard']);
   }
 
-  /* =========================================================
-     FIELD COMPO
-  ========================================================= */
-
-  openFieldCompo(): void {
-    this.showFieldCompo = true;
-  }
-
-  closeFieldCompo(): void {
-    this.showFieldCompo = false;
-  }
-
-  validateFieldCompo(): void {
-    this.showFieldCompo = false;
-  }
-
-  /* =========================================================
-     STYLE
-  ========================================================= */
-
-  inputStyle() {
-    return {
-      background: this.themeService.Background2 + '15',
-      borderColor: this.themeService.Background2 + '30',
-      color: this.themeService.Textprincipal
-    };
-  }
-
-  filtrerAutresJoueurs(): any[] {
-    console.log('👤 Équipe coach connecté :', this.equipeUser);
-    console.log('📋 Tous les joueurs avant filtre :', this.autresJoueurs);
-  
-    if (!this.equipeUser) {
-      console.log('⚠️ Aucune équipe coach -> retour liste complète');
-      return this.autresJoueurs;
-    }
-  
-    const equipesAutorisees = this.equipesAutorisees[this.equipeUser];
-  
-    console.log('🎯 Équipes autorisées pour ce coach :', equipesAutorisees);
-  
-    if (!equipesAutorisees) {
-      console.log('⚠️ Aucune règle trouvée -> retour liste complète');
-      return this.autresJoueurs;
-    }
-  
-    const resultat = this.autresJoueurs.filter(joueur => {
-      const match = joueur.equipe && equipesAutorisees.includes(joueur.equipe);
-  
-      console.log(
-        `🔎 Joueur: ${joueur.prenom} ${joueur.nom} | équipe: ${joueur.equipe} | autorisé: ${match}`
-      );
-  
-      return match;
-    });
-  
-    console.log('✅ Résultat final filtré :', resultat);
-  
-    return resultat;
-  }
-
-  equipesAutorisees: Record<string, string[]> = {
-    'U23': ['Senior A', 'Senior B', 'Senior  D'],
-    'Senior A': ['U23', 'Senior  B', 'Senior  D'],
-    'Senior B': ['U23', 'Senior  A', 'Senior  D'],
-    'Senior D': ['U23', 'Senior  A', 'Senior  B']
-  };
 }

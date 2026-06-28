@@ -7,7 +7,8 @@ import { Observable, map } from 'rxjs';
 ========================================================= */
 
 export interface Joueur {
-  key: string;
+  _id:string;
+  key:string;
   nom: string;
   prenom: string;
   email?: string;
@@ -16,6 +17,7 @@ export interface Joueur {
   equipe?: string;
   role?: string;
   selected?: boolean;
+  present: 'oui' | 'non' | 'non_repondu';
 }
 
 /* =========================================================
@@ -27,6 +29,7 @@ export interface Joueur {
 })
 export class JoueurService {
 
+  
   private apiUrl = 'http://localhost:3000/api/users';
 
   constructor(private http: HttpClient) {}
@@ -46,7 +49,8 @@ export class JoueurService {
   private normalizeUser(user: any): Joueur {
 
     return {
-      key: user._id || user.id,
+      _id: user.id || user.id,
+      key:user.key || user.key,
       nom: user.nom || '',
       prenom: user.prenom || '',
       email: user.email,
@@ -54,6 +58,7 @@ export class JoueurService {
       numero: user.numero,
       equipe: user.equipe,
       role: user.role || 'Joueur',
+      present: user.present,
       selected: false
     };
   }

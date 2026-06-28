@@ -42,4 +42,5 @@ export const routes: Routes = [
     { path: 'createactus', component: CreationActus },
     { path: 'createevent', component: CreationEvent },
     { path: 'createconvocation', component: CreationConvoque },
+    { path: 'creatematch', component: CreationActus },
 ];

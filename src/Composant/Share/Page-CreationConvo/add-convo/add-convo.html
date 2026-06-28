@@ -1,53 +1,83 @@
 <!-- ====================================================== -->
-<!-- PAGE CREATE CONVOCATION - NEW PREMIUM UI -->
+<!-- PAGE CREATE CONVOCATION - REFACTORED UI/UX -->
 <!-- ====================================================== -->
 
 <app-icon></app-icon>
+
+<!-- TOAST NOTIFICATION -->
+<div class="fixed top-6 right-6 z-[100] transition-all duration-500 transform"
+  [class.translate-x-0]="showSuccessToast" [class.translate-x-[120%]]="!showSuccessToast"
+  [class.opacity-100]="showSuccessToast" [class.opacity-0]="!showSuccessToast">
+
+  <div class="flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl backdrop-blur-xl border"
+    [style.background]="themeService.Background1" [style.borderColor]="themeService.primary + '30'">
+
+    <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+      [style.background]="themeService.primary + '20'">
+
+      <i class="fa-solid fa-check" [style.color]="themeService.primary"></i>
+
+    </div>
+
+    <p class="font-bold text-sm" [style.color]="themeService.Textprincipal">
+      {{ toastMessage }}
+    </p>
+
+  </div>
+
+</div>
 
 <section class="relative h-auto overflow-hidden flex flex-col xl:flex-row"
   [style.background]="themeService.Backgroundprincipal">
 
   <!-- ====================================================== -->
-  <!-- BACKGROUND -->
+  <!-- ANIMATED BACKGROUND -->
   <!-- ====================================================== -->
 
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
 
-    <div class="absolute -top-32 -left-32 w-[420px] h-[420px] rounded-full blur-3xl opacity-20"
+    <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full blur-[100px] opacity-15 animate-pulse-slow"
       [style.background]="themeService.primary">
     </div>
 
-    <div class="absolute -bottom-32 -right-32 w-[420px] h-[420px] rounded-full blur-3xl opacity-10"
+    <div class="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full blur-[100px] opacity-10 animate-pulse-slow"
+      style="animation-delay: 2s;" [style.background]="themeService.primary">
+    </div>
+
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-[120px] opacity-5"
       [style.background]="themeService.primary">
     </div>
 
   </div>
 
   <!-- ====================================================== -->
-  <!-- LEFT -->
+  <!-- LEFT SIDEBAR -->
   <!-- ====================================================== -->
 
-  <aside class="relative w-full xl:w-[38%] overflow-hidden">
+  <aside class="relative w-full xl:w-[38%] overflow-hidden h-auto">
 
     <!-- IMAGE -->
     <img src="assets/ImageConvocation.png" alt="Convocation"
-      class="absolute inset-0 w-full h-full object-cover scale-105" />
+      class="absolute inset-0 w-full h-full object-cover scale-105 transition-transform duration-[20s] hover:scale-110" />
 
-    <!-- OVERLAY -->
-    <div class="absolute inset-0 bg-black/70 backdrop-blur-[2px]"></div>
+    <!-- GRADIENT OVERLAY -->
+    <div class="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-transparent"></div>
+
+    <!-- GLASS PATTERN -->
+    <div class="absolute inset-0 opacity-10"
+      style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');">
+    </div>
 
     <!-- CONTENT -->
-    <div class="relative z-10 flex flex-col justify-between h-full px-6 py-8 sm:px-10 xl:px-14">
+    <div class="relative z-10 flex flex-col justify-between h-full px-6 py-10 sm:px-10 xl:px-14 min-h-[500px] xl:min-h-screen">
 
       <!-- TOP -->
-      <div>
+      <div class="animate-fade-in-up">
 
-        <div class="flex items-center gap-4 mb-10">
+        <div class="flex items-center gap-4 mb-12">
 
-          <div class="w-16 h-16 rounded-[24px] flex items-center justify-center border backdrop-blur-xl" style="
-              background: rgba(255,255,255,.08);
-              border-color: rgba(255,255,255,.08);
-            ">
+          <div class="w-16 h-16 rounded-[24px] flex items-center justify-center border backdrop-blur-2xl transition-all duration-500 hover:scale-110 hover:rotate-3"
+            style="background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.15); box-shadow: 0 8px 32px rgba(0,0,0,0.2);">
 
             <i class="fa-solid fa-users text-white text-2xl"></i>
 
@@ -55,11 +85,11 @@
 
           <div>
 
-            <h1 class="text-white text-3xl font-black">
+            <h1 class="text-white text-3xl font-black tracking-tight">
               ASDAM
             </h1>
 
-            <p class="text-white/60 uppercase tracking-[4px] text-xs">
+            <p class="text-white/50 uppercase tracking-[5px] text-[10px] font-bold">
               Gestion des convocations
             </p>
 
@@ -71,66 +101,75 @@
         <div class="max-w-[520px]">
 
           <div
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-white text-xs uppercase tracking-[3px] font-bold mb-6"
-            style="
-              background: rgba(255,255,255,.06);
-              border-color: rgba(255,255,255,.08);
-            ">
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-white text-[10px] uppercase tracking-[4px] font-bold mb-8 transition-all duration-300 hover:scale-105 cursor-default"
+            style="background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.12);">
 
-            <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+            <div class="w-2 h-2 rounded-full animate-pulse" [style.background]="themeService.primary"></div>
 
             Plateforme moderne
 
           </div>
 
-          <h2 class="text-white text-5xl sm:text-6xl font-black leading-none mb-6">
-
-            Créez vos
-            convocations
+          <h2 class="text-white text-5xl sm:text-6xl xl:text-7xl font-black leading-[0.95] mb-8 tracking-tight">
+            Créez vos<br />
+            <span class="text-transparent bg-clip-text" [style.background-image]="'linear-gradient(135deg, ' + themeService.primary + ', ' + themeService.primary + '80)'">
+              convocations
+            </span><br />
             rapidement
-
           </h2>
 
-          <p class="text-white/70 leading-relaxed text-base">
-
-            Une interface immersive et responsive
-            pour gérer vos joueurs, formations
-            et convocations en quelques clics.
-
+          <p class="text-white/60 leading-relaxed text-base max-w-md">
+            Une interface immersive et responsive pour gérer vos joueurs, formations et convocations en quelques clics.
           </p>
 
         </div>
 
       </div>
 
-      <!-- BOTTOM -->
-      <div class="grid grid-cols-2 gap-4 mt-10">
+      <!-- BOTTOM STATS -->
+      <div class="grid grid-cols-2 gap-4 mt-12 animate-fade-in-up" style="animation-delay: 0.3s;">
 
-        <div class="rounded-[28px] p-5 border backdrop-blur-xl" style="
-            background: rgba(255,255,255,.06);
-            border-color: rgba(255,255,255,.08);
-          ">
+        <div class="group rounded-[24px] p-5 border backdrop-blur-2xl transition-all duration-500 hover:scale-[1.02] hover:bg-white/10"
+          style="background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.1);">
 
-          <p class="text-white text-3xl font-black">
+          <div class="flex items-center gap-2 mb-2">
+
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center" [style.background]="themeService.primary + '30'">
+
+              <i class="fa-solid fa-user-group text-sm" [style.color]="themeService.primary"></i>
+
+            </div>
+
+          </div>
+
+          <p class="text-white text-3xl font-black tracking-tight">
             {{ joueursEquipe.length }}
           </p>
 
-          <p class="text-white/60 text-xs uppercase tracking-[3px] mt-1">
+          <p class="text-white/40 text-[10px] uppercase tracking-[4px] font-bold mt-1">
             Joueurs
           </p>
 
         </div>
 
-        <div class="rounded-[28px] p-5 border backdrop-blur-xl" style="
-            background: rgba(255,255,255,.06);
-            border-color: rgba(255,255,255,.08);
-          ">
+        <div class="group rounded-[24px] p-5 border backdrop-blur-2xl transition-all duration-500 hover:scale-[1.02] hover:bg-white/10"
+          style="background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.1);">
 
-          <p class="text-white text-3xl font-black">
+          <div class="flex items-center gap-2 mb-2">
+
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center" [style.background]="themeService.primary + '30'">
+
+              <i class="fa-solid fa-clipboard-list text-sm" [style.color]="themeService.primary"></i>
+
+            </div>
+
+          </div>
+
+          <p class="text-white text-3xl font-black tracking-tight">
             {{ convocations.length }}
           </p>
 
-          <p class="text-white/60 text-xs uppercase tracking-[3px] mt-1">
+          <p class="text-white/40 text-[10px] uppercase tracking-[4px] font-bold mt-1">
             Convocations
           </p>
 
@@ -143,46 +182,46 @@
   </aside>
 
   <!-- ====================================================== -->
-  <!-- RIGHT -->
+  <!-- RIGHT MAIN CONTENT -->
   <!-- ====================================================== -->
 
-  <main class="relative flex-1 px-4 py-8 sm:px-8 xl:px-14">
+  <main class="relative flex-1 px-4 py-8 sm:px-8 xl:px-14 h-auto">
 
     <!-- HEADER -->
-    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-12 animate-fade-in-up">
 
       <div>
 
         <div class="flex items-center gap-4 mb-3">
 
-          <div class="w-2 h-10 rounded-full" [style.background]="themeService.primary">
+          <div class="w-1.5 h-12 rounded-full" [style.background]="themeService.primary"></div>
+
+          <div>
+
+            <h2 class="text-3xl sm:text-4xl font-black tracking-tight" [style.color]="themeService.Textprincipal">
+              Nouvelle convocation
+            </h2>
+
           </div>
-
-          <h2 class="text-4xl font-black" [style.color]="themeService.Textprincipal">
-
-            Nouvelle convocation
-
-          </h2>
 
         </div>
 
-        <p class="ml-6 text-sm" [style.color]="themeService.Textsecondaire">
-
+        <p class="ml-6 text-sm font-medium" [style.color]="themeService.Textsecondaire">
           Organisez votre match étape par étape
-
         </p>
 
       </div>
 
       <!-- ACTIONS -->
-      <div class="flex flex-wrap gap-4">
+      <div class="flex flex-wrap gap-3">
 
         <button (click)="goBack()"
-          class="h-14 px-6 rounded-2xl font-bold transition-all duration-300 hover:scale-[1.02]"
-          [style.background]="themeService.Background1" [style.color]="themeService.Textprincipal">
+          class="group h-12 px-6 rounded-2xl font-bold transition-all duration-300 hover:scale-[1.02] flex items-center gap-2 border"
+          [style.background]="themeService.Background1" 
+          [style.color]="themeService.Textprincipal"
+          [style.borderColor]="themeService.primary + '20'">
 
-          <i class="fa-solid fa-arrow-left mr-2"></i>
-
+          <i class="fa-solid fa-arrow-left transition-transform duration-300 group-hover:-translate-x-1"></i>
           Retour
 
         </button>
@@ -192,33 +231,51 @@
     </div>
 
     <!-- ====================================================== -->
-    <!-- STEPS -->
+    <!-- STEPS INDICATOR -->
     <!-- ====================================================== -->
 
-    <div class="flex items-center justify-between gap-3 mb-10">
+    <div class="flex items-center justify-between gap-4 mb-12 animate-fade-in-up" style="animation-delay: 0.1s;">
 
-      <!-- STEP -->
-      <ng-container *ngFor="let s of [1,2,3]">
+      <ng-container *ngFor="let s of [1,2,3]; let last = last; let i = index">
 
-        <div class="flex items-center gap-3 flex-1">
+        <div class="flex items-center gap-3 flex-1 cursor-pointer group" (click)="goToStep(s)">
 
-          <div class="w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white"
-            [style.background]="step >= s ? themeService.primary : '#4b5563'">
+          <div class="relative">
 
-            {{ s }}
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white shrink-0 transition-all duration-500"
+              [class.scale-110]="step === s"
+              [style.background]="step >= s ? themeService.primary : themeService.Background2"
+              [style.box-shadow]="step === s ? '0 0 20px ' + themeService.primary + '50' : 'none'">
+
+              <span *ngIf="step > s" class="animate-scale-in">
+                <i class="fa-solid fa-check"></i>
+              </span>
+
+              <span *ngIf="step <= s">{{ s }}</span>
+
+            </div>
+
+            <!-- PULSE RING -->
+            <div *ngIf="step === s" class="absolute inset-0 rounded-2xl animate-ping opacity-20"
+              [style.background]="themeService.primary">
+            </div>
 
           </div>
 
           <div class="hidden sm:block">
 
-            <p class="text-xs uppercase tracking-[3px] font-black"
+            <p class="text-[10px] uppercase tracking-[3px] font-black transition-colors duration-300"
               [style.color]="step >= s ? themeService.primary : themeService.Textsecondaire">
 
-              {{
-              s === 1 ? 'Match'
-              : s === 2 ? 'Joueurs'
-              : 'Résumé'
-              }}
+              {{ s === 1 ? 'Match' : s === 2 ? 'Joueurs' : 'Résumé' }}
+
+            </p>
+
+            <p class="text-[10px] mt-0.5 transition-colors duration-300"
+              [style.color]="themeService.Textsecondaire"
+              [class.opacity-0]="step !== s">
+
+              {{ s === 1 ? 'Infos du match' : s === 2 ? 'Sélection' : 'Validation' }}
 
             </p>
 
@@ -226,8 +283,14 @@
 
         </div>
 
-        <div *ngIf="s !== 3" class="h-[2px] flex-1 rounded-full"
-          [style.background]="step > s ? themeService.primary : themeService.Background2">
+        <div *ngIf="!last" class="h-[3px] flex-1 rounded-full overflow-hidden relative"
+          [style.background]="themeService.Background2">
+
+          <div class="h-full rounded-full transition-all duration-700 ease-out"
+            [class.w-full]="step > s" [class.w-0]="step <= s"
+            [style.background]="themeService.primary">
+          </div>
+
         </div>
 
       </ng-container>
@@ -241,30 +304,44 @@
     <form [formGroup]="convocationForm" class="space-y-8">
 
       <!-- ====================================================== -->
-      <!-- STEP 1 -->
+      <!-- STEP 1 : MATCH INFO -->
       <!-- ====================================================== -->
-
-      <div *ngIf="step === 1">
+      <div *ngIf="step === 1" 
+        class="transition-all duration-500"
+        [class.opacity-0]="animateStep" 
+        [class.translate-y-4]="animateStep"
+        [class.opacity-100]="!animateStep"
+        [class.translate-y-0]="!animateStep">
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           <!-- MATCH -->
-          <div>
+          <div class="group">
 
-            <label class="block mb-3 ml-2 text-[11px] uppercase tracking-[3px] font-black"
+            <label class="block mb-3 ml-2 text-[10px] uppercase tracking-[4px] font-black transition-colors duration-300 group-focus-within:text-[color:var(--primary)]"
               [style.color]="themeService.Textsecondaire">
 
               Match
 
             </label>
 
-            <div class="h-16 rounded-[28px] flex items-center gap-4 px-6 border"
-              [style.background]="themeService.Background1" [style.borderColor]="themeService.primary + '20'">
+            <div
+              class="h-16 rounded-[24px] flex items-center gap-4 px-6 border transition-all duration-500 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-[color:var(--bg)] hover:border-opacity-50 group-hover:shadow-lg"
+              [style.background]="themeService.Background1" 
+              [style.borderColor]="themeService.primary + '20'"
+              [style.--tw-ring-color]="themeService.primary"
+              [style.--bg]="themeService.Backgroundprincipal"
+              [style.--primary]="themeService.primary">
 
-              <i class="fa-solid fa-futbol" [style.color]="themeService.primary">
-              </i>
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-300"
+                [style.background]="themeService.primary + '15'">
 
-              <input formControlName="match" placeholder="PSG vs OM" class="w-full bg-transparent outline-none"
+                <i class="fa-solid fa-futbol" [style.color]="themeService.primary"></i>
+
+              </div>
+
+              <input formControlName="match" placeholder="PSG vs OM"
+                class="w-full bg-transparent outline-none text-base font-medium placeholder:opacity-30 transition-all"
                 [style.color]="themeService.Textprincipal" />
 
             </div>
@@ -272,22 +349,31 @@
           </div>
 
           <!-- EQUIPE -->
-          <div>
+          <div class="group">
 
-            <label class="block mb-3 ml-2 text-[11px] uppercase tracking-[3px] font-black"
+            <label class="block mb-3 ml-2 text-[10px] uppercase tracking-[4px] font-black"
               [style.color]="themeService.Textsecondaire">
 
               Équipe
 
             </label>
 
-            <div class="h-16 rounded-[28px] flex items-center gap-4 px-6 border"
-              [style.background]="themeService.Background1" [style.borderColor]="themeService.primary + '20'">
+            <div
+              class="h-16 rounded-[24px] flex items-center gap-4 px-6 border transition-all duration-500 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-[color:var(--bg)]"
+              [style.background]="themeService.Background1" 
+              [style.borderColor]="themeService.primary + '20'"
+              [style.--tw-ring-color]="themeService.primary"
+              [style.--bg]="themeService.Backgroundprincipal">
 
-              <i class="fa-solid fa-users" [style.color]="themeService.primary">
-              </i>
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+                [style.background]="themeService.primary + '15'">
 
-              <input formControlName="equipe" class="w-full bg-transparent outline-none"
+                <i class="fa-solid fa-shield-halved" [style.color]="themeService.primary"></i>
+
+              </div>
+
+              <input formControlName="equipe" 
+                class="w-full bg-transparent outline-none text-base font-medium"
                 [style.color]="themeService.Textprincipal" />
 
             </div>
@@ -295,22 +381,31 @@
           </div>
 
           <!-- LIEU -->
-          <div>
+          <div class="group">
 
-            <label class="block mb-3 ml-2 text-[11px] uppercase tracking-[3px] font-black"
+            <label class="block mb-3 ml-2 text-[10px] uppercase tracking-[4px] font-black"
               [style.color]="themeService.Textsecondaire">
 
               Lieu
 
             </label>
 
-            <div class="h-16 rounded-[28px] flex items-center gap-4 px-6 border"
-              [style.background]="themeService.Background1" [style.borderColor]="themeService.primary + '20'">
+            <div
+              class="h-16 rounded-[24px] flex items-center gap-4 px-6 border transition-all duration-500 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-[color:var(--bg)]"
+              [style.background]="themeService.Background1" 
+              [style.borderColor]="themeService.primary + '20'"
+              [style.--tw-ring-color]="themeService.primary"
+              [style.--bg]="themeService.Backgroundprincipal">
 
-              <i class="fa-solid fa-location-dot" [style.color]="themeService.primary">
-              </i>
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+                [style.background]="themeService.primary + '15'">
 
-              <input formControlName="lieu" placeholder="Stade de France" class="w-full bg-transparent outline-none"
+                <i class="fa-solid fa-location-dot" [style.color]="themeService.primary"></i>
+
+              </div>
+
+              <input formControlName="lieu" placeholder="Stade de France"
+                class="w-full bg-transparent outline-none text-base font-medium placeholder:opacity-30"
                 [style.color]="themeService.Textprincipal" />
 
             </div>
@@ -318,22 +413,31 @@
           </div>
 
           <!-- DATE -->
-          <div>
+          <div class="group">
 
-            <label class="block mb-3 ml-2 text-[11px] uppercase tracking-[3px] font-black"
+            <label class="block mb-3 ml-2 text-[10px] uppercase tracking-[4px] font-black"
               [style.color]="themeService.Textsecondaire">
 
               Date du match
 
             </label>
 
-            <div class="h-16 rounded-[28px] flex items-center gap-4 px-6 border"
-              [style.background]="themeService.Background1" [style.borderColor]="themeService.primary + '20'">
+            <div
+              class="h-16 rounded-[24px] flex items-center gap-4 px-6 border transition-all duration-500 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-[color:var(--bg)]"
+              [style.background]="themeService.Background1" 
+              [style.borderColor]="themeService.primary + '20'"
+              [style.--tw-ring-color]="themeService.primary"
+              [style.--bg]="themeService.Backgroundprincipal">
 
-              <i class="fa-solid fa-calendar" [style.color]="themeService.primary">
-              </i>
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+                [style.background]="themeService.primary + '15'">
 
-              <input type="datetime-local" formControlName="dateMatch" class="w-full bg-transparent outline-none"
+                <i class="fa-solid fa-calendar" [style.color]="themeService.primary"></i>
+
+              </div>
+
+              <input type="datetime-local" formControlName="dateMatch"
+                class="w-full bg-transparent outline-none text-base font-medium [color-scheme:dark]"
                 [style.color]="themeService.Textprincipal" />
 
             </div>
@@ -342,117 +446,239 @@
 
         </div>
 
-        <!-- BTN -->
-        <button type="button" (click)="step = 2"
-          class="mt-8 w-full h-16 rounded-[28px] text-white font-black transition-all duration-300 hover:scale-[1.01]"
-          [style.background]="themeService.primary">
+        <!-- NEXT BUTTON -->
+        <button type="button" (click)="nextStep()"
+          [disabled]="!convocationForm.get('match')?.valid || !convocationForm.get('lieu')?.valid || !convocationForm.get('dateMatch')?.valid"
+          class="mt-10 w-full h-16 rounded-[24px] text-white font-black transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 group relative overflow-hidden"
+          [style.background]="themeService.primary"
+          [style.box-shadow]="'0 10px 40px ' + themeService.primary + '30'">
 
-          Continuer
-          <i class="fa-solid fa-arrow-right ml-2"></i>
+          <span class="relative z-10 flex items-center justify-center gap-2">
+
+            Continuer
+            <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
+
+          </span>
+
+          <!-- SHINE EFFECT -->
+          <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent">
+          </div>
 
         </button>
 
       </div>
 
       <!-- ====================================================== -->
-      <!-- STEP 2 - SELECTION JOUEURS -->
+      <!-- STEP 2 : SELECTION JOUEURS -->
       <!-- ====================================================== -->
-
-      <div *ngIf="step === 2" class="w-full">
+      <div *ngIf="step === 2" 
+        class="w-full transition-all duration-500"
+        [class.opacity-0]="animateStep" 
+        [class.translate-y-4]="animateStep"
+        [class.opacity-100]="!animateStep"
+        [class.translate-y-0]="!animateStep">
 
         <!-- HEADER -->
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
 
           <div>
-            <h2 class="text-xl font-black" [style.color]="themeService.Textprincipal">
+
+            <h2 class="text-2xl font-black tracking-tight" [style.color]="themeService.Textprincipal">
               Sélection des joueurs
             </h2>
 
-            <p class="text-sm" [style.color]="themeService.Textsecondaire">
+            <p class="text-sm mt-1 font-medium" [style.color]="themeService.Textsecondaire">
               Choisis les joueurs pour ta convocation
             </p>
+
           </div>
 
           <button type="button" (click)="openOtherTeams = true"
-            class="h-12 px-5 rounded-2xl font-bold text-white transition hover:scale-105"
-            [style.background]="themeService.primary">
+            class="group h-12 px-6 rounded-2xl font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2 shrink-0"
+            [style.background]="themeService.primary"
+            [style.box-shadow]="'0 8px 30px ' + themeService.primary + '30'">
 
-            <i class="fa-solid fa-user-plus mr-2"></i>
-            Ajouter d'autres joueurs
+            <i class="fa-solid fa-user-plus transition-transform duration-300 group-hover:rotate-12"></i>
+            Autres équipes
+
           </button>
+
+        </div>
+
+        <!-- SEARCH BAR -->
+        <div class="mb-6">
+
+          <div class="h-14 rounded-[24px] flex items-center gap-4 px-6 border transition-all duration-500 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-[color:var(--bg)]"
+            [style.background]="themeService.Background1" 
+            [style.borderColor]="themeService.primary + '20'"
+            [style.--tw-ring-color]="themeService.primary"
+            [style.--bg]="themeService.Backgroundprincipal">
+
+            <i class="fa-solid fa-magnifying-glass" [style.color]="themeService.Textsecondaire"></i>
+
+            <input [(ngModel)]="searchTerm" [ngModelOptions]="{standalone: true}" placeholder="Rechercher un joueur..."
+              class="w-full bg-transparent outline-none text-base font-medium placeholder:opacity-30"
+              [style.color]="themeService.Textprincipal" />
+
+            <div *ngIf="searchTerm" 
+              class="w-6 h-6 rounded-full flex items-center justify-center cursor-pointer transition-all hover:scale-110"
+              [style.background]="themeService.primary + '20'"
+              (click)="searchTerm = ''">
+
+              <i class="fa-solid fa-xmark text-xs" [style.color]="themeService.primary"></i>
+
+            </div>
+
+          </div>
 
         </div>
 
         <!-- MAIN GRID -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-          <!-- ================================================= -->
-          <!-- LEFT: TEAM COACH PLAYERS -->
-          <!-- ================================================= -->
-          <div class="lg:col-span-2 rounded-[28px] p-6 border" [style.background]="themeService.Background1"
-            [style.borderColor]="themeService.primary + '20'">
+          <!-- LEFT - PLAYERS LIST -->
+          <div class="lg:col-span-2 rounded-[28px] p-6 border transition-all duration-500 hover:shadow-xl"
+            [style.background]="themeService.Background1"
+            [style.borderColor]="themeService.primary + '15'">
 
-            <div class="flex items-center justify-between mb-5">
+            <!-- HEADER LEFT -->
+            <div class="flex items-center justify-between mb-6">
 
               <div class="flex items-center gap-3">
 
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center"
-                  [style.background]="themeService.primary + '20'">
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 hover:scale-110"
+                  [style.background]="themeService.primary + '15'">
 
-                  <i class="fa-solid fa-shield-halved" [style.color]="themeService.primary"></i>
+                  <i class="fa-solid fa-shield-halved text-lg" [style.color]="themeService.primary"></i>
+
                 </div>
 
                 <div>
-                  <p class="font-black" [style.color]="themeService.Textprincipal">
+
+                  <p class="font-black text-lg" [style.color]="themeService.Textprincipal">
                     Équipe de l'entraîneur
                   </p>
 
-                  <p class="text-xs" [style.color]="themeService.Textsecondaire">
-                    Clique pour sélectionner
+                  <p class="text-xs font-medium" [style.color]="themeService.Textsecondaire">
+                    Les joueurs déjà convoqués sont bloqués
                   </p>
+
                 </div>
 
               </div>
 
-              <span class="text-2xl font-black" [style.color]="themeService.primary">
-                {{ filteredJoueurs?.length || 0 }}
-              </span>
+              <div class="flex items-center gap-2 px-4 py-2 rounded-full"
+                [style.background]="themeService.primary + '10'">
+
+                <div class="w-2 h-2 rounded-full" [style.background]="themeService.primary"></div>
+
+                <span class="text-sm font-black" [style.color]="themeService.primary">
+                  {{ filteredJoueurs?.length || 0 }}
+                </span>
+
+              </div>
 
             </div>
 
-            <!-- LIST -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- LOADING -->
+            <div *ngIf="loadingPlayers" class="flex flex-col items-center justify-center py-16 gap-4">
 
-              <div *ngFor="let joueur of filteredJoueurs" (click)="toggleJoueur(joueur)"
-                class="cursor-pointer rounded-2xl p-4 border transition-all hover:scale-[1.02]"
-                [style.background]="joueur.selected ? themeService.primary + '15' : themeService.Background2"
-                [style.borderColor]="joueur.selected ? themeService.primary : themeService.primary + '15'">
+              <div class="relative w-12 h-12">
 
+                <div class="absolute inset-0 rounded-full border-2 border-t-transparent animate-spin"
+                  [style.border-color]="themeService.primary + '40'"></div>
+
+                <div class="absolute inset-2 rounded-full border-2 border-t-transparent animate-spin"
+                  style="animation-direction: reverse; animation-duration: 1.5s;"
+                  [style.border-color]="themeService.primary + '20'"></div>
+
+              </div>
+
+              <p class="text-sm font-medium" [style.color]="themeService.Textsecondaire">
+                Chargement des joueurs...
+              </p>
+
+            </div>
+
+            <!-- EMPTY -->
+            <div *ngIf="!loadingPlayers && filteredJoueurs.length === 0" class="flex flex-col items-center justify-center py-16 gap-4">
+
+              <div class="w-20 h-20 rounded-full flex items-center justify-center"
+                [style.background]="themeService.Background2">
+
+                <i class="fa-solid fa-users-slash text-3xl opacity-30" [style.color]="themeService.Textsecondaire"></i>
+
+              </div>
+
+              <p class="font-bold" [style.color]="themeService.Textsecondaire">
+                Aucun joueur trouvé
+              </p>
+
+            </div>
+
+            <!-- PLAYERS GRID -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+              <div *ngFor="let joueur of filteredJoueurs; let i = index"
+                class="relative rounded-2xl p-4 border transition-all duration-300 group"
+                [class.cursor-pointer]="!isAlreadyConvoked(joueur)"
+                [class.cursor-not-allowed]="isAlreadyConvoked(joueur)"
+                [class.hover:scale-[1.02]]="!isAlreadyConvoked(joueur)"
+                [class.hover:shadow-lg]="!isAlreadyConvoked(joueur) && !joueur.selected"
+                [class.hover:border-opacity-50]="!isAlreadyConvoked(joueur)"
+                [style.background]="joueur.selected ? themeService.primary + '08' : themeService.Background1"
+                [style.borderColor]="joueur.selected ? themeService.primary + '40' : themeService.primary + '15'"
+                (click)="!isAlreadyConvoked(joueur) && toggleJoueur(joueur)">
+
+                <!-- BADGE DEJA CONVOQUE -->
+                <div *ngIf="isAlreadyConvoked(joueur)"
+                  class="absolute top-3 right-3 text-[9px] px-2.5 py-1 rounded-full font-bold z-10 tracking-wide uppercase"
+                  style="background: linear-gradient(135deg, #ef4444, #dc2626); color: white; box-shadow: 0 4px 12px rgba(239,68,68,0.3);">
+
+                  Déjà convoqué
+
+                </div>
+
+                <!-- CARD CONTENT -->
                 <div class="flex items-center gap-3">
 
-                  <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black"
-                    [style.background]="joueur.selected ? themeService.primary : themeService.Background1">
+                  <!-- AVATAR -->
+                  <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-sm shrink-0 transition-all duration-300"
+                    [style.background]="joueur.selected ? themeService.primary : themeService.Background2"
+                    [class.scale-110]="joueur.selected"
+                    [class.ring-2]="joueur.selected"
+                    [class.ring-offset-2]="joueur.selected"
+                    [style.--tw-ring-color]="themeService.primary"
+                    [style.--tw-ring-offset-color]="themeService.Background1">
 
-                    {{ joueur.prenom[0] }}{{ joueur.nom[0] }}
+                    <span *ngIf="!joueur.selected">{{ joueur.prenom?.[0] }}{{ joueur.nom?.[0] }}</span>
+
+                    <i *ngIf="joueur.selected" class="fa-solid fa-check"></i>
 
                   </div>
 
+                  <!-- INFOS -->
                   <div class="flex-1 min-w-0">
 
-                    <p class="font-bold truncate" [style.color]="themeService.Textprincipal">
+                    <p class="font-bold truncate transition-colors duration-300" [style.color]="themeService.Textprincipal">
                       {{ joueur.prenom }} {{ joueur.nom }}
                     </p>
 
-                    <p class="text-xs truncate" [style.color]="themeService.Textsecondaire">
+                    <p class="text-xs font-medium truncate" [style.color]="themeService.Textsecondaire">
                       {{ joueur.poste || 'Joueur' }}
                     </p>
 
                   </div>
 
-                  <div class="w-8 h-8 rounded-full flex items-center justify-center"
-                    [style.background]="joueur.selected ? themeService.primary : themeService.Background1">
+                  <!-- ACTION ICON -->
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-300"
+                    [style.background]="joueur.selected ? themeService.primary : themeService.Background2"
+                    [class.scale-0]="isAlreadyConvoked(joueur)"
+                    [class.rotate-180]="joueur.selected">
 
-                    <i class="fa-solid text-white text-xs" [class]="joueur.selected ? 'fa-check' : 'fa-plus'"></i>
+                    <i class="fa-solid text-white text-xs transition-transform duration-300"
+                      [ngClass]="joueur.selected ? 'fa-check' : 'fa-plus'"></i>
 
                   </div>
 
@@ -464,61 +690,73 @@
 
           </div>
 
-          <!-- ================================================= -->
-          <!-- RIGHT: ACTION PANEL -->
-          <!-- ================================================= -->
-          <div class="rounded-[28px] p-6 border" [style.background]="themeService.Background1"
-            [style.borderColor]="themeService.primary + '20'">
+          <!-- RIGHT - SELECTION SUMMARY -->
+          <div class="rounded-[28px] p-6 border transition-all duration-500 hover:shadow-xl sticky top-6"
+            [style.background]="themeService.Background1"
+            [style.borderColor]="themeService.primary + '15'">
 
-            <div class="flex items-center gap-3 mb-4">
+            <!-- HEADER RIGHT -->
+            <div class="flex items-center gap-3 mb-6">
 
-              <div class="w-10 h-10 rounded-xl flex items-center justify-center"
-                [style.background]="themeService.primary + '20'">
+              <div class="w-12 h-12 rounded-2xl flex items-center justify-center"
+                [style.background]="themeService.primary + '15'">
 
-                <i class="fa-solid fa-list-check" [style.color]="themeService.primary"></i>
+                <i class="fa-solid fa-list-check text-lg" [style.color]="themeService.primary"></i>
+
               </div>
 
               <div>
-                <p class="font-black" [style.color]="themeService.Textprincipal">
+
+                <p class="font-black text-lg" [style.color]="themeService.Textprincipal">
                   Convocation
                 </p>
 
-                <p class="text-xs" [style.color]="themeService.Textsecondaire">
+                <p class="text-xs font-medium" [style.color]="themeService.Textsecondaire">
                   Résumé des joueurs
                 </p>
+
               </div>
 
             </div>
 
             <!-- COUNT -->
-            <div class="text-center mb-6">
-              <p class="text-4xl font-black" [style.color]="themeService.primary">
+            <div class="text-center mb-6 p-6 rounded-2xl"
+              [style.background]="themeService.primary + '08'">
+
+              <p class="text-5xl font-black tracking-tight transition-all duration-500"
+                [style.color]="themeService.primary"
+                [class.scale-110]="joueursSelectionnes.length > 0">
+
                 {{ joueursSelectionnes.length }}
+
               </p>
-              <p class="text-xs" [style.color]="themeService.Textsecondaire">
-                joueurs sélectionnés
+
+              <p class="text-xs font-bold uppercase tracking-[4px] mt-2" [style.color]="themeService.Textsecondaire">
+
+                {{ joueursSelectionnes.length === 1 ? 'joueur sélectionné' : 'joueurs sélectionnés' }}
+
               </p>
+
             </div>
 
-            <!-- SELECTED LIST -->
-            <div class="flex flex-col gap-2 max-h-[300px] overflow-auto">
+            <!-- LIST -->
+            <div class="flex flex-col gap-2 max-h-[320px] overflow-y-auto pr-1 custom-scrollbar">
 
-              <div *ngFor="let joueur of joueursSelectionnes"
-                class="flex items-center justify-between gap-2 px-3 py-2 rounded-xl"
-                [style.background]="themeService.primary + '15'">
+              <div *ngFor="let joueur of joueursSelectionnes; let last = last"
+                class="flex items-center justify-between gap-2 px-4 py-3 rounded-xl transition-all duration-300 hover:scale-[1.02] group"
+                [style.background]="themeService.primary + '10'"
+                [class.mb-0]="last">
 
-                <!-- LEFT -->
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-3 min-w-0">
 
-                  <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold"
+                  <div class="w-9 h-9 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0"
                     [style.background]="themeService.primary">
 
                     {{ joueur.prenom?.[0] }}{{ joueur.nom?.[0] }}
 
                   </div>
 
-                  <span class="text-sm font-medium truncate"
-                    [style.color]="themeService.Textprincipal">
+                  <span class="text-sm font-bold truncate" [style.color]="themeService.Textprincipal">
 
                     {{ joueur.prenom }} {{ joueur.nom }}
 
@@ -526,12 +764,9 @@
 
                 </div>
 
-                <!-- RIGHT ACTION -->
-                <button
-                  type="button"
-                  (click)="retirerJoueur(joueur)"
-                  class="w-7 h-7 flex items-center justify-center rounded-full transition hover:scale-110"
-                  [style.background]="'#ef4444'">
+                <button type="button" (click)="retirerJoueur(joueur); $event.stopPropagation()"
+                  class="w-7 h-7 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110 hover:rotate-90 opacity-60 hover:opacity-100"
+                  style="background: linear-gradient(135deg, #ef4444, #dc2626);">
 
                   <i class="fa-solid fa-xmark text-white text-xs"></i>
 
@@ -542,10 +777,21 @@
             </div>
 
             <!-- EMPTY -->
-            <div *ngIf="joueursSelectionnes.length === 0" class="text-center mt-10 text-xs"
-              [style.color]="themeService.Textsecondaire">
+            <div *ngIf="joueursSelectionnes.length === 0" class="flex flex-col items-center justify-center py-10 gap-3">
 
-              Aucun joueur sélectionné
+              <div class="w-16 h-16 rounded-full flex items-center justify-center"
+                [style.background]="themeService.Background2">
+
+                <i class="fa-solid fa-user-plus text-xl opacity-20" [style.color]="themeService.Textsecondaire"></i>
+
+              </div>
+
+              <p class="text-xs font-medium text-center" [style.color]="themeService.Textsecondaire">
+
+                Aucun joueur sélectionné<br />
+                <span class="opacity-50">Cliquez sur un joueur pour l'ajouter</span>
+
+              </p>
 
             </div>
 
@@ -553,87 +799,35 @@
 
         </div>
 
-        <!-- ================================================= -->
-        <!-- OTHER TEAMS MODAL -->
-        <!-- ================================================= -->
-        <div *ngIf="openOtherTeams"
-        class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-
-        <div class="w-[95%] max-w-2xl rounded-3xl p-6"
-          [style.background]="themeService.Background1">
-
-        <!-- HEADER -->
-        <div class="flex items-center justify-between mb-4">
-
-        <h3 class="font-black"
-            [style.color]="themeService.Textprincipal">
-          Autres joueurs
-        </h3>
-
-        <button (click)="openOtherTeams = false"
-                class="p-2 rounded-lg hover:opacity-70 transition">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-
-        </div>
-
-        <!-- LISTE JOUEURS FILTRÉS -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[400px] overflow-auto">
-
-        <ng-container *ngFor="let joueur of filtrerAutresJoueurs()">
-
-          <div (click)="toggleJoueur(joueur)"
-                class="p-3 rounded-xl border cursor-pointer transition hover:scale-[1.02]"
-                [style.background]="joueur.selected
-                  ? themeService.primary + '15'
-                  : themeService.Background2">
-
-            <p class="font-bold"
-                [style.color]="themeService.Textprincipal">
-              {{ joueur.prenom }} {{ joueur.nom }}
-            </p>
-
-            <p class="text-xs"
-                [style.color]="themeService.Textsecondaire">
-              {{ joueur.equipe || 'Autre équipe' }}
-            </p>
-
-          </div>
-
-        </ng-container>
-
-        <!-- EMPTY STATE -->
-        <div *ngIf="filtrerAutresJoueurs().length === 0"
-              class="col-span-2 text-center text-sm opacity-60"
-              [style.color]="themeService.Textsecondaire">
-          Aucun joueur disponible dans les autres équipes
-        </div>
-
-        </div>
-
-        </div>
-
-        </div>
-
-        <!-- ================================================= -->
-        <!-- BUTTONS -->
-        <!-- ================================================= -->
+        <!-- NAV -->
         <div class="flex gap-4 mt-8">
 
-          <button type="button" (click)="step = 1" class="flex-1 h-14 rounded-2xl font-bold"
-            [style.background]="themeService.Background1" [style.color]="themeService.Textprincipal">
+          <button type="button" (click)="prevStep()"
+            class="group flex-1 h-14 rounded-2xl font-bold transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 border"
+            [style.background]="themeService.Background1" 
+            [style.color]="themeService.Textprincipal"
+            [style.borderColor]="themeService.primary + '20'">
 
-            <i class="fa-solid fa-arrow-left mr-2"></i>
+            <i class="fa-solid fa-arrow-left transition-transform duration-300 group-hover:-translate-x-1"></i>
             Retour
 
           </button>
 
-          <button type="button" (click)="step = 3" [disabled]="joueursSelectionnes.length === 0"
-            class="flex-1 h-14 rounded-2xl text-white font-black disabled:opacity-50"
-            [style.background]="themeService.primary">
+          <button type="button" (click)="nextStep()" 
+            [disabled]="joueursSelectionnes.length === 0"
+            class="group flex-1 h-14 rounded-2xl text-white font-black transition-all duration-300 hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 relative overflow-hidden"
+            [style.background]="themeService.primary"
+            [style.box-shadow]="joueursSelectionnes.length > 0 ? '0 10px 40px ' + themeService.primary + '30' : 'none'">
 
-            Continuer
-            <i class="fa-solid fa-arrow-right ml-2"></i>
+            <span class="relative z-10 flex items-center justify-center gap-2">
+
+              Continuer
+              <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
+
+            </span>
+
+            <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent">
+            </div>
 
           </button>
 
@@ -642,96 +836,165 @@
       </div>
 
       <!-- ====================================================== -->
-      <!-- STEP 3 -->
+      <!-- STEP 3 : RESUME -->
       <!-- ====================================================== -->
+      <div *ngIf="step === 3" 
+        class="transition-all duration-500"
+        [class.opacity-0]="animateStep" 
+        [class.translate-y-4]="animateStep"
+        [class.opacity-100]="!animateStep"
+        [class.translate-y-0]="!animateStep">
 
-      <div *ngIf="step === 3">
+        <!-- RESUME CARD -->
+        <div class="rounded-[28px] p-8 border mb-8 transition-all duration-500 hover:shadow-xl"
+          [style.background]="themeService.Background1"
+          [style.borderColor]="themeService.primary + '15'">
 
-        <!-- RESUME -->
-        <div class="rounded-[30px] p-6 border mb-6" [style.background]="themeService.Background1"
-          [style.borderColor]="themeService.primary + '20'">
+          <div class="flex items-center gap-4 mb-8">
 
-          <div class="flex items-center gap-3 mb-6">
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center"
+              [style.background]="themeService.primary + '15'">
 
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center"
-              [style.background]="themeService.primary + '20'">
-
-              <i class="fa-solid fa-futbol" [style.color]="themeService.primary">
-              </i>
+              <i class="fa-solid fa-futbol text-xl" [style.color]="themeService.primary"></i>
 
             </div>
 
-            <h3 class="text-xl font-black" [style.color]="themeService.Textprincipal">
+            <div>
 
-              Résumé du match
+              <h3 class="text-2xl font-black tracking-tight" [style.color]="themeService.Textprincipal">
+                Résumé du match
+              </h3>
 
-            </h3>
+              <p class="text-sm font-medium" [style.color]="themeService.Textsecondaire">
+                Vérifiez les informations avant l'envoi
+              </p>
+
+            </div>
 
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
-            <div class="space-y-2">
+            <div class="group p-5 rounded-2xl transition-all duration-300 hover:scale-[1.01]"
+              [style.background]="themeService.Background2 + '40'">
 
-              <p class="text-xs uppercase tracking-[3px] font-black" [style.color]="themeService.Textsecondaire">
+              <div class="flex items-center gap-2 mb-3">
 
-                Match
+                <i class="fa-solid fa-futbol text-xs" [style.color]="themeService.primary"></i>
 
-              </p>
+                <p class="text-[10px] uppercase tracking-[4px] font-black" [style.color]="themeService.Textsecondaire">
+                  Match
+                </p>
 
-              <p class="font-bold" [style.color]="themeService.Textprincipal">
+              </div>
 
-                {{ convocationForm.get('match')?.value }}
-
-              </p>
-
-            </div>
-
-            <div class="space-y-2">
-
-              <p class="text-xs uppercase tracking-[3px] font-black" [style.color]="themeService.Textsecondaire">
-
-                Équipe
-
-              </p>
-
-              <p class="font-bold" [style.color]="themeService.Textprincipal">
-
-                {{ convocationForm.get('equipe')?.value }}
-
+              <p class="text-lg font-bold" [style.color]="themeService.Textprincipal">
+                {{ convocationForm.get('match')?.value || '-' }}
               </p>
 
             </div>
 
-            <div class="space-y-2">
+            <div class="group p-5 rounded-2xl transition-all duration-300 hover:scale-[1.01]"
+              [style.background]="themeService.Background2 + '40'">
 
-              <p class="text-xs uppercase tracking-[3px] font-black" [style.color]="themeService.Textsecondaire">
+              <div class="flex items-center gap-2 mb-3">
 
-                Lieu
+                <i class="fa-solid fa-shield-halved text-xs" [style.color]="themeService.primary"></i>
 
-              </p>
+                <p class="text-[10px] uppercase tracking-[4px] font-black" [style.color]="themeService.Textsecondaire">
+                  Équipe
+                </p>
 
-              <p class="font-bold" [style.color]="themeService.Textprincipal">
+              </div>
 
-                {{ convocationForm.get('lieu')?.value }}
-
+              <p class="text-lg font-bold" [style.color]="themeService.Textprincipal">
+                {{ convocationForm.get('equipe')?.value || '-' }}
               </p>
 
             </div>
 
-            <div class="space-y-2">
+            <div class="group p-5 rounded-2xl transition-all duration-300 hover:scale-[1.01]"
+              [style.background]="themeService.Background2 + '40'">
 
-              <p class="text-xs uppercase tracking-[3px] font-black" [style.color]="themeService.Textsecondaire">
+              <div class="flex items-center gap-2 mb-3">
 
-                Date
+                <i class="fa-solid fa-location-dot text-xs" [style.color]="themeService.primary"></i>
 
+                <p class="text-[10px] uppercase tracking-[4px] font-black" [style.color]="themeService.Textsecondaire">
+                  Lieu
+                </p>
+
+              </div>
+
+              <p class="text-lg font-bold" [style.color]="themeService.Textprincipal">
+                {{ convocationForm.get('lieu')?.value || '-' }}
               </p>
 
-              <p class="font-bold" [style.color]="themeService.Textprincipal">
+            </div>
 
-                {{ convocationForm.get('dateMatch')?.value | date:'dd/MM/yyyy HH:mm' }}
+            <div class="group p-5 rounded-2xl transition-all duration-300 hover:scale-[1.01]"
+              [style.background]="themeService.Background2 + '40'">
 
+              <div class="flex items-center gap-2 mb-3">
+
+                <i class="fa-solid fa-calendar text-xs" [style.color]="themeService.primary"></i>
+
+                <p class="text-[10px] uppercase tracking-[4px] font-black" [style.color]="themeService.Textsecondaire">
+                  Date
+                </p>
+
+              </div>
+
+              <p class="text-lg font-bold" [style.color]="themeService.Textprincipal">
+                {{ convocationForm.get('dateMatch')?.value | date:'dd/MM/yyyy à HH:mm' }}
               </p>
+
+            </div>
+
+          </div>
+
+          <!-- SELECTED PLAYERS SUMMARY -->
+          <div class="mt-8 pt-8 border-t" [style.borderColor]="themeService.primary + '15'">
+
+            <div class="flex items-center gap-3 mb-6">
+
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+                [style.background]="themeService.primary + '15'">
+
+                <i class="fa-solid fa-users" [style.color]="themeService.primary"></i>
+
+              </div>
+
+              <div>
+
+                <p class="text-sm font-black" [style.color]="themeService.Textprincipal">
+                  Joueurs convoqués ({{ joueursSelectionnes.length }})
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+
+              <div *ngFor="let joueur of joueursSelectionnes" 
+                class="flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all duration-300 hover:scale-105 group"
+                [style.background]="themeService.primary + '12'">
+
+                <div class="w-7 h-7 rounded-md flex items-center justify-center text-white text-[10px] font-bold"
+                  [style.background]="themeService.primary">
+
+                  {{ joueur.prenom?.[0] }}{{ joueur.nom?.[0] }}
+
+                </div>
+
+                <span class="text-sm font-bold" [style.color]="themeService.Textprincipal">
+
+                  {{ joueur.prenom }} {{ joueur.nom }}
+
+                </span>
+
+              </div>
 
             </div>
 
@@ -739,25 +1002,41 @@
 
         </div>
 
-
         <!-- ACTIONS -->
         <div class="flex gap-4">
 
-          <button type="button" (click)="step = 2" class="flex-1 h-16 rounded-[28px] font-bold"
-            [style.background]="themeService.Background1" [style.color]="themeService.Textprincipal">
+          <button type="button" (click)="prevStep()"
+            class="group flex-1 h-16 rounded-[24px] font-bold transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 border"
+            [style.background]="themeService.Background1" 
+            [style.color]="themeService.Textprincipal"
+            [style.borderColor]="themeService.primary + '20'">
 
-            <i class="fa-solid fa-arrow-left mr-2"></i>
-
+            <i class="fa-solid fa-arrow-left transition-transform duration-300 group-hover:-translate-x-1"></i>
             Retour
 
           </button>
 
-          <button type="button" (click)="ajouterConvocation()" class="flex-1 h-16 rounded-[28px] text-white font-black"
-            [style.background]="themeService.primary" [style.boxShadow]="'0 20px 40px ' + themeService.primary + '40'">
+          <button type="button" (click)="ajouterConvocation()" [disabled]="creatingConvocation"
+            class="group flex-1 h-16 rounded-[24px] text-white font-black transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 relative overflow-hidden"
+            [style.background]="themeService.primary"
+            [style.box-shadow]="'0 20px 50px ' + themeService.primary + '40'">
 
-            <i class="fa-solid fa-paper-plane mr-2"></i>
+            <span *ngIf="!creatingConvocation" class="relative z-10 flex items-center justify-center gap-2">
 
-            Envoyer la convocation
+              <i class="fa-solid fa-paper-plane transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"></i>
+              Envoyer la convocation
+
+            </span>
+
+            <span *ngIf="creatingConvocation" class="relative z-10 flex items-center justify-center gap-3">
+
+              <div class="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin"></div>
+              Envoi en cours...
+
+            </span>
+
+            <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent">
+            </div>
 
           </button>
 
@@ -770,3 +1049,157 @@
   </main>
 
 </section>
+
+<!-- ====================================================== -->
+<!-- MODAL: AUTRES JOUEURS - FULL SCREEN -->
+<!-- ====================================================== -->
+<div *ngIf="openOtherTeams"
+  class="fixed inset-0 z-50 flex flex-col transition-all duration-500"
+  [style.background]="themeService.Background1"
+  (click)="openOtherTeams = false">
+
+  <!-- ========== HEADER ========== -->
+  <div class="flex items-center justify-between px-6 py-5 shrink-0"
+    [style.borderBottom]="'1px solid ' + themeService.primary + '15'"
+    (click)="$event.stopPropagation()">
+
+    <div class="flex items-center gap-4">
+
+      <div class="w-12 h-12 rounded-2xl flex items-center justify-center"
+        [style.background]="themeService.primary + '15'">
+        <i class="fa-solid fa-users text-lg" [style.color]="themeService.primary"></i>
+      </div>
+
+      <div>
+        <h3 class="font-black text-xl" [style.color]="themeService.Textprincipal">
+          Autres joueurs
+        </h3>
+        <p class="text-sm font-medium" [style.color]="themeService.Textsecondaire">
+          Joueurs des autres équipes
+        </p>
+      </div>
+
+    </div>
+
+    <button (click)="openOtherTeams = false"
+      class="w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-90"
+      [style.background]="themeService.Background2"
+      [style.color]="themeService.Textprincipal">
+      <i class="fa-solid fa-xmark text-xl"></i>
+    </button>
+
+  </div>
+
+  <!-- ========== SEARCH BAR ========== -->
+  <div class="px-6 py-4 shrink-0" (click)="$event.stopPropagation()">
+    <div class="h-14 rounded-[24px] flex items-center gap-3 px-5 border transition-all duration-500 focus-within:ring-2"
+      [style.background]="themeService.Background2"
+      [style.borderColor]="themeService.primary + '20'"
+      [style.--tw-ring-color]="themeService.primary">
+
+      <i class="fa-solid fa-magnifying-glass" [style.color]="themeService.Textsecondaire"></i>
+
+      <input [(ngModel)]="searchOtherTeams" placeholder="Rechercher un joueur..."
+        class="w-full bg-transparent outline-none font-medium placeholder:opacity-30 text-base"
+        [style.color]="themeService.Textprincipal" />
+
+    </div>
+  </div>
+
+  <!-- ========== LIST (fills remaining space) ========== -->
+  <div class="flex-1 overflow-y-auto px-6 pb-4 custom-scrollbar" (click)="$event.stopPropagation()">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+      <ng-container *ngFor="let joueur of filtrerAutresJoueurs; let i = index">
+
+        <div (click)="!isAlreadyConvoked(joueur) && toggleJoueur(joueur)"
+          class="relative p-5 rounded-2xl border transition-all duration-300 group"
+          [class.hover:scale-[1.02]]="!isAlreadyConvoked(joueur)"
+          [class.cursor-pointer]="!isAlreadyConvoked(joueur)"
+          [class.cursor-not-allowed]="isAlreadyConvoked(joueur)"
+          [style.opacity]="isAlreadyConvoked(joueur) ? '0.4' : '1'"
+          [style.background]="isAlreadyConvoked(joueur) ? themeService.Background2 : joueur.selected ? themeService.primary + '12' : themeService.Background2"
+          [style.borderColor]="isAlreadyConvoked(joueur) ? themeService.Background2 : joueur.selected ? themeService.primary + '40' : themeService.primary + '15'">
+
+          <!-- BADGE DÉJÀ CONVOQUÉ -->
+          <div *ngIf="isAlreadyConvoked(joueur)"
+            class="absolute top-3 right-3 text-[9px] px-2.5 py-1 rounded-full font-bold z-10 tracking-wide uppercase"
+            style="background: linear-gradient(135deg, #ef4444, #dc2626); color: white;">
+            Déjà convoqué
+          </div>
+
+          <div class="flex items-center gap-4">
+
+            <!-- AVATAR -->
+            <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white font-bold text-lg shrink-0 transition-all duration-300"
+              [style.background]="isAlreadyConvoked(joueur) ? '#6b7280' : joueur.selected ? themeService.primary : themeService.Background1">
+              <span *ngIf="!joueur.selected">{{ joueur.prenom?.[0] }}{{ joueur.nom?.[0] }}</span>
+              <i *ngIf="joueur.selected" class="fa-solid fa-check text-xl"></i>
+            </div>
+
+            <!-- INFO -->
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-base truncate" [style.color]="themeService.Textprincipal">
+                {{ joueur.prenom }} {{ joueur.nom }}
+              </p>
+              <p class="text-sm font-medium truncate" [style.color]="themeService.Textsecondaire">
+                {{ joueur.equipe || 'Autre équipe' }}
+              </p>
+            </div>
+
+            <!-- CHECK / PLUS -->
+            <div *ngIf="!isAlreadyConvoked(joueur)"
+              class="w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all duration-300"
+              [style.background]="joueur.selected ? themeService.primary : themeService.Background1">
+              <i class="fa-solid text-white text-sm"
+                [ngClass]="joueur.selected ? 'fa-check' : 'fa-plus'"></i>
+            </div>
+
+          </div>
+
+        </div>
+
+      </ng-container>
+
+      <!-- EMPTY STATE -->
+      <div *ngIf="filtrerAutresJoueurs.length === 0"
+        class="col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4 flex flex-col items-center justify-center py-20 gap-5">
+
+        <div class="w-20 h-20 rounded-full flex items-center justify-center"
+          [style.background]="themeService.Background2">
+          <i class="fa-solid fa-users-slash text-3xl opacity-20" [style.color]="themeService.Textsecondaire"></i>
+        </div>
+
+        <p class="text-base font-medium text-center" [style.color]="themeService.Textsecondaire">
+          Aucun joueur disponible dans les autres équipes
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <div class="flex items-center justify-between px-6 py-5 shrink-0"
+    [style.borderTop]="'1px solid ' + themeService.primary + '15'"
+    [style.background]="themeService.Background1"
+    (click)="$event.stopPropagation()">
+
+    <p class="text-base font-medium" [style.color]="themeService.Textsecondaire">
+      <span class="font-black text-lg" [style.color]="themeService.primary">{{ joueursSelectionnes.length }}</span>
+      joueur(s) sélectionné(s)
+    </p>
+
+    <button (click)="openOtherTeams = false"
+      class="h-12 px-10 rounded-2xl text-white font-bold text-base transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+      [style.background]="themeService.primary">
+      Terminé
+    </button>
+
+  </div>
+
+</div>
+
+
