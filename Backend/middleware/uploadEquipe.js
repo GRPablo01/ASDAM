@@ -2,21 +2,14 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// 📁 uploads/actus à la racine du projet
-const baseDir = path.join(process.cwd(), 'uploads');
-const dir = path.join(baseDir, 'actus');
+// 📁 uploads/equipe à la racine du projet
+const dir = path.join(process.cwd(), 'uploads', 'equipe');
 
-// 📦 créer uploads si besoin
-if (!fs.existsSync(baseDir)) {
-  fs.mkdirSync(baseDir, { recursive: true });
-}
-
-// 📦 créer uploads/actus si besoin
+// Création du dossier si inexistant
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
-// ⚙️ storage config
 const storage = multer.diskStorage({
 
   destination: (req, file, cb) => {
@@ -30,13 +23,14 @@ const storage = multer.diskStorage({
 
 });
 
-// 🔒 filtre image
 const fileFilter = (req, file, cb) => {
+
   if (file.mimetype.startsWith('image/')) {
     cb(null, true);
   } else {
-    cb(new Error('Only images allowed'), false);
+    cb(new Error('Images uniquement'), false);
   }
+
 };
 
 const upload = multer({

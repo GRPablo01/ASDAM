@@ -50,7 +50,7 @@ export class Dash implements OnInit {
       description: 'Créez et administrez les équipes du club.',
       icon: 'fa-solid fa-people-group',
       image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1400&auto=format&fit=crop',
-      route: '/create-equipe'
+      route: '/createequipe'
     },
 
     {
@@ -58,7 +58,7 @@ export class Dash implements OnInit {
       description: 'Envoyez des annonces et communiquez avec le club.',
       icon: 'fa-solid fa-comments',
       image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1400&auto=format&fit=crop',
-      route: '/create-communication'
+      route: '/createcommun'
     },
 
     {

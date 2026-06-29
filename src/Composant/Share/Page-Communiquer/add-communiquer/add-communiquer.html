@@ -1,0 +1,265 @@
+<app-icon></app-icon>
+
+<!-- ====================================================== -->
+<!-- PAGE COMMUNIQUÉ AS DAM THEME SYSTEM -->
+<!-- ====================================================== -->
+<section class="relative w-full h-auto overflow-hidden flex flex-col lg:flex-row"
+  [ngStyle]="{ 'background': themeService.Backgroundprincipal }">
+
+  <!-- ====================================================== -->
+  <!-- BACKGROUND EFFECTS -->
+  <!-- ====================================================== -->
+  <div class="absolute inset-0 opacity-20 pointer-events-none">
+
+    <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full blur-[120px]"
+      [ngStyle]="{ 'background': themeService.primary }">
+    </div>
+
+    <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full blur-[140px]"
+      [ngStyle]="{ 'background': themeService.secondary }">
+    </div>
+
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- LEFT SIDE HERO -->
+  <!-- ====================================================== -->
+  <div class="relative w-full lg:w-[42%] h-auto flex items-center justify-center overflow-hidden">
+
+    <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1400&auto=format&fit=crop"
+      class="absolute inset-0 w-full h-full object-cover transition-transform duration-[12s] hover:scale-110"
+      alt="Communiqué" />
+
+    <div class="absolute inset-0"
+      [ngStyle]="{
+        'background': 'linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.85))'
+      }">
+    </div>
+
+    <div class="relative z-10 w-full h-full flex flex-col justify-between px-6 py-10 lg:px-14 lg:py-14">
+
+      <!-- LOGO -->
+      <div class="flex items-center gap-4">
+
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center backdrop-blur-xl border"
+          [ngStyle]="{
+            'background': themeService.GlassBackground,
+            'border-color': themeService.GlassBorder
+          }">
+
+          <i class="fa-solid fa-bullhorn text-white text-xl"></i>
+        </div>
+
+        <div>
+          <h1 class="text-2xl font-black text-white">ASDAM</h1>
+          <p class="text-[11px] uppercase tracking-[4px] text-white/60">
+            Communication club
+          </p>
+        </div>
+
+      </div>
+
+      <!-- TEXT -->
+      <div class="max-w-md">
+
+        <h2 class="text-4xl lg:text-5xl font-black text-white leading-tight">
+          Envoyer<br />un communiqué
+        </h2>
+
+        <p class="text-white/70 mt-4 text-sm">
+          Diffuse des annonces importantes à tous les membres du club en quelques secondes.
+        </p>
+
+        <div class="flex gap-2 mt-6">
+          <div class="w-12 h-2 rounded-full" [ngStyle]="{ 'background': themeService.primary }"></div>
+          <div class="w-2 h-2 rounded-full bg-white/40"></div>
+          <div class="w-2 h-2 rounded-full bg-white/40"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- RIGHT SIDE FORM -->
+  <!-- ====================================================== -->
+  <div class="relative w-full lg:w-[58%] flex items-center justify-center px-6 py-12">
+
+    <div class="w-full max-w-3xl">
+
+      <!-- HEADER -->
+      <div class="mb-10">
+
+        <h2 class="text-3xl sm:text-4xl font-black flex items-center gap-4"
+          [ngStyle]="{ 'color': themeService.Textprincipal }">
+
+          <span class="w-1.5 h-10 rounded-full"
+            [ngStyle]="{ 'background': themeService.primary }">
+          </span>
+
+          Nouveau communiqué
+        </h2>
+
+        <p class="mt-2 ml-6"
+          [ngStyle]="{ 'color': themeService.Textsecondaire }">
+          Remplissez les informations ci-dessous
+        </p>
+
+      </div>
+
+      <!-- ====================================================== -->
+      <!-- FORM -->
+      <!-- ====================================================== -->
+      <form [formGroup]="communiquerForm" (ngSubmit)="envoyerCommuniquer()" class="space-y-6">
+
+        <!-- ====================================================== -->
+        <!-- TITRE -->
+        <!-- ====================================================== -->
+        <div>
+
+          <label class="block text-xs uppercase tracking-[3px] mb-2"
+            [ngStyle]="{ 'color': themeService.Textsecondaire }">
+            Titre
+          </label>
+
+          <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border backdrop-blur-xl"
+            [ngStyle]="{
+              'background': themeService.Background1,
+              'border-color': themeService.Bordernormal
+            }">
+
+            <i class="fa-solid fa-heading"
+              [ngStyle]="{ 'color': themeService.primary }"></i>
+
+            <input type="text"
+              formControlName="titre"
+              placeholder="Ex: Match important ce week-end"
+              class="w-full bg-transparent outline-none text-sm"
+              [ngStyle]="{ 'color': themeService.Textprincipal }" />
+
+          </div>
+
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- DESTINATAIRES -->
+        <!-- ====================================================== -->
+        <div>
+
+            <label class="block text-xs uppercase tracking-[3px] mb-2"
+            [ngStyle]="{ 'color': themeService.Textsecondaire }">
+            Destinataires
+            </label>
+        
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        
+            <label *ngFor="let cat of categories"
+                class="flex items-center gap-2 px-4 py-3 rounded-xl border cursor-pointer transition"
+                [ngStyle]="{
+                'background': themeService.Background1,
+                'border-color': themeService.Bordernormal,
+                'color': themeService.Textprincipal
+                }">
+        
+                <input
+                type="checkbox"
+                [checked]="isChecked(cat)"
+                (change)="onCategoryChange($event, cat)"
+                [ngStyle]="{ 'accent-color': themeService.primary }"
+                />
+        
+                {{ cat }}
+        
+            </label>
+        
+            </div>
+        
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- MESSAGE -->
+        <!-- ====================================================== -->
+        <div>
+
+          <label class="block text-xs uppercase tracking-[3px] mb-2"
+            [ngStyle]="{ 'color': themeService.Textsecondaire }">
+            Message
+          </label>
+
+          <div class="flex gap-3 p-4 rounded-2xl border backdrop-blur-xl"
+            [ngStyle]="{
+              'background': themeService.Background1,
+              'border-color': themeService.Bordernormal
+            }">
+
+            <i class="fa-solid fa-align-left mt-1"
+              [ngStyle]="{ 'color': themeService.primary }"></i>
+
+            <textarea rows="8"
+              formControlName="message"
+              placeholder="Écris ton communiqué ici..."
+              class="w-full bg-transparent outline-none resize-none text-sm"
+              [ngStyle]="{ 'color': themeService.Textprincipal }">
+            </textarea>
+
+          </div>
+
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- BUTTON -->
+        <!-- ====================================================== -->
+        <button type="submit"
+          [disabled]="loading"
+          class="relative w-full h-14 rounded-2xl font-black text-white overflow-hidden group transition"
+          [ngStyle]="{
+            'background': themeService.primary,
+            'box-shadow': themeService.primaryGlow
+          }">
+
+          <span class="relative z-10 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-paper-plane"></i>
+
+            <span *ngIf="!loading">Envoyer le communiqué</span>
+            <span *ngIf="loading">Envoi en cours...</span>
+
+          </span>
+
+          <!-- SHINE -->
+          <div
+            class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent">
+          </div>
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- ====================================================== -->
+<!-- ANIMATIONS -->
+<!-- ====================================================== -->
+<style>
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fade-in-down {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.7s ease forwards;
+  }
+
+  .animate-fade-in-down {
+    animation: fade-in-down 0.7s ease forwards;
+  }
+</style>

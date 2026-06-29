@@ -16,7 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const IP_LOCALE = process.env.IP_LOCALE || '0.0.0.0';
 
-// 👉 IMPORTANT : Docker = mongo / Local = 127.0.0.1
+// 👉 MongoDB (Docker / Local)
 const MONGO_URI =
   process.env.MONGO_URI ||
   'mongodb://mongo:27017/asdam';
@@ -38,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ==============================
-// 📁 UPLOADS
+// 📁 UPLOADS (images utilisateurs, pdf, etc.)
 // ==============================
 const uploadDir = path.join(__dirname, 'uploads');
 
@@ -47,7 +47,27 @@ if (!fs.existsSync(uploadDir)) {
   console.log(`📂 Uploads créé : ${uploadDir}`);
 }
 
-app.use('/uploads', express.static(uploadDir));
+app.use('/uploads', express.static(uploadDir, {
+  maxAge: '1d'
+}));
+
+// ==============================
+// 🎨 ASSETS (logos, images statiques)
+// ==============================
+const assetsDir = path.join(__dirname, 'assets');
+
+if (!fs.existsSync(assetsDir)) {
+  fs.mkdirSync(assetsDir, { recursive: true });
+  console.log(`📂 Assets créé : ${assetsDir}`);
+}
+
+console.log('📁 Assets servis depuis :', assetsDir);
+
+app.use('/assets', express.static(assetsDir, {
+  extensions: ['png', 'jpg', 'jpeg', 'svg'],
+  maxAge: '7d',
+  etag: true
+}));
 
 // ==============================
 // 🌍 MongoDB (SAFE + RECONNECT)
@@ -75,10 +95,11 @@ connectMongo();
 const authRoutes = require('./Backend/Routes/auth.Routes');
 const userRoutes = require('./Backend/Routes/user.routes');
 const matchRoutes = require('./Backend/Routes/match.Route');
-const equipeRoutes = require('./Backend/Routes/equipe.Routes');
+const equipeRoute = require('./Backend/Routes/equipe.Routes');
 const eventRoutes = require('./Backend/Routes/event.Routes');
 const actusRoutes = require('./Backend/Routes/actus.Routes');
 const convocationRoutes = require('./Backend/Routes/convocation.routes');
+const communiquerRoute = require('./Backend/Routes/communiquer.Route');
 
 // ==============================
 // 🧭 API ROUTES
@@ -86,10 +107,11 @@ const convocationRoutes = require('./Backend/Routes/convocation.routes');
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/matchs', matchRoutes);
-app.use('/api/equipes', equipeRoutes);
+app.use('/api/team', equipeRoute);
 app.use('/api/events', eventRoutes);
 app.use('/api/actus', actusRoutes);
 app.use('/api/convocation', convocationRoutes);
+app.use('/api/communiquer', communiquerRoute);
 
 // ==============================
 // 🏠 TEST ROUTES
@@ -102,6 +124,18 @@ app.get('/api', (req, res) => {
   res.json({
     message: 'API ASDAM OK',
     status: 'running'
+  });
+});
+
+// ==============================
+// 🔍 DEBUG ROUTE (utile pour ton problème d’image)
+// ==============================
+app.get('/debug-assets', (req, res) => {
+  res.json({
+    assetsDir,
+    exists: fs.existsSync(assetsDir),
+    uploadsDir,
+    uploadsExists: fs.existsSync(uploadDir)
   });
 });
 

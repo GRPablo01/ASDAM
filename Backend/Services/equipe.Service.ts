@@ -3,18 +3,23 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Equipe {
+
     _id?: string;
+
     nom: string;
+
     ville?: string;
+
     logo: string;
 }
 
 @Injectable({
     providedIn: 'root'
 })
+
 export class EquipeService {
 
-    apiUrl = 'http://localhost:3000/api/equipes';
+    apiUrl = 'http://localhost:3000/api/team';
 
     constructor(private http: HttpClient) {}
 

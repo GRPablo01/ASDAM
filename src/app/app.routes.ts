@@ -17,6 +17,9 @@ import { DashBoard } from '../Page/Public/dash-board/dash-board';
 import { CreationActus } from '../Page/Public/creation-actus/creation-actus';
 import { CreationEvent } from '../Page/Public/creation-event/creation-event';
 import { CreationConvoque } from '../Page/Public/creation-convoque/creation-convoque';
+import { CreationMatch } from '../Page/Public/creation-match/creation-match';
+import { CreationEquipe } from '../Page/Public/creation-equipe/creation-equipe';
+import { CreationComuniquer } from '../Page/Public/creation-comuniquer/creation-comuniquer';
 
 
 
@@ -42,5 +45,7 @@ export const routes: Routes = [
     { path: 'createactus', component: CreationActus },
     { path: 'createevent', component: CreationEvent },
     { path: 'createconvocation', component: CreationConvoque },
-    { path: 'creatematch', component: CreationActus },
+    { path: 'creatematch', component: CreationMatch },
+    { path: 'createequipe', component: CreationEquipe },
+    { path: 'createcommun', component: CreationComuniquer },
 ];
