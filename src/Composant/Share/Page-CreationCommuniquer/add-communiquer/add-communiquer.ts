@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommuniquerService } from '../../../../../Backend/Services/communiquer.service';
 import { Icon } from '../../icon/icon';
 import { ThemeService } from '../../../../../Backend/Services/theme.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-communiquer',
@@ -31,6 +32,9 @@ export class AddCommuniquer {
   // ==========================================
   communiquerForm: FormGroup;
   selectedCategories: string[] = [];
+
+  showNotification = false;
+  notificationMessage = '';
 
   // ==========================================
   // CATÉGORIES
@@ -56,9 +60,10 @@ export class AddCommuniquer {
     private fb: FormBuilder,
     private communiquerService: CommuniquerService,
     public themeService: ThemeService,
+    private router: Router
   ) {
 
-    console.log('🟢 [AddCommuniquer] Component initialisé');
+    // console.log('🟢 [AddCommuniquer] Component initialisé');
 
     this.communiquerForm = this.fb.group({
       titre: [
@@ -83,7 +88,7 @@ export class AddCommuniquer {
       ]
     });
 
-    console.log('📦 Formulaire initialisé :', this.communiquerForm.value);
+    // console.log('📦 Formulaire initialisé :', this.communiquerForm.value);
   }
 
   // ==========================================
@@ -105,7 +110,7 @@ export class AddCommuniquer {
   // RESET MESSAGES
   // ==========================================
   resetMessages(): void {
-    console.log('🔄 Reset messages');
+    // console.log('🔄 Reset messages');
     this.successMessage = '';
     this.errorMessage = '';
   }
@@ -119,20 +124,20 @@ export class AddCommuniquer {
 
   onCategoryChange(event: any, cat: string): void {
 
-    console.group('📌 [Category Change]');
+    // console.group('📌 [Category Change]');
 
-    console.log('Catégorie cliquée :', cat);
-    console.log('État checkbox :', event.target.checked);
+    // console.log('Catégorie cliquée :', cat);
+    // console.log('État checkbox :', event.target.checked);
 
     // 👉 CAS "TOUS"
     if (cat === 'Tous') {
 
       if (event.target.checked) {
         this.selectedCategories = [...this.categories];
-        console.log('✅ Tous sélectionnés');
+        // console.log('✅ Tous sélectionnés');
       } else {
         this.selectedCategories = [];
-        console.log('❌ Tous désélectionnés');
+        // console.log('❌ Tous désélectionnés');
       }
 
     } else {
@@ -141,7 +146,7 @@ export class AddCommuniquer {
       if (event.target.checked) {
         if (!this.selectedCategories.includes(cat)) {
           this.selectedCategories.push(cat);
-          console.log('➕ Ajout catégorie :', cat);
+          // console.log('➕ Ajout catégorie :', cat);
         }
       }
       // 👉 SUPPRESSION
@@ -149,7 +154,7 @@ export class AddCommuniquer {
         this.selectedCategories =
           this.selectedCategories.filter(c => c !== cat);
 
-        console.log('➖ Suppression catégorie :', cat);
+        // console.log('➖ Suppression catégorie :', cat);
       }
 
       // 👉 Si "Tous" était sélectionné mais pas toutes les catégories
@@ -164,8 +169,8 @@ export class AddCommuniquer {
       categories: this.selectedCategories
     });
 
-    console.log('📦 SelectedCategories :', this.selectedCategories);
-    console.log('📦 Form categories :', this.communiquerForm.value.categories);
+    // console.log('📦 SelectedCategories :', this.selectedCategories);
+    // console.log('📦 Form categories :', this.communiquerForm.value.categories);
 
     console.groupEnd();
   }
@@ -175,7 +180,7 @@ export class AddCommuniquer {
   // ==========================================
   envoyerCommuniquer(): void {
 
-    console.group('🚀 [Envoi Communiqué]');
+    // console.group('🚀 [Envoi Communiqué]');
 
     this.resetMessages();
 
@@ -201,27 +206,37 @@ export class AddCommuniquer {
       dateCreation: new Date()
     };
 
-    console.log('📦 Données envoyées :', data);
+    // console.log('📦 Données envoyées :', data);
 
     this.communiquerService.ajouterCommuniquer(data)
       .subscribe({
 
         next: (response) => {
 
-          console.log('✅ Réponse API succès :', response);
+          // console.log('✅ Réponse API succès :', response);
 
           this.loading = false;
 
-          this.successMessage =
-            '✅ Communiqué envoyé avec succès';
+          // ❌ ancien message supprimé
+          // this.successMessage = '✅ Communiqué envoyé avec succès';
 
+          // ✅ TOAST NOTIFICATION
+          this.notificationMessage = 'Communiqué envoyé avec succès';
+          this.showNotification = true;
+
+          // auto hide toast
+          setTimeout(() => {
+            this.showNotification = false;
+          }, 3000);
+
+          // reset form
           this.communiquerForm.reset({
             categories: []
           });
 
           this.selectedCategories = [];
 
-          console.log('♻️ Form reset effectué');
+          // console.log('♻️ Form reset effectué');
 
           console.groupEnd();
         },
@@ -240,5 +255,28 @@ export class AddCommuniquer {
         }
 
       });
+  }
+
+  // ======================================================
+  // 🔙 BACK
+  // ======================================================
+  goBack(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
+   // ======================================================
+  // TOAST
+  // ======================================================
+  showToast(message: string) {
+    this.notificationMessage = message;
+    this.showNotification = true;
+
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 3000);
+  }
+
+  closeNotification() {
+    this.showNotification = false;
   }
 }

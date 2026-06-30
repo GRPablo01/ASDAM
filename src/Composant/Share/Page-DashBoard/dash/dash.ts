@@ -66,7 +66,7 @@ export class Dash implements OnInit {
       description: 'Planifiez et gérez les matchs du club.',
       icon: 'fa-solid fa-futbol',
       image: '/assets/ImageMatch.png',
-      route: '/create-match'
+      route: '/creatematch'
     }
 
   ];

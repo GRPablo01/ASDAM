@@ -220,7 +220,7 @@
 
         </a>
 
-        <a routerLink="/team-management" class="menu-item group flex items-center gap-2">
+        <a routerLink="/equipe" class="menu-item group flex items-center gap-2">
 
           <i class="fa-solid fa-people-group icon"
             [ngStyle]="{
@@ -235,19 +235,19 @@
 
         </a>
 
-        <a routerLink="/players" class="menu-item group flex items-center gap-2">
+        <a routerLink="/matches" class="menu-item group flex items-center gap-2">
 
-          <i class="fa-solid fa-user-group icon"
+          <i class="fa-solid fa-calendar-days icon"
             [ngStyle]="{
               'color': themeService.teamPrimary,
               'background-color': themeService.teamPrimarySoft
             }">
           </i>
-
+        
           <span [ngStyle]="{'color': themeService.teamPrimary}">
-            Joueurs
+            Mes matchs
           </span>
-
+        
         </a>
 
         <a routerLink="/convocations" class="menu-item group flex items-center gap-2">

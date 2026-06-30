@@ -262,3 +262,15 @@ exports.createCommuniquer = async (req, res) => {
         });
     }
 };
+
+exports.getCommuniquers = async (req, res) => {
+    try {
+      const data = await Communiquer.find().sort({ dateCreation: -1 });
+  
+      return res.status(200).json(data);
+  
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erreur serveur" });
+    }
+  };

@@ -7,15 +7,12 @@ import { Header } from '../../../Composant/Public/header/header';
 import { Mobile } from '../../../Composant/Share/mobile/mobile';
 import { ThemeService } from '../../../../Backend/Services/theme.service';
 import { Footer } from "../../../Composant/Public/footer/footer";
-import { AddActus } from '../../../Composant/Share/Page-CreationActus/add-actus/add-actus';
-import { AddCommuniquer } from '../../../Composant/Share/Page-CreationCommuniquer/add-communiquer/add-communiquer';
-
-
+import { Team } from '../../../Composant/Share/Page-Equipe/team/team';
 
 
 
 @Component({
-  selector: 'app-creation-comuniquer',
+  selector: 'app-creation-equipe',
   standalone: true,
   imports: [
     CommonModule,
@@ -24,13 +21,12 @@ import { AddCommuniquer } from '../../../Composant/Share/Page-CreationCommunique
     FormsModule,
     Mobile,
     Footer,
-    AddActus,
-    AddCommuniquer
+    Team
 ],
-  templateUrl: './creation-comuniquer.html',
-  styleUrls: ['./creation-comuniquer.css'],
+  templateUrl: './equipe.html',
+  styleUrls: ['./equipe.css'],
 })
-export class CreationComuniquer implements OnInit {
+export class Equipe implements OnInit {
 
   isLoaded: boolean = false;
   isLoggedIn: boolean = false;
@@ -42,7 +38,7 @@ export class CreationComuniquer implements OnInit {
 
   ngOnInit(): void {
     // 🧠 Titre de la page
-    this.titleService.setTitle('ASDAM | Création Communiquer');
+    this.titleService.setTitle('ASDAM | Création Actus');
 
     // 👤 Vérification de la connexion utilisateur
     const utilisateurString = localStorage.getItem('utilisateur');

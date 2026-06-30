@@ -20,6 +20,7 @@ import { CreationConvoque } from '../Page/Public/creation-convoque/creation-conv
 import { CreationMatch } from '../Page/Public/creation-match/creation-match';
 import { CreationEquipe } from '../Page/Public/creation-equipe/creation-equipe';
 import { CreationComuniquer } from '../Page/Public/creation-comuniquer/creation-comuniquer';
+import { Equipe } from '../Page/Public/equipe/equipe';
 
 
 
@@ -48,4 +49,6 @@ export const routes: Routes = [
     { path: 'creatematch', component: CreationMatch },
     { path: 'createequipe', component: CreationEquipe },
     { path: 'createcommun', component: CreationComuniquer },
+    { path: 'creatematch', component: CreationMatch },
+    { path: 'equipe', component: Equipe },
 ];
