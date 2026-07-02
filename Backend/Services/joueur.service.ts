@@ -17,6 +17,9 @@ export interface Joueur {
   equipe?: string;
   role?: string;
   selected?: boolean;
+  // ⚽ AJOUT IMPORTANT
+  statutSportif?: 'disponible' | 'blessé' | 'suspendu';
+  statut?: 'actif' | 'blessé' | 'suspendu';
   present: 'oui' | 'non' | 'non_repondu';
 }
 
@@ -58,6 +61,7 @@ export class JoueurService {
       numero: user.numero,
       equipe: user.equipe,
       role: user.role || 'Joueur',
+      statutSportif: user.statutSportif || 'disponible',
       present: user.present,
       selected: false
     };

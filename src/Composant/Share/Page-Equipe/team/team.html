@@ -1,124 +1,397 @@
-<div class="min-h-screen bg-zinc-950 text-white p-6">
+<div class="min-h-screen p-6 transition-colors duration-500"
+  [style.background-color]="themeService.Backgroundprincipal">
 
-    <!-- HEADER -->
-    <div class="mb-10">
-  
-      <h1 class="text-4xl font-black tracking-tight">
-        ⚽ Mes Joueurs
-      </h1>
-  
-      <p class="text-zinc-400 mt-2">
-        Liste complète des joueurs de l'équipe
-      </p>
-  
-    </div>
-  
-    <!-- LOADING -->
-    <div
-      *ngIf="isLoading"
-      class="flex items-center justify-center py-20"
-    >
-  
-      <div class="flex flex-col items-center gap-4">
-  
-        <div class="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
-  
-        <p class="text-zinc-400">
-          Chargement des joueurs...
+  <div class="mb-8">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+      [style.background-color]="themeService.Backgroundheader"
+      class="p-5 rounded-xl shadow-lg transition-colors duration-300">
+
+      <div>
+
+        <!-- TITRE -->
+        <h1 class="text-3xl sm:text-4xl font-black tracking-tight flex items-center gap-3"
+          [style.color]="themeService.Textprincipal">
+
+          <i class="fa-solid fa-futbol text-2xl"></i>
+
+          Gestion de l'Équipe
+        </h1>
+
+        <!-- DESCRIPTION -->
+        <p class="mt-2 text-base flex items-center gap-2" [style.color]="themeService.Textsecondaire">
+
+          <i class="fa-solid fa-user-tie"></i>
+
+          Espace entraîneur — Vue d'ensemble et gestion des joueurs
         </p>
-  
+
       </div>
-  
     </div>
-  
-    <!-- PLAYERS -->
+  </div>
+
+  <!-- ==================== WIDGETS DASHBOARD ==================== -->
+  <div *ngIf="!isLoading" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+
+    <!-- ==================== TOTAL JOUEURS ==================== -->
     <div
-      *ngIf="!isLoading"
-      class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
-    >
-  
-      <div
-        *ngFor="let joueur of joueurs"
-        class="bg-zinc-900 border border-white/10 rounded-3xl p-6 hover:border-green-500/40 hover:bg-zinc-900/80 transition-all duration-300 shadow-lg"
-      >
-  
-        <!-- TOP -->
-        <div class="flex items-center gap-4 mb-6">
-  
-          <!-- AVATAR -->
-          <div class="w-16 h-16 rounded-2xl bg-green-500/20 flex items-center justify-center text-2xl font-black text-green-400">
-  
-            {{ joueur.prenom?.charAt(0) }}{{ joueur.nom?.charAt(0) }}
-  
-          </div>
-  
-          <!-- INFOS -->
-          <div>
-  
-            <h2 class="text-xl font-bold">
-              {{ joueur.prenom }} {{ joueur.nom }}
-            </h2>
-  
-            <p class="text-sm text-zinc-400">
-              {{ joueur.email }}
-            </p>
-  
-          </div>
-  
+      class="relative overflow-hidden rounded-2xl p-5 transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
+      [style.background-color]="themeService.Backgroundheader" [style.border]="'1px solid ' + themeService.Bordernormal"
+      [style.box-shadow]="themeService.GlassShadow">
+
+      <div class="absolute top-0 right-0 w-24 h-24 rounded-full -translate-y-8 translate-x-8 opacity-10"
+        [style.background-color]="themeService.c8Base"></div>
+
+      <div class="flex items-center justify-between mb-3">
+
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+          [style.background-color]="themeService.teamPrimarySoft">
+
+          <i class="fa-solid fa-users" [style.color]="themeService.teamPrimary"></i>
+
         </div>
-  
-        <!-- CONTENT -->
-        <div class="space-y-3">
-  
-         
-          <div class="flex items-center justify-between">
-  
-            <span class="text-zinc-500">
-              Équipe
-            </span>
-  
-            <span class="font-semibold text-blue-400">
-              {{ joueur.equipe || '-' }}
-            </span>
-  
-          </div>
-  
-          <div class="flex items-center justify-between">
-  
-            <span class="text-zinc-500">
-              Rôle
-            </span>
-  
-            <span class="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-sm font-semibold">
-              {{ joueur.role }}
-            </span>
-  
-          </div>
-  
-        </div>
-  
+
+        <span class="text-xs font-semibold px-2 py-1 rounded-full"
+          [style.background-color]="themeService.convocationPrimarySoft"
+          [style.color]="themeService.convocationPrimary">
+
+          {{ joueurs.length }} total
+        </span>
+
       </div>
-  
-    </div>
-  
-    <!-- EMPTY -->
-    <div
-      *ngIf="!isLoading && joueurs.length === 0"
-      class="flex flex-col items-center justify-center py-20 text-center"
-    >
-  
-      <div class="text-7xl mb-4">
-        ⚽
-      </div>
-  
-      <h2 class="text-2xl font-bold mb-2">
-        Aucun joueur trouvé
-      </h2>
-  
-      <p class="text-zinc-500">
-        Aucun utilisateur avec le rôle joueur n'existe.
+
+      <p class="text-2xl font-black" [style.color]="themeService.Textprincipal">
+        {{ joueurs.length }}
       </p>
-  
+
+      <p class="text-xs mt-1" [style.color]="themeService.Textsecondaire">
+        Joueurs dans l'équipe
+      </p>
     </div>
-  
+
+    <!-- ==================== JOUEURS ACTIFS ==================== -->
+    <div
+      class="relative overflow-hidden rounded-2xl p-5 transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
+      [style.background-color]="themeService.Backgroundheader" [style.border]="'1px solid ' + themeService.Bordernormal"
+      [style.box-shadow]="themeService.GlassShadow">
+
+      <div class="absolute top-0 right-0 w-24 h-24 rounded-full -translate-y-8 translate-x-8 opacity-10"
+        [style.background-color]="themeService.c9Base"></div>
+
+      <div class="flex items-center justify-between mb-3">
+
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+          [style.background-color]="themeService.convocationPrimarySoft">
+
+          <i class="fa-solid fa-circle-check" [style.color]="themeService.convocationPrimary"></i>
+
+        </div>
+
+        <span class="text-xs font-semibold px-2 py-1 rounded-full"
+          [style.background-color]="themeService.convocationPrimarySoft"
+          [style.color]="themeService.convocationPrimary">
+
+          {{ getActivePlayersCount() }}
+        </span>
+
+      </div>
+
+      <p class="text-2xl font-black" [style.color]="themeService.Textprincipal">
+        {{ getActivePlayersCount() }}
+      </p>
+
+      <p class="text-xs mt-1" [style.color]="themeService.Textsecondaire">
+        Joueurs actifs
+      </p>
+    </div>
+
+    <!-- ==================== BLESSÉS ==================== -->
+    <div
+      class="relative overflow-hidden rounded-2xl p-5 transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
+      [style.background-color]="themeService.Backgroundheader" [style.border]="'1px solid ' + themeService.Bordernormal"
+      [style.box-shadow]="themeService.GlassShadow">
+
+      <div class="absolute top-0 right-0 w-24 h-24 rounded-full -translate-y-8 translate-x-8 opacity-10"
+        [style.background-color]="themeService.c3Base"></div>
+
+      <div class="flex items-center justify-between mb-3">
+
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+          [style.background-color]="themeService.eventPrimarySoft">
+
+          <i class="fa-solid fa-triangle-exclamation" [style.color]="themeService.eventPrimary"></i>
+
+        </div>
+
+        <span class="text-xs font-semibold px-2 py-1 rounded-full"
+          [style.background-color]="themeService.eventPrimarySoft" [style.color]="themeService.eventPrimary">
+
+          {{ getInjuredPlayersCount() }}
+        </span>
+
+      </div>
+
+      <p class="text-2xl font-black" [style.color]="themeService.Textprincipal">
+        {{ getInjuredPlayersCount() }}
+      </p>
+
+      <p class="text-xs mt-1" [style.color]="themeService.Textsecondaire">
+        Blessés / Absents
+      </p>
+    </div>
+
+    <!-- ==================== PROCHAIN MATCH ==================== -->
+    <div
+      class="relative overflow-hidden rounded-2xl p-5 transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
+      [style.background-color]="themeService.Backgroundheader" [style.border]="'1px solid ' + themeService.Bordernormal"
+      [style.box-shadow]="themeService.GlassShadow">
+
+      <div class="absolute top-0 right-0 w-24 h-24 rounded-full -translate-y-8 translate-x-8 opacity-10"
+        [style.background-color]="themeService.c20Base"></div>
+
+      <div class="flex items-center justify-between mb-3">
+
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+          [style.background-color]="themeService.dashboardPrimarySoft">
+
+          <i class="fa-solid fa-calendar-days" [style.color]="themeService.dashboardPrimary"></i>
+
+        </div>
+
+        <span class="text-xs font-semibold px-2 py-1 rounded-full"
+          [style.background-color]="themeService.dashboardPrimarySoft" [style.color]="themeService.dashboardPrimary">
+
+          J-3
+        </span>
+
+      </div>
+
+      <p class="text-lg font-black truncate" [style.color]="themeService.Textprincipal">
+        vs {{ nextMatchOpponent || 'Aucun' }}
+      </p>
+
+      <p class="text-xs mt-1" [style.color]="themeService.Textsecondaire">
+        {{ nextMatchDate || 'Aucun match planifié' }}
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- ==================== BARRE DE FILTRES & RECHERCHE ==================== -->
+  <div *ngIf="!isLoading && joueurs.length > 0" class="mb-6">
+    <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+
+      <!-- Search -->
+      <div class="relative w-full sm:w-80">
+        <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300"
+          [style.color]="themeService.isDarkMode ? '#64748b' : '#94a3b8'" fill="none" stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Rechercher un joueur..."
+          class="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm font-medium outline-none transition-all duration-300 focus:ring-2"
+          [style.background-color]="themeService.isDarkMode ? 'rgba(15, 23, 42, 0.8)' : '#ffffff'"
+          [style.color]="themeService.isDarkMode ? '#ffffff' : '#0f172a'"
+          [style.border]="themeService.isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.08)'"
+          [style.--tw-ring-color]="themeService.isDarkMode ? '#f43f5e' : '#e11d48'"
+          style="box-shadow: 0 2px 12px rgba(0,0,0,0.05);">
+      </div>
+
+      <!-- Filtres -->
+      <div class="flex gap-2 flex-wrap">
+        <button *ngFor="let filter of statusFilters" (click)="setStatusFilter(filter.value)"
+          class="px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+          [style.background-color]="activeStatusFilter === filter.value
+                  ? (themeService.isDarkMode ? '#f43f5e' : '#e11d48')
+                  : (themeService.isDarkMode ? 'rgba(15, 23, 42, 0.8)' : '#ffffff')" [style.color]="activeStatusFilter === filter.value
+                  ? '#ffffff'
+                  : (themeService.isDarkMode ? '#94a3b8' : '#64748b')" [style.border]="activeStatusFilter === filter.value
+                  ? 'none'
+                  : (themeService.isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.08)')">
+          {{ filter.label }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== LOADING ==================== -->
+  <div *ngIf="isLoading" class="flex items-center justify-center py-20">
+
+    <div class="flex flex-col items-center gap-4">
+
+      <!-- SPINNER -->
+      <div class="relative w-14 h-14">
+
+        <!-- BACK CIRCLE -->
+        <div class="absolute inset-0 rounded-full border-4 opacity-20"
+            [style.border-color]="themeService.teamPrimarySoft"></div>
+
+        <!-- SPINNING CIRCLE -->
+        <div class="absolute inset-0 rounded-full border-4 border-t-transparent animate-spin"
+            [style.border-color]="themeService.teamPrimary"></div>
+
+      </div>
+
+      <!-- ICON + TEXT -->
+      <div class="flex items-center gap-2">
+
+        <i class="fa-solid fa-spinner animate-spin"
+          [style.color]="themeService.teamPrimary"></i>
+
+        <p class="text-sm font-medium"
+          [style.color]="themeService.Textsecondaire">
+
+          Chargement des joueurs...
+
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ==================== GRILLE JOUEURS (PORTRAIT CARDS) ==================== -->
+  <div *ngIf="!isLoading && filteredJoueurs.length > 0"
+    class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+  <div *ngFor="let joueur of filteredJoueurs; let i = index"
+
+      class="group relative overflow-hidden rounded-3xl p-5 transition-all duration-300 hover:scale-[1.03] cursor-pointer flex flex-col justify-between"
+
+      [style.background-color]="themeService.Backgroundheader"
+      [style.border]="'1px solid ' + themeService.Bordernormal"
+      [style.box-shadow]="themeService.GlassShadow"
+      [style.animation]="'fadeInUp 0.4s ease-out ' + (i * 0.05) + 's both'">
+
+  <!-- ================= GLOW ================= -->
+  <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        [style.background]="themeService.primarySoft"></div>
+
+  <!-- ================= TOP ================= -->
+  <div class="relative z-10 flex flex-col items-center text-center">
+
+    <!-- AVATAR -->
+    <div class="relative">
+
+      <div class="w-20 h-20 rounded-full flex items-center justify-center text-lg font-black shadow-lg"
+            [style.background-color]="themeService.teamPrimary"
+            [style.color]="'white'">
+
+        {{ getInitiales(joueur.nom, joueur.prenom) }}
+
+      </div>
+
+      <!-- STATUS -->
+      <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 flex items-center justify-center"
+            [style.border-color]="themeService.Backgroundheader"
+            [style.background-color]="getStatusColor(joueur.statut)">
+
+        <i class="fa-solid fa-circle text-[8px] text-white"
+            *ngIf="joueur.statut === 'actif'"></i>
+
+      </div>
+
+    </div>
+
+    <!-- NOM -->
+    <h2 class="mt-3 text-lg font-black truncate"
+        [style.color]="themeService.Textprincipal">
+
+      {{ joueur.prenom }} {{ joueur.nom }}
+
+    </h2>
+
+    <!-- BADGES -->
+    <div class="flex gap-2 mt-3">
+
+      <span class="px-2 py-1 rounded-lg text-[10px] font-bold"
+            [style.background-color]="getStatusBgColor(joueur.statut)"
+            [style.color]="getStatusTextColor(joueur.statut)">
+
+        {{ getStatusLabel(joueur.statut) }}
+
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- ================= ACTIONS ================= -->
+  <div class="relative z-10 flex gap-2 mt-4">
+
+    <button class="flex-1 py-2 rounded-xl text-xs font-semibold transition-all hover:scale-105"
+            [style.background-color]="themeService.dashboardPrimarySoft"
+            [style.color]="themeService.dashboardPrimary"
+            (click)="onViewPlayer(joueur)">
+
+      <i class="fa-solid fa-eye mr-1"></i>
+      Voir
+
+    </button>
+
+    <button class="flex-1 py-2 rounded-xl text-xs font-semibold transition-all hover:scale-105"
+            [style.background-color]="themeService.teamPrimarySoft"
+            [style.color]="themeService.teamPrimary"
+            (click)="onEditPlayer(joueur)">
+
+      <i class="fa-solid fa-pen mr-1"></i>
+      Edit
+
+    </button>
+
+  </div>
+
+  </div>
+
+  </div>
+
+  <!-- ==================== EMPTY STATE ==================== -->
+  <div *ngIf="!isLoading && filteredJoueurs.length === 0"
+  class="flex flex-col items-center justify-center py-24 text-center">
+
+  <!-- ICON CIRCLE -->
+  <div class="relative w-28 h-28 rounded-full flex items-center justify-center mb-6 shadow-lg"
+    [style.background-color]="themeService.primarySoft">
+
+  <i class="fa-solid fa-futbol text-4xl animate-pulse"
+    [style.color]="themeService.primary"></i>
+
+  </div>
+
+  <!-- TITLE -->
+  <h2 class="text-2xl font-black mb-2 transition-colors duration-300"
+  [style.color]="themeService.Textprincipal">
+
+  {{ searchQuery ? 'Aucun résultat' : 'Aucun joueur trouvé' }}
+
+  </h2>
+
+  <!-- DESCRIPTION -->
+  <p class="max-w-md text-sm leading-relaxed transition-colors duration-300"
+  [style.color]="themeService.Textsecondaire">
+
+  {{ searchQuery
+  ? 'Aucun joueur ne correspond à votre recherche. Essayez avec un autre terme.'
+  : 'Aucun joueur avec le rôle "joueur" n\'est encore présent dans votre équipe.' }}
+
+  </p>
+
+  <!-- ACTION -->
+  <button *ngIf="searchQuery"
+      (click)="clearSearch()"
+      class="mt-5 px-6 py-2 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-md"
+
+      [style.background-color]="themeService.primary"
+      [style.color]="'white'">
+
+  <i class="fa-solid fa-xmark"></i>
+  Effacer la recherche
+
+  </button>
+
+  </div>
+
 </div>

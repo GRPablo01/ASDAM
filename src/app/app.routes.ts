@@ -21,6 +21,7 @@ import { CreationMatch } from '../Page/Public/creation-match/creation-match';
 import { CreationEquipe } from '../Page/Public/creation-equipe/creation-equipe';
 import { CreationComuniquer } from '../Page/Public/creation-comuniquer/creation-comuniquer';
 import { Equipe } from '../Page/Public/equipe/equipe';
+import { MesMatch } from '../Page/Public/mes-match/mes-match';
 
 
 
@@ -51,4 +52,5 @@ export const routes: Routes = [
     { path: 'createcommun', component: CreationComuniquer },
     { path: 'creatematch', component: CreationMatch },
     { path: 'equipe', component: Equipe },
+    { path: 'mesmatch', component: MesMatch },
 ];

@@ -31,12 +31,7 @@ exports.registerUser = async (req, res) => {
       theme, equipe, codeAcces, key,
       status, compte, compteDesactiveTime,
       notification, cookie,
-
-      // =========================
-      // CONTACT
-      // =========================
       contact
-
     } = req.body;
 
     // =========================
@@ -46,7 +41,7 @@ exports.registerUser = async (req, res) => {
     numeroMaillot = numeroMaillot || undefined;
     club = club || '';
 
-    theme = ['clair','sombre'].includes(theme)
+    theme = ['clair', 'sombre'].includes(theme)
       ? theme
       : 'clair';
 
@@ -66,13 +61,9 @@ exports.registerUser = async (req, res) => {
       ? compte
       : 'actif';
 
-    compteDesactiveTime =
-      compteDesactiveTime || '';
+    compteDesactiveTime = compteDesactiveTime || '';
 
-    cookie = [
-      'accepter',
-      'refuser'
-    ].includes(cookie)
+    cookie = ['accepter', 'refuser'].includes(cookie)
       ? cookie
       : 'refuser';
 
@@ -80,9 +71,6 @@ exports.registerUser = async (req, res) => {
       ? notification
       : [];
 
-    // =========================
-    // CONTACT TABLEAU
-    // =========================
     contact = Array.isArray(contact)
       ? contact
       : [];
@@ -92,11 +80,9 @@ exports.registerUser = async (req, res) => {
     // =========================
     // EMAIL EXISTE ?
     // =========================
-    const existingUser =
-      await User.findOne({ email });
+    const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-
       return res.status(400).json({
         message: 'Email déjà utilisé'
       });
@@ -106,51 +92,47 @@ exports.registerUser = async (req, res) => {
     // RÈGLES MÉTIERS
     // =========================
     if (role === 'invité') {
-
       equipe = undefined;
       codeAcces = undefined;
     }
 
     if (role === 'admin') {
-
       equipe = 'ALL';
 
       if (!codeAcces) {
-
         return res.status(400).json({
-          message:
-            'Code d\'accès obligatoire pour admin'
+          message: "Code d'accès obligatoire pour admin"
         });
       }
     }
 
-    if (
-      role === 'joueur' ||
-      role === 'entraineur'
-    ) {
-
+    if (role === 'joueur' || role === 'entraineur') {
       if (!equipe) {
-
         return res.status(400).json({
-          message:
-            `L'équipe est obligatoire pour ${role}`
+          message: `L'équipe est obligatoire pour ${role}`
         });
       }
 
       if (!codeAcces) {
-
         return res.status(400).json({
-          message:
-            `Code d'accès obligatoire pour ${role}`
+          message: `Code d'accès obligatoire pour ${role}`
         });
       }
+    }
+
+    // =========================
+    // ⚽ STATUT SPORTIF (NOUVEAU)
+    // =========================
+    let statutSportif = undefined;
+
+    if (role === 'joueur') {
+      statutSportif = 'disponible';
     }
 
     // =========================
     // CRÉATION USER
     // =========================
     const user = new User({
-
       nom,
       prenom,
       email,
@@ -173,10 +155,10 @@ exports.registerUser = async (req, res) => {
       notification,
       cookie,
 
-      // =========================
-      // CONTACT
-      // =========================
-      contact
+      contact,
+
+      // ⚽ nouveau champ
+      statutSportif
     });
 
     await user.save();
@@ -185,58 +167,37 @@ exports.registerUser = async (req, res) => {
     // RESPONSE
     // =========================
     res.status(201).json({
-
-      message:
-        'Utilisateur créé avec succès',
-
+      message: 'Utilisateur créé avec succès',
       userId: user._id,
-
       key,
-
       compte,
-
       compteDesactiveTime,
-
       cookie,
-
-      contact
+      contact,
+      statutSportif
     });
 
   } catch (error) {
 
-    console.error(
-      '[REGISTER ERROR]',
-      error
-    );
+    console.error('[REGISTER ERROR]', error);
 
     if (error.name === 'ValidationError') {
-
-      const messages =
-        Object.values(error.errors)
-        .map(e => e.message);
+      const messages = Object.values(error.errors).map(e => e.message);
 
       return res.status(400).json({
-
-        message:
-          'Validation échouée',
-
+        message: 'Validation échouée',
         errors: messages
       });
     }
 
     if (error.code === 11000) {
-
       return res.status(400).json({
-
-        message:
-          'Email ou key déjà utilisé'
+        message: 'Email ou key déjà utilisé'
       });
     }
 
     res.status(500).json({
-
       message: 'Erreur serveur',
-
       error: error.message
     });
   }

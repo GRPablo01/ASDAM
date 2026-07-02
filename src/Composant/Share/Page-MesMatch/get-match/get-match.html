@@ -1,0 +1,284 @@
+<app-icon></app-icon>
+
+<div class="min-h-screen p-4 md:p-6 lg:p-8 overflow-hidden"
+  [style.background]="themeService.isDarkMode
+    ? 'linear-gradient(135deg,' + themeService.Backgroundprincipal + ' 0%,' + themeService.Background1 + ' 100%)'
+    : 'linear-gradient(135deg,#f8fafc 0%,#ffffff 100%)'">
+
+
+
+    <!-- ====================================================== -->
+    <!-- 🏟️ EN-TÊTE DE SECTION -->
+    <!-- ====================================================== -->
+    <div class="mb-8 text-center">
+
+        <div class="inline-flex items-center gap-3 px-6 py-3 rounded-2xl border shadow-lg mb-4"
+        [style.background]="themeService.GlassBackground"
+        [style.border-color]="themeService.Bordernormal">
+    
+        <i class="fa-solid fa-trophy text-2xl" [style.color]="themeService.primary"></i>
+    
+        <div class="text-left">
+            <h1 class="text-2xl md:text-3xl font-black tracking-tight"
+            [style.color]="themeService.Textprincipal">
+            Calendrier des Matchs
+            </h1>
+    
+            <p class="text-sm font-medium"
+            [style.color]="themeService.Textsecondaire">
+            Programme de la semaine
+            </p>
+    
+            <!-- ====================================================== -->
+            <!-- 👤 ÉQUIPE DU USER CONNECTÉ -->
+            <!-- ====================================================== -->
+            <p class="text-sm font-bold mt-1"
+            [style.color]="themeService.primary"
+            *ngIf="userEquipe">
+            🏆 Équipe : {{ userEquipe }}
+            </p>
+    
+        </div>
+        </div>
+    </div>
+
+  <div class="flex items-center justify-center gap-3 mt-4 mb-10">
+
+    <button
+      (click)="previousMonth()"
+      class="px-4 py-2 rounded-xl border shadow-md transition hover:scale-105"
+      [style.background]="themeService.GlassBackground"
+      [style.border-color]="themeService.Bordernormal"
+      [style.color]="themeService.Textprincipal">
+  
+      <i class="fa-solid fa-chevron-left mr-2"></i>
+      Mois précédent
+    </button>
+  
+    <div class="px-4 py-2 rounded-xl font-black border shadow-md"
+      [style.background]="themeService.primarySoft"
+      [style.border-color]="themeService.primary"
+      [style.color]="themeService.primary">
+  
+      {{ currentMonth | date:'MMMM yyyy':'':'fr-FR' }}
+    </div>
+  
+    <button
+      (click)="nextMonth()"
+      class="px-4 py-2 rounded-xl border shadow-md transition hover:scale-105"
+      [style.background]="themeService.GlassBackground"
+      [style.border-color]="themeService.Bordernormal"
+      [style.color]="themeService.Textprincipal">
+  
+      Mois suivant
+      <i class="fa-solid fa-chevron-right ml-2"></i>
+    </button>
+  
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- 📅 CALENDRIER EN CARDS PAR JOUR -->
+  <!-- ====================================================== -->
+  <div class="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+
+    <div *ngFor="let day of calendarDays; let i = index"
+      class="rounded-2xl border shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl group"
+      [style.background]="themeService.GlassBackground"
+      [style.border-color]="themeService.Bordernormal"
+      [style.animation-delay]="i * 0.05 + 's'">
+
+      <!-- HEADER JOUR -->
+      <div class="p-4 flex items-center justify-between border-b relative overflow-hidden"
+        [style.border-color]="themeService.Bordernormal">
+
+        <!-- Effet de glow subtil -->
+        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          [style.background]="'linear-gradient(90deg, transparent, ' + themeService.primarySoft + ', transparent)'">
+        </div>
+
+        <div class="flex items-center gap-2 relative z-10">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center shadow-md"
+            [style.background]="themeService.primarySoft">
+            <i class="fa-regular fa-calendar text-sm" [style.color]="themeService.primary"></i>
+          </div>
+
+          <div>
+            <span class="block font-black text-sm uppercase tracking-wider"
+              [style.color]="themeService.Textprincipal">
+              {{ day | date:'EEEE':'':'fr-FR' }}
+            </span>
+          
+            <span class="block text-xs font-bold"
+              [style.color]="themeService.Textsecondaire">
+              {{ day | date:'dd MMMM':'':'fr-FR' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="text-xs font-black px-3 py-1.5 rounded-full shadow-sm border relative z-10"
+          [style.background]="getMatchesByDate(day).length > 0
+            ? themeService.primarySoft
+            : themeService.secondarySoft"
+          [style.border-color]="getMatchesByDate(day).length > 0
+            ? themeService.primary
+            : themeService.secondary"
+          [style.color]="getMatchesByDate(day).length > 0
+            ? themeService.primary
+            : themeService.secondary">
+
+          <span *ngIf="getMatchesByDate(day).length > 0" class="mr-1">⚽</span>
+          {{ getMatchesByDate(day).length }}
+        </div>
+
+      </div>
+
+      <!-- BODY JOUR -->
+      <div class="p-4 space-y-3">
+
+        <!-- AUCUN MATCH -->
+        <div *ngIf="getMatchesByDate(day).length === 0"
+          class="flex flex-col items-center justify-center py-8">
+
+          <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-3 shadow-inner"
+            [style.background]="themeService.isDarkMode ? 'rgba(255,255,255,0.03)' : '#f1f5f9'">
+            <i class="fa-regular fa-calendar-xmark text-3xl"
+              [style.color]="themeService.Textsecondaire"></i>
+          </div>
+
+          <p class="text-xs font-bold uppercase tracking-wider"
+            [style.color]="themeService.Textsecondaire">
+            Repos
+          </p>
+          <p class="text-[10px] font-medium mt-1"
+            [style.color]="themeService.Textsecondaire">
+            Aucun match programmé
+          </p>
+        </div>
+
+        <!-- MATCHS DU JOUR -->
+        <div *ngFor="let match of getMatchesByDate(day); let j = index"
+          class="relative overflow-hidden rounded-xl border p-4 transition-all duration-300 hover:shadow-xl cursor-pointer group/match"
+          [style.background]="themeService.isDarkMode
+            ? 'linear-gradient(145deg,' + themeService.Background1 + ',' + themeService.Background2 + ')'
+            : 'linear-gradient(145deg,#ffffff,#f8fafc)'"
+          [style.border-color]="themeService.Bordernormal">
+
+          <!-- Ligne d'accent colorée en haut -->
+          <div class="absolute top-0 left-0 right-0 h-1 rounded-t-xl"
+            [style.background]="themeService.primary">
+          </div>
+
+          <!-- DATE BADGE -->
+          <div class="mb-3 flex items-center justify-between">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black shadow-sm"
+              [style.background]="themeService.secondarySoft"
+              [style.color]="themeService.secondary">
+
+              <i class="fa-regular fa-clock"></i>
+              {{ formatDateFr(match.dateMatch) }}
+            </div>
+
+            <!-- Indicateur statut -->
+            <div class="w-2 h-2 rounded-full animate-pulse"
+              [style.background]="themeService.primary">
+            </div>
+          </div>
+
+          <!-- MATCH -->
+          <div class="flex items-center justify-between gap-2">
+
+            <!-- DOMICILE -->
+            <div class="flex flex-col items-center flex-1 min-w-0">
+
+              <div class="relative">
+                <div class="absolute -inset-1 rounded-full opacity-0 group-hover/match:opacity-30 transition-opacity duration-300 blur-sm"
+                  [style.background]="themeService.primary">
+                </div>
+
+                <img *ngIf="getLogo(match.equipeDomicile) && !hasInvalidLogo(match.equipeDomicile)"
+                  [src]="getLogo(match.equipeDomicile)"
+                  class="relative w-14 h-14 rounded-full object-cover border-3 shadow-lg"
+                  [style.border-color]="themeService.c5Base"
+                  (error)="handleImageError($event, match.equipeDomicile)" />
+
+                <div *ngIf="!getLogo(match.equipeDomicile) || hasInvalidLogo(match.equipeDomicile)"
+                  class="relative w-14 h-14 rounded-full flex items-center justify-center text-xs font-black border-3 shadow-lg"
+                  [style.background]="themeService.primarySoft"
+                  [style.border-color]="themeService.c5Base"
+                  [style.color]="themeService.primary">
+                  {{ getInitiales(match.equipeDomicile) }}
+                </div>
+              </div>
+
+              <p class="mt-2 text-[11px] font-bold text-center truncate w-full px-1"
+                [style.color]="themeService.Textprincipal"
+                [title]="match.equipeDomicile">
+                {{ match.equipeDomicile }}
+              </p>
+
+            </div>
+
+            <!-- VS -->
+            <div class="flex flex-col items-center gap-1">
+              <div class="w-10 h-10 flex items-center justify-center rounded-full border-2 shadow-md"
+                [style.background]="themeService.GlassBackground"
+                [style.border-color]="themeService.Bordernormal"
+                [style.color]="themeService.primary">
+                <span class="text-[10px] font-black">VS</span>
+              </div>
+              <div class="w-8 h-px"
+                [style.background]="themeService.Bordernormal">
+              </div>
+            </div>
+
+            <!-- EXTERIEUR -->
+            <div class="flex flex-col items-center flex-1 min-w-0">
+
+              <div class="relative">
+                <div class="absolute -inset-1 rounded-full opacity-0 group-hover/match:opacity-30 transition-opacity duration-300 blur-sm"
+                  [style.background]="themeService.secondary">
+                </div>
+
+                <img *ngIf="getLogo(match.equipeExterieur) && !hasInvalidLogo(match.equipeExterieur)"
+                  [src]="getLogo(match.equipeExterieur)"
+                  class="relative w-14 h-14 rounded-full object-cover border-3 shadow-lg"
+                  [style.border-color]="themeService.c5Base"
+                  (error)="handleImageError($event, match.equipeExterieur)" />
+
+                <div *ngIf="!getLogo(match.equipeExterieur) || hasInvalidLogo(match.equipeExterieur)"
+                  class="relative w-14 h-14 rounded-full flex items-center justify-center text-xs font-black border-3 shadow-lg"
+                  [style.background]="themeService.secondarySoft"
+                  [style.border-color]="themeService.c5Base"
+                  [style.color]="themeService.secondary">
+                  {{ getInitiales(match.equipeExterieur) }}
+                </div>
+              </div>
+
+              <p class="mt-2 text-[11px] font-bold text-center truncate w-full px-1"
+                [style.color]="themeService.Textprincipal"
+                [title]="match.equipeExterieur">
+                {{ match.equipeExterieur }}
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- Footer match -->
+          <div class="mt-3 pt-2 border-t flex items-center justify-center gap-1"
+            [style.border-color]="themeService.Bordernormal">
+            <i class="fa-solid fa-location-dot text-[9px]" [style.color]="themeService.Textsecondaire"></i>
+            <span class="text-[9px] font-bold uppercase tracking-wider"
+              [style.color]="themeService.Textsecondaire">
+              Match à venir
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

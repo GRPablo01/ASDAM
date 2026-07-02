@@ -50,6 +50,18 @@ const userSchema = new mongoose.Schema({
     }
   },
 
+  // =========================
+  // STATUT SPORTIF (UNIQUEMENT JOUEUR)
+  // =========================
+  statutSportif: {
+  type: String,
+  enum: ['disponible', 'blessé', 'suspendu'],
+  default: function () {
+    // 👉 uniquement les joueurs
+    return this.role === 'joueur' ? 'disponible' : undefined;
+  }
+  },
+
   initiales: { type: String },
 
   key: { type: String, unique: true },

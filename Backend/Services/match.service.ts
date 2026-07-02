@@ -10,6 +10,7 @@ export interface Match2 {
 
   logoDom?: string;
   logoExt?: string;
+  
 
   dateMatch: string;
   heureMatch?: string;
