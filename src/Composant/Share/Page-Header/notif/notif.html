@@ -22,11 +22,11 @@
   aria-label="Notifications"
 
   [ngStyle]="{
-    'background': themeService.GlassBackground,
-    'border': '1px solid ' + themeService.GlassBorder,
+    'background': themeService.IconBackground,
+    'border': '1px solid ' + themeService.IconBorder,
     'backdrop-filter': 'blur(22px) saturate(180%)',
     '-webkit-backdrop-filter': 'blur(22px) saturate(180%)',
-    'box-shadow': '0 10px 30px rgba(0,0,0,0.08)'
+    'box-shadow': themeService.Bowshadowtest
   }"
 >
 
@@ -93,7 +93,7 @@
   "
 
   [ngStyle]="{
-    'background': themeService.c5Base + '0D',
+    'background': themeService.Backgroundsecondairetest,
     'backdrop-filter': 'blur(20px) saturate(180%)',
     '-webkit-backdrop-filter': 'blur(20px) saturate(180%)',
     'box-shadow': '0 20px 60px ' + themeService.c16Dark + '40',

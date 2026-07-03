@@ -114,6 +114,29 @@ export class ThemeService {
   c20Light = '#FDE68A';
   c20Dark = '#78350F';
 
+
+  Backgroundprincipaltest = '';
+  Backgroundsecondairetest = '';
+  Bowshadowtest = '';
+
+  NavBackground=''
+  NavTexteprincipal=''
+  NavTextesecondaire=''
+  NavHover=''
+  NavActive=''
+  NavBorder=''
+
+  IconBackground=''
+  IconHover=''
+  Icon=''
+  IconBorder=''
+
+
+
+
+
+
+
   // ===============================
   // 🎨 HEADER COLORS (3 couleurs)
   // ===============================
@@ -239,46 +262,34 @@ export class ThemeService {
     // =================================================
     if (isDark) {
 
-      // =======================================
-      // HEADER
-      // =======================================
-      this.Backgroundheader  = this.c16Dark;
-      this.Backgroundheader1 = this.c16Base;
-      this.Backgroundheader2 = this.c14Base;
+      this.Backgroundprincipaltest ='#0B1220'
+      this.Backgroundsecondairetest ='#1E293B'
 
-      // =======================================
-      // BACKGROUND
-      // =======================================
-      this.Backgroundprincipal = this.c6Dark;
-      this.Background1 = this.c16Base;
-      this.Background2 = this.c14Dark;
-      this.Background3 = this.c14Base;
+      this.Bowshadowtest ='0 4px 20px rgba(0, 0, 0, 0.35)'
+      this.Bordernormal='#334155'
 
-      // =======================================
-      // TEXT
-      // =======================================
-      this.Textprincipal = this.c5Base;
-      this.Textsecondaire = this.c13Dark;
+      this.Textprincipal='#CBD5E1'
+      this.Textsecondaire='#F8FAFC'
 
-      // =======================================
-      // ICONS
-      // =======================================
-      this.Iconnormal = this.c13Dark;
-      this.Iconhover = this.c1Base;
-      this.Iconactive = this.c3Base;
+      this.NavBackground='#0F172A'
+      this.NavTexteprincipal='#111827'
+      this.NavTextesecondaire='#F8FAFC'
+      this.NavHover='#CBD5E1'
+      this.NavActive='#1E293B'
+      this.NavBorder='#EF4444'
 
-      // =======================================
-      // FOOTBALL COLORS - AS DAM
-      // =======================================
-      this.primary = this.c1Base;
-      this.primarySoft = this.c3Dark;
-      this.primaryGlow = '0 0 25px ' + this.c1Base + '99';
+      this.IconBackground='#1E293B'
+      this.IconHover='#334155'
+      this.Icon='#F8FAFC'
+      this.IconBorder='#475569'
+
+      this.primary = '#E11D48';
+      this.primarySoft = '#FF6B8A';
+      this.primaryGlow = '#9B1232';
 
       this.secondary = this.c2Base;
       this.secondarySoft = this.c4Dark;
 
-      this.accent = this.c8Base;
-      this.accentGlow = '0 0 25px ' + this.c2Base + '80';
 
       // =======================================
       // DASHBOARD
@@ -288,14 +299,14 @@ export class ThemeService {
       this.dashboardPrimarySoft = this.c7Dark;
 
       // =======================================
-      // TEAM / MEMORY
+      // TEAM / 
       // =======================================
       this.teamPrimary = this.c11Base;
       this.teamPrimaryHover = this.c11Dark;
       this.teamPrimarySoft = this.c11Dark;
 
       // =======================================
-      // CONVOCATION / QCM
+      // CONVOCATION 
       // =======================================
       this.convocationPrimary = this.c9Base;
       this.convocationPrimaryHover = this.c18Base;
@@ -319,16 +330,67 @@ export class ThemeService {
       this.BgNonText = this.c5Base;
       this.BorderNon = this.c1Base;
 
-      this.Bordernormal = this.c5Base + '1F';
+
+
+
+      
+
+
+
 
       // =======================================
-      // GLASS EFFECT
+      // HEADER
       // =======================================
-      this.GlassBackground = this.c5Base + '0D';
-      this.GlassBorder = this.c5Base + '14';
-      this.GlassShadow = '0 10px 40px ' + this.c6Dark + 'A6';
+      // this.Backgroundheader  = this.c16Dark;
+      // this.Backgroundheader1 = this.c16Base;
+      // this.Backgroundheader2 = this.c14Base;
 
-      this.CardHover = this.c5Base + '14';
+      // =======================================
+      // BACKGROUND
+      // =======================================
+      // this.Backgroundprincipal = this.c6Dark;
+      // this.Background1 = this.c16Base;
+      // this.Background2 = this.c14Dark;
+      // this.Background3 = this.c14Base;
+
+      // =======================================
+      // TEXT
+      // =======================================
+      // this.Textprincipal = this.c5Base;
+      // this.Textsecondaire = this.c13Dark;
+
+      // // =======================================
+      // // ICONS
+      // // =======================================
+      // this.Iconnormal = this.c13Dark;
+      // this.Iconhover = this.c1Base;
+      // this.Iconactive = this.c3Base;
+
+      // // =======================================
+      // // FOOTBALL COLORS - AS DAM
+      // // =======================================
+      // this.primary = this.c1Base;
+      // this.primarySoft = this.c3Dark;
+      // this.primaryGlow = '0 0 25px ' + this.c1Base + '99';
+
+      // this.secondary = this.c2Base;
+      // this.secondarySoft = this.c4Dark;
+
+      // this.accent = this.c8Base;
+      // this.accentGlow = '0 0 25px ' + this.c2Base + '80';
+
+      
+
+      // this.Bordernormal = this.c5Base + '1F';
+
+      // // =======================================
+      // // GLASS EFFECT
+      // // =======================================
+      // this.GlassBackground = this.c5Base + '0D';
+      // this.GlassBorder = this.c5Base + '14';
+      // this.GlassShadow = '0 10px 40px ' + this.c6Dark + 'A6';
+
+      // this.CardHover = this.c5Base + '14';
 
       // =======================================
       // IMAGES
@@ -342,46 +404,34 @@ export class ThemeService {
     // =================================================
     else {
 
-      // =======================================
-      // HEADER
-      // =======================================
-      this.Backgroundheader  = this.c5Base;
-      this.Backgroundheader1 = this.c13Base;
-      this.Backgroundheader2 = this.c13Dark;
+      this.Backgroundprincipaltest ='#F8FAFC'
+      this.Backgroundsecondairetest ='#EEF2F7'
 
-      // =======================================
-      // BACKGROUND
-      // =======================================
-      this.Backgroundprincipal = this.c5Base;
-      this.Background1 = this.c13Base;
-      this.Background2 = this.c13Dark + '33';
-      this.Background3 = this.c19Base;
+      this.Bowshadowtest ='0 4px 20px rgba(15, 23, 42, 0.08)'
+      this.Bordernormal='#CBD5E1'
 
-      // =======================================
-      // TEXT
-      // =======================================
-      this.Textprincipal = this.c6Base;
-      this.Textsecondaire = this.c14Base;
+      this.Textprincipal='#0F172A'
+      this.Textsecondaire='#475569'
 
-      // =======================================
-      // ICONS
-      // =======================================
-      this.Iconnormal = this.c14Base;
-      this.Iconhover = this.c3Base;
-      this.Iconactive = this.c15Base;
+      this.NavBackground='#FFFFFF'
+      this.NavTexteprincipal='#F8FAFC'
+      this.NavTextesecondaire='#475569'
+      this.NavHover='#E2E8F0'
+      this.NavActive='#EF4444'
+      this.NavBorder='#E2E8F0'
 
-      // =======================================
-      // FOOTBALL COLORS - AS DAM
-      // =======================================
-      this.primary = this.c3Base;
-      this.primarySoft = this.c3Light + '33';
-      this.primaryGlow = '0 0 15px ' + this.c3Base + '4D';
+      this.IconBackground='#F1F5F9'
+      this.IconHover='#E2E8F0'
+      this.Icon='#0F172A'
+      this.IconBorder='#CBD5E1'
+
+      this.primary = '#E11D48';
+      this.primarySoft = '#FF6B8A';
+      this.primaryGlow = '#9B1232';
 
       this.secondary = this.c4Base;
       this.secondarySoft = this.c4Light + '33';
 
-      this.accent = this.c8Base;
-      this.accentGlow = '0 0 15px ' + this.c8Base + '4D';
 
       // =======================================
       // DASHBOARD
@@ -422,16 +472,67 @@ export class ThemeService {
       this.BgNonText = this.c5Base;
       this.BorderNon = this.c1Base;
 
-      this.Bordernormal = this.c6Base + '14';
 
-      // =======================================
-      // GLASS EFFECT
-      // =======================================
-      this.GlassBackground = this.c5Base + 'BF';
-      this.GlassBorder = this.c5Base + 'E6';
-      this.GlassShadow = '0 8px 30px ' + this.c16Base + '14';
 
-      this.CardHover = this.c13Base;
+
+
+
+
+
+
+      // // =======================================
+      // // HEADER
+      // // =======================================
+      // this.Backgroundheader  = this.c5Base;
+      // this.Backgroundheader1 = this.c13Base;
+      // this.Backgroundheader2 = this.c13Dark;
+
+      // // =======================================
+      // // BACKGROUND
+      // // =======================================
+      // this.Backgroundprincipal = this.c5Base;
+      // this.Background1 = this.c13Base;
+      // this.Background2 = this.c13Dark + '33';
+      // this.Background3 = this.c19Base;
+
+      // // =======================================
+      // // TEXT
+      // // =======================================
+      // this.Textprincipal = this.c6Base;
+      // this.Textsecondaire = this.c14Base;
+
+      // // =======================================
+      // // ICONS
+      // // =======================================
+      // this.Iconnormal = this.c14Base;
+      // this.Iconhover = this.c3Base;
+      // this.Iconactive = this.c15Base;
+
+      // // =======================================
+      // // FOOTBALL COLORS - AS DAM
+      // // =======================================
+      // this.primary = this.c3Base;
+      // this.primarySoft = this.c3Light + '33';
+      // this.primaryGlow = '0 0 15px ' + this.c3Base + '4D';
+
+      // this.secondary = this.c4Base;
+      // this.secondarySoft = this.c4Light + '33';
+
+      // this.accent = this.c8Base;
+      // this.accentGlow = '0 0 15px ' + this.c8Base + '4D';
+
+      
+
+      // this.Bordernormal = this.c6Base + '14';
+
+      // // =======================================
+      // // GLASS EFFECT
+      // // =======================================
+      // this.GlassBackground = this.c5Base + 'BF';
+      // this.GlassBorder = this.c5Base + 'E6';
+      // this.GlassShadow = '0 8px 30px ' + this.c16Base + '14';
+
+      // this.CardHover = this.c13Base;
 
       // =======================================
       // IMAGES

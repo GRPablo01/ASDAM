@@ -8,18 +8,16 @@
     <!-- IMAGE -->
     <div class="relative w-full lg:w-1/2 h-[220px] sm:h-[280px] md:h-[340px] lg:h-auto overflow-hidden group">
 
-      <img
-        src="assets/ImageMatch.png"
+      <img src="assets/ImageMatch.png"
         class="w-full h-full object-cover scale-105 group-hover:scale-110 duration-700 ease-out"
-        [style.opacity]="themeService.isDarkMode ? '0.85' : '1'"
-        alt="Image de fond planning"
-      >
+        [style.opacity]="themeService.isDarkMode ? '0.85' : '1'" alt="Image de fond planning">
 
       <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
 
       <div class="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 text-white">
 
-        <p class="uppercase tracking-[3px] sm:tracking-[5px] text-[10px] sm:text-xs opacity-80 mb-1 sm:mb-2 animate-fade-in-up">
+        <p
+          class="uppercase tracking-[3px] sm:tracking-[5px] text-[10px] sm:text-xs opacity-80 mb-1 sm:mb-2 animate-fade-in-up">
           Saison 2026
         </p>
 
@@ -37,13 +35,16 @@
       <div class="mb-6 sm:mb-8 lg:mb-10">
 
         <div class="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-          <div class="w-10 sm:w-14 h-[2px] animate-expand-width" [style.background-color]="themeService.Textprincipal"></div>
-          <span class="uppercase tracking-[2px] sm:tracking-[4px] text-[10px] sm:text-[11px] font-black animate-fade-in" [style.color]="themeService.Textsecondaire">
+          <div class="w-10 sm:w-14 h-[2px] animate-expand-width" [style.background-color]="themeService.Textprincipal">
+          </div>
+          <span class="uppercase tracking-[2px] sm:tracking-[4px] text-[10px] sm:text-[11px] font-black animate-fade-in"
+            [style.color]="themeService.Textsecondaire">
             Matchs & Events
           </span>
         </div>
 
-        <h2 class="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-black uppercase animate-fade-in-up" [style.color]="themeService.Textprincipal">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-black uppercase animate-fade-in-up"
+          [style.color]="themeService.Textprincipal">
           Calendrier du club
         </h2>
 
@@ -51,322 +52,232 @@
 
       <!-- NO MATCH / EVENT -->
       <div *ngIf="!loading && visibleSlides.length === 0"
-      class="w-full flex justify-center items-center animate-fade-in">
+        class="w-full flex justify-center items-center animate-fade-in">
 
-      <div
-      class="relative w-full rounded-[40px] px-12 py-20 text-center transition-all duration-500"
+        <div class="relative w-full rounded-[40px] px-12 py-20 text-center transition-all duration-500" [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
-      [ngStyle]="{
-      'background': themeService.c5Base + '0D',
-      'border': '1px solid ' + themeService.c2Base + '33',
-      'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20',
-      'color': themeService.Textprincipal
-      }"
-      >
-
-      <div class="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center"
-
-          [ngStyle]="{
+          <div class="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" [ngStyle]="{
             'background': themeService.c5Base + '0D',
             'border': '1px solid ' + themeService.c2Base + '33'
           }">
 
-      <i class="fa-solid fa-calendar-xmark text-4xl"
-          [ngStyle]="{ 'color': themeService.eventPrimary }"></i>
-      </div>
+            <i class="fa-solid fa-calendar-xmark text-4xl" [ngStyle]="{ 'color': themeService.eventPrimary }"></i>
+          </div>
 
-      <h3 class="text-4xl font-black mb-3"
-        [style.color]="themeService.Textprincipal">
-      Aucun match ou événement
-      </h3>
+          <h3 class="text-4xl font-black mb-3" [style.color]="themeService.Textprincipal">
+            Aucun match ou événement
+          </h3>
 
-      <p [style.color]="themeService.Textsecondaire">
-      Revenez bientôt pour les prochaines rencontres.
-      </p>
+          <p [style.color]="themeService.Textsecondaire">
+            Revenez bientôt pour les prochaines rencontres.
+          </p>
 
-      </div>
+        </div>
       </div>
 
       <!-- 2 CARDS -->
       <div *ngIf="!loading && visibleSlides.length > 0" class="space-y-4 sm:space-y-6">
 
-        <div *ngFor="let item of visibleSlides; let i = index"
-        [ngStyle]="{
-                      'background': themeService.c5Base + '0D',
-                      'border': '1px solid ' + themeService.c2Base + '33',
-                      'color': themeService.Textprincipal
-                    }"
-             class="backdrop-blur-xl rounded-[16px] p-4 sm:p-6 overflow-hidden relative group transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 animate-fade-in-up"
-             >
+        <div *ngFor="let item of visibleSlides; let i = index" [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }"
+          class="backdrop-blur-xl rounded-[16px] p-4 sm:p-6 overflow-hidden relative group transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 animate-fade-in-up">
 
-          
-        <!-- ===================== -->
-        <!-- MATCH -->
-        <!-- ===================== -->
-        <div *ngIf="item.type === 'match'" class="relative overflow-hidden" >
 
-          <!-- HEADER -->
-          <div class="relative z-10 flex items-center justify-between mb-3 sm:mb-5">
+          <!-- ===================== -->
+          <!-- MATCH -->
+          <!-- ===================== -->
+          <div *ngIf="item.type === 'match'" class="relative overflow-hidden">
 
-            <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+            <!-- HEADER -->
+            <div class="relative z-10 flex items-center justify-between mb-3 sm:mb-5">
 
-              <span class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider shadow-sm"
-                    [style.background-color]="themeService.primary"
-                    [style.color]="'#fff'">
+              <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
 
-                <i class="fa-solid fa-trophy text-[8px] sm:text-[9px]"></i>
-                {{ item.typeMatch }}
+                <span
+                  class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider shadow-sm"
+                  [style.background-color]="themeService.primary" [style.color]="'#fff'">
 
-              </span>
+                  <i class="fa-solid fa-trophy text-[8px] sm:text-[9px]"></i>
+                  {{ item.typeMatch }}
 
-              <span *ngIf="item.categorie"
-                    class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider shadow-sm"
+                </span>
 
-                    [ngStyle]="{
-                      'background': themeService.c5Base + '0D',
-                      'border': '1px solid ' + themeService.c2Base + '33',
-                      'color': themeService.Textprincipal
-                    }">
-
-                <i class="fa-solid fa-layer-group text-[8px] sm:text-[9px]"></i>
-                {{ item.categorie }}
-
-              </span>
-
-            </div>
-
-            <span class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider"
-
-                  [style.background-color]="item.statut === 'Terminé'
-                    ? themeService.BgOui
-                    : item.statut === 'En cours'
-                    ? '#FEF3C7'
-                    : themeService.secondarySoft"
-
-                  [style.color]="item.statut === 'Terminé'
-                    ? themeService.BgOuiText
-                    : item.statut === 'En cours'
-                    ? '#92400E'
-                    : themeService.secondary">
-
-              <span class="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full"
-                    [style.background-color]="item.statut === 'Terminé'
-                      ? themeService.BorderOui
-                      : item.statut === 'En cours'
-                      ? '#F59E0B'
-                      : themeService.secondary">
-              </span>
-
-              {{ item.statut }}
-
-            </span>
-
-          </div>
-
-          <!-- DATE -->
-          <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-5">
-
-            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shadow-lg"
-                [style.background-color]="themeService.primary"
-                [style.color]="'#fff'">
-
-              <i class="fa-regular fa-calendar-check text-lg sm:text-xl"></i>
-
-            </div>
-
-            <div>
-              <h3 class="text-xl sm:text-2xl font-black leading-none"
-                  [style.color]="themeService.Textprincipal">
-
-                {{ item.dateMatch | date:'dd.MM.yy' }}
-
-              </h3>
-
-              <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest"
-                    [style.color]="themeService.Textsecondaire">
-
-                <i class="fa-regular fa-clock mr-1"></i>{{ item.heureMatch }}
-
-              </span>
-            </div>
-
-          </div>
-
-          <!-- SCORE -->
-          <div *ngIf="item.statut !== 'Programmé'"
-              class="flex items-center justify-center mb-3 sm:mb-5 rounded-xl sm:rounded-2xl py-2 sm:py-3"
-
-              [ngStyle]="{
-                'background': themeService.c5Base + '0D',
-                'border': '1px solid ' + themeService.c2Base + '33'
-              }">
-
-            <span class="text-2xl sm:text-3xl font-black"
-                  [style.color]="themeService.Textprincipal">
-              {{ item.scoreDomicile }}
-            </span>
-
-            <span class="mx-4 text-[10px] sm:text-xs font-black uppercase tracking-[3px] sm:tracking-[4px]"
-                  [style.color]="themeService.Textsecondaire">
-              VS
-            </span>
-
-            <span class="text-2xl sm:text-3xl font-black"
-                  [style.color]="themeService.Textprincipal">
-              {{ item.scoreExterieur }}
-            </span>
-
-          </div>
-
-          <!-- TEAMS -->
-          <div class="flex items-center justify-center gap-3 sm:gap-6 mb-3 sm:mb-5">
-
-            <!-- DOMICILE -->
-            <div class="flex flex-col items-center gap-1.5 sm:gap-2 flex-1">
-
-              <div class="relative">
-
-                <img [src]="item.logoEquipeDomicile"
-                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-full object-cover border-2 shadow-lg group-hover:scale-110 transition-transform duration-300"
-                    [style.border-color]="themeService.c2Base + '33'">
-
-                <div class="absolute -bottom-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center"
-                    [style.background-color]="themeService.primary">
-
-                  <i class="fa-solid fa-house text-[8px] sm:text-[10px]" style="color:#fff"></i>
-
-                </div>
-
-              </div>
-
-              <span class="text-[10px] sm:text-xs font-black uppercase text-center"
-                    [style.color]="themeService.Textprincipal">
-
-                {{ item.equipeDomicile }}
-
-              </span>
-
-            </div>
-
-            <!-- VS -->
-            <div class="flex flex-col items-center gap-1 px-1 sm:px-2">
-
-              <span class="text-[9px] sm:text-[10px] font-black uppercase tracking-[2px] sm:tracking-[3px]"
-                    [style.color]="themeService.Textsecondaire">
-
-                VS
-
-              </span>
-
-              <div class="w-6 sm:w-8 h-[2px] rounded-full"
+                <span *ngIf="item.categorie"
+                  class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider shadow-sm"
                   [ngStyle]="{
-                    'background': themeService.c2Base + '33'
-                  }">
-              </div>
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
-            </div>
+                  <i class="fa-solid fa-layer-group text-[8px] sm:text-[9px]"></i>
+                  {{ item.categorie }}
 
-            <!-- EXTERIEUR -->
-            <div class="flex flex-col items-center gap-1.5 sm:gap-2 flex-1">
-
-              <div class="relative">
-
-                <img [src]="item.logoEquipeExterieur"
-                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-full object-cover border-2 shadow-lg group-hover:scale-110 transition-transform duration-300"
-                    [style.border-color]="themeService.c2Base + '33'">
-
-                <div class="absolute -bottom-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center"
-                    [style.background-color]="themeService.secondary">
-
-                  <i class="fa-solid fa-plane text-[8px] sm:text-[10px]" style="color:#fff"></i>
-
-                </div>
+                </span>
 
               </div>
 
-              <span class="text-[10px] sm:text-xs font-black uppercase text-center"
-                    [style.color]="themeService.Textprincipal">
+              <span class="
+    inline-flex items-center
+    gap-1 sm:gap-1.5
+    px-2 sm:px-3
+    py-0.5 sm:py-1
+    rounded-full
+    text-[9px] sm:text-[10px]
+    font-bold uppercase tracking-wider
+    border
+    leading-none
+  " [ngClass]="getStatutBadgeClass(item.statut)">
 
-                {{ item.equipeExterieur }}
+                <!-- DOT -->
+                <span class="
+      flex items-center justify-center
+      leading-none
+      text-[8px] sm:text-[10px]
+      translate-y-[-0.5px]
+    " [ngClass]="getStatutIconClass(item.statut)">
+                  ●
+                </span>
+
+                <!-- TEXTE -->
+                <span class="leading-none">
+                  {{ item.statut }}
+                </span>
 
               </span>
 
             </div>
 
-          </div>
+            <!-- DATE -->
+            <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-5">
 
-          <!-- FOOTER -->
-          <div class="flex items-center gap-2 sm:gap-4 text-[10px] sm:text-xs pt-3 sm:pt-4 border-t"
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shadow-lg"
+                [style.background-color]="themeService.primary" [style.color]="'#fff'">
 
-              [ngStyle]="{
-                'border-top': '1px solid ' + themeService.c2Base + '33',
-                'color': themeService.Textsecondaire
-              }">
-
-            <div class="flex items-center gap-1.5 sm:gap-2">
-
-              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center"
-                  [ngStyle]="{
-                    'background': themeService.c5Base + '0D'
-                  }">
-
-                <i class="fa-solid fa-location-dot text-[9px] sm:text-[11px]"
-                  [style.color]="themeService.Textsecondaire"></i>
-
-              </div>
-
-              <span class="font-bold"
-                    [style.color]="themeService.Textprincipal">
-                {{ item.stade }}
-              </span>
-
-            </div>
-
-            <span [style.color]="themeService.c2Base + '66'">|</span>
-
-            <span>
-              <i class="fa-regular fa-clock mr-1"></i>
-              Créé le {{ item.createdAt | date:'dd.MM.yy' }}
-            </span>
-
-          </div>
-
-        </div>
-
-
-        <!-- ===================== -->
-        <!-- EVENT -->
-        <!-- ===================== -->
-        <div *ngIf="item.type === 'event'" class="relative overflow-hidden">
-
-          <!-- HEADER -->
-          <div class="flex items-center justify-between mb-3 sm:mb-5">
-
-            <div class="flex items-center gap-2 sm:gap-3">
-
-              <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center border"
-                  [style.background-color]="themeService.eventPrimarySoft"
-                  [style.border-color]="themeService.eventPrimary"
-                  [style.color]="themeService.eventPrimary">
-
-                <i class="fa-solid fa-bullhorn text-base sm:text-lg"></i>
+                <i class="fa-regular fa-calendar-check text-lg sm:text-xl"></i>
 
               </div>
 
               <div>
+                <h3 class="text-xl sm:text-2xl font-black leading-none" [style.color]="themeService.Textprincipal">
 
-                <h3 class="text-xl sm:text-2xl font-black leading-none"
-                    [style.color]="themeService.Textprincipal">
-
-                  {{ item.date | date:'dd.MM.yy' }}
+                  {{ item.dateMatch | date:'dd.MM.yy' }}
 
                 </h3>
 
                 <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest"
-                      [style.color]="themeService.Textsecondaire">
+                  [style.color]="themeService.Textsecondaire">
 
-                  <i class="fa-regular fa-clock mr-1"></i>
-                  {{ item.heureDebut }} - {{ item.heureFin }}
+                  <i class="fa-regular fa-clock mr-1"></i>{{ item.heureMatch }}
+
+                </span>
+              </div>
+
+            </div>
+
+            <!-- SCORE -->
+            <div *ngIf="item.statut !== 'Programmé'"
+              class="flex items-center justify-center mb-3 sm:mb-5 rounded-xl sm:rounded-2xl py-2 sm:py-3" [ngStyle]="{
+                'background': themeService.c5Base + '0D',
+                'border': '1px solid ' + themeService.c2Base + '33'
+              }">
+
+              <span class="text-2xl sm:text-3xl font-black" [style.color]="themeService.Textprincipal">
+                {{ item.scoreDomicile }}
+              </span>
+
+              <span class="mx-4 text-[10px] sm:text-xs font-black uppercase tracking-[3px] sm:tracking-[4px]"
+                [style.color]="themeService.Textsecondaire">
+                VS
+              </span>
+
+              <span class="text-2xl sm:text-3xl font-black" [style.color]="themeService.Textprincipal">
+                {{ item.scoreExterieur }}
+              </span>
+
+            </div>
+
+            <!-- TEAMS -->
+            <div class="flex items-center justify-center gap-3 sm:gap-6 mb-3 sm:mb-5">
+
+              <!-- DOMICILE -->
+              <div class="flex flex-col items-center gap-1.5 sm:gap-2 flex-1">
+
+                <div class="relative">
+
+                  <img [src]="item.logoEquipeDomicile"
+                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-full object-cover border-2 shadow-lg group-hover:scale-110 transition-transform duration-300"
+                    [style.border-color]="themeService.c2Base + '33'">
+
+                  <div
+                    class="absolute -bottom-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center"
+                    [style.background-color]="themeService.primary">
+
+                    <i class="fa-solid fa-house text-[8px] sm:text-[10px]" style="color:#fff"></i>
+
+                  </div>
+
+                </div>
+
+                <span class="text-[10px] sm:text-xs font-black uppercase text-center"
+                  [style.color]="themeService.Textprincipal">
+
+                  {{ item.equipeDomicile }}
+
+                </span>
+
+              </div>
+
+              <!-- VS -->
+              <div class="flex flex-col items-center gap-1 px-1 sm:px-2">
+
+                <span class="text-[9px] sm:text-[10px] font-black uppercase tracking-[2px] sm:tracking-[3px]"
+                  [style.color]="themeService.Textsecondaire">
+
+                  VS
+
+                </span>
+
+                <div class="w-6 sm:w-8 h-[2px] rounded-full" [ngStyle]="{
+                    'background': themeService.c2Base + '33'
+                  }">
+                </div>
+
+              </div>
+
+              <!-- EXTERIEUR -->
+              <div class="flex flex-col items-center gap-1.5 sm:gap-2 flex-1">
+
+                <div class="relative">
+
+                  <img [src]="item.logoEquipeExterieur"
+                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-full object-cover border-2 shadow-lg group-hover:scale-110 transition-transform duration-300"
+                    [style.border-color]="themeService.c2Base + '33'">
+
+                  <div
+                    class="absolute -bottom-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center"
+                    [style.background-color]="themeService.secondary">
+
+                    <i class="fa-solid fa-plane text-[8px] sm:text-[10px]" style="color:#fff"></i>
+
+                  </div>
+
+                </div>
+
+                <span class="text-[10px] sm:text-xs font-black uppercase text-center"
+                  [style.color]="themeService.Textprincipal">
+
+                  {{ item.equipeExterieur }}
 
                 </span>
 
@@ -374,78 +285,32 @@
 
             </div>
 
-            <span class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border"
-                  [style.background-color]="themeService.eventPrimarySoft"
-                  [style.color]="themeService.eventPrimary"
-                  [style.border-color]="themeService.eventPrimary">
-
-              <i class="fa-solid fa-star text-[8px] sm:text-[9px]"></i>
-              Événement
-
-            </span>
-
-          </div>
-
-          <!-- TITLE -->
-          <div class="mb-3 sm:mb-4">
-
-            <p class="text-lg sm:text-xl uppercase font-black tracking-wide mb-2 leading-tight"
-              [style.color]="themeService.Textprincipal">
-
-              <i class="fa-solid fa-heading mr-1.5 sm:mr-2 text-xs sm:text-sm"
-                [style.color]="themeService.Textsecondaire"></i>
-
-              {{ item.titre }}
-
-            </p>
-
-            <div class="w-12 sm:w-16 h-[3px] rounded-full"
-                [style.background-color]="themeService.eventPrimary">
-            </div>
-
-          </div>
-
-          <!-- DESCRIPTION -->
-          <p class="text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4"
-            [style.color]="themeService.Textsecondaire">
-
-            <i class="fa-solid fa-align-left mr-1.5 sm:mr-2 text-[10px] sm:text-xs"></i>
-            {{ item.description }}
-
-          </p>
-
-          <!-- LOCATION -->
-          <div class="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm pt-2.5 sm:pt-3 border-t"
-
-              [ngStyle]="{
+            <!-- FOOTER -->
+            <div class="flex items-center gap-2 sm:gap-4 text-[10px] sm:text-xs pt-3 sm:pt-4 border-t" [ngStyle]="{
                 'border-top': '1px solid ' + themeService.c2Base + '33',
                 'color': themeService.Textsecondaire
               }">
 
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center border"
-                [ngStyle]="{
-                  'background': themeService.c5Base + '0D',
-                  'border': '1px solid ' + themeService.c2Base + '33'
-                }">
+              <div class="flex items-center gap-1.5 sm:gap-2">
 
-              <i class="fa-solid fa-location-dot text-xs sm:text-sm"
-                [style.color]="themeService.Textsecondaire"></i>
+                <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center" [ngStyle]="{
+                    'background': themeService.c5Base + '0D'
+                  }">
 
-            </div>
+                  <i class="fa-solid fa-location-dot text-[9px] sm:text-[11px]"
+                    [style.color]="themeService.Textsecondaire"></i>
 
-            <div>
+                </div>
 
-              <span class="font-bold"
-                    [style.color]="themeService.Textprincipal">
-                {{ item.lieu }}
-              </span>
+                <span class="font-bold" [style.color]="themeService.Textprincipal">
+                  {{ item.stade }}
+                </span>
 
-              <span class="mx-1.5 sm:mx-2"
-                    [style.color]="themeService.c2Base + '66'">
-                ·
-              </span>
+              </div>
 
-              <span class="text-[10px] sm:text-xs">
+              <span [style.color]="themeService.c2Base + '66'">|</span>
+
+              <span>
                 <i class="fa-regular fa-clock mr-1"></i>
                 Créé le {{ item.createdAt | date:'dd.MM.yy' }}
               </span>
@@ -454,7 +319,118 @@
 
           </div>
 
-        </div>
+
+          <!-- ===================== -->
+          <!-- EVENT -->
+          <!-- ===================== -->
+          <div *ngIf="item.type === 'event'" class="relative overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="flex items-center justify-between mb-3 sm:mb-5">
+
+              <div class="flex items-center gap-2 sm:gap-3">
+
+                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center border"
+                  [style.background-color]="themeService.eventPrimarySoft"
+                  [style.border-color]="themeService.eventPrimary" [style.color]="themeService.eventPrimary">
+
+                  <i class="fa-solid fa-bullhorn text-base sm:text-lg"></i>
+
+                </div>
+
+                <div>
+
+                  <h3 class="text-xl sm:text-2xl font-black leading-none" [style.color]="themeService.Textprincipal">
+
+                    {{ item.date | date:'dd.MM.yy' }}
+
+                  </h3>
+
+                  <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest"
+                    [style.color]="themeService.Textsecondaire">
+
+                    <i class="fa-regular fa-clock mr-1"></i>
+                    {{ item.heureDebut }} - {{ item.heureFin }}
+
+                  </span>
+
+                </div>
+
+              </div>
+
+              <span
+                class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border"
+                [style.background-color]="themeService.eventPrimarySoft" [style.color]="themeService.eventPrimary"
+                [style.border-color]="themeService.eventPrimary">
+
+                <i class="fa-solid fa-star text-[8px] sm:text-[9px]"></i>
+                Événement
+
+              </span>
+
+            </div>
+
+            <!-- TITLE -->
+            <div class="mb-3 sm:mb-4">
+
+              <p class="text-lg sm:text-xl uppercase font-black tracking-wide mb-2 leading-tight"
+                [style.color]="themeService.Textprincipal">
+
+                <i class="fa-solid fa-heading mr-1.5 sm:mr-2 text-xs sm:text-sm"
+                  [style.color]="themeService.Textsecondaire"></i>
+
+                {{ item.titre }}
+
+              </p>
+
+              <div class="w-12 sm:w-16 h-[3px] rounded-full" [style.background-color]="themeService.eventPrimary">
+              </div>
+
+            </div>
+
+            <!-- DESCRIPTION -->
+            <p class="text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4" [style.color]="themeService.Textsecondaire">
+
+              <i class="fa-solid fa-align-left mr-1.5 sm:mr-2 text-[10px] sm:text-xs"></i>
+              {{ item.description }}
+
+            </p>
+
+            <!-- LOCATION -->
+            <div class="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm pt-2.5 sm:pt-3 border-t" [ngStyle]="{
+                'border-top': '1px solid ' + themeService.c2Base + '33',
+                'color': themeService.Textsecondaire
+              }">
+
+              <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center border" [ngStyle]="{
+                  'background': themeService.c5Base + '0D',
+                  'border': '1px solid ' + themeService.c2Base + '33'
+                }">
+
+                <i class="fa-solid fa-location-dot text-xs sm:text-sm" [style.color]="themeService.Textsecondaire"></i>
+
+              </div>
+
+              <div>
+
+                <span class="font-bold" [style.color]="themeService.Textprincipal">
+                  {{ item.lieu }}
+                </span>
+
+                <span class="mx-1.5 sm:mx-2" [style.color]="themeService.c2Base + '66'">
+                  ·
+                </span>
+
+                <span class="text-[10px] sm:text-xs">
+                  <i class="fa-regular fa-clock mr-1"></i>
+                  Créé le {{ item.createdAt | date:'dd.MM.yy' }}
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 
@@ -463,13 +439,10 @@
       <!-- DOTS -->
       <div class="flex justify-center gap-2 sm:gap-3 pt-6 sm:pt-8">
 
-        <button
-          *ngFor="let s of slides; let i = index"
-          (click)="goTo(i)"
+        <button *ngFor="let s of slides; let i = index" (click)="goTo(i)"
           class="group relative flex items-center justify-center p-1 sm:p-1.5 transition-all duration-300"
           [attr.aria-label]="'Aller à la page ' + (i + 1)">
-          <div
-            class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300"
+          <div class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300"
             [ngClass]="(i * 2) === currentIndex ? 'scale-125' : 'group-hover:scale-110'"
             [style.background-color]="(i * 2) === currentIndex ? themeService.Textprincipal : themeService.Bordernormal">
           </div>
@@ -493,18 +466,16 @@
     <!-- IMAGE -->
     <div class="relative w-full h-[180px] xs:h-[220px] sm:h-[260px] md:h-[340px] overflow-hidden group">
 
-      <img
-        src="assets/ImageMatch.png"
+      <img src="assets/ImageMatch.png"
         class="w-full h-full object-cover scale-105 group-hover:scale-110 duration-700 ease-out"
-        [style.opacity]="themeService.isDarkMode ? '0.85' : '1'"
-        alt="Image de fond planning"
-      >
+        [style.opacity]="themeService.isDarkMode ? '0.85' : '1'" alt="Image de fond planning">
 
       <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
 
       <div class="absolute bottom-3 sm:bottom-4 md:bottom-6 left-3 sm:left-4 md:left-6 text-white">
 
-        <p class="uppercase tracking-[2px] sm:tracking-[4px] md:tracking-[5px] text-[9px] sm:text-[10px] md:text-xs opacity-80 mb-1 sm:mb-1.5 md:mb-2 animate-fade-in-up">
+        <p
+          class="uppercase tracking-[2px] sm:tracking-[4px] md:tracking-[5px] text-[9px] sm:text-[10px] md:text-xs opacity-80 mb-1 sm:mb-1.5 md:mb-2 animate-fade-in-up">
           Saison 2026
         </p>
 
@@ -522,79 +493,79 @@
       <div class="mb-6 sm:mb-8 md:mb-10">
 
         <div class="flex items-center gap-2 sm:gap-3 md:gap-4 mb-3 sm:mb-3.5 md:mb-4">
-          <div class="w-8 sm:w-10 md:w-14 h-[2px] animate-expand-width" [style.background-color]="themeService.Textprincipal"></div>
-          <span class="uppercase tracking-[2px] sm:tracking-[3px] md:tracking-[4px] text-[9px] sm:text-[10px] md:text-[11px] font-black animate-fade-in" [style.color]="themeService.Textsecondaire">
+          <div class="w-8 sm:w-10 md:w-14 h-[2px] animate-expand-width"
+            [style.background-color]="themeService.Textprincipal"></div>
+          <span
+            class="uppercase tracking-[2px] sm:tracking-[3px] md:tracking-[4px] text-[9px] sm:text-[10px] md:text-[11px] font-black animate-fade-in"
+            [style.color]="themeService.Textsecondaire">
             Matchs & Events
           </span>
         </div>
 
-        <h2 class="text-xl sm:text-2xl md:text-3xl font-black uppercase animate-fade-in-up" [style.color]="themeService.Textprincipal">
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-black uppercase animate-fade-in-up"
+          [style.color]="themeService.Textprincipal">
           Calendrier du club
         </h2>
 
       </div>
 
       <!-- LOADING -->
-      <div *ngIf="loading" class="flex items-center gap-2 sm:gap-3 animate-pulse" [style.color]="themeService.Textsecondaire">
+      <div *ngIf="loading" class="flex items-center gap-2 sm:gap-3 animate-pulse"
+        [style.color]="themeService.Textsecondaire">
         <i class="fa-solid fa-circle-notch fa-spin text-base sm:text-lg"></i>
         <span class="text-sm sm:text-base">Chargement...</span>
       </div>
 
       <!-- NO MATCH / EVENT -->
       <div *ngIf="!loading && visibleSlides.length === 0"
-      class="w-full flex justify-center items-center animate-fade-in">
+        class="w-full flex justify-center items-center animate-fade-in">
 
-      <div
-      class="relative w-full rounded-[24px] sm:rounded-[32px] md:rounded-[40px]
+        <div class="relative w-full rounded-[24px] sm:rounded-[32px] md:rounded-[40px]
             px-6 sm:px-8 md:px-12
             py-12 sm:py-16 md:py-20
-            text-center transition-all duration-500"
+            text-center transition-all duration-500" [ngStyle]="{
+              'background': themeService.Backgroundsecondairetest,
+              'border': '1px solid ' + themeService.Bordernormal,
+              'color': themeService.Textsecondaire,
+              'box-shadow': themeService.Bowshadowtest
+            }">
 
-      [ngStyle]="{
-      'background': themeService.c5Base + '0D',
-      'border': '1px solid ' + themeService.c2Base + '33',
-      'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20',
-      'color': themeService.Textprincipal
-      }"
-      >
-
-      <!-- ICON -->
-      <div
-      class="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 mx-auto mb-4 sm:mb-5 md:mb-6 rounded-full flex items-center justify-center"
-
-      [ngStyle]="{
+          <!-- ICON -->
+          <div
+            class="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 mx-auto mb-4 sm:mb-5 md:mb-6 rounded-full flex items-center justify-center"
+            [ngStyle]="{
         'background': themeService.c5Base + '0D',
         'border': '1px solid ' + themeService.c2Base + '33'
-      }"
-      >
-      <i class="fa-solid fa-calendar-xmark text-2xl sm:text-3xl md:text-4xl"
-          [style.color]="themeService.eventPrimary"></i>
-      </div>
+      }">
+            <i class="fa-solid fa-calendar-xmark text-2xl sm:text-3xl md:text-4xl"
+              [style.color]="themeService.eventPrimary"></i>
+          </div>
 
-      <!-- TITLE -->
-      <h3 class="text-xl sm:text-2xl md:text-4xl font-black mb-2 sm:mb-3"
-        [style.color]="themeService.Textprincipal">
-      Aucun match ou événement
-      </h3>
+          <!-- TITLE -->
+          <h3 class="text-xl sm:text-2xl md:text-4xl font-black mb-2 sm:mb-3"
+            [style.color]="themeService.Textprincipal">
+            Aucun match ou événement
+          </h3>
 
-      <!-- TEXT -->
-      <p class="text-sm sm:text-base md:text-lg"
-        [style.color]="themeService.Textsecondaire">
-      Revenez bientôt pour les prochaines rencontres.
-      </p>
+          <!-- TEXT -->
+          <p class="text-sm sm:text-base md:text-lg" [style.color]="themeService.Textsecondaire">
+            Revenez bientôt pour les prochaines rencontres.
+          </p>
 
-      </div>
+        </div>
       </div>
 
       <!-- 2 CARDS -->
       <div *ngIf="!loading && visibleSlides.length > 0" class="space-y-4 sm:space-y-5 md:space-y-6">
 
         <div *ngFor="let item of visibleSlides; let i = index"
-             class="rounded-[16px] sm:rounded-[20px] md:rounded-[24px] p-4 sm:p-5 md:p-6 overflow-hidden relative group transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 animate-fade-in-up"
-             [style.animation-delay]="i * 150 + 'ms'"
-             [style.background-color]="themeService.GlassBackground"
-             [style.border]="'1px solid ' + themeService.GlassBorder"
-             [style.box-shadow]="themeService.GlassShadow">
+          class="rounded-[16px] sm:rounded-[20px] md:rounded-[24px] p-4 sm:p-5 md:p-6 overflow-hidden relative group transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 animate-fade-in-up"
+          [style.animation-delay]="i * 150 + 'ms'" [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
           <!-- MATCH -->
           <div *ngIf="item.type === 'match'" class="relative overflow-hidden">
@@ -602,26 +573,47 @@
             <!-- Header with type badge & status -->
             <div class="relative z-10 flex items-center justify-between mb-3 sm:mb-4 md:mb-5">
               <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                <span class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 md:px-3 py-0.5 sm:py-0.5 md:py-1 rounded-full text-[8px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-wider shadow-sm"
-                      [style.background-color]="themeService.primary"
-                      [style.color]="'#FFFFFF'">
+                <span
+                  class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 md:px-3 py-0.5 sm:py-0.5 md:py-1 rounded-full text-[8px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-wider shadow-sm"
+                  [style.background-color]="themeService.primary" [style.color]="'#FFFFFF'">
                   <i class="fa-solid fa-trophy text-[7px] sm:text-[8px] md:text-[9px]"></i>
                   {{ item.typeMatch }}
                 </span>
-                <span *ngIf="item.categorie" class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 md:px-3 py-0.5 sm:py-0.5 md:py-1 rounded-full text-[8px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-wider shadow-sm backdrop-blur-sm"
-                      [style.background-color]="themeService.Background2"
-                      [style.color]="themeService.Textprincipal"
-                      [style.border]="'1px solid ' + themeService.Bordernormal">
+                <span *ngIf="item.categorie"
+                  class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 md:px-3 py-0.5 sm:py-0.5 md:py-1 rounded-full text-[8px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-wider shadow-sm backdrop-blur-sm"
+                  [style.background-color]="themeService.Background2" [style.color]="themeService.Textprincipal"
+                  [style.border]="'1px solid ' + themeService.Bordernormal">
                   <i class="fa-solid fa-layer-group text-[7px] sm:text-[8px] md:text-[9px]"></i>
                   {{ item.categorie }}
                 </span>
               </div>
-              <span class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 md:px-3 py-0.5 sm:py-0.5 md:py-1 rounded-full text-[8px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-wider"
-                    [style.background-color]="item.statut === 'Terminé' ? themeService.BgOui : item.statut === 'En cours' ? '#FEF3C7' : themeService.secondarySoft"
-                    [style.color]="item.statut === 'Terminé' ? themeService.BgOuiText : item.statut === 'En cours' ? '#92400E' : themeService.secondary">
-                <span class="w-1 h-1 sm:w-1 sm:h-1 md:w-1.5 md:h-1.5 rounded-full"
-                      [style.background-color]="item.statut === 'Terminé' ? themeService.BorderOui : item.statut === 'En cours' ? '#F59E0B' : themeService.secondary"></span>
-                {{ item.statut }}
+              <span class="
+    inline-flex items-center
+    gap-1 sm:gap-1.5
+    px-2 sm:px-2.5 md:px-3
+    py-0.5 sm:py-0.5 md:py-1
+    rounded-full
+    text-[8px] sm:text-[9px] md:text-[10px]
+    font-bold uppercase tracking-wider
+    border
+    leading-none
+  " [ngClass]="getStatutBadgeClass(item.statut)">
+
+                <!-- DOT -->
+                <span class="
+      flex items-center justify-center
+      leading-none
+      text-[7px] sm:text-[8px] md:text-[10px]
+      translate-y-[-0.5px]
+    " [ngClass]="getStatutIconClass(item.statut)">
+                  ●
+                </span>
+
+                <!-- TEXTE -->
+                <span class="leading-none">
+                  {{ item.statut }}
+                </span>
+
               </span>
             </div>
 
@@ -629,29 +621,35 @@
 
               <!-- Date & Heure -->
               <div class="flex items-center gap-2 sm:gap-2.5 md:gap-3 mb-3 sm:mb-4 md:mb-5">
-                <div class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shadow-lg"
-                     [style.background-color]="themeService.primary"
-                     [style.color]="'#FFFFFF'">
+                <div
+                  class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shadow-lg"
+                  [style.background-color]="themeService.primary" [style.color]="'#FFFFFF'">
                   <i class="fa-regular fa-calendar-check text-base sm:text-lg md:text-xl"></i>
                 </div>
                 <div>
-                  <h3 class="text-lg sm:text-xl md:text-2xl font-black leading-none" [style.color]="themeService.Textprincipal">
+                  <h3 class="text-lg sm:text-xl md:text-2xl font-black leading-none"
+                    [style.color]="themeService.Textprincipal">
                     {{ item.dateMatch | date:'dd.MM.yy' }}
                   </h3>
-                  <span class="text-[9px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-widest" [style.color]="themeService.Textsecondaire">
+                  <span class="text-[9px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-widest"
+                    [style.color]="themeService.Textsecondaire">
                     <i class="fa-regular fa-clock mr-1"></i>{{ item.heureMatch }}
                   </span>
                 </div>
               </div>
 
               <!-- Score (si terminé ou en cours) -->
-              <div *ngIf="item.statut !== 'Programmé'" class="flex items-center justify-center mb-3 sm:mb-4 md:mb-5 rounded-xl sm:rounded-2xl py-2 sm:py-2.5 md:py-3 border"
-                   [style.background-color]="themeService.Background1"
-                   [style.border-color]="themeService.Bordernormal">
+              <div *ngIf="item.statut !== 'Programmé'"
+                class="flex items-center justify-center mb-3 sm:mb-4 md:mb-5 rounded-xl sm:rounded-2xl py-2 sm:py-2.5 md:py-3 border"
+                [style.background-color]="themeService.Background1" [style.border-color]="themeService.Bordernormal">
                 <div class="flex items-center gap-4 sm:gap-5 md:gap-6">
-                  <span class="text-xl sm:text-2xl md:text-3xl font-black" [style.color]="themeService.Textprincipal">{{ item.scoreDomicile }}</span>
-                  <span class="text-[9px] sm:text-[10px] md:text-xs font-black uppercase tracking-[3px] sm:tracking-[3px] md:tracking-[4px]" [style.color]="themeService.Textsecondaire">VS</span>
-                  <span class="text-xl sm:text-2xl md:text-3xl font-black" [style.color]="themeService.Textprincipal">{{ item.scoreExterieur }}</span>
+                  <span class="text-xl sm:text-2xl md:text-3xl font-black" [style.color]="themeService.Textprincipal">{{
+                    item.scoreDomicile }}</span>
+                  <span
+                    class="text-[9px] sm:text-[10px] md:text-xs font-black uppercase tracking-[3px] sm:tracking-[3px] md:tracking-[4px]"
+                    [style.color]="themeService.Textsecondaire">VS</span>
+                  <span class="text-xl sm:text-2xl md:text-3xl font-black" [style.color]="themeService.Textprincipal">{{
+                    item.scoreExterieur }}</span>
                 </div>
               </div>
 
@@ -660,50 +658,61 @@
 
                 <div class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 flex-1">
                   <div class="relative">
-                    <img [src]="item.logoEquipeDomicile" class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full object-cover border-2 shadow-lg group-hover:scale-110 transition-transform duration-300"
-                         [style.border-color]="themeService.GlassBorder"
-                         alt="Logo {{ item.equipeDomicile }}">
-                    <div class="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center"
-                         [style.background-color]="themeService.primary"
-                         [style.border-color]="themeService.Backgroundprincipal">
-                      <i class="fa-solid fa-house text-[7px] sm:text-[8px] md:text-[10px]" [style.color]="'#FFFFFF'"></i>
+                    <img [src]="item.logoEquipeDomicile"
+                      class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full object-cover border-2 shadow-lg group-hover:scale-110 transition-transform duration-300"
+                      [style.border-color]="themeService.GlassBorder" alt="Logo {{ item.equipeDomicile }}">
+                    <div
+                      class="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center"
+                      [style.background-color]="themeService.primary"
+                      [style.border-color]="themeService.Backgroundprincipal">
+                      <i class="fa-solid fa-house text-[7px] sm:text-[8px] md:text-[10px]"
+                        [style.color]="'#FFFFFF'"></i>
                     </div>
                   </div>
-                  <span class="text-[9px] sm:text-[10px] md:text-xs font-black uppercase tracking-wide text-center" [style.color]="themeService.Textprincipal">{{ item.equipeDomicile }}</span>
+                  <span class="text-[9px] sm:text-[10px] md:text-xs font-black uppercase tracking-wide text-center"
+                    [style.color]="themeService.Textprincipal">{{ item.equipeDomicile }}</span>
                 </div>
 
                 <div class="flex flex-col items-center gap-0.5 sm:gap-1 px-1 sm:px-1.5 md:px-2">
-                  <span class="text-[8px] sm:text-[9px] md:text-[10px] font-black uppercase tracking-[2px] sm:tracking-[2px] md:tracking-[3px]" [style.color]="themeService.Textsecondaire">VS</span>
-                  <div class="w-5 h-[2px] sm:w-6 md:w-8 rounded-full" [style.background-color]="themeService.Bordernormal"></div>
-                  <span *ngIf="item.key" class="text-[7px] sm:text-[8px] md:text-[9px] font-mono tracking-wider" [style.color]="themeService.Textsecondaire">
+                  <span
+                    class="text-[8px] sm:text-[9px] md:text-[10px] font-black uppercase tracking-[2px] sm:tracking-[2px] md:tracking-[3px]"
+                    [style.color]="themeService.Textsecondaire">VS</span>
+                  <div class="w-5 h-[2px] sm:w-6 md:w-8 rounded-full"
+                    [style.background-color]="themeService.Bordernormal"></div>
+                  <span *ngIf="item.key" class="text-[7px] sm:text-[8px] md:text-[9px] font-mono tracking-wider"
+                    [style.color]="themeService.Textsecondaire">
                     <i class="fa-solid fa-hashtag text-[6px] sm:text-[7px] md:text-[8px] mr-0.5"></i>{{ item.key }}
                   </span>
                 </div>
 
                 <div class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 flex-1">
                   <div class="relative">
-                    <img [src]="item.logoEquipeExterieur" class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full object-cover border-2 shadow-lg group-hover:scale-110 transition-transform duration-300"
-                         [style.border-color]="themeService.GlassBorder"
-                         alt="Logo {{ item.equipeExterieur }}">
-                    <div class="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center"
-                         [style.background-color]="themeService.secondary"
-                         [style.border-color]="themeService.Backgroundprincipal">
-                      <i class="fa-solid fa-plane text-[7px] sm:text-[8px] md:text-[10px]" [style.color]="'#FFFFFF'"></i>
+                    <img [src]="item.logoEquipeExterieur"
+                      class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full object-cover border-2 shadow-lg group-hover:scale-110 transition-transform duration-300"
+                      [style.border-color]="themeService.GlassBorder" alt="Logo {{ item.equipeExterieur }}">
+                    <div
+                      class="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center"
+                      [style.background-color]="themeService.secondary"
+                      [style.border-color]="themeService.Backgroundprincipal">
+                      <i class="fa-solid fa-plane text-[7px] sm:text-[8px] md:text-[10px]"
+                        [style.color]="'#FFFFFF'"></i>
                     </div>
                   </div>
-                  <span class="text-[9px] sm:text-[10px] md:text-xs font-black uppercase tracking-wide text-center" [style.color]="themeService.Textprincipal">{{ item.equipeExterieur }}</span>
+                  <span class="text-[9px] sm:text-[10px] md:text-xs font-black uppercase tracking-wide text-center"
+                    [style.color]="themeService.Textprincipal">{{ item.equipeExterieur }}</span>
                 </div>
 
               </div>
 
               <!-- Footer info -->
-              <div class="flex items-center gap-2 sm:gap-3 md:gap-4 text-[9px] sm:text-[10px] md:text-xs pt-3 sm:pt-3.5 md:pt-4 border-t"
-                   [style.color]="themeService.Textsecondaire"
-                   [style.border-color]="themeService.Bordernormal">
+              <div
+                class="flex items-center gap-2 sm:gap-3 md:gap-4 text-[9px] sm:text-[10px] md:text-xs pt-3 sm:pt-3.5 md:pt-4 border-t"
+                [style.color]="themeService.Textsecondaire" [style.border-color]="themeService.Bordernormal">
                 <div class="flex items-center gap-1.5 sm:gap-2">
                   <div class="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-lg shadow-sm"
-                       [style.background-color]="themeService.Background1">
-                    <i class="fa-solid fa-location-dot text-[9px] sm:text-[10px] md:text-[11px]" [style.color]="themeService.Iconnormal"></i>
+                    [style.background-color]="themeService.Background1">
+                    <i class="fa-solid fa-location-dot text-[9px] sm:text-[10px] md:text-[11px]"
+                      [style.color]="themeService.Iconnormal"></i>
                   </div>
                   <span class="font-bold" [style.color]="themeService.Textprincipal">{{ item.stade }}</span>
                 </div>
@@ -726,51 +735,89 @@
               <div class="flex items-center justify-between mb-3 sm:mb-4 md:mb-5">
                 <div class="flex items-center gap-2 sm:gap-2.5 md:gap-3">
                   <div class="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-xl flex items-center justify-center border"
-                       [style.background-color]="themeService.eventPrimarySoft"
-                       [style.border-color]="themeService.eventPrimary"
-                       [style.color]="themeService.eventPrimary">
+                    [style.background-color]="themeService.eventPrimarySoft"
+                    [style.border-color]="themeService.eventPrimary" [style.color]="themeService.eventPrimary">
                     <i class="fa-solid fa-bullhorn text-sm sm:text-base md:text-lg"></i>
                   </div>
                   <div>
-                    <h3 class="text-lg sm:text-xl md:text-2xl font-black leading-none" [style.color]="themeService.Textprincipal">
+                    <h3 class="text-lg sm:text-xl md:text-2xl font-black leading-none"
+                      [style.color]="themeService.Textprincipal">
                       {{ item.date | date:'dd.MM.yy' }}
                     </h3>
-                    <span class="text-[9px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-widest" [style.color]="themeService.Textsecondaire">
+                    <span class="text-[9px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-widest"
+                      [style.color]="themeService.Textsecondaire">
                       <i class="fa-regular fa-clock mr-1"></i>{{ item.heureDebut }} - {{ item.heureFin }}
                     </span>
                   </div>
                 </div>
 
-                <span class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 md:px-3 py-0.5 sm:py-0.5 md:py-1 rounded-full text-[8px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-wider border"
-                      [style.background-color]="themeService.eventPrimarySoft"
-                      [style.color]="themeService.eventPrimary"
-                      [style.border-color]="themeService.eventPrimary">
-                  <i class="fa-solid fa-star text-[7px] sm:text-[8px] md:text-[9px]"></i>
-                  Événement
-                </span>
+                <span
+  class="
+    inline-flex items-center
+    gap-1 sm:gap-1.5
+    px-2 sm:px-2.5 md:px-3
+    py-0.5 sm:py-0.5 md:py-1
+    rounded-full
+    text-[8px] sm:text-[9px] md:text-[10px]
+    font-bold uppercase tracking-wider
+    border
+    leading-none
+  "
+  [style.background-color]="themeService.eventPrimarySoft"
+  [style.color]="themeService.eventPrimary"
+  [style.border-color]="themeService.eventPrimary"
+>
+
+  <!-- ICON -->
+  <span
+    class="
+      flex items-center justify-center
+      leading-none
+      translate-y-[-0.5px]
+    "
+  >
+    <i
+      class="
+        fa-solid fa-star
+        text-[7px] sm:text-[8px] md:text-[9px]
+      "
+    ></i>
+  </span>
+
+  <!-- TEXTE -->
+  <span class="leading-none">
+    Événement
+  </span>
+
+</span>
               </div>
 
               <!-- Title with decorative line -->
               <div class="mb-3 sm:mb-3.5 md:mb-4">
-                <p class="text-base sm:text-lg md:text-xl uppercase font-black tracking-wide mb-2 leading-tight" [style.color]="themeService.Textprincipal">
-                  <i class="fa-solid fa-heading mr-1.5 sm:mr-2 text-xs sm:text-xs md:text-sm" [style.color]="themeService.Textsecondaire"></i>{{ item.titre }}
+                <p class="text-base sm:text-lg md:text-xl uppercase font-black tracking-wide mb-2 leading-tight"
+                  [style.color]="themeService.Textprincipal">
+                  <i class="fa-solid fa-heading mr-1.5 sm:mr-2 text-xs sm:text-xs md:text-sm"
+                    [style.color]="themeService.Textsecondaire"></i>{{ item.titre }}
                 </p>
-                <div class="w-10 sm:w-12 md:w-16 h-[3px] rounded-full" [style.background-color]="themeService.eventPrimary"></div>
+                <div class="w-10 sm:w-12 md:w-16 h-[3px] rounded-full"
+                  [style.background-color]="themeService.eventPrimary"></div>
               </div>
 
               <!-- Description -->
-              <p class="text-xs sm:text-xs md:text-sm leading-relaxed mb-3 sm:mb-3.5 md:mb-4" [style.color]="themeService.Textsecondaire">
-                <i class="fa-solid fa-align-left mr-1.5 sm:mr-2 text-[9px] sm:text-[10px] md:text-xs" [style.color]="themeService.Textsecondaire"></i>{{ item.description }}
+              <p class="text-xs sm:text-xs md:text-sm leading-relaxed mb-3 sm:mb-3.5 md:mb-4"
+                [style.color]="themeService.Textsecondaire">
+                <i class="fa-solid fa-align-left mr-1.5 sm:mr-2 text-[9px] sm:text-[10px] md:text-xs"
+                  [style.color]="themeService.Textsecondaire"></i>{{ item.description }}
               </p>
 
               <!-- Location -->
-              <div class="flex items-center gap-2 sm:gap-2.5 md:gap-3 text-xs sm:text-xs md:text-sm pt-2 sm:pt-2.5 md:pt-3 border-t"
-                   [style.color]="themeService.Textsecondaire"
-                   [style.border-color]="themeService.Bordernormal">
+              <div
+                class="flex items-center gap-2 sm:gap-2.5 md:gap-3 text-xs sm:text-xs md:text-sm pt-2 sm:pt-2.5 md:pt-3 border-t"
+                [style.color]="themeService.Textsecondaire" [style.border-color]="themeService.Bordernormal">
                 <div class="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg border"
-                     [style.background-color]="themeService.Background1"
-                     [style.border-color]="themeService.Bordernormal">
-                  <i class="fa-solid fa-location-dot text-xs sm:text-xs md:text-sm" [style.color]="themeService.Iconnormal"></i>
+                  [style.background-color]="themeService.Background1" [style.border-color]="themeService.Bordernormal">
+                  <i class="fa-solid fa-location-dot text-xs sm:text-xs md:text-sm"
+                    [style.color]="themeService.Iconnormal"></i>
                 </div>
                 <div>
                   <span class="font-bold" [style.color]="themeService.Textprincipal">{{ item.lieu }}</span>
@@ -792,13 +839,10 @@
       <!-- DOTS -->
       <div class="flex justify-center gap-2 sm:gap-2.5 md:gap-3 pt-5 sm:pt-6 md:pt-8">
 
-        <button
-          *ngFor="let s of slides; let i = index"
-          (click)="goTo(i)"
+        <button *ngFor="let s of slides; let i = index" (click)="goTo(i)"
           class="group relative flex items-center justify-center p-1 sm:p-1 md:p-1.5 transition-all duration-300"
           [attr.aria-label]="'Aller à la page ' + (i + 1)">
-          <div
-            class="w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-2.5 md:h-2.5 rounded-full transition-all duration-300"
+          <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-2.5 md:h-2.5 rounded-full transition-all duration-300"
             [ngClass]="(i * 2) === currentIndex ? 'scale-125' : 'group-hover:scale-110'"
             [style.background-color]="(i * 2) === currentIndex ? themeService.Textprincipal : themeService.Bordernormal">
           </div>
@@ -814,40 +858,51 @@
 
 <style>
   @keyframes fade-in-up {
-from {
-  opacity: 0;
-  transform: translateY(25px);
-}
-to {
-  opacity: 1;
-  transform: translateY(0);
-}
-}
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
 
-@keyframes expand-width {
-from { width: 0; }
-to { width: 3.5rem; }
-}
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-@keyframes fade-in {
-from { opacity: 0; }
-to { opacity: 1; }
-}
+  @keyframes expand-width {
+    from {
+      width: 0;
+    }
 
-.animate-fade-in-up {
-animation: fade-in-up 0.6s ease-out forwards;
-opacity: 0;
-}
+    to {
+      width: 3.5rem;
+    }
+  }
 
-.animate-expand-width {
-animation: expand-width 0.8s ease-out forwards;
-}
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
 
-.animate-fade-in {
-animation: fade-in 0.6s ease-out forwards;
-}
+    to {
+      opacity: 1;
+    }
+  }
 
-.delay-100 {
-animation-delay: 100ms;
-}
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-expand-width {
+    animation: expand-width 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+  }
+
+  .delay-100 {
+    animation-delay: 100ms;
+  }
 </style>

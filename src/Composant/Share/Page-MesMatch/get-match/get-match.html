@@ -1,9 +1,10 @@
 <app-icon></app-icon>
 
 <div class="min-h-screen p-4 md:p-6 lg:p-8 overflow-hidden"
-  [style.background]="themeService.isDarkMode
-    ? 'linear-gradient(135deg,' + themeService.Backgroundprincipal + ' 0%,' + themeService.Background1 + ' 100%)'
-    : 'linear-gradient(135deg,#f8fafc 0%,#ffffff 100%)'">
+  [ngStyle]="{
+        'background': themeService.Backgroundprincipaltest,
+        
+      }">
 
 
 
@@ -13,8 +14,12 @@
     <div class="mb-8 text-center">
 
         <div class="inline-flex items-center gap-3 px-6 py-3 rounded-2xl border shadow-lg mb-4"
-        [style.background]="themeService.GlassBackground"
-        [style.border-color]="themeService.Bordernormal">
+        [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
     
         <i class="fa-solid fa-trophy text-2xl" [style.color]="themeService.primary"></i>
     
@@ -35,7 +40,7 @@
             <p class="text-sm font-bold mt-1"
             [style.color]="themeService.primary"
             *ngIf="userEquipe">
-            🏆 Équipe : {{ userEquipe }}
+            Équipe : {{ userEquipe }}
             </p>
     
         </div>
@@ -47,18 +52,24 @@
     <button
       (click)="previousMonth()"
       class="px-4 py-2 rounded-xl border shadow-md transition hover:scale-105"
-      [style.background]="themeService.GlassBackground"
-      [style.border-color]="themeService.Bordernormal"
-      [style.color]="themeService.Textprincipal">
+      [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
   
       <i class="fa-solid fa-chevron-left mr-2"></i>
       Mois précédent
     </button>
   
     <div class="px-4 py-2 rounded-xl font-black border shadow-md"
-      [style.background]="themeService.primarySoft"
-      [style.border-color]="themeService.primary"
-      [style.color]="themeService.primary">
+      [ngStyle]="{
+        'background': themeService.primary,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': '#FFFFFF',
+        'box-shadow': themeService.Bowshadowtest
+      }">
   
       {{ currentMonth | date:'MMMM yyyy':'':'fr-FR' }}
     </div>
@@ -66,9 +77,12 @@
     <button
       (click)="nextMonth()"
       class="px-4 py-2 rounded-xl border shadow-md transition hover:scale-105"
-      [style.background]="themeService.GlassBackground"
-      [style.border-color]="themeService.Bordernormal"
-      [style.color]="themeService.Textprincipal">
+      [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
   
       Mois suivant
       <i class="fa-solid fa-chevron-right ml-2"></i>
@@ -83,9 +97,12 @@
 
     <div *ngFor="let day of calendarDays; let i = index"
       class="rounded-2xl border shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl group"
-      [style.background]="themeService.GlassBackground"
-      [style.border-color]="themeService.Bordernormal"
-      [style.animation-delay]="i * 0.05 + 's'">
+      [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
       <!-- HEADER JOUR -->
       <div class="p-4 flex items-center justify-between border-b relative overflow-hidden"
@@ -93,13 +110,13 @@
 
         <!-- Effet de glow subtil -->
         <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          [style.background]="'linear-gradient(90deg, transparent, ' + themeService.primarySoft + ', transparent)'">
+          [style.background]="themeService.primary">
         </div>
 
         <div class="flex items-center gap-2 relative z-10">
           <div class="w-9 h-9 rounded-xl flex items-center justify-center shadow-md"
-            [style.background]="themeService.primarySoft">
-            <i class="fa-regular fa-calendar text-sm" [style.color]="themeService.primary"></i>
+            [style.background]="themeService.primary">
+            <i class="fa-regular fa-calendar text-sm text-white"></i>
           </div>
 
           <div>
@@ -114,53 +131,117 @@
             </span>
           </div>
         </div>
-
-        <div class="text-xs font-black px-3 py-1.5 rounded-full shadow-sm border relative z-10"
-          [style.background]="getMatchesByDate(day).length > 0
-            ? themeService.primarySoft
-            : themeService.secondarySoft"
-          [style.border-color]="getMatchesByDate(day).length > 0
-            ? themeService.primary
-            : themeService.secondary"
-          [style.color]="getMatchesByDate(day).length > 0
-            ? themeService.primary
-            : themeService.secondary">
-
-          <span *ngIf="getMatchesByDate(day).length > 0" class="mr-1">⚽</span>
-          {{ getMatchesByDate(day).length }}
-        </div>
-
       </div>
 
       <!-- BODY JOUR -->
       <div class="p-4 space-y-3">
 
-        <!-- AUCUN MATCH -->
-        <div *ngIf="getMatchesByDate(day).length === 0"
-          class="flex flex-col items-center justify-center py-8">
+        <!-- ========================================= -->
+        <!-- ❌ AUCUN MATCH / REPOS PREMIUM -->
+        <!-- ========================================= -->
+        <div
+        *ngIf="getMatchesByDate(day).length === 0"
+        class="relative flex flex-col items-center justify-center py-10 px-4 overflow-hidden"
+        >
 
-          <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-3 shadow-inner"
-            [style.background]="themeService.isDarkMode ? 'rgba(255,255,255,0.03)' : '#f1f5f9'">
-            <i class="fa-regular fa-calendar-xmark text-3xl"
-              [style.color]="themeService.Textsecondaire"></i>
-          </div>
+        <!-- BG GLOW -->
+        <div
+          class="
+            absolute inset-0
+            opacity-40
+            pointer-events-none
+          "
+          [style.background]="
+            themeService.isDarkMode
+              ? 'radial-gradient(circle at center, rgba(255,255,255,0.04), transparent 70%)'
+              : 'radial-gradient(circle at center, rgba(148,163,184,0.08), transparent 70%)'
+          "
+        ></div>
 
-          <p class="text-xs font-bold uppercase tracking-wider"
-            [style.color]="themeService.Textsecondaire">
-            Repos
-          </p>
-          <p class="text-[10px] font-medium mt-1"
-            [style.color]="themeService.Textsecondaire">
-            Aucun match programmé
-          </p>
+        <!-- ICON CONTAINER -->
+        <div
+          class="
+            relative
+            w-20 h-20
+            rounded-3xl
+            flex items-center justify-center
+            mb-4
+            border
+            backdrop-blur-xl
+            shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+            transition-all duration-300
+            hover:scale-105
+          "
+          [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }"
+          [style.border-color]="themeService.Bordernormal"
+        >
+
+          <!-- INNER LIGHT -->
+          <div
+            class="
+              absolute inset-0
+              rounded-3xl
+              opacity-50
+            "
+            [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }"
+          ></div>
+
+          <i
+            class="
+              relative
+              fa-regular fa-calendar-xmark
+              text-3xl
+            "
+            [style.color]="themeService.Textsecondaire"
+          ></i>
+
+        </div>
+
+        <!-- TITLE -->
+        <p
+          class="
+            text-sm
+            font-black
+            uppercase
+            tracking-[0.25em]
+            leading-none
+          "
+          [style.color]="themeService.Textsecondaire"
+        >
+          Repos
+        </p>
+
+        <!-- DESCRIPTION -->
+        <p
+          class="
+            mt-2
+            text-[11px] sm:text-xs
+            font-medium
+            text-center
+            max-w-[240px]
+            leading-relaxed
+          "
+          [style.color]="themeService.Textsecondaire"
+        >
+          Aucun match ni séance d'entraînement programmé
+        </p>
+
         </div>
 
         <!-- MATCHS DU JOUR -->
         <div *ngFor="let match of getMatchesByDate(day); let j = index"
           class="relative overflow-hidden rounded-xl border p-4 transition-all duration-300 hover:shadow-xl cursor-pointer group/match"
-          [style.background]="themeService.isDarkMode
-            ? 'linear-gradient(145deg,' + themeService.Background1 + ',' + themeService.Background2 + ')'
-            : 'linear-gradient(145deg,#ffffff,#f8fafc)'"
+          
           [style.border-color]="themeService.Bordernormal">
 
           <!-- Ligne d'accent colorée en haut -->

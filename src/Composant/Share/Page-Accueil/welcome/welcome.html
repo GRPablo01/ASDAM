@@ -15,10 +15,10 @@
 
     <!-- BADGE -->
     <div class="inline-flex items-center gap-3 px-5 py-3 rounded-full mb-8 backdrop-blur-xl" [ngStyle]="{
-        'background': themeService.c5Base + '0D',
-        'border': '1px solid ' + themeService.c2Base + '33',
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
         'color': themeService.Textsecondaire,
-        'box-shadow': '0 4px 15px ' + themeService.c16Dark + '20'
+        'box-shadow': themeService.Bowshadowtest
       }">
       <i class="fa-solid fa-futbol" [ngStyle]="{ 'color': themeService.c1Base }"></i>
 
@@ -40,9 +40,9 @@
 
     <!-- DESCRIPTION -->
     <div class="max-w-[700px] p-7 rounded-3xl backdrop-blur-xl" [ngStyle]="{
-        'background': themeService.c5Base + '0D',
-        'border': '1px solid ' + themeService.c2Base + '33',
-        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'box-shadow': themeService.Bowshadowtest
       }">
       <p class="text-lg leading-relaxed" [ngStyle]="{ 'color': themeService.Textsecondaire }">
         Suivez en temps réel les matchs de l'ASDAM,
@@ -131,8 +131,8 @@
 
     active:scale-[0.98]
   " [ngStyle]="{
-    'background': themeService.c5Base + '0D',
-    'border': '1px solid ' + themeService.c2Base + '33',
+    'background': themeService.Backgroundsecondairetest,
+    'border': '1px solid ' + themeService.Bordernormal,
     'color': themeService.Textprincipal,
   }">
         <i class="fa-solid fa-compass" [ngStyle]="{ 'color': themeService.c2Base }">
@@ -209,7 +209,7 @@
 <!-- ========================================================= -->
 <!-- TABLET + MOBILE (VERTICAL CENTRÉ) -->
 <!-- ========================================================= -->
-<section class="relative flex -mt-8 sm:mt-0 md:hidden w-full h-auto flex-col items-center justify-center text-center px-5 py-5 sm:py-10 sm:px-10">
+<section class="relative flex sm:mt-0 md:hidden w-full h-auto flex-col items-center justify-center text-center px-5 py-5 sm:py-10 sm:px-10">
 
   <!-- ICON3 FIXED EN HAUT À GAUCHE -->
   <div class="fixed top-18 left-3 z-50">
@@ -228,10 +228,10 @@
 
   <!-- DESCRIPTION -->
   <div class="w-full max-w-[600px] p-6 rounded-2xl backdrop-blur-md mb-6 relative z-10" [ngStyle]="{
-    'background': themeService.c5Base + '0D',
-    'border': '1px solid ' + themeService.c2Base + '33',
-    'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20',
-    'color':themeService.Textprincipal
+    'background': themeService.Backgroundsecondairetest,
+    'border': '1px solid ' + themeService.Bordernormal,
+    'color': themeService.Textsecondaire,
+    'box-shadow': themeService.Bowshadowtest
   }">
     Suivez en temps réel les matchs de l'ASDAM,
     consultez les rencontres à venir et les matchs en direct.
@@ -258,10 +258,11 @@
 
     <button class="px-6 py-3 rounded-xl font-semibold backdrop-blur-md transition hover:scale-105 active:scale-95"
       [ngStyle]="{
-    'background': themeService.c5Base + '0D',
-    'border': '1px solid ' + themeService.c2Base + '33',
-    'color': themeService.Textprincipal,
-  }">
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
       <i class="fa-solid fa-compass mr-2" [ngStyle]="{ 'color': themeService.c2Base }"></i>
       Explorer
     </button>

@@ -171,4 +171,64 @@ export class Plannig2 implements OnInit {
       this.next();
     }, 15000);
   }
+
+  getStatutBadgeClass(statut?: string): string {
+    switch (statut) {
+  
+      case 'En cours':
+        return `
+          bg-red-500/20
+          border-red-500/40
+          text-red-400
+        `;
+  
+      case 'Terminé':
+        return `
+          bg-gray-500/20
+          border-gray-500/40
+          text-gray-300
+        `;
+  
+      case 'Programmé':
+        return `
+          bg-blue-500/20
+          border-blue-500/40
+          text-blue-400
+        `;
+  
+      case 'Annulé':
+        return `
+          bg-yellow-500/20
+          border-yellow-500/40
+          text-yellow-400
+        `;
+  
+      default:
+        return `
+          bg-white/10
+          border-white/20
+          text-white
+        `;
+    }
+  }
+  
+  getStatutIconClass(statut?: string): string {
+    switch (statut) {
+  
+      case 'En cours':
+        return 'text-red-500 animate-pulse';
+  
+      case 'Terminé':
+        return 'text-gray-400';
+  
+      case 'Programmé':
+        return 'text-blue-400';
+  
+      case 'Annulé':
+        return 'text-yellow-400';
+  
+      default:
+        return 'text-white';
+    }
+  }
 }

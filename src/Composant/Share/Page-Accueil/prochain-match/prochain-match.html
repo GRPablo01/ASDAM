@@ -10,8 +10,7 @@
 <section class="hidden md:flex w-full h-auto py-15 px-10 overflow-hidden relative">
 
   <!-- CONTAINER -->
-  <div
-    class="
+  <div class="
       relative
       z-10
 
@@ -28,14 +27,12 @@
       2xl:gap-28
 
       
-    "
-  >
+    ">
 
     <!-- ===================================================== -->
     <!-- LEFT : MATCH CARD -->
     <!-- ===================================================== -->
-    <div
-      class="
+    <div class="
         flex-1
         min-w-0
 
@@ -44,30 +41,23 @@
         items-center
 
         order-1
-      "
-    >
+      ">
 
-      <div
-        class="
+      <div class="
           relative
           w-full
 
           max-w-[850px]
           xl:max-w-[950px]
           2xl:max-w-[1050px]
-        "
-      >
+        ">
 
         <!-- ================================================= -->
         <!-- NO MATCH -->
         <!-- ================================================= -->
-        <div
-          *ngIf="matchs.length === 0"
-          class="w-full flex justify-center items-center animate-fade-in py-12"
-        >
+        <div *ngIf="matchs.length === 0" class="w-full flex justify-center items-center animate-fade-in py-12">
 
-          <div
-            class="
+          <div class="
               w-full
               p-10
               xl:p-12
@@ -80,17 +70,14 @@
               relative
               overflow-hidden
               group
-            "
-            [ngStyle]="{
-              'background': themeService.c5Base + '0D',
-              'border': '1px solid ' + themeService.c2Base + '33',
-              'box-shadow': '0 10px 40px ' + themeService.c16Dark + '25'
-            }"
-          >
+            " [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
             <!-- ICON -->
-            <div
-              class="
+            <div class="
                 w-20
                 h-20
                 mx-auto
@@ -103,64 +90,50 @@
                 duration-300
                 hover:scale-110
                 hover:rotate-3
-              "
-              [ngStyle]="{
+              " [ngStyle]="{
                 'background': themeService.primary
-              }"
-            >
-              <i
-                class="fa-solid text-white fa-calendar-xmark text-4xl transition-transform duration-300"
-              ></i>
+              }">
+              <i class="fa-solid text-white fa-calendar-xmark text-4xl transition-transform duration-300"></i>
             </div>
 
             <!-- TITLE -->
-            <h3
-              class="
+            <h3 class="
                 text-3xl
                 xl:text-4xl
                 font-black
                 mb-3
                 leading-tight
                 tracking-tight
-              "
-              [ngStyle]="{ 'color': themeService.Textprincipal }"
-            >
+              " [ngStyle]="{ 'color': themeService.Textprincipal }">
               Aucun match programmé
             </h3>
 
             <!-- DESCRIPTION -->
-            <p
-              class="
+            <p class="
                 text-lg
                 leading-relaxed
                 mb-4
                 max-w-2xl
                 mx-auto
-              "
-              [ngStyle]="{ 'color': themeService.Textsecondaire }"
-            >
+              " [ngStyle]="{ 'color': themeService.Textsecondaire }">
               Il n'y a aucune rencontre prévue actuellement dans le calendrier.
               Les prochaines affiches seront ajoutées dès qu'elles seront confirmées.
             </p>
 
             <!-- EXTRA -->
-            <p
-              class="
+            <p class="
                 text-base
                 leading-relaxed
                 mb-8
                 max-w-xl
                 mx-auto
-              "
-              [ngStyle]="{ 'color': themeService.Textsecondaire + 'CC' }"
-            >
+              " [ngStyle]="{ 'color': themeService.Textsecondaire + 'CC' }">
               Revenez plus tard pour consulter les nouveaux matchs,
               les horaires et les informations des équipes.
             </p>
 
             <!-- INFO -->
-            <div
-              class="
+            <div class="
                 inline-flex
                 items-center
                 gap-2
@@ -169,13 +142,11 @@
                 rounded-full
                 text-sm
                 backdrop-blur-sm
-              "
-              [ngStyle]="{
-                'background': themeService.primarySoft,
+              " [ngStyle]="{
+                'background': themeService.primary,
                 'border': '1px solid ' + themeService.primaryGlow,
                 'color': themeService.Textprincipal
-              }"
-            >
+              }">
               <span class="text-base">💡</span>
               <span>Les matchs apparaissent dès leur validation officielle</span>
             </div>
@@ -186,68 +157,25 @@
         <!-- ================================================= -->
         <!-- MATCH SLIDER -->
         <!-- ================================================= -->
-        <div
-        *ngIf="matchs.length > 0"
-        class="
+        <div *ngIf="matchs.length > 0" class="
           relative
-
           rounded-[40px]
           overflow-hidden
-
           backdrop-blur-xl
-
           transition-all
           duration-500
-        "
-        [ngStyle]="{
-          'background': themeService.c5Base + '0D',
-          'border': '1px solid ' + themeService.c2Base + '33',
-          'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20',
-          'color': themeService.Textprincipal
-        }"
-        >
-
-        <!-- PREV -->
-        <button
-          *ngIf="currentIndex > 0"
-          (click)="prevMatch()"
-          class="
-            absolute
-            -left-5
-            xl:-left-6
-            top-1/2
-            -translate-y-1/2
-
-            w-12
-            h-12
-
-            rounded-full
-            backdrop-blur-xl
-            transition-all
-            duration-300
-            hover:scale-110
-            active:scale-95
-            hover:shadow-lg
-
-            flex
-            items-center
-            justify-center
-
-            z-20
-          "
+        " [ngStyle]="{
+          'background': themeService.Backgroundsecondairetest,
+          'border': '1px solid ' + themeService.Bordernormal,
+          'box-shadow': themeService.Bowshadowtest,
           
-        >
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
+        }">
 
-        <!-- NEXT -->
-        <button
-          *ngIf="currentIndex < matchs.length - 1"
-          (click)="nextMatch()"
-          class="
+          <!-- PREV -->
+          <button *ngIf="currentIndex > 0" (click)="prevMatch()" class="
             absolute
-            -right-5
-            xl:-right-6
+            left-2
+            xl:left-3
             top-1/2
             -translate-y-1/2
 
@@ -267,331 +195,201 @@
             justify-center
 
             z-20
-          "
-          [ngStyle]="{
-            'background': themeService.GlassBackground,
-            'border': '1px solid ' + themeService.GlassBorder
-          }"
-        >
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
+          " [ngStyle]="{
+            'background': themeService.Backgroundsecondairetest,
+            'border': '1px solid ' + themeService.Bordernormal,
+            'box-shadow': themeService.Bowshadowtest,
+            'color':themeService.Textprincipal
+          }">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
 
-        <!-- CARD -->
-        <div
-          class="
+          <!-- NEXT -->
+          <button *ngIf="currentIndex < matchs.length - 1" (click)="nextMatch()" class="
+            absolute
+            right-2
+            xl:right-3
+            top-1/2
+            -translate-y-1/2
+
+            w-12
+            h-12
+
+            rounded-full
+            backdrop-blur-xl
+            transition-all
+            duration-300
+            hover:scale-110
+            active:scale-95
+            hover:shadow-lg
+
+            flex
+            items-center
+            justify-center
+
+            z-20
+          " [ngStyle]="{
+            'background': themeService.Backgroundsecondairetest,
+            'border': '1px solid ' + themeService.Bordernormal,
+            'box-shadow': themeService.Bowshadowtest,
+            'color':themeService.Textprincipal
+          }">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+
+          <!-- CARD -->
+          <div class="
             relative
             w-full
-
             rounded-[40px]
             p-8
             xl:p-10
             2xl:p-12
-
             overflow-hidden
             transition-all
             duration-500
             hover:shadow-2xl
-          "
-        >
+          ">
 
-          <!-- TOP BORDER -->
-          <div
-            class="absolute top-0 left-0 right-0 h-1.5 rounded-t-[40px]"
-            [ngStyle]="{
+            <!-- TOP BORDER -->
+            <div class="absolute top-0 left-0 right-0 h-1.5 rounded-t-[40px]" [ngStyle]="{
               'background':
                 'linear-gradient(90deg, ' +
                 themeService.primary +
                 ' 0%, ' +
                 themeService.primary +
                 '66 100%)'
-            }"
-          ></div>
+            }"></div>
 
-          <!-- HEADER -->
-          <div class="flex justify-between mb-8 items-start gap-6">
+            <!-- HEADER -->
+            <div class="flex justify-between mb-8 items-start gap-6">
 
-            <div class="min-w-0">
-              <span
-                class="text-xs uppercase tracking-widest font-semibold"
-                [ngStyle]="{ 'color': themeService.Textsecondaire }"
-              >
-                Date
-              </span>
+              <div class="min-w-0">
+                <span class="text-xs uppercase tracking-widest font-semibold"
+                  [ngStyle]="{ 'color': themeService.Textsecondaire }">
+                  Date
+                </span>
 
-              <h3
-                class="
-                  text-2xl
-                  xl:text-3xl
-                  font-black
-                  mt-1
-                  break-words
-                "
-                [ngStyle]="{ 'color': themeService.Textprincipal }"
-              >
-                {{ formatDate(matchs[currentIndex]?.dateMatch) }}
-              </h3>
+                <h3 class="text-2xl xl:text-3xl font-black mt-1 break-words"
+                  [ngStyle]="{ 'color': themeService.Textprincipal }">
+                  {{ formatDate(matchs[currentIndex]?.dateMatch) }}
+                </h3>
+              </div>
+
+              <!-- STATUS -->
+              <div class="
+                px-4 py-2 rounded-full border text-sm font-semibold
+                backdrop-blur-xl flex items-center gap-2 shadow-sm
+                whitespace-nowrap flex-shrink-0
+              " [ngClass]="getStatutBadgeClass(matchs[currentIndex]?.statut)">
+                <i class="fa-solid fa-circle text-[10px] animate-pulse"
+                  [ngClass]="getStatutIconClass(matchs[currentIndex]?.statut)"></i>
+
+                {{ matchs[currentIndex]?.statut }}
+              </div>
+
             </div>
 
-            <!-- STATUS -->
-            <div
-              class="
-                px-4
-                py-2
-                rounded-full
-                border
-                text-sm
-                font-semibold
-                backdrop-blur-xl
-                flex
-                items-center
-                gap-2
-                shadow-sm
-                whitespace-nowrap
-                flex-shrink-0
-              "
-              [ngClass]="getStatutBadgeClass(matchs[currentIndex]?.statut)"
-            >
-              <i
-                class="fa-solid fa-circle text-[10px] animate-pulse"
-                [ngClass]="getStatutIconClass(matchs[currentIndex]?.statut)"
-              ></i>
+            <!-- MATCH -->
+            <div class="flex justify-between items-center gap-6 xl:gap-10">
 
-              {{ matchs[currentIndex]?.statut }}
-            </div>
-
-          </div>
-
-          <!-- MATCH -->
-          <div class="flex justify-between items-center gap-6 xl:gap-10">
-
-            <!-- HOME -->
-            <div class="text-center flex-1 min-w-0 group">
-
-              <div
-                class="
-                  relative
-                  w-20
-                  h-20
-                  xl:w-24
-                  xl:h-24
-                  mx-auto
-                  mb-3
-                  transition-transform
-                  duration-300
-                  group-hover:scale-110
-                "
-              >
-
-                <img
-                  *ngIf="getDomLogo(matchs[currentIndex])"
-                  [src]="getDomLogo(matchs[currentIndex])"
-                  class="w-full h-full object-contain"
-                />
+              <!-- HOME -->
+              <div class="text-center flex-1 min-w-0 group">
 
                 <div
-                  *ngIf="!getDomLogo(matchs[currentIndex])"
-                  class="
-                    w-full
-                    h-full
-                    rounded-full
-                    flex
-                    items-center
-                    justify-center
-                    mx-auto
-                  "
-                  [ngStyle]="{
+                  class="relative w-20 h-20 xl:w-24 xl:h-24 mx-auto mb-3 transition-transform duration-300 group-hover:scale-110">
+                  <img *ngIf="getDomLogo(matchs[currentIndex])" [src]="getDomLogo(matchs[currentIndex])"
+                    class="w-full h-full object-contain rounded-full" />
+
+                  <div *ngIf="!getDomLogo(matchs[currentIndex])"
+                    class="w-full h-full rounded-full flex items-center justify-center mx-auto" [ngStyle]="{
                     'background': themeService.GlassBackground,
                     'border': '1px solid ' + themeService.GlassBorder
-                  }"
-                >
-                  <i
-                    class="fa-solid fa-shield-halved text-2xl"
-                    [ngStyle]="{ 'color': themeService.primary }"
-                  ></i>
+                  }">
+                    <i class="fa-solid fa-shield-halved text-2xl" [ngStyle]="{ 'color': themeService.primary }"></i>
+                  </div>
                 </div>
+
+                <h4 class="font-bold text-lg xl:text-xl leading-tight break-words"
+                  [ngStyle]="{ 'color': themeService.Textprincipal }">
+                  {{ getDomEquipe(matchs[currentIndex]) }}
+                </h4>
+
               </div>
 
-              <h4
-                class="
-                  font-bold
-                  text-lg
-                  xl:text-xl
-                  leading-tight
-                  break-words
-                "
-                [ngStyle]="{ 'color': themeService.Textprincipal }"
-              >
-                {{ getDomEquipe(matchs[currentIndex]) }}
-              </h4>
+              <!-- VS -->
+              <div class="text-center flex-shrink-0">
 
-            </div>
+                <div class="text-4xl xl:text-5xl font-black tracking-tighter"
+                  [ngStyle]="{ 'color': themeService.primary }">
+                  VS
+                </div>
 
-            <!-- VS -->
-            <div class="text-center flex-shrink-0">
-
-              <div
-                class="
-                  text-4xl
-                  xl:text-5xl
-                  font-black
-                  tracking-tighter
-                "
-                [ngStyle]="{ 'color': themeService.primary }"
-              >
-                VS
-              </div>
-
-              <div
-                class="
-                  text-sm
-                  mt-2
-                  font-medium
-                  px-3
-                  py-1
-                  rounded-full
-                "
-                [ngStyle]="{
+                <div class="text-sm mt-2 font-medium px-3 py-1 rounded-full" [ngStyle]="{
                   'background': themeService.GlassBackground,
                   'color': themeService.Textsecondaire
-                }"
-              >
-                {{ matchs[currentIndex]?.heureMatch }}
+                }">
+                  {{ matchs[currentIndex]?.heureMatch }}
+                </div>
+
               </div>
 
-            </div>
-
-            <!-- AWAY -->
-            <div class="text-center flex-1 min-w-0 group">
-
-              <div
-                class="
-                  relative
-                  w-20
-                  h-20
-                  xl:w-24
-                  xl:h-24
-                  mx-auto
-                  mb-3
-                  transition-transform
-                  duration-300
-                  group-hover:scale-110
-                "
-              >
-
-                <img
-                  *ngIf="getExtLogo(matchs[currentIndex])"
-                  [src]="getExtLogo(matchs[currentIndex])"
-                  class="w-full h-full object-contain"
-                />
+              <!-- AWAY -->
+              <div class="text-center flex-1 min-w-0 group">
 
                 <div
-                  *ngIf="!getExtLogo(matchs[currentIndex])"
-                  class="
-                    w-full
-                    h-full
-                    rounded-full
-                    flex
-                    items-center
-                    justify-center
-                    mx-auto
-                  "
-                  [ngStyle]="{
+                  class="relative w-20 h-20 xl:w-24 xl:h-24 mx-auto mb-3 transition-transform duration-300 group-hover:scale-110">
+                  <img *ngIf="getExtLogo(matchs[currentIndex])" [src]="getExtLogo(matchs[currentIndex])"
+                    class="w-full h-full object-contain rounded-full" />
+
+                  <div *ngIf="!getExtLogo(matchs[currentIndex])"
+                    class="w-full h-full rounded-full flex items-center justify-center mx-auto" [ngStyle]="{
                     'background': themeService.GlassBackground,
                     'border': '1px solid ' + themeService.GlassBorder
-                  }"
-                >
-                  <i
-                    class="fa-solid fa-shield-halved text-2xl"
-                    [ngStyle]="{ 'color': themeService.primary }"
-                  ></i>
+                  }">
+                    <i class="fa-solid fa-shield-halved text-2xl" [ngStyle]="{ 'color': themeService.primary }"></i>
+                  </div>
                 </div>
-              </div>
 
-              <h4
-                class="
-                  font-bold
-                  text-lg
-                  xl:text-xl
-                  leading-tight
-                  break-words
-                "
-                [ngStyle]="{ 'color': themeService.Textprincipal }"
-              >
-                {{ getExtEquipe(matchs[currentIndex]) }}
-              </h4>
+                <h4 class="font-bold text-lg xl:text-xl leading-tight break-words"
+                  [ngStyle]="{ 'color': themeService.Textprincipal }">
+                  {{ getExtEquipe(matchs[currentIndex]) }}
+                </h4>
+
+              </div>
 
             </div>
 
-          </div>
-
-          <!-- LOCATION -->
-          <div
-            class="
-              text-center
-              mt-8
-
-              flex
-              items-center
-              justify-center
-              gap-2
-
-              py-3
-              px-6
-
-              rounded-2xl
-              mx-auto
-              w-fit
-
-              transition-all
-              duration-300
-              hover:scale-105
-            "
-            [ngStyle]="{
-              'background': themeService.GlassBackground,
-              'border': '1px solid ' + themeService.GlassBorder
-            }"
-          >
-            <i
-              class="fa-solid fa-location-dot"
-              [ngStyle]="{ 'color': themeService.primary }"
-            ></i>
-
-            <span class="font-medium">
-              {{ matchs[currentIndex]?.stade }}
-            </span>
-          </div>
-
-          <!-- DOTS -->
-          <div
-            class="flex justify-center gap-2 mt-6"
-            *ngIf="matchs.length > 1"
-          >
-            <button
-              *ngFor="let match of matchs; let i = index"
-              (click)="currentIndex = i"
-              class="
-                w-2
-                h-2
-                rounded-full
-                transition-all
-                duration-300
-              "
-              [ngClass]="
-                i === currentIndex
-                  ? 'w-6'
-                  : 'opacity-40 hover:opacity-70'
-              "
+            <!-- LOCATION -->
+            <div
+              class="text-center mt-8 flex items-center justify-center gap-2 py-3 px-6 rounded-2xl mx-auto w-fit transition-all duration-300 hover:scale-105"
               [ngStyle]="{
+              'background': themeService.Backgroundsecondairetest,
+              'border': '1px solid ' + themeService.Bordernormal,
+              'box-shadow': themeService.Bowshadowtest,
+              'color':themeService.Textprincipal
+
+            }">
+              <i class="fa-solid fa-location-dot" [ngStyle]="{ 'color': themeService.primary }"></i>
+
+              <span class="font-medium">
+                {{ matchs[currentIndex]?.stade }}
+              </span>
+            </div>
+
+            <!-- DOTS -->
+            <div class="flex justify-center gap-2 mt-6" *ngIf="matchs.length > 1">
+              <button *ngFor="let match of matchs; let i = index" (click)="currentIndex = i"
+                class="w-2 h-2 rounded-full transition-all duration-300"
+                [ngClass]="i === currentIndex ? 'w-6' : 'opacity-40 hover:opacity-70'" [ngStyle]="{
                 'background':
                   i === currentIndex
                     ? themeService.primary
                     : themeService.Textsecondaire
-              }"
-            ></button>
+              }"></button>
+            </div>
+
           </div>
-
-        </div>
-
         </div>
 
       </div>
@@ -600,8 +398,7 @@
     <!-- ===================================================== -->
     <!-- RIGHT : TEXT -->
     <!-- ===================================================== -->
-    <div
-      class="
+    <div class="
         flex-1
         min-w-0
 
@@ -610,12 +407,10 @@
         justify-center
 
         order-2
-      "
-    >
+      ">
 
       <!-- TITLE -->
-      <h1
-        class="
+      <h1 class="
           text-4xl
           lg:text-5xl
           xl:text-6xl
@@ -625,9 +420,7 @@
           leading-tight
 
           mb-6
-        "
-        [ngStyle]="{ 'color': themeService.Textprincipal }"
-      >
+        " [ngStyle]="{ 'color': themeService.Textprincipal }">
 
         Les prochains matchs<br>
 
@@ -640,8 +433,7 @@
       </h1>
 
       <!-- DESCRIPTION -->
-      <div
-        class="
+      <div class="
           w-full
           max-w-[760px]
 
@@ -654,23 +446,17 @@
           transition-all
           duration-300
           hover:shadow-lg
-        "
-        [ngStyle]="{
-          'background': themeService.c5Base + '0D',
-          'border': '1px solid ' + themeService.c2Base + '33',
-          'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20',
-          'color': themeService.Textprincipal
-        }"
-      >
+        " [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
-        <p
-          class="
+        <p class="
             text-lg
             xl:text-xl
             leading-relaxed
-          "
-          [ngStyle]="{ 'color': themeService.Textsecondaire }"
-        >
+          " [ngStyle]="{ 'color': themeService.Textsecondaire }">
 
           Suivez tous les matchs du club en temps réel :
           horaires, adversaires, résultats et lieux.
@@ -684,8 +470,7 @@
 
         <a routerLink="/match">
 
-          <button
-            class="
+          <button class="
               flex
               items-center
               gap-3
@@ -704,22 +489,18 @@
               hover:shadow-lg
 
               group
-            "
-            [ngStyle]="{
+            " [ngStyle]="{
               'background': themeService.primary,
               'color': '#fff',
-            }"
-          >
+            }">
 
-            <i
-              class="
+            <i class="
                 fa-solid
                 fa-futbol
                 transition-transform
                 duration-300
                 group-hover:rotate-12
-              "
-            ></i>
+              "></i>
 
             Voir les matchs
 
@@ -740,22 +521,18 @@
 <section class="relative flex md:hidden w-full flex-col items-center text-center px-5 py-10">
 
 
-  <h1 class="text-3xl font-bold mb-4 leading-tight"
-    [ngStyle]="{ 'color': themeService.Textprincipal }">
+  <h1 class="text-3xl font-bold mb-4 leading-tight" [ngStyle]="{ 'color': themeService.Textprincipal }">
     Les prochains matchs de <span [ngStyle]="{ 'color': themeService.primary }">l'ASDAM</span>
   </h1>
 
-  <p class="mb-6 max-w-sm"
-    [ngStyle]="{ 'color': themeService.Textsecondaire }">
+  <p class="mb-6 max-w-sm" [ngStyle]="{ 'color': themeService.Textsecondaire }">
     Suivez toutes les rencontres du club.
   </p>
 
   <!-- ================================================= -->
-<!-- NO MATCH -->
-<!-- ================================================= -->
-<div
-*ngIf="matchs.length === 0"
-class="
+  <!-- NO MATCH -->
+  <!-- ================================================= -->
+  <div *ngIf="matchs.length === 0" class="
   w-full
 
   rounded-[32px]
@@ -773,35 +550,29 @@ class="
   backdrop-blur-xl
 
   group
-"
-[ngStyle]="{
-  'background': themeService.c5Base + '0D',
-  'border': '1px solid ' + themeService.c2Base + '33',
-  'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20',
-  'color': themeService.Textprincipal
-}"
->
+" [ngStyle]="{
+  'background': themeService.Backgroundsecondairetest,
+  'border': '1px solid ' + themeService.Bordernormal,
+  'box-shadow': themeService.Bowshadowtest,
+  'color':themeService.Textprincipal
+}">
 
-<!-- Glow -->
-<div
-  class="
+    <!-- Glow -->
+    <div class="
     absolute
     inset-0
     opacity-20
     blur-3xl
     pointer-events-none
-  "
-  [ngStyle]="{
+  " [ngStyle]="{
     'background':
       'radial-gradient(circle at top, ' +
       themeService.primary +
       '55 0%, transparent 70%)'
-  }"
-></div>
+  }"></div>
 
-<!-- ICON -->
-<div
-  class="
+    <!-- ICON -->
+    <div class="
     w-16
     h-16
     sm:w-20
@@ -826,18 +597,15 @@ class="
     z-10
 
     shadow-xl
-  "
-  [ngStyle]="{
+  " [ngStyle]="{
     'background':
       'linear-gradient(135deg, ' +
       themeService.primary +
       ' 0%, ' +
       themeService.primary +
       '99 100%)'
-  }"
->
-  <i
-    class="
+  }">
+      <i class="
       fa-solid
       fa-calendar-xmark
 
@@ -847,13 +615,11 @@ class="
 
       transition-transform
       duration-300
-    "
-  ></i>
-</div>
+    "></i>
+    </div>
 
-<!-- TITLE -->
-<h3
-  class="
+    <!-- TITLE -->
+    <h3 class="
     font-black
     text-xl
     sm:text-2xl
@@ -862,15 +628,12 @@ class="
     z-10
 
     tracking-tight
-  "
-  [ngStyle]="{ 'color': themeService.Textprincipal }"
->
-  Aucun match programmé
-</h3>
+  " [ngStyle]="{ 'color': themeService.Textprincipal }">
+      Aucun match programmé
+    </h3>
 
-<!-- DESCRIPTION -->
-<p
-  class="
+    <!-- DESCRIPTION -->
+    <p class="
     text-sm
     sm:text-base
 
@@ -883,15 +646,12 @@ class="
     z-10
 
     leading-relaxed
-  "
-  [ngStyle]="{ 'color': themeService.Textsecondaire }"
->
-  Les prochaines rencontres seront ajoutées dès leur confirmation.
-</p>
+  " [ngStyle]="{ 'color': themeService.Textsecondaire }">
+      Les prochaines rencontres seront ajoutées dès leur confirmation.
+    </p>
 
-<!-- INFO BADGE -->
-<div
-  class="
+    <!-- INFO BADGE -->
+    <div class="
     inline-flex
     items-center
     gap-2
@@ -915,26 +675,24 @@ class="
     duration-300
 
     hover:scale-105
-  "
-  [ngStyle]="{
-    'background': themeService.primarySoft,
-    'border': '1px solid ' + themeService.primaryGlow,
-    'color': themeService.Textprincipal
-  }"
->
-  <span>💡</span>
-  <span>Revenez bientôt</span>
-</div>
+  " [ngStyle]="{
+  'background': themeService.Backgroundsecondairetest,
+  'border': '1px solid ' + themeService.Bordernormal,
+  'box-shadow': themeService.Bowshadowtest,
+  'color':themeService.Textprincipal
+}">
+      <span>💡</span>
+      <span>Revenez bientôt</span>
+    </div>
 
-</div>
+  </div>
 
-<!-- ================================================= -->
-<!-- MATCH -->
-<!-- ================================================= -->
-<div *ngIf="matchs.length > 0" class="w-full">
+  <!-- ================================================= -->
+  <!-- MATCH -->
+  <!-- ================================================= -->
+  <div *ngIf="matchs.length > 0" class="w-full">
 
-<div
-  class="
+    <div class="
     relative
 
     rounded-[32px]
@@ -949,18 +707,15 @@ class="
     duration-500
 
     hover:shadow-2xl
-  "
-  [ngStyle]="{
-    'background': themeService.c5Base + '0D',
-    'border': '1px solid ' + themeService.c2Base + '33',
-    'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20',
-    'color': themeService.Textprincipal
-  }"
->
+  " [ngStyle]="{
+            'background': themeService.Backgroundsecondairetest,
+            'border': '1px solid ' + themeService.Bordernormal,
+            'box-shadow': themeService.Bowshadowtest,
+            'color':themeService.Textprincipal
+          }">
 
-  <!-- TOP BAR -->
-  <div
-    class="
+      <!-- TOP BAR -->
+      <div class="
       absolute
       top-0
       left-0
@@ -969,36 +724,30 @@ class="
       h-1
 
       rounded-t-[32px]
-    "
-    [ngStyle]="{
+    " [ngStyle]="{
       'background':
         'linear-gradient(90deg, ' +
         themeService.primary +
         ' 0%, ' +
         themeService.primary +
         '66 100%)'
-    }"
-  ></div>
+    }"></div>
 
-  <!-- HEADER -->
-  <div class="mb-4">
+      <!-- HEADER -->
+      <div class="mb-4">
 
-    <div
-      class="
+        <div class="
         font-black
         text-lg
         sm:text-xl
-      "
-      [ngStyle]="{ 'color': themeService.Textprincipal }"
-    >
-      {{ formatDate(matchs[currentIndex]?.dateMatch) }}
-    </div>
+      " [ngStyle]="{ 'color': themeService.Textprincipal }">
+          {{ formatDate(matchs[currentIndex]?.dateMatch) }}
+        </div>
 
-  </div>
+      </div>
 
-  <!-- STATUS -->
-  <div
-    class="
+      <!-- STATUS -->
+      <div class="
       mb-6
 
       px-3
@@ -1016,25 +765,20 @@ class="
       shadow-sm
 
       backdrop-blur-xl
-    "
-    [ngClass]="getStatutBadgeClass(matchs[currentIndex]?.statut)"
-  >
-    <i
-      class="fa-solid fa-circle text-[8px] animate-pulse"
-      [ngClass]="getStatutIconClass(matchs[currentIndex]?.statut)"
-    ></i>
+    " [ngClass]="getStatutBadgeClass(matchs[currentIndex]?.statut)">
+        <i class="fa-solid fa-circle text-[8px] animate-pulse"
+          [ngClass]="getStatutIconClass(matchs[currentIndex]?.statut)"></i>
 
-    {{ matchs[currentIndex]?.statut }}
-  </div>
+        {{ matchs[currentIndex]?.statut }}
+      </div>
 
-  <!-- MATCH CONTENT -->
-  <div class="flex justify-between items-center gap-3">
+      <!-- MATCH CONTENT -->
+      <div class="flex justify-between items-center gap-3">
 
-    <!-- HOME -->
-    <div class="text-center flex-1 min-w-0 group">
+        <!-- HOME -->
+        <div class="text-center flex-1 min-w-0 group">
 
-      <div
-        class="
+          <div class="
           relative
 
           w-14
@@ -1047,18 +791,12 @@ class="
           duration-300
 
           group-hover:scale-110
-        "
-      >
+        ">
 
-        <img
-          *ngIf="getDomLogo(matchs[currentIndex])"
-          [src]="getDomLogo(matchs[currentIndex])"
-          class="w-14 h-14 object-contain"
-        />
+            <img *ngIf="getDomLogo(matchs[currentIndex])" [src]="getDomLogo(matchs[currentIndex])"
+              class="w-14 h-14 object-contain rounded-full" />
 
-        <div
-          *ngIf="!getDomLogo(matchs[currentIndex])"
-          class="
+            <div *ngIf="!getDomLogo(matchs[currentIndex])" class="
             w-14
             h-14
 
@@ -1069,51 +807,39 @@ class="
             justify-center
 
             mx-auto
-          "
-          [ngStyle]="{
+          " [ngStyle]="{
             'background': themeService.GlassBackground,
             'border': '1px solid ' + themeService.GlassBorder
-          }"
-        >
-          <i
-            class="fa-solid fa-shield-halved text-lg"
-            [ngStyle]="{ 'color': themeService.primary }"
-          ></i>
-        </div>
+          }">
+              <i class="fa-solid fa-shield-halved text-lg" [ngStyle]="{ 'color': themeService.primary }"></i>
+            </div>
 
-      </div>
+          </div>
 
-      <p
-        class="
+          <p class="
           font-semibold
           text-sm
 
           leading-tight
           break-words
-        "
-        [ngStyle]="{ 'color': themeService.Textprincipal }"
-      >
-        {{ getDomEquipe(matchs[currentIndex]) }}
-      </p>
+        " [ngStyle]="{ 'color': themeService.Textprincipal }">
+            {{ getDomEquipe(matchs[currentIndex]) }}
+          </p>
 
-    </div>
+        </div>
 
-    <!-- VS -->
-    <div class="text-center flex-shrink-0">
+        <!-- VS -->
+        <div class="text-center flex-shrink-0">
 
-      <div
-        class="
+          <div class="
           font-black
           text-2xl
           sm:text-3xl
-        "
-        [ngStyle]="{ 'color': themeService.primary }"
-      >
-        VS
-      </div>
+        " [ngStyle]="{ 'color': themeService.primary }">
+            VS
+          </div>
 
-      <div
-        class="
+          <div class="
           text-xs
 
           mt-1
@@ -1124,22 +850,19 @@ class="
           py-0.5
 
           rounded-full
-        "
-        [ngStyle]="{
+        " [ngStyle]="{
           'background': themeService.GlassBackground,
           'color': themeService.Textsecondaire
-        }"
-      >
-        {{ matchs[currentIndex]?.heureMatch }}
-      </div>
+        }">
+            {{ matchs[currentIndex]?.heureMatch }}
+          </div>
 
-    </div>
+        </div>
 
-    <!-- AWAY -->
-    <div class="text-center flex-1 min-w-0 group">
+        <!-- AWAY -->
+        <div class="text-center flex-1 min-w-0 group">
 
-      <div
-        class="
+          <div class="
           relative
 
           w-14
@@ -1152,18 +875,12 @@ class="
           duration-300
 
           group-hover:scale-110
-        "
-      >
+        ">
 
-        <img
-          *ngIf="getExtLogo(matchs[currentIndex])"
-          [src]="getExtLogo(matchs[currentIndex])"
-          class="w-14 h-14 object-contain"
-        />
+            <img *ngIf="getExtLogo(matchs[currentIndex])" [src]="getExtLogo(matchs[currentIndex])"
+              class="w-14 h-14 object-contain rounded-full" />
 
-        <div
-          *ngIf="!getExtLogo(matchs[currentIndex])"
-          class="
+            <div *ngIf="!getExtLogo(matchs[currentIndex])" class="
             w-14
             h-14
 
@@ -1174,40 +891,31 @@ class="
             justify-center
 
             mx-auto
-          "
-          [ngStyle]="{
+          " [ngStyle]="{
             'background': themeService.GlassBackground,
             'border': '1px solid ' + themeService.GlassBorder
-          }"
-        >
-          <i
-            class="fa-solid fa-shield-halved text-lg"
-            [ngStyle]="{ 'color': themeService.primary }"
-          ></i>
-        </div>
+          }">
+              <i class="fa-solid fa-shield-halved text-lg" [ngStyle]="{ 'color': themeService.primary }"></i>
+            </div>
 
-      </div>
+          </div>
 
-      <p
-        class="
+          <p class="
           font-semibold
           text-sm
 
           leading-tight
           break-words
-        "
-        [ngStyle]="{ 'color': themeService.Textprincipal }"
-      >
-        {{ getExtEquipe(matchs[currentIndex]) }}
-      </p>
+        " [ngStyle]="{ 'color': themeService.Textprincipal }">
+            {{ getExtEquipe(matchs[currentIndex]) }}
+          </p>
 
-    </div>
+        </div>
 
-  </div>
+      </div>
 
-  <!-- LOCATION -->
-  <div
-    class="
+      <!-- LOCATION -->
+      <div class="
       mt-5
 
       flex
@@ -1231,33 +939,22 @@ class="
       duration-300
 
       hover:scale-105
-    "
-    [ngStyle]="{
+    " [ngStyle]="{
       'background': themeService.GlassBackground,
       'border': '1px solid ' + themeService.GlassBorder
-    }"
-  >
-    <i
-      class="fa-solid fa-location-dot"
-      [ngStyle]="{ 'color': themeService.primary }"
-    ></i>
+    }">
+        <i class="fa-solid fa-location-dot" [ngStyle]="{ 'color': themeService.primary }"></i>
 
-    <span>
-      {{ matchs[currentIndex]?.stade }}
-    </span>
-  </div>
+        <span>
+          {{ matchs[currentIndex]?.stade }}
+        </span>
+      </div>
 
-  <!-- NAVIGATION -->
-  <div
-    class="flex justify-between items-center mt-5"
-    *ngIf="matchs.length > 1"
-  >
+      <!-- NAVIGATION -->
+      <div class="flex justify-between items-center mt-5" *ngIf="matchs.length > 1">
 
-    <!-- PREV -->
-    <button
-      *ngIf="currentIndex > 0"
-      (click)="prevMatch()"
-      class="
+        <!-- PREV -->
+        <button *ngIf="currentIndex > 0" (click)="prevMatch()" class="
         w-10
         h-10
 
@@ -1274,22 +971,19 @@ class="
 
         hover:scale-110
         active:scale-90
-      "
-      [ngStyle]="{
-        'background': themeService.GlassBackground,
-        'border': '1px solid ' + themeService.GlassBorder
-      }"
-    >
-      <i class="fa-solid fa-chevron-left text-sm"></i>
-    </button>
+      " [ngStyle]="{
+            'background': themeService.Backgroundsecondairetest,
+            'border': '1px solid ' + themeService.Bordernormal,
+            'box-shadow': themeService.Bowshadowtest,
+            'color':themeService.Textprincipal
+          }">
+          <i class="fa-solid fa-chevron-left text-sm"></i>
+        </button>
 
-    <!-- DOTS -->
-    <div class="flex gap-1.5">
+        <!-- DOTS -->
+        <div class="flex gap-1.5">
 
-      <button
-        *ngFor="let match of matchs; let i = index"
-        (click)="currentIndex = i"
-        class="
+          <button *ngFor="let match of matchs; let i = index" (click)="currentIndex = i" class="
           w-1.5
           h-1.5
 
@@ -1297,27 +991,21 @@ class="
 
           transition-all
           duration-300
-        "
-        [ngClass]="
+        " [ngClass]="
           i === currentIndex
             ? 'w-5'
             : 'opacity-40 hover:opacity-70'
-        "
-        [ngStyle]="{
+        " [ngStyle]="{
           'background':
             i === currentIndex
               ? themeService.primary
               : themeService.Textsecondaire
-        }"
-      ></button>
+        }"></button>
 
-    </div>
+        </div>
 
-    <!-- NEXT -->
-    <button
-      *ngIf="currentIndex < matchs.length - 1"
-      (click)="nextMatch()"
-      class="
+        <!-- NEXT -->
+        <button *ngIf="currentIndex < matchs.length - 1" (click)="nextMatch()" class="
         w-10
         h-10
 
@@ -1334,19 +1022,19 @@ class="
 
         hover:scale-110
         active:scale-90
-      "
-      [ngStyle]="{
-        'background': themeService.GlassBackground,
-        'border': '1px solid ' + themeService.GlassBorder
-      }"
-    >
-      <i class="fa-solid fa-chevron-right text-sm"></i>
-    </button>
+      " [ngStyle]="{
+            'background': themeService.Backgroundsecondairetest,
+            'border': '1px solid ' + themeService.Bordernormal,
+            'box-shadow': themeService.Bowshadowtest,
+            'color':themeService.Textprincipal
+          }">
+          <i class="fa-solid fa-chevron-right text-sm"></i>
+        </button>
+
+      </div>
+
+    </div>
 
   </div>
-
-</div>
-
-</div>
 
 </section>

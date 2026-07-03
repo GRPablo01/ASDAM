@@ -1,0 +1,565 @@
+<!-- ============================================ -->
+<!-- CONVOCATIONS - FULL SCREEN PREMIUM EDITION   -->
+<!-- ============================================ -->
+<section [ngStyle]="{'background':themeservice.Backgroundprincipal,'color':themeservice.Textprincipal}"
+    class="min-h-screen p-4 md:p-8">
+
+    <!-- ======================================== -->
+    <!-- 🏆 HEADER PREMIUM ASDAM CONVOCATIONS   -->
+    <!-- ======================================== -->
+    <div [ngStyle]="{'border': '1px solid ' + themeservice.Bordernormal,'background': themeservice.Background1}"
+        class="relative overflow-hidden flex flex-col items-center justify-center text-center gap-3 md:gap-4 px-5 md:px-8 py-6 md:py-8 rounded-2xl md:rounded-3xl backdrop-blur-2xl group transition-all duration-500 mb-6 md:mb-8 hover:shadow-2xl">
+
+        <!-- 🟢 Logo -->
+        <div
+            class="relative shrink-0 w-16 h-16 md:w-24 md:h-24 rounded-2xl md:rounded-3xl flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
+            <img src="assets/LOGO.png" alt="Logo ASDAM" class="w-10 h-10 md:w-18 md:h-18 object-contain">
+        </div>
+
+        <!-- 🏷️ Texte -->
+        <div class="relative z-10 flex flex-col items-center">
+            <p class="uppercase tracking-[0.3em] md:tracking-[0.4em] text-[9px] md:text-xs font-bold mb-1 md:mb-2"
+                [ngStyle]="{'color': themeservice.Textsecondaire}">
+                Club Officiel
+            </p>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-black uppercase leading-none tracking-tight">
+                <span [ngStyle]="{'color': themeservice.Textprincipal}">
+                    ASDAM
+                </span>
+                <span [ngStyle]="{'color': themeservice.Textsecondaire}"
+                    class="block mt-1 md:mt-1.5 text-lg md:text-2xl lg:text-3xl font-extrabold tracking-[0.1em] md:tracking-[0.15em]">
+                    CONVOCATIONS
+                </span>
+            </h1>
+        </div>
+
+        <!-- 🌟 Decorative Line -->
+        <div class="w-24 md:w-102 h-0.5 md:h-1 rounded-full mt-1"
+            [ngStyle]="{'background': 'linear-gradient(90deg, transparent, ' + themeservice.primary + ', transparent)'}">
+        </div>
+
+    </div>
+
+    <!-- ======================================== -->
+    <!-- ⚽ INFO MATCH COMPACT PREMIUM             -->
+    <!-- ======================================== -->
+    <div *ngIf="convo" [ngStyle]="{
+        'background': themeservice.GlassBackground,
+        'border': '1px solid ' + themeservice.Bordernormal
+    }"
+        class="relative overflow-hidden rounded-2xl md:rounded-3xl backdrop-blur-2xl group transition-all duration-500 mb-6 md:mb-8 hover:shadow-2xl">
+
+        <!-- Decorative gradient top -->
+        <div class="absolute top-0 left-0 right-0 h-0.5 md:h-1 opacity-60"
+            [ngStyle]="{'background': 'linear-gradient(90deg, transparent, ' + themeservice.primary + ', transparent)'}">
+        </div>
+
+        <!-- 🏆 Header -->
+        <div
+            class="relative z-10 flex flex-col items-center justify-center text-center gap-3 md:gap-4 px-5 md:px-8 pt-6 md:pt-8 pb-4 md:pb-6">
+
+            <!-- Match -->
+            <div class="flex flex-col items-center">
+                <p [ngStyle]="{'color': themeservice.Textsecondaire}"
+                    class="uppercase tracking-[0.2em] md:tracking-[0.25em] text-[20px] md:text-[10px] font-bold mb-1 md:mb-2">
+                    Rencontre Officielle
+                </p>
+
+                <h2 [ngStyle]="{ color: themeservice.Textprincipal }"
+                    class="font-black text-2xl md:text-4xl flex items-center justify-center gap-4 text-center">
+                    <span>
+                        {{ convo?.equipeDom }}
+                    </span>
+
+                    <span class="px-4 py-1 rounded-lg text-xl md:text-3xl font-black shadow-lg" [ngStyle]="{
+                        background: themeservice.primary,
+                        color: '#fff'
+                        }">
+                        VS
+                    </span>
+
+                    <span>
+                        {{ convo?.equipeExt }}
+                    </span>
+                </h2>
+            </div>
+
+            <!-- Badge -->
+            <div [ngStyle]="{
+                'border': '1px solid ' + themeservice.BorderNon,
+                'background': themeservice.BgNon,
+                'color': themeservice.BgNonText
+            }"
+                class="px-3 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl border font-bold uppercase tracking-wider text-[9px] md:text-[11px] shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                Match de {{convo?.TypeCompetition}}
+            </div>
+
+        </div>
+
+        <!-- ======================================== -->
+        <!-- 📋 Infos Grid                            -->
+        <!-- ======================================== -->
+        <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 px-4 md:px-6 pb-5 md:pb-6">
+
+            <!-- DATE -->
+            <div [ngStyle]="{
+                    'background': themeservice.Background2,
+                    'border': '1px solid ' + themeservice.Bordernormal
+                }"
+                class="rounded-xl md:rounded-2xl p-4 md:p-5 border backdrop-blur-xl flex items-center gap-3 md:gap-4 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 cursor-default group/card">
+
+                <div [ngStyle]="{
+                        'background': themeservice.c12Base,
+                        'color': themeservice.c12Light
+                    }"
+                    class="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center text-lg md:text-xl shrink-0 shadow-sm transition-transform duration-300 group-hover/card:scale-110">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+
+                <div class="text-left">
+                    <p [ngStyle]="{ color: themeservice.Textsecondaire }"
+                        class="text-[11px] md:text-xs uppercase tracking-wider mb-1">
+                        Date
+                    </p>
+
+                    <h3 [ngStyle]="{ color: themeservice.Textprincipal }" class="font-black text-sm md:text-lg">
+                        {{ convo?.dateMatch | date: 'EEE dd MMM' : 'fr-FR' }}
+                    </h3>
+                </div>
+
+            </div>
+
+            <!-- HEURE -->
+            <div [ngStyle]="{
+                    'background': themeservice.Background2,
+                    'border': '1px solid ' + themeservice.Bordernormal
+                }"
+                class="rounded-xl md:rounded-2xl p-4 md:p-5 border backdrop-blur-xl flex items-center gap-3 md:gap-4 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 cursor-default group/card">
+
+                <div [ngStyle]="{
+                        'background': themeservice.c17Base,
+                        'color': themeservice.c17Light
+                    }"
+                    class="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center text-lg md:text-xl shrink-0 shadow-sm transition-transform duration-300 group-hover/card:scale-110">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+
+                <div class="text-left">
+                    <p [ngStyle]="{ color: themeservice.Textsecondaire }"
+                        class="text-[11px] md:text-xs uppercase tracking-wider mb-1">
+                        Heure
+                    </p>
+
+                    <h3 [ngStyle]="{ color: themeservice.Textprincipal }" class="font-black text-sm md:text-lg">
+                        {{ convo?.dateMatch | date: 'HH:mm' : 'fr-FR' }}
+                    </h3>
+                </div>
+
+            </div>
+
+            <!-- STADE -->
+            <div [ngStyle]="{
+                    'background': themeservice.Background2,
+                    'border': '1px solid ' + themeservice.Bordernormal
+                }"
+                class="rounded-xl md:rounded-2xl p-4 md:p-5 border backdrop-blur-xl flex items-center gap-3 md:gap-4 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 cursor-default group/card">
+
+                <div [ngStyle]="{
+                        'background': themeservice.c15Base,
+                        'color': themeservice.c15Light
+                    }"
+                    class="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center text-lg md:text-xl shrink-0 shadow-sm transition-transform duration-300 group-hover/card:scale-110">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+
+                <div class="text-left">
+                    <p [ngStyle]="{ color: themeservice.Textsecondaire }"
+                        class="text-[11px] md:text-xs uppercase tracking-wider mb-1">
+                        Stade
+                    </p>
+
+                    <h3 [ngStyle]="{ color: themeservice.Textprincipal }" class="font-black text-sm md:text-lg">
+                        {{ convo?.lieu }}
+                    </h3>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- 🌟 Decorative Line Bottom -->
+        <div class="absolute bottom-0 left-0 right-0 h-0.5 md:h-1 rounded-full opacity-60"
+            [ngStyle]="{'background': 'linear-gradient(90deg, transparent, ' + themeservice.primary + ', transparent)'}">
+        </div>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- LISTE JOUEURS - Cards PORTRAIT (Vertical) - UI/UX Premium    -->
+    <!-- ============================================================ -->
+
+    <!-- ====== LISTE DES JOUEURS ====== -->
+    <div *ngIf="!isLoading && (convo?.joueurs?.length ?? 0) > 0"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar p-2">
+
+        <!-- CARD JOUEUR -->
+        <div *ngFor="let joueur of convo?.joueurs; let i = index"
+            class="group relative flex flex-col rounded-3xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 min-h-[320px] cursor-default"
+            [ngStyle]="{
+            'background': joueur.present === 'oui'
+                ? 'linear-gradient(145deg,' + themeservice.BgOui + ', ' + themeservice.BgOui + 'dd)'
+                : joueur.present === 'non'
+                    ? 'linear-gradient(145deg,' + themeservice.BgNon + ', ' + themeservice.BgNon + 'dd)'
+                    : 'linear-gradient(145deg,' + themeservice.Background1 + ', ' + themeservice.Background2 + ')',
+            'border': '1px solid ' + themeservice.Bordernormal + '30',
+            'box-shadow': '0 10px 35px rgba(0,0,0,0.15)'
+            }">
+
+            <!-- GLOW TOP BAR -->
+            <div class="h-1 w-full" [ngStyle]="{
+                'background': joueur.present === 'oui'
+                    ? '#22c55e'
+                    : joueur.present === 'non'
+                        ? '#ef4444'
+                        : themeservice.primary
+                }">
+            </div>
+
+            <!-- WATERMARK INITIALS -->
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-5">
+                <span class="text-[90px] md:text-[110px] font-black uppercase"
+                    [ngStyle]="{ color: themeservice.Textprincipal }">
+                    {{ getInitiales(joueur) }}
+                </span>
+            </div>
+
+            <!-- HEADER -->
+            <div class="relative z-10 flex flex-col items-center pt-6 pb-3">
+
+                <div class="w-18 h-18 md:w-20 md:h-20 rounded-full flex items-center justify-center font-black text-xl md:text-2xl uppercase shadow-lg"
+                    [ngStyle]="{
+                    'background': themeservice.primary + '20',
+                    'color': themeservice.primary,
+                    'border': '2px solid ' + themeservice.primary + '50'
+                    }">
+
+                    {{ getInitiales(joueur) }}
+                </div>
+
+                <!-- STATUS DOT -->
+                <div class="mt-3 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full" [ngStyle]="{
+                        'background': joueur.present === 'oui'
+                            ? '#22c55e'
+                            : joueur.present === 'non'
+                                ? '#ef4444'
+                                : '#9ca3af'
+                        }">
+                    </span>
+
+                    <span class="text-xs font-bold uppercase tracking-wider"
+                        [ngStyle]="{ color: themeservice.Textsecondaire }">
+                        {{ joueur.present === 'oui'
+                        ? 'Présent'
+                        : joueur.present === 'non'
+                        ? 'Absent'
+                        : 'En attente' }}
+                    </span>
+                </div>
+
+                <span class="absolute top-3 right-3 text-[10px] opacity-30 font-bold">
+                    #{{ i + 1 }}
+                </span>
+            </div>
+
+            <!-- BODY -->
+            <div class="flex-1 flex flex-col items-center text-center px-4 pb-3">
+
+                <h3 class="font-black text-lg md:text-xl uppercase" [ngStyle]="{ color: themeservice.Textprincipal }">
+                    {{ joueur.nom }}
+                </h3>
+
+                <p class="text-xs md:text-sm uppercase tracking-widest opacity-70 mb-3"
+                    [ngStyle]="{ color: themeservice.Textsecondaire }">
+                    {{ joueur.prenom }}
+                </p>
+
+                <div class="w-12 h-[2px] rounded-full mb-3 opacity-30"
+                    [ngStyle]="{ background: themeservice.Bordernormal }">
+                </div>
+
+                <!-- STATUS BADGE -->
+                <div class="px-4 py-2 rounded-full text-[10px] md:text-xs font-black uppercase tracking-wider"
+                    [ngStyle]="{
+                    'background': joueur.present === 'oui'
+                        ? '#22c55e20'
+                        : joueur.present === 'non'
+                            ? '#ef444420'
+                            : themeservice.secondarySoft + '30',
+                    'color': themeservice.Textprincipal,
+                    'border': '1px solid ' + themeservice.Bordernormal + '30'
+                    }">
+
+                    {{ joueur.present === 'oui'
+                    ? 'Présent'
+                    : joueur.present === 'non'
+                    ? 'Absent'
+                    : 'En attente' }}
+                </div>
+            </div>
+
+            <!-- FOOTER ACTIONS -->
+            <div class="px-4 pb-4">
+
+                <!-- ACTIONS -->
+                <div *ngIf="isJoueurConnecte(joueur) && !aDejaRepondu(joueur)" class="flex gap-3">
+
+                    <button (click)="changerStatut(joueur, 'oui')"
+                        class="flex-1 py-3 rounded-xl font-black text-xs uppercase text-white"
+                        style="background:#22c55e;">
+                        Présent
+                    </button>
+
+                    <button (click)="changerStatut(joueur, 'non')"
+                        class="flex-1 py-3 rounded-xl font-black text-xs uppercase text-white"
+                        style="background:#ef4444;">
+                        Absent
+                    </button>
+
+                </div>
+
+                <!-- RESPONSE -->
+                <div *ngIf="aDejaRepondu(joueur)" class="text-center text-xs font-bold uppercase opacity-70 mt-2">
+                    Réponse enregistrée
+                </div>
+
+                <!-- READ ONLY -->
+                <div *ngIf="!isJoueurConnecte(joueur)" class="text-center text-xs font-bold opacity-50 mt-2">
+                    Lecture seule
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ====== ÉTAT VIDE ====== -->
+    <div *ngIf="!isLoading && (convo?.joueurs?.length ?? 0) === 0"
+        class="flex flex-col items-center justify-center py-14 md:py-20 px-6 text-center relative overflow-hidden">
+
+        <!-- BACKGROUND GLOW -->
+        <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+            <div class="w-[250px] h-[250px] rounded-full blur-3xl" [ngStyle]="{ background: themeservice.primary }">
+            </div>
+        </div>
+
+        <!-- ICON CONTAINER -->
+        <div class="relative z-10 w-20 h-20 md:w-24 md:h-24 rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-xl"
+            [ngStyle]="{
+       'background': themeservice.secondarySoft + '20',
+       'border': '1px solid ' + themeservice.Bordernormal + '30'
+    }">
+
+            <svg class="w-10 h-10 md:w-12 md:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                [ngStyle]="{ color: themeservice.Textsecondaire }">
+
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                </path>
+            </svg>
+        </div>
+
+        <!-- TITLE -->
+        <h3 class="relative z-10 text-lg md:text-2xl font-black uppercase tracking-wide mb-2"
+            [ngStyle]="{ color: themeservice.Textprincipal }">
+
+            Aucun joueur convoqué
+        </h3>
+
+        <!-- DESCRIPTION -->
+        <p class="relative z-10 text-xs md:text-sm opacity-70 max-w-md leading-relaxed"
+            [ngStyle]="{ color: themeservice.Textsecondaire }">
+
+            Les joueurs convoqués pour ce match apparaîtront ici dès qu’une convocation sera créée.
+        </p>
+
+        <!-- SMALL DECOR LINE -->
+        <div class="relative z-10 mt-5 w-16 h-[2px] rounded-full opacity-40"
+            [ngStyle]="{ background: themeservice.primary }">
+        </div>
+
+    </div>
+
+    <!-- ====== LOADING STATE ====== -->
+    <div *ngIf="isLoading"
+        class="flex flex-col items-center justify-center py-14 md:py-20 px-6 text-center relative overflow-hidden">
+
+        <!-- BACKGROUND GLOW -->
+        <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+            <div class="w-[220px] h-[220px] rounded-full blur-3xl animate-pulse"
+                [ngStyle]="{ background: themeservice.primary }">
+            </div>
+        </div>
+
+        <!-- SPINNER -->
+        <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 mb-5">
+
+            <!-- OUTER RING -->
+            <div class="absolute inset-0 rounded-full border-2 border-t-transparent animate-spin" [ngStyle]="{
+           'border-color': themeservice.Bordernormal + '40',
+           'border-top-color': themeservice.primary
+        }">
+            </div>
+
+            <!-- INNER CARD -->
+            <div class="absolute inset-2 rounded-full flex items-center justify-center shadow-lg" [ngStyle]="{
+           'background': themeservice.Background2,
+           'border': '1px solid ' + themeservice.Bordernormal + '30'
+        }">
+
+                <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    [ngStyle]="{ color: themeservice.primary }">
+
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                    </path>
+                </svg>
+
+            </div>
+        </div>
+
+        <!-- TITLE -->
+        <h3 class="relative z-10 text-lg md:text-2xl font-black uppercase tracking-wide mb-2"
+            [ngStyle]="{ color: themeservice.Textprincipal }">
+
+            Chargement
+        </h3>
+
+        <!-- DESCRIPTION -->
+        <p class="relative z-10 text-xs md:text-sm opacity-70 max-w-md leading-relaxed"
+            [ngStyle]="{ color: themeservice.Textsecondaire }">
+
+            Récupération des convocations en cours...
+        </p>
+
+        <!-- PROGRESS LINE -->
+        <div class="relative z-10 mt-5 w-20 h-[2px] rounded-full overflow-hidden"
+            [ngStyle]="{ background: themeservice.Bordernormal + '30' }">
+
+            <div class="h-full w-1/2 animate-pulse" [ngStyle]="{ background: themeservice.primary }">
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<style>
+    @keyframes shimmer {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fadeIn {
+        animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: var(--border-color, #cbd5e1);
+        border-radius: 3px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: var(--border-color-hover, #94a3b8);
+    }
+
+    .custom-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-color) transparent;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: var(--primary-color);
+        border-radius: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: var(--secondary-color);
+    }
+
+    /* Smooth scroll behavior */
+    .custom-scrollbar {
+        scroll-behavior: smooth;
+    }
+
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+        .custom-scrollbar {
+            scroll-behavior: auto;
+        }
+
+        .group,
+        .group-hover,
+        .transition-all,
+        .transition-colors,
+        .transition-opacity,
+        .duration-300,
+        .duration-500,
+        .duration-700,
+        .duration-200 {
+            transition: none !important;
+            animation: none !important;
+        }
+
+        .animate-fadeIn {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        .animate-spin {
+            animation: none !important;
+        }
+
+        .animate-ping {
+            animation: none !important;
+        }
+
+        .animate-pulse {
+            animation: none !important;
+        }
+    }
+</style>

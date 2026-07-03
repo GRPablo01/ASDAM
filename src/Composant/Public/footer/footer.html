@@ -5,12 +5,11 @@
 <!-- ========================================================= -->
 <footer class="desktop-laptop w-full py-14 relative overflow-hidden"
   [ngStyle]="{
-    'background':
-      'linear-gradient(135deg, ' +
-      themeService.Backgroundprincipal + ' 0%, ' +
-      themeService.Background1 + ' 45%, ' +
-      themeService.Background2 + ' 100%)'
-  }"
+        'background': themeService.Backgroundprincipaltest,
+        'border-top': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }"
 >
 
   <div class="relative z-10 flex flex-col w-full max-w-[1600px] mx-auto">
@@ -22,10 +21,11 @@
         <app-logo></app-logo>
 
         <div class="p-6 rounded-3xl backdrop-blur-xl"
-          [ngStyle]="{
-        'background': themeService.c5Base + '0D',
-        'border': '1px solid ' + themeService.c2Base + '33',
-        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+         [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
       }"
         >
           <p [ngStyle]="{ 'color': themeService.Textprincipal }">
@@ -40,12 +40,17 @@
           <a class="w-11 h-11 flex items-center justify-center rounded-xl"
             *ngFor="let icon of ['facebook-f','instagram','x-twitter','youtube']"
             [ngStyle]="{
-              'background': themeService.GlassBackground,
-              'border': '1px solid ' + themeService.GlassBorder,
-              'color': themeService.primary
-            }"
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }"
           >
-            <i class="fab fa-{{icon}}"></i>
+            <i [ngStyle]="{
+              
+              'color': themeService.primary,
+              
+            }" class="fab fa-{{icon}}"></i>
           </a>
         </div>
       </div>
@@ -99,9 +104,10 @@
 
         <a class="flex items-center gap-3 p-4 rounded-xl backdrop-blur-xl"
           [ngStyle]="{
-        'background': themeService.c5Base + '0D',
-        'border': '1px solid ' + themeService.c2Base + '33',
-        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
       }"
         >
           <i [ngStyle]="{
@@ -113,10 +119,11 @@
         </a>
 
         <a class="flex items-center gap-3 p-4 rounded-xl backdrop-blur-xl"
-          [ngStyle]="{
-        'background': themeService.c5Base + '0D',
-        'border': '1px solid ' + themeService.c2Base + '33',
-        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+         [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
       }"
         >
           <i [ngStyle]="{
@@ -158,12 +165,11 @@
 <!-- ========================================================= -->
 <footer class="mobile-tablet w-full py-12 pb-30 relative overflow-hidden"
   [ngStyle]="{
-    'background':
-      'linear-gradient(135deg, ' +
-      themeService.Backgroundprincipal + ' 0%, ' +
-      themeService.Background1 + ' 50%, ' +
-      themeService.Background2 + ' 100%)'
-  }"
+        'background': themeService.Backgroundprincipaltest,
+        'border-top': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }"
 >
 
   <div class="max-w-[1600px] mx-auto px-6 flex flex-col gap-10">
@@ -174,9 +180,10 @@
 
       <p class="p-4 rounded-2xl backdrop-blur-xl"
         [ngStyle]="{
-        'background': themeService.c5Base + '0D',
-        'border': '1px solid ' + themeService.c2Base + '33',
-        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
       }"
       >
         Rejoignez notre communauté pour suivre vos activités et rester informé.
@@ -234,18 +241,20 @@
 
       <div class="p-4 rounded-xl backdrop-blur-xl"
         [ngStyle]="{
-        'background': themeService.c5Base + '0D',
-        'border': '1px solid ' + themeService.c2Base + '33',
-        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
       }">
         contact@monsite.com
       </div>
 
       <div class="p-4 rounded-xl backdrop-blur-xl"
         [ngStyle]="{
-        'background': themeService.c5Base + '0D',
-        'border': '1px solid ' + themeService.c2Base + '33',
-        'box-shadow': '0 8px 30px ' + themeService.c16Dark + '20'
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
       }">
         +33 0 00 00 00 00
       </div>

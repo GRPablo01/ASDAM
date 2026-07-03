@@ -4,9 +4,16 @@ import { App } from './app/app';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { LOCALE_ID } from '@angular/core';
 
-// 👉 active le français pour les pipes Angular (date, monnaie, etc.)
+// 👉 active les données françaises (dates, monnaies, etc.)
 registerLocaleData(localeFr);
 
-bootstrapApplication(App, appConfig)
-  .catch((err) => console.error(err));
+// 👉 injecte la locale par défaut de l'app
+bootstrapApplication(App, {
+  ...appConfig,
+  providers: [
+    ...(appConfig.providers || []),
+    { provide: LOCALE_ID, useValue: 'fr-FR' }
+  ]
+}).catch((err) => console.error(err));

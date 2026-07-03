@@ -17,9 +17,12 @@
     class="group flex items-center gap-3 px-3 py-2 rounded-full transition-all duration-300
            hover:scale-[1.02] active:scale-[0.98]"
     [ngStyle]="{
-      'background': themeService.Backgroundheader1,
-      'color':themeService.Textprincipal
-    }">
+    'background': themeService.Backgroundsecondairetest,
+    'border': '1px solid ' + themeService.IconBorder,
+    'backdrop-filter': 'blur(22px) saturate(180%)',
+    '-webkit-backdrop-filter': 'blur(22px) saturate(180%)',
+    'box-shadow': themeService.Bowshadowtest
+  }">
 
     <!-- AVATAR -->
     <div class="relative">
@@ -70,7 +73,7 @@
            shadow-2xl animate-dropdown"
     (clickOutside)="closeMenu()"
     [ngStyle]="{
-      'background': themeService.Backgroundheader1,
+      'background': themeService.Backgroundsecondairetest,
       'border': '1px solid ' + themeService.Bordernormal,
     }">
 
@@ -239,12 +242,12 @@
 
           <i class="fa-solid fa-calendar-days icon"
             [ngStyle]="{
-              'color': themeService.teamPrimary,
-              'background-color': themeService.teamPrimarySoft
+              'color': themeService.eventPrimary,
+              'background-color': themeService.eventPrimarySoft
             }">
           </i>
         
-          <span [ngStyle]="{'color': themeService.teamPrimary}">
+          <span [ngStyle]="{'color': themeService.eventPrimary}">
             Mes matchs
           </span>
         
@@ -287,7 +290,7 @@
 
         </a>
 
-        <a routerLink="/my-team" class="menu-item group flex items-center gap-2">
+        <a routerLink="/equipe" class="menu-item group flex items-center gap-2">
 
           <i class="fa-solid fa-people-group icon"
             [ngStyle]="{
@@ -302,19 +305,19 @@
 
         </a>
 
-        <a routerLink="/message" class="menu-item group flex items-center gap-2">
+        <a routerLink="/mesmatch" class="menu-item group flex items-center gap-2">
 
-          <i class="fa-regular fa-message icon"
+          <i class="fa-solid fa-calendar-days icon"
             [ngStyle]="{
-              'color': themeService.dashboardPrimary,
-              'background-color': themeService.dashboardPrimarySoft
+              'color': themeService.eventPrimary,
+              'background-color': themeService.eventPrimarySoft
             }">
           </i>
-
-          <span [ngStyle]="{'color': themeService.dashboardPrimary}">
-            Messagerie
+        
+          <span [ngStyle]="{'color': themeService.eventPrimary}">
+            Mes matchs
           </span>
-
+        
         </a>
 
         <a routerLink="/convocations" class="menu-item group flex items-center gap-2">

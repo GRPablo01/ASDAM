@@ -2,7 +2,10 @@
 <!-- CONTAINER -->
 <!-- ===================================================== -->
 
-<section class="w-full h-auto flex flex-col py-10 px-10">
+<section [ngStyle]="{
+    'background': themeService.Backgroundprincipaltest,
+    
+  }" class="w-full h-auto flex flex-col py-10 px-10">
 
     <!-- ===================================================== -->
     <!-- HEADER -->
@@ -53,9 +56,11 @@
             <div
                 class="flex items-center gap-4 rounded-3xl px-6 py-4 border backdrop-blur-xl shadow-xl"
                 [ngStyle]="{
-                    'background': themeService.Background2,
-                    'border': '1px solid ' + themeService.GlassBorder
-                }">
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                 <!-- ICON -->
 
@@ -118,9 +123,11 @@
                 class="group relative overflow-hidden rounded-[32px] border h-[460px]
                        transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
                 [ngStyle]="{
-                    'border': '2px solid ' + themeService.GlassBorder,
-                    'background': themeService.Background2
-                }">
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                 <!-- IMAGE -->
 
@@ -170,10 +177,11 @@
                         <div
                             class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[2px] backdrop-blur-xl"
                             [ngStyle]="{
-                                'background': 'rgba(255,255,255,0.1)',
-                                'color': '#fff',
-                                'border': '1px solid rgba(255,255,255,0.2)'
-                            }">
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                             ASDAM
 
@@ -234,21 +242,24 @@
             <div
                 class="flex items-center gap-3 p-3 rounded-3xl backdrop-blur-2xl border shadow-2xl"
                 [ngStyle]="{
-                    'background': themeService.Background2,
-                    'border': '1px solid ' + themeService.GlassBorder
-                }">
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                 <!-- PREVIOUS -->
 
                 <button
                     (click)="previousPage()"
                     [disabled]="currentPage === 1"
-                    class="w-12 h-12 rounded-2xl font-bold transition-all duration-300 disabled:opacity-40 hover:scale-105"
+                    class="w-12 h-12 rounded-2xl font-bold transition-all duration-300 hover:scale-105"
                     [ngStyle]="{
-                        'background': themeService.Background1,
-                        'color': themeService.Textprincipal,
-                        'border': '1px solid ' + themeService.GlassBorder
-                    }">
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textprincipal,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                     ←
 
@@ -264,7 +275,7 @@
                         'background':
                             currentPage === page
                             ? themeService.primary
-                            : themeService.Background1,
+                            : themeService.Backgroundsecondairetest,
 
                         'color':
                             currentPage === page
@@ -272,7 +283,7 @@
                             : themeService.Textprincipal,
 
                         'border':
-                            '1px solid ' + themeService.GlassBorder
+                            '1px solid ' + themeService.Bordernormal
                     }">
 
                     {{ page }}
@@ -284,12 +295,13 @@
                 <button
                     (click)="nextPage()"
                     [disabled]="currentPage === totalPages"
-                    class="w-12 h-12 rounded-2xl font-bold transition-all duration-300 disabled:opacity-40 hover:scale-105"
+                    class="w-12 h-12 rounded-2xl font-bold transition-all duration-300  hover:scale-105"
                     [ngStyle]="{
-                        'background': themeService.Background1,
-                        'color': themeService.Textprincipal,
-                        'border': '1px solid ' + themeService.GlassBorder
-                    }">
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                     →
 

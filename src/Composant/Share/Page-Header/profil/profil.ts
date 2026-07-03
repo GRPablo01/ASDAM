@@ -172,15 +172,66 @@ export class Profil implements OnInit {
    */
   getRoleGradient(role: string = ''): string {
     const r = role.toLowerCase();
-
-    const gradients: Record<string, string> = {
-      superadmin: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
-      admin: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
-      entraineur: 'linear-gradient(135deg, #10b981, #059669)',
-      joueur: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-      inviter: 'linear-gradient(135deg, #6b7280, #4b5563)'
+  
+    // ======================================================
+    // 🌙 THEME ACTUEL
+    // ======================================================
+    const isDark = this.themeService.isDarkMode;
+  
+    // ======================================================
+    // 🌞 LIGHT MODE
+    // ======================================================
+    const lightGradients: Record<string, string> = {
+      superadmin: `linear-gradient(135deg,
+        ${this.themeService.c11Light},
+        ${this.themeService.c11Light})`,
+  
+      admin: `linear-gradient(135deg,
+        ${this.themeService.c17Light},
+        ${this.themeService.c17Light})`,
+  
+      entraineur: `linear-gradient(135deg,
+        ${this.themeService.c9Light},
+        ${this.themeService.c9Light})`,
+  
+      joueur: `linear-gradient(135deg,
+        ${this.themeService.c2Light},
+        ${this.themeService.c2Light})`,
+  
+      inviter: `linear-gradient(135deg,
+        ${this.themeService.c12Light},
+        ${this.themeService.c12Light})`
     };
+  
+    // ======================================================
+    // 🌙 DARK MODE
+    // ======================================================
+    const darkGradients: Record<string, string> = {
+      superadmin: `linear-gradient(135deg,
+      ${this.themeService.c11Dark},
+      ${this.themeService.c11Dark})`,
 
+    admin: `linear-gradient(135deg,
+      ${this.themeService.c17Dark},
+      ${this.themeService.c17Dark})`,
+
+    entraineur: `linear-gradient(135deg,
+      ${this.themeService.c9Dark},
+      ${this.themeService.c9Dark})`,
+
+    joueur: `linear-gradient(135deg,
+      ${this.themeService.c2Dark},
+      ${this.themeService.c2Dark})`,
+
+    inviter: `linear-gradient(135deg,
+      ${this.themeService.c12Dark},
+      ${this.themeService.c12Dark})`
+    };
+  
+    const gradients = isDark
+      ? darkGradients
+      : lightGradients;
+  
     return gradients[r] || gradients['inviter'];
   }
 

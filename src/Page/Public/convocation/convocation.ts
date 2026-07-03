@@ -6,21 +6,14 @@ import { FormsModule } from '@angular/forms';
 import { Header } from '../../../Composant/Public/header/header';
 import { Mobile } from '../../../Composant/Share/mobile/mobile';
 import { ThemeService } from '../../../../Backend/Services/theme.service';
-import { Cookie } from '../../../Composant/Public/cookie/cookie';
-import { Welcome } from '../../../Composant/Share/Page-Accueil/welcome/welcome';
-import { ProchainMatch } from '../../../Composant/Share/Page-Accueil/prochain-match/prochain-match';
-import { Fonctionalite } from "../../../Composant/Share/Page-Accueil/fonctionalite/fonctionalite";
-import { Plannig2 } from "../../../Composant/Share/Page-Accueil/plannig2/plannig2";
 import { Footer } from "../../../Composant/Public/footer/footer";
-import { Dash } from '../../../Composant/Share/Page-DashBoard/dash/dash';
-
-
-
+import { AddActus } from '../../../Composant/Share/Page-CreationActus/add-actus/add-actus';
+import { Convo } from '../../../Composant/Share/Page-Convocation/convo/convo';
 
 
 
 @Component({
-  selector: 'app-dash-board',
+  selector: 'app-convocation',
   standalone: true,
   imports: [
     CommonModule,
@@ -29,12 +22,13 @@ import { Dash } from '../../../Composant/Share/Page-DashBoard/dash/dash';
     FormsModule,
     Mobile,
     Footer,
-    Dash
+    Convo
+    
 ],
-  templateUrl: './dash-board.html',
-  styleUrls: ['./dash-board.css'],
+  templateUrl: './convocation.html',
+  styleUrls: ['./convocation.css'],
 })
-export class DashBoard implements OnInit {
+export class Convocation implements OnInit {
 
   isLoaded: boolean = false;
   isLoggedIn: boolean = false;
@@ -46,7 +40,7 @@ export class DashBoard implements OnInit {
 
   ngOnInit(): void {
     // 🧠 Titre de la page
-    this.titleService.setTitle('ASDAM | DashBoard');
+    this.titleService.setTitle('ASDAM | Convocation');
 
     // 👤 Vérification de la connexion utilisateur
     const utilisateurString = localStorage.getItem('utilisateur');
@@ -83,11 +77,11 @@ export class DashBoard implements OnInit {
   private updateScrollbarColors(isDark: boolean): void {
     const root = document.documentElement;
     if (isDark) {
-      root.style.setProperty('--scroll-track', '#0B1220');
+      root.style.setProperty('--scroll-track', '#1E1E1E');
       root.style.setProperty('--scroll-thumb', '#C1121F');
       root.style.setProperty('--scroll-thumb-hover', '#FF4D4D');
     } else {
-      root.style.setProperty('--scroll-track', '#F8FAFC');
+      root.style.setProperty('--scroll-track', '#FFFFFF');
       root.style.setProperty('--scroll-thumb', '#C1121F');
       root.style.setProperty('--scroll-thumb-hover', '#E5383B');
     }

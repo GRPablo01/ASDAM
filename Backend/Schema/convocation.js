@@ -21,7 +21,7 @@ const joueurSchema = new mongoose.Schema({
 
   email: { 
     type: String,
-    required: true // tu peux mettre false si optionnel
+    required: true
   },
 
   present: { 
@@ -35,31 +35,65 @@ const joueurSchema = new mongoose.Schema({
 // Schéma convocation
 // ==========================
 const convocationSchema = new mongoose.Schema({
+  
+  // 🔹 Liste des joueurs convoqués
   joueurs: {
-    type: [joueurSchema], // 🔹 tableau d'objets joueur
+    type: [joueurSchema],
     required: [true, 'Le tableau de joueurs est obligatoire'],
-    validate: [arr => arr.length > 0, 'Il doit y avoir au moins un joueur']
+    validate: [
+      arr => arr.length > 0,
+      'Il doit y avoir au moins un joueur'
+    ]
   },
+
+  // 🔹 Ancien champ équipe
   equipe: {
     type: String,
     required: true
   },
+
+  // 🔹 Nouvelle équipe domicile
+  equipeDom: {
+    type: String,
+    required: true
+  },
+
+  // 🔹 Nouvelle équipe extérieure
+  equipeExt: {
+    type: String,
+    required: true
+  },
+
+  // 🔹 Type de compétition
+  TypeCompetition: {
+    type: String,
+    required: true
+  },
+
+  // 🔹 Nom du match
   match: {
     type: String,
     required: true
   },
+
+  // 🔹 Date du match
   dateMatch: {
     type: Date,
     required: true
   },
+
+  // 🔹 Lieu du match
   lieu: {
     type: String,
     required: true
   },
+
+  // 🔹 Date de création
   createdAt: {
     type: Date,
     default: Date.now
   }
+
 });
 
 module.exports = mongoose.model('Convocation', convocationSchema);
