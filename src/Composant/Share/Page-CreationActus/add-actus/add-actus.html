@@ -4,7 +4,7 @@
 <!-- PAGE CREATE ACTUS RESPONSIVE PREMIUM -->
 <!-- ====================================================== -->
 <section class="relative w-full min-h-screen overflow-hidden flex flex-col lg:flex-row"
-  [ngStyle]="{ 'background': themeService.Backgroundprincipal }">
+  [ngStyle]="{ 'background': themeService.Backgroundprincipaltest }">
 
   <!-- ====================================================== -->
   <!-- BACKGROUND -->
@@ -134,12 +134,26 @@
           <!-- RIGHT BUTTON -->
           <div class="flex justify-center sm:justify-end">
 
-            <button (click)="goBack()"
-              class="h-12 px-5 rounded-2xl font-bold transition-all duration-300 hover:scale-105" [ngStyle]="{
-        'background': themeService.Background2,
-        'color': themeService.Textprincipal
-      }">
-              Retour
+            <button
+              (click)="goBack()"
+              class="
+                h-12 px-5 rounded-2xl font-bold
+                transition-all duration-300 hover:scale-105
+                flex items-center gap-2
+              "
+              [ngStyle]="{
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.Bordernormal,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
+              }"
+            >
+
+              <!-- ICON FONT AWESOME -->
+              <i class="fa-solid fa-arrow-left text-sm"></i>
+
+              <span>Retour</span>
+
             </button>
 
           </div>
@@ -176,8 +190,10 @@
               rounded-2xl sm:rounded-3xl
               px-5 sm:px-6
               gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
-                'background': themeService.Background1,
-                'border': '2px solid ' + themeService.primary + '30'
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.primary,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
               }">
 
               <i class="fa-solid fa-heading text-sm sm:text-base" [ngStyle]="{ 'color': themeService.primary }"></i>
@@ -206,8 +222,10 @@
               rounded-2xl sm:rounded-3xl
               px-5 sm:px-6
               gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
-                'background': themeService.Background1,
-                'border': '2px solid ' + themeService.primary + '30'
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.primary,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
               }">
 
               <i class="fa-solid fa-tags text-sm sm:text-base" [ngStyle]="{ 'color': themeService.primary }"></i>
@@ -251,8 +269,10 @@
               rounded-2xl sm:rounded-3xl
               px-5 sm:px-6
               gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
-                'background': themeService.Background1,
-                'border': '2px solid ' + themeService.primary + '30'
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.primary,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
               }">
 
               <i class="fa-solid fa-user text-sm sm:text-base" [ngStyle]="{ 'color': themeService.primary }"></i>
@@ -305,8 +325,10 @@
               rounded-2xl sm:rounded-3xl
               px-5 sm:px-6
               gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
-                'background': themeService.Background1,
-                'border': '2px solid ' + themeService.primary + '30'
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.primary,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
               }">
 
               <i class="fa-solid fa-link text-sm sm:text-base" [ngStyle]="{ 'color': themeService.primary }"></i>
@@ -323,8 +345,10 @@
               rounded-2xl sm:rounded-3xl
               px-5 sm:px-6
               gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
-                'background': themeService.Background1,
-                'border': '2px solid ' + themeService.primary + '30'
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.primary,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
               }">
 
               <i class="fa-solid fa-upload text-sm sm:text-base" [ngStyle]="{ 'color': themeService.primary }"></i>
@@ -359,8 +383,10 @@
             px-5 sm:px-6
             py-4 sm:py-5
             gap-4 transition-all duration-300 hover:shadow-2xl" [ngStyle]="{
-              'background': themeService.Background1,
-              'border': '2px solid ' + themeService.primary + '30'
+              'background': themeService.Backgroundsecondairetest,
+              'border': '1px solid ' + themeService.primary,
+              'color': themeService.Textsecondaire,
+              'box-shadow': themeService.Bowshadowtest
             }">
 
             <i class="fa-solid fa-align-left text-sm sm:text-base mt-1"
@@ -384,7 +410,9 @@
           font-black text-white overflow-hidden group transition-all duration-300
           hover:scale-[1.01] hover:shadow-2xl" [ngStyle]="{
             'background': themeService.primary,
-            'box-shadow': '0 12px 35px ' + themeService.primary + '55'
+            'border': '1px solid ' + themeService.primaryGlow,
+            'color': themeService.Textsecondaire,
+            'box-shadow': themeService.Bowshadowtest
           }">
 
           <!-- SHINE -->

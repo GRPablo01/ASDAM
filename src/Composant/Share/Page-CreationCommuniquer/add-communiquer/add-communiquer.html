@@ -4,22 +4,9 @@
 <!-- PAGE COMMUNIQUÉ AS DAM THEME SYSTEM -->
 <!-- ====================================================== -->
 <section class="relative w-full h-auto overflow-hidden flex flex-col lg:flex-row"
-  [ngStyle]="{ 'background': themeService.Backgroundprincipal }">
+  [ngStyle]="{ 'background': themeService.Backgroundprincipaltest }">
 
-  <!-- ====================================================== -->
-  <!-- BACKGROUND EFFECTS -->
-  <!-- ====================================================== -->
-  <div class="absolute inset-0 opacity-20 pointer-events-none">
-
-    <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full blur-[120px]"
-      [ngStyle]="{ 'background': themeService.primary }">
-    </div>
-
-    <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full blur-[140px]"
-      [ngStyle]="{ 'background': themeService.secondary }">
-    </div>
-
-  </div>
+  
 
   <!-- ====================================================== -->
   <!-- LEFT SIDE HERO -->
@@ -110,13 +97,22 @@
         <!-- RIGHT BUTTON -->
         <div class="flex justify-center sm:justify-end">
 
-          <button (click)="goBack()"
-            class="h-12 px-5 rounded-2xl font-bold transition-all duration-300 hover:scale-105" [ngStyle]="{
-      'background': themeService.Background2,
-      'color': themeService.Textprincipal
-    }">
+          <button
+            (click)="goBack()"
+            class="h-12 px-5 rounded-2xl font-bold transition-all duration-300 hover:scale-105 flex items-center gap-2"
+            [ngStyle]="{
+              'background': themeService.Backgroundsecondairetest,
+              'border': '1px solid ' + themeService.Bordernormal,
+              'color': themeService.Textsecondaire,
+              'box-shadow': themeService.Bowshadowtest
+            }">
+
+            <!-- ICON -->
+            <i class="fa-solid fa-arrow-left text-sm"></i>
+
             Retour
           </button>
+
         </div>
 
       </div>
@@ -138,8 +134,10 @@
 
           <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border backdrop-blur-xl"
             [ngStyle]="{
-              'background': themeService.Background1,
-              'border-color': themeService.Bordernormal
+              'background': themeService.Backgroundsecondairetest,
+              'border': '1px solid ' + themeService.primary,
+              'color': themeService.Textsecondaire,
+              'box-shadow': themeService.Bowshadowtest
             }">
 
             <i class="fa-solid fa-heading"
@@ -170,10 +168,11 @@
             <label *ngFor="let cat of categories"
                 class="flex items-center gap-2 px-4 py-3 rounded-xl border cursor-pointer transition"
                 [ngStyle]="{
-                'background': themeService.Background1,
-                'border-color': themeService.Bordernormal,
-                'color': themeService.Textprincipal
-                }">
+              'background': themeService.Backgroundsecondairetest,
+              'border': '1px solid ' + themeService.primary,
+              'color': themeService.Textsecondaire,
+              'box-shadow': themeService.Bowshadowtest
+            }">
         
                 <input
                 type="checkbox"
@@ -202,8 +201,10 @@
 
           <div class="flex gap-3 p-4 rounded-2xl border backdrop-blur-xl"
             [ngStyle]="{
-              'background': themeService.Background1,
-              'border-color': themeService.Bordernormal
+              'background': themeService.Backgroundsecondairetest,
+              'border': '1px solid ' + themeService.primary,
+              'color': themeService.Textsecondaire,
+              'box-shadow': themeService.Bowshadowtest
             }">
 
             <i class="fa-solid fa-align-left mt-1"

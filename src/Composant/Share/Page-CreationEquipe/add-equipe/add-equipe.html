@@ -2,25 +2,9 @@
 <!-- PAGE CREATE TEAM - REFACTOR CLEAN LAYOUT -->
 <!-- ====================================================== -->
 <section class="relative h-auto flex flex-col overflow-hidden"
-    [style.background]="themeService?.Backgroundprincipal">
+    [style.background]="themeService?.Backgroundprincipaltest">
 
-    <!-- ====================================================== -->
-    <!-- BACKGROUND ANIMATION -->
-    <!-- ====================================================== -->
-
-    <div class="absolute inset-0 pointer-events-none overflow-hidden">
-
-        <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full blur-[100px] opacity-15 animate-pulse-slow"
-            [style.background]="themeService?.primary"></div>
-
-        <div class="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full blur-[100px] opacity-10 animate-pulse-slow"
-            style="animation-delay: 2s;" [style.background]="themeService?.primary"></div>
-
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-[120px] opacity-5"
-            [style.background]="themeService?.primary"></div>
-
-    </div>
-
+    
     <!-- ====================================================== -->
     <!-- TOP SECTION (LEFT + RIGHT) -->
     <!-- ====================================================== -->
@@ -81,8 +65,12 @@
 
                         <button (click)="goBack()"
                             class="group h-12 px-6 rounded-2xl font-bold transition-all duration-300 hover:scale-[1.02] flex items-center gap-2 border"
-                            [style.background]="themeService.Background1" [style.color]="themeService.Textprincipal"
-                            [style.borderColor]="themeService.primary + '20'">
+                            [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                             <i
                                 class="fa-solid fa-arrow-left transition-transform duration-300 group-hover:-translate-x-1"></i>
@@ -98,7 +86,12 @@
                 <!-- FORM -->
                 <form [formGroup]="equipeForm" (ngSubmit)="createTeam()"
                     class="rounded-[28px] p-8 border backdrop-blur-2xl space-y-6"
-                    [style.background]="themeService?.Background1" [style.borderColor]="themeService?.primary + '20'">
+                    [ngStyle]="{
+                        'background': themeService.Backgroundsecondairetest,
+                        'border': '1px solid ' + themeService.primary,
+                        'color': themeService.Textsecondaire,
+                        'box-shadow': themeService.Bowshadowtest
+                    }">
 
                     <!-- NOM -->
                     <div>
@@ -108,8 +101,12 @@
                         </label>
 
                         <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border"
-                            [style.background]="themeService?.Background2"
-                            [style.borderColor]="themeService?.primary + '15'">
+                            [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                             <i class="fa-solid fa-shield text-sm" [ngStyle]="{'color':themeService.primary}"></i>
 
@@ -127,8 +124,12 @@
                         </label>
 
                         <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border"
-                            [style.background]="themeService?.Background2"
-                            [style.borderColor]="themeService?.primary + '15'">
+                            [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                             <i class="fa-solid fa-calendar text-sm" [style.color]="themeService?.primary"></i>
 
@@ -146,8 +147,12 @@
                         </label>
 
                         <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border cursor-pointer"
-                            [style.background]="themeService?.Background2"
-                            [style.borderColor]="themeService?.primary + '15'">
+                            [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                             <i class="fa-solid fa-image text-sm" [style.color]="themeService?.primary"></i>
 
@@ -197,7 +202,12 @@
 
             <div *ngFor="let team of equipes"
                 class="rounded-[24px] p-6 border text-center transition-all duration-300 hover:scale-[1.03]"
-                [style.background]="themeService?.Background1" [style.borderColor]="themeService?.primary + '15'">
+                [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                 <div class="w-24 h-24 mx-auto rounded-full overflow-hidden border-2 mb-4"
                     [style.borderColor]="themeService?.primary">

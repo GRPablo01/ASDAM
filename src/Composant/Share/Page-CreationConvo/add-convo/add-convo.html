@@ -58,26 +58,14 @@
 <!-- ====================================================== -->
 <!-- MAIN PAGE -->
 <!-- ====================================================== -->
-<section
-  class="relative min-h-screen overflow-hidden flex flex-col xl:flex-row"
-  [style.background]="themeService.Backgroundprincipal">
+<section [ngStyle]="{'background':themeService.Backgroundprincipaltest}" class="relative min-h-screen overflow-hidden flex flex-col xl:flex-row">
 
   <!-- ====================================================== -->
   <!-- BACKGROUND FX -->
   <!-- ====================================================== -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
 
-    <div
-      class="absolute -top-40 -left-40 w-[520px] h-[520px] rounded-full blur-[120px] opacity-20 animate-pulse"
-      [style.background]="themeService.primary">
-    </div>
-
-    <div
-      class="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] opacity-10 animate-pulse"
-      style="animation-delay:2s"
-      [style.background]="themeService.primary">
-    </div>
-
+    
     <div
       class="absolute inset-0 opacity-[0.03]"
       style="
@@ -323,9 +311,12 @@
           type="button"
           (click)="goBack()"
           class="group h-12 px-6 rounded-2xl border font-bold flex items-center gap-3 transition-all duration-300 hover:scale-[1.02]"
-          [style.background]="themeService.Background1"
-          [style.color]="themeService.Textprincipal"
-          [style.borderColor]="themeService.primary + '20'">
+          [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+          }">
 
           <i
             class="fa-solid fa-arrow-left transition-transform duration-300 group-hover:-translate-x-1">
@@ -357,7 +348,7 @@
             <div
               class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black transition-all duration-500"
               [class.scale-110]="step === s"
-              [style.background]="step >= s ? themeService.primary : themeService.Background2">
+              [style.background]="step >= s ? themeService.primary : themeService.Backgroundsecondairetest">
 
               <span *ngIf="step > s">
                 <i class="fa-solid fa-check"></i>
@@ -416,7 +407,7 @@
         <div
           *ngIf="!last"
           class="h-[3px] flex-1 rounded-full overflow-hidden"
-          [style.background]="themeService.Background2">
+          [style.background]="themeService.Backgroundsecondairetest">
 
           <div
             class="h-full rounded-full transition-all duration-700"
@@ -458,12 +449,15 @@
 
             <div
               class="h-16 rounded-[24px] flex items-center gap-4 px-6 border"
-              [style.background]="themeService.Background1"
-              [style.borderColor]="themeService.primary + '20'">
+              [ngStyle]="{
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.primary,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
+              }">
 
               <div
-                class="w-10 h-10 rounded-xl flex items-center justify-center"
-                [style.background]="themeService.primary + '15'">
+                class="w-10 h-10 rounded-xl flex items-center justify-center">
 
                 <i
                   class="fa-solid fa-futbol"
@@ -475,7 +469,7 @@
               <input
                 formControlName="match"
                 placeholder="PSG vs OM"
-                class="w-full bg-transparent outline-none text-base font-medium placeholder:opacity-30"
+                class="w-full bg-transparent outline-none text-base font-medium"
                 [style.color]="themeService.Textprincipal" />
 
             </div>
@@ -495,12 +489,15 @@
 
             <div
               class="h-16 rounded-[24px] flex items-center gap-4 px-6 border"
-              [style.background]="themeService.Background1"
-              [style.borderColor]="themeService.primary + '20'">
+              [ngStyle]="{
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.primary,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
+              }">
 
               <div
-                class="w-10 h-10 rounded-xl flex items-center justify-center"
-                [style.background]="themeService.primary + '15'">
+                class="w-10 h-10 rounded-xl flex items-center justify-center">
 
                 <i
                   class="fa-solid fa-trophy"
@@ -539,12 +536,15 @@
 
             <div
               class="h-16 rounded-[24px] flex items-center gap-4 px-6 border"
-              [style.background]="themeService.Background1"
-              [style.borderColor]="themeService.primary + '20'">
+              [ngStyle]="{
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.primary,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
+              }">
 
               <div
-                class="w-10 h-10 rounded-xl flex items-center justify-center"
-                [style.background]="themeService.primary + '15'">
+                class="w-10 h-10 rounded-xl flex items-center justify-center">
 
                 <i
                   class="fa-solid fa-shield-halved"
@@ -564,41 +564,81 @@
           </div>
 
           <!-- DATE -->
-          <div class="space-y-3">
+<div class="space-y-3">
 
-            <label
-              class="ml-2 text-[10px] uppercase tracking-[4px] font-black"
-              [style.color]="themeService.Textsecondaire">
+  <label
+    class="ml-2 text-[10px] uppercase tracking-[4px] font-black"
+    [style.color]="themeService.Textsecondaire">
 
-              Date du match
+    Date du match
 
-            </label>
+  </label>
 
-            <div
-              class="h-16 rounded-[24px] flex items-center gap-4 px-6 border"
-              [style.background]="themeService.Background1"
-              [style.borderColor]="themeService.primary + '20'">
+  <div
+    class="relative h-16 rounded-[24px] flex items-center gap-4 px-6 border"
+    [ngStyle]="{
+      'background': themeService.Backgroundsecondairetest,
+      'border': '1px solid ' + themeService.primary,
+      'color': themeService.Textsecondaire,
+      'box-shadow': themeService.Bowshadowtest
+    }">
 
-              <div
-                class="w-10 h-10 rounded-xl flex items-center justify-center"
-                [style.background]="themeService.primary + '15'">
+    <!-- ICON -->
+    <div
+      class="w-10 h-10 rounded-xl flex items-center justify-center">
 
-                <i
-                  class="fa-solid fa-calendar-days"
-                  [style.color]="themeService.primary">
-                </i>
+      <i
+        class="fa-solid fa-calendar-days"
+        [style.color]="themeService.primary">
+      </i>
 
-              </div>
+    </div>
 
-              <input
-                type="datetime-local"
-                formControlName="dateMatch"
-                class="w-full bg-transparent outline-none text-base font-medium"
-                [style.color]="themeService.Textprincipal" />
+    <!-- INPUT -->
+    <input
+      #dateMatchInput
+      type="datetime-local"
+      formControlName="dateMatch"
+      class="
+        w-full
+        bg-transparent
+        outline-none
+        text-base
+        font-medium
 
-            </div>
+        [&::-webkit-calendar-picker-indicator]:opacity-0
+        [&::-webkit-calendar-picker-indicator]:absolute
+        [&::-webkit-calendar-picker-indicator]:right-0
+        [&::-webkit-calendar-picker-indicator]:w-full
+        [&::-webkit-calendar-picker-indicator]:h-full
+        [&::-webkit-calendar-picker-indicator]:cursor-pointer
+      "
+      [style.color]="themeService.Textprincipal" />
 
-          </div>
+    <!-- CUSTOM BUTTON -->
+    <button
+      type="button"
+      (click)="dateMatchInput.showPicker()"
+      class="
+        absolute right-5
+        w-7 h-7
+        rounded-full
+        flex items-center justify-center
+        transition-all duration-300
+        hover:scale-110
+      "
+    >
+      <i
+        class="fa-solid fa-calendar text-[11px]"
+        [ngStyle]="{
+          'color': themeService.Textprincipal
+        }"
+      ></i>
+    </button>
+
+  </div>
+
+</div>
 
           <!-- EQUIPE DOM -->
           <div class="space-y-3">
@@ -613,12 +653,15 @@
 
             <div
               class="h-16 rounded-[24px] flex items-center gap-4 px-6 border"
-              [style.background]="themeService.Background1"
-              [style.borderColor]="themeService.primary + '20'">
+              [ngStyle]="{
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.primary,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
+              }">
 
               <div
-                class="w-10 h-10 rounded-xl flex items-center justify-center"
-                [style.background]="themeService.primary + '15'">
+                class="w-10 h-10 rounded-xl flex items-center justify-center">
 
                 <i
                   class="fa-solid fa-house"
@@ -650,12 +693,15 @@
 
             <div
               class="h-16 rounded-[24px] flex items-center gap-4 px-6 border"
-              [style.background]="themeService.Background1"
-              [style.borderColor]="themeService.primary + '20'">
+              [ngStyle]="{
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.primary,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
+              }">
 
               <div
-                class="w-10 h-10 rounded-xl flex items-center justify-center"
-                [style.background]="themeService.primary + '15'">
+                class="w-10 h-10 rounded-xl flex items-center justify-center">
 
                 <i
                   class="fa-solid fa-plane"
@@ -687,12 +733,15 @@
 
             <div
               class="h-16 rounded-[24px] flex items-center gap-4 px-6 border"
-              [style.background]="themeService.Background1"
-              [style.borderColor]="themeService.primary + '20'">
+              [ngStyle]="{
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.primary,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
+              }">
 
               <div
-                class="w-10 h-10 rounded-xl flex items-center justify-center"
-                [style.background]="themeService.primary + '15'">
+                class="w-10 h-10 rounded-xl flex items-center justify-center">
 
                 <i
                   class="fa-solid fa-location-dot"
@@ -755,8 +804,12 @@
 
           <button type="button" (click)="openOtherTeams = true"
             class="group h-12 px-6 rounded-2xl font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2 shrink-0"
-            [style.background]="themeService.primary"
-            [style.box-shadow]="'0 8px 30px ' + themeService.primary + '30'">
+            [ngStyle]="{
+              'background': themeService.primary,
+              'border': '1px solid ' + themeService.primary,
+              'color': themeService.Textsecondaire,
+              'box-shadow': themeService.Bowshadowtest
+            }">
 
             <i class="fa-solid fa-user-plus transition-transform duration-300 group-hover:rotate-12"></i>
             Autres équipes
@@ -769,10 +822,12 @@
         <div class="mb-6">
 
           <div class="h-14 rounded-[24px] flex items-center gap-4 px-6 border transition-all duration-500 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-[color:var(--bg)]"
-            [style.background]="themeService.Background1" 
-            [style.borderColor]="themeService.primary + '20'"
-            [style.--tw-ring-color]="themeService.primary"
-            [style.--bg]="themeService.Backgroundprincipal">
+            [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.primary,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
             <i class="fa-solid fa-magnifying-glass" [style.color]="themeService.Textsecondaire"></i>
 
@@ -798,16 +853,19 @@
 
           <!-- LEFT - PLAYERS LIST -->
           <div class="lg:col-span-2 rounded-[28px] p-6 border transition-all duration-500 hover:shadow-xl"
-            [style.background]="themeService.Background1"
-            [style.borderColor]="themeService.primary + '15'">
+            [ngStyle]="{
+              'background': themeService.Backgroundsecondairetest,
+              'border': '1px solid ' + themeService.primary,
+              'color': themeService.Textsecondaire,
+              'box-shadow': themeService.Bowshadowtest
+            }">
 
             <!-- HEADER LEFT -->
             <div class="flex items-center justify-between mb-6">
 
               <div class="flex items-center gap-3">
 
-                <div class="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 hover:scale-110"
-                  [style.background]="themeService.primary + '15'">
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 hover:scale-110">
 
                   <i class="fa-solid fa-shield-halved text-lg" [style.color]="themeService.primary"></i>
 
@@ -828,7 +886,12 @@
               </div>
 
               <div class="flex items-center gap-2 px-4 py-2 rounded-full"
-                [style.background]="themeService.primary + '10'">
+                [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                 <div class="w-2 h-2 rounded-full" [style.background]="themeService.primary"></div>
 
@@ -864,7 +927,12 @@
             <div *ngIf="!loadingPlayers && filteredJoueurs.length === 0" class="flex flex-col items-center justify-center py-16 gap-4">
 
               <div class="w-20 h-20 rounded-full flex items-center justify-center"
-                [style.background]="themeService.Background2">
+                [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
                 <i class="fa-solid fa-users-slash text-3xl opacity-30" [style.color]="themeService.Textsecondaire"></i>
 
@@ -886,7 +954,7 @@
                 [class.hover:scale-[1.02]]="!isAlreadyConvoked(joueur)"
                 [class.hover:shadow-lg]="!isAlreadyConvoked(joueur) && !joueur.selected"
                 [class.hover:border-opacity-50]="!isAlreadyConvoked(joueur)"
-                [style.background]="joueur.selected ? themeService.primary + '08' : themeService.Background1"
+                [style.background]="joueur.selected ? themeService.primary + '08' : themeService.Backgroundprincipaltest"
                 [style.borderColor]="joueur.selected ? themeService.primary + '40' : themeService.primary + '15'"
                 (click)="!isAlreadyConvoked(joueur) && toggleJoueur(joueur)">
 
@@ -904,7 +972,12 @@
 
                   <!-- AVATAR -->
                   <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-sm shrink-0 transition-all duration-300"
-                    [style.background]="joueur.selected ? themeService.primary : themeService.Background2"
+                    [ngStyle]="{
+        'background': themeService.primary,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }"
                     [class.scale-110]="joueur.selected"
                     [class.ring-2]="joueur.selected"
                     [class.ring-offset-2]="joueur.selected"
@@ -952,8 +1025,12 @@
 
           <!-- RIGHT - SELECTION SUMMARY -->
           <div class="rounded-[28px] p-6 border transition-all duration-500 hover:shadow-xl sticky top-6"
-            [style.background]="themeService.Background1"
-            [style.borderColor]="themeService.primary + '15'">
+            [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.primary,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
             <!-- HEADER RIGHT -->
             <div class="flex items-center gap-3 mb-6">
@@ -1064,9 +1141,12 @@
 
           <button type="button" (click)="prevStep()"
             class="group flex-1 h-14 rounded-2xl font-bold transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 border"
-            [style.background]="themeService.Background1" 
-            [style.color]="themeService.Textprincipal"
-            [style.borderColor]="themeService.primary + '20'">
+            [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
             <i class="fa-solid fa-arrow-left transition-transform duration-300 group-hover:-translate-x-1"></i>
             Retour
@@ -1096,360 +1176,366 @@
       </div>
 
       <!-- ====================================================== -->
-<!-- STEP 3 -->
-<!-- ====================================================== -->
-<div *ngIf="step === 3">
-
-  <div
-    class="relative rounded-[28px] border p-8 min-h-[750px] flex flex-col"
-    [style.background]="themeService.Background1"
-    [style.borderColor]="themeService.primary + '15'">
-
-    <!-- ====================================================== -->
-    <!-- BOUTON RETOUR - TOP RIGHT -->
-    <!-- ====================================================== -->
-    <div class="absolute top-6 right-6 z-20">
-
-      <button
-        type="button"
-        (click)="prevStep()"
-        class="group h-14 px-6 rounded-2xl font-bold transition-all duration-300 hover:scale-[1.03] flex items-center justify-center gap-3 border backdrop-blur-xl"
-        [style.background]="themeService.Background2"
-        [style.color]="themeService.Textprincipal"
-        [style.borderColor]="themeService.primary + '20'">
-
-        <i class="fa-solid fa-arrow-left transition-transform duration-300 group-hover:-translate-x-1"></i>
-
-        Retour
-
-      </button>
-
-    </div>
-
-    <!-- ====================================================== -->
-    <!-- HEADER -->
-    <!-- ====================================================== -->
-    <div class="flex items-center gap-4 mb-8 pr-[170px]">
-
-      <div
-        class="w-14 h-14 rounded-2xl flex items-center justify-center"
-        [style.background]="themeService.primary + '15'">
-
-        <i
-          class="fa-solid fa-clipboard-check text-xl"
-          [style.color]="themeService.primary">
-        </i>
-
-      </div>
-
-      <div>
-
-        <h3
-          class="text-2xl font-black"
-          [style.color]="themeService.Textprincipal">
-
-          Résumé de la convocation
-
-        </h3>
-
-        <p
-          class="text-sm"
-          [style.color]="themeService.Textsecondaire">
-
-          Vérifiez les informations avant validation
-
-        </p>
-
-      </div>
-
-    </div>
-
-    <!-- ====================================================== -->
-    <!-- INFOS -->
-    <!-- ====================================================== -->
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-
-      <!-- MATCH -->
-      <div
-        class="rounded-2xl p-5"
-        [style.background]="themeService.Background2 + '40'">
-
-        <p
-          class="text-[10px] uppercase tracking-[4px] font-black mb-2"
-          [style.color]="themeService.Textsecondaire">
-
-          Match
-
-        </p>
-
-        <p
-          class="text-lg font-black"
-          [style.color]="themeService.Textprincipal">
-
-          {{ convocationForm.get('match')?.value }}
-
-        </p>
-
-      </div>
-
-      <!-- COMPETITION -->
-      <div
-        class="rounded-2xl p-5"
-        [style.background]="themeService.Background2 + '40'">
-
-        <p
-          class="text-[10px] uppercase tracking-[4px] font-black mb-2"
-          [style.color]="themeService.Textsecondaire">
-
-          Compétition
-
-        </p>
-
-        <p
-          class="text-lg font-black"
-          [style.color]="themeService.Textprincipal">
-
-          {{ convocationForm.get('TypeCompetition')?.value }}
-
-        </p>
-
-      </div>
-
-      <!-- EQUIPE -->
-      <div
-        class="rounded-2xl p-5"
-        [style.background]="themeService.Background2 + '40'">
-
-        <p
-          class="text-[10px] uppercase tracking-[4px] font-black mb-2"
-          [style.color]="themeService.Textsecondaire">
-
-          Équipe
-
-        </p>
-
-        <p
-          class="text-lg font-black"
-          [style.color]="themeService.Textprincipal">
-
-          {{ convocationForm.get('equipe')?.value }}
-
-        </p>
-
-      </div>
-
-      <!-- DOM -->
-      <div
-        class="rounded-2xl p-5"
-        [style.background]="themeService.Background2 + '40'">
-
-        <p
-          class="text-[10px] uppercase tracking-[4px] font-black mb-2"
-          [style.color]="themeService.Textsecondaire">
-
-          Domicile
-
-        </p>
-
-        <p
-          class="text-lg font-black"
-          [style.color]="themeService.Textprincipal">
-
-          {{ convocationForm.get('equipeDom')?.value }}
-
-        </p>
-
-      </div>
-
-      <!-- EXT -->
-      <div
-        class="rounded-2xl p-5"
-        [style.background]="themeService.Background2 + '40'">
-
-        <p
-          class="text-[10px] uppercase tracking-[4px] font-black mb-2"
-          [style.color]="themeService.Textsecondaire">
-
-          Extérieur
-
-        </p>
-
-        <p
-          class="text-lg font-black"
-          [style.color]="themeService.Textprincipal">
-
-          {{ convocationForm.get('equipeExt')?.value }}
-
-        </p>
-
-      </div>
-
-      <!-- DATE -->
-      <div
-        class="rounded-2xl p-5"
-        [style.background]="themeService.Background2 + '40'">
-
-        <p
-          class="text-[10px] uppercase tracking-[4px] font-black mb-2"
-          [style.color]="themeService.Textsecondaire">
-
-          Date
-
-        </p>
-
-        <p
-          class="text-lg font-black"
-          [style.color]="themeService.Textprincipal">
-
-          {{ convocationForm.get('dateMatch')?.value | date:'dd/MM/yyyy HH:mm' }}
-
-        </p>
-
-      </div>
-
-      <!-- LIEU -->
-      <div
-        class="rounded-2xl p-5 sm:col-span-2 xl:col-span-3"
-        [style.background]="themeService.Background2 + '40'">
-
-        <p
-          class="text-[10px] uppercase tracking-[4px] font-black mb-2"
-          [style.color]="themeService.Textsecondaire">
-
-          Lieu
-
-        </p>
-
-        <p
-          class="text-lg font-black"
-          [style.color]="themeService.Textprincipal">
-
-          {{ convocationForm.get('lieu')?.value }}
-
-        </p>
-
-      </div>
-
-    </div>
-
-    <!-- ====================================================== -->
-    <!-- PLAYERS -->
-    <!-- ====================================================== -->
-    <div
-      class="mt-8 pt-8 border-t flex-1"
-      [style.borderColor]="themeService.primary + '15'">
-
-      <div class="flex items-center gap-3 mb-6">
+      <!-- STEP 3 -->
+      <!-- ====================================================== -->
+      <div *ngIf="step === 3">
 
         <div
-          class="w-10 h-10 rounded-xl flex items-center justify-center"
-          [style.background]="themeService.primary + '15'">
+          class="relative rounded-[28px] border p-8 min-h-[750px] flex flex-col"
+          [ngStyle]="{
+            'background': themeService.Backgroundsecondairetest,
+            'border': '1px solid ' + themeService.Bordernormal,
+            'color': themeService.Textsecondaire,
+            'box-shadow': themeService.Bowshadowtest
+          }">
 
-          <i
-            class="fa-solid fa-users"
-            [style.color]="themeService.primary">
-          </i>
+          <!-- ====================================================== -->
+          <!-- BOUTON RETOUR - TOP RIGHT -->
+          <!-- ====================================================== -->
+          <div class="absolute top-6 right-6 z-20">
 
-        </div>
+            <button
+              type="button"
+              (click)="prevStep()"
+              class="group h-14 px-6 rounded-2xl font-bold transition-all duration-300 hover:scale-[1.03] flex items-center justify-center gap-3 border backdrop-blur-xl"
+              [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+      }">
 
-        <p
-          class="font-black"
-          [style.color]="themeService.Textprincipal">
+              <i class="fa-solid fa-arrow-left transition-transform duration-300 group-hover:-translate-x-1"></i>
 
-          Joueurs convoqués
+              Retour
 
-        </p>
+            </button>
 
-      </div>
+          </div>
 
-      <!-- PLAYERS -->
-      <div class="flex flex-wrap gap-3">
+          <!-- ====================================================== -->
+          <!-- HEADER -->
+          <!-- ====================================================== -->
+          <div class="flex items-center gap-4 mb-8 pr-[170px]">
 
-        <div
-          *ngFor="let joueur of joueursSelectionnes"
-          class="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 hover:scale-[1.02]"
-          [style.background]="themeService.primary + '10'">
+            <div
+              class="w-14 h-14 rounded-2xl flex items-center justify-center">
 
+              <i
+                class="fa-solid fa-clipboard-check text-xl"
+                [style.color]="themeService.primary">
+              </i>
+
+            </div>
+
+            <div>
+
+              <h3
+                class="text-2xl font-black"
+                [style.color]="themeService.Textprincipal">
+
+                Résumé de la convocation
+
+              </h3>
+
+              <p
+                class="text-sm"
+                [style.color]="themeService.Textsecondaire">
+
+                Vérifiez les informations avant validation
+
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- INFOS -->
+          <!-- ====================================================== -->
           <div
-            class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-black"
-            [style.background]="themeService.primary">
+            class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
 
-            {{ joueur.prenom?.[0] }}{{ joueur.nom?.[0] }}
+            <!-- MATCH -->
+            <div
+              class="rounded-2xl p-5"
+              [style.background]="themeService.Background2 + '40'">
+
+              <p
+                class="text-[10px] uppercase tracking-[4px] font-black mb-2"
+                [style.color]="themeService.Textsecondaire">
+
+                Match
+
+              </p>
+
+              <p
+                class="text-lg font-black"
+                [style.color]="themeService.Textprincipal">
+
+                {{ convocationForm.get('match')?.value }}
+
+              </p>
+
+            </div>
+
+            <!-- COMPETITION -->
+            <div
+              class="rounded-2xl p-5"
+              [style.background]="themeService.Background2 + '40'">
+
+              <p
+                class="text-[10px] uppercase tracking-[4px] font-black mb-2"
+                [style.color]="themeService.Textsecondaire">
+
+                Compétition
+
+              </p>
+
+              <p
+                class="text-lg font-black"
+                [style.color]="themeService.Textprincipal">
+
+                {{ convocationForm.get('TypeCompetition')?.value }}
+
+              </p>
+
+            </div>
+
+            <!-- EQUIPE -->
+            <div
+              class="rounded-2xl p-5"
+              [style.background]="themeService.Background2 + '40'">
+
+              <p
+                class="text-[10px] uppercase tracking-[4px] font-black mb-2"
+                [style.color]="themeService.Textsecondaire">
+
+                Équipe
+
+              </p>
+
+              <p
+                class="text-lg font-black"
+                [style.color]="themeService.Textprincipal">
+
+                {{ convocationForm.get('equipe')?.value }}
+
+              </p>
+
+            </div>
+
+            <!-- DOM -->
+            <div
+              class="rounded-2xl p-5"
+              [style.background]="themeService.Background2 + '40'">
+
+              <p
+                class="text-[10px] uppercase tracking-[4px] font-black mb-2"
+                [style.color]="themeService.Textsecondaire">
+
+                Domicile
+
+              </p>
+
+              <p
+                class="text-lg font-black"
+                [style.color]="themeService.Textprincipal">
+
+                {{ convocationForm.get('equipeDom')?.value }}
+
+              </p>
+
+            </div>
+
+            <!-- EXT -->
+            <div
+              class="rounded-2xl p-5"
+              [style.background]="themeService.Background2 + '40'">
+
+              <p
+                class="text-[10px] uppercase tracking-[4px] font-black mb-2"
+                [style.color]="themeService.Textsecondaire">
+
+                Extérieur
+
+              </p>
+
+              <p
+                class="text-lg font-black"
+                [style.color]="themeService.Textprincipal">
+
+                {{ convocationForm.get('equipeExt')?.value }}
+
+              </p>
+
+            </div>
+
+            <!-- DATE -->
+            <div
+              class="rounded-2xl p-5"
+              [style.background]="themeService.Background2 + '40'">
+
+              <p
+                class="text-[10px] uppercase tracking-[4px] font-black mb-2"
+                [style.color]="themeService.Textsecondaire">
+
+                Date
+
+              </p>
+
+              <p
+                class="text-lg font-black"
+                [style.color]="themeService.Textprincipal">
+
+                {{ convocationForm.get('dateMatch')?.value | date:'dd/MM/yyyy HH:mm' }}
+
+              </p>
+
+            </div>
+
+            <!-- LIEU -->
+            <div
+              class="rounded-2xl p-5 sm:col-span-2 xl:col-span-3"
+              [style.background]="themeService.Background2 + '40'">
+
+              <p
+                class="text-[10px] uppercase tracking-[4px] font-black mb-2"
+                [style.color]="themeService.Textsecondaire">
+
+                Lieu
+
+              </p>
+
+              <p
+                class="text-lg font-black"
+                [style.color]="themeService.Textprincipal">
+
+                {{ convocationForm.get('lieu')?.value }}
+
+              </p>
+
+            </div>
 
           </div>
 
-          <div class="flex flex-col">
+          <!-- ====================================================== -->
+          <!-- PLAYERS -->
+          <!-- ====================================================== -->
+          <div
+            class="mt-8 pt-8 border-t flex-1"
+            [style.borderColor]="themeService.primary">
 
-            <span
-              class="font-bold"
-              [style.color]="themeService.Textprincipal">
+            <div class="flex items-center gap-3 mb-6">
 
-              {{ joueur.prenom }} {{ joueur.nom }}
+              <div
+                class="w-10 h-10 rounded-xl flex items-center justify-center"
+                [style.background]="themeService.primary + '15'">
 
-            </span>
+                <i
+                  class="fa-solid fa-users"
+                  [style.color]="themeService.primary">
+                </i>
 
-            <span
-              class="text-[11px]"
-              [style.color]="themeService.Textsecondaire">
+              </div>
 
-              {{ joueur.email }}
+              <p
+                class="font-black"
+                [style.color]="themeService.Textprincipal">
 
-            </span>
+                Joueurs convoqués
+
+              </p>
+
+            </div>
+
+            <!-- PLAYERS -->
+            <div class="flex flex-wrap gap-3">
+
+              <div
+                *ngFor="let joueur of joueursSelectionnes"
+                class="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 hover:scale-[1.02]"
+                [style.background]="themeService.primary + '10'">
+
+                <div
+                  class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-black"
+                  [style.background]="themeService.primary">
+
+                  {{ joueur.prenom?.[0] }}{{ joueur.nom?.[0] }}
+
+                </div>
+
+                <div class="flex flex-col">
+
+                  <span
+                    class="font-bold"
+                    [style.color]="themeService.Textprincipal">
+
+                    {{ joueur.prenom }} {{ joueur.nom }}
+
+                  </span>
+
+                  <span
+                    class="text-[11px]"
+                    [style.color]="themeService.Textsecondaire">
+
+                    {{ joueur.email }}
+
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- ACTION BUTTON - BOTTOM RIGHT -->
+          <!-- ====================================================== -->
+          <div class="flex justify-end mt-10">
+
+            <button
+              type="button"
+              (click)="ajouterConvocation()"
+              [disabled]="creatingConvocation"
+              class="group w-full sm:w-auto sm:min-w-[320px] h-16 px-8 rounded-[24px] text-white font-black transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 relative overflow-hidden"
+              [style.background]="themeService.primary"
+              [style.box-shadow]="'0 20px 50px ' + themeService.primary + '40'">
+
+              <span
+                *ngIf="!creatingConvocation"
+                class="relative z-10 flex items-center justify-center gap-3">
+
+                <i class="fa-solid fa-paper-plane transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"></i>
+
+                Envoyer la convocation
+
+              </span>
+
+              <span
+                *ngIf="creatingConvocation"
+                class="relative z-10 flex items-center justify-center gap-3">
+
+                <div class="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin"></div>
+
+                Envoi en cours...
+
+              </span>
+
+              <!-- SHINE -->
+              <div
+                class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent">
+              </div>
+
+            </button>
 
           </div>
 
         </div>
 
       </div>
-
-    </div>
-
-    <!-- ====================================================== -->
-    <!-- ACTION BUTTON - BOTTOM RIGHT -->
-    <!-- ====================================================== -->
-    <div class="flex justify-end mt-10">
-
-      <button
-        type="button"
-        (click)="ajouterConvocation()"
-        [disabled]="creatingConvocation"
-        class="group w-full sm:w-auto sm:min-w-[320px] h-16 px-8 rounded-[24px] text-white font-black transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 relative overflow-hidden"
-        [style.background]="themeService.primary"
-        [style.box-shadow]="'0 20px 50px ' + themeService.primary + '40'">
-
-        <span
-          *ngIf="!creatingConvocation"
-          class="relative z-10 flex items-center justify-center gap-3">
-
-          <i class="fa-solid fa-paper-plane transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"></i>
-
-          Envoyer la convocation
-
-        </span>
-
-        <span
-          *ngIf="creatingConvocation"
-          class="relative z-10 flex items-center justify-center gap-3">
-
-          <div class="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin"></div>
-
-          Envoi en cours...
-
-        </span>
-
-        <!-- SHINE -->
-        <div
-          class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent">
-        </div>
-
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
 
     </form>
 
