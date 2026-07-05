@@ -7,16 +7,17 @@ import { ThemeService } from '../../../../Backend/Services/theme.service';
 import { Icon } from '../../../Composant/Share/icon/icon';
 
 @Component({
-  selector: 'app-supprimer-user',
+  selector: 'app-supprimer-user-key',
   standalone: true,
   imports: [CommonModule, Icon],
-  templateUrl: './suprimer-user.html',
-  styleUrl: './suprimer-user.css',
+  templateUrl: './supprimer-user-key.html',
+  styleUrl: './supprimer-user-key.css',
 })
-export class SupprimerUser implements OnInit {
+export class SupprimerUserKey implements OnInit {
 
   user: any = {
     _id: '',
+    key:'',
     nom: '',
     prenom: '',
     email: '',
@@ -25,8 +26,8 @@ export class SupprimerUser implements OnInit {
 
   loading: boolean = false;
 
-  // 👉 ID OU KEY
-  userId: string = '';
+  // 👉 identifiant unique (id OU key)
+  userKey: string = '';
 
   // ======================================================
   // 🔔 NOTIFICATION TOAST
@@ -45,25 +46,53 @@ export class SupprimerUser implements OnInit {
   ngOnInit() {
 
     // ======================================================
-    // 🔥 RECUP ID OU KEY (SANS CASSER L’EXISTANT)
+    // 🔥 RÉCUPÉRATION ID / KEY DE L’URL
     // ======================================================
-    const id = this.route.snapshot.paramMap.get('id');
-    const key = this.route.snapshot.paramMap.get('key');
+    const id = this.route.snapshot.paramMap.get('key')
+          || this.route.snapshot.paramMap.get('id');
 
-    this.userId = id || key || '';
+    this.userKey = id || '';
 
-    console.log('🔎 PARAMS URL :', { id, key, userId: this.userId });
+    console.log('🔎 IDENTIFIANT REÇU :', this.userKey);
 
-    if (!this.userId) {
-      console.error('❌ Aucun ID ou KEY trouvé dans l’URL');
+    if (!this.userKey) {
+      console.error('❌ Aucun identifiant trouvé dans l’URL');
       return;
     }
 
     this.loadUser();
   }
 
+  // =========================================================
+  // ROLE GRADIENT (inchangé)
+  // =========================================================
+  getRoleGradient(role: string = ''): string {
+
+    const r = role.toLowerCase();
+    const isDark = this.themeService.isDarkMode;
+
+    const light: any = {
+      superadmin: `linear-gradient(135deg, ${this.themeService.c11Light}, ${this.themeService.c11Light})`,
+      admin: `linear-gradient(135deg, ${this.themeService.c17Light}, ${this.themeService.c17Light})`,
+      entraineur: `linear-gradient(135deg, ${this.themeService.c9Light}, ${this.themeService.c9Light})`,
+      joueur: `linear-gradient(135deg, ${this.themeService.c2Light}, ${this.themeService.c2Light})`,
+      inviter: `linear-gradient(135deg, ${this.themeService.c12Light}, ${this.themeService.c12Light})`
+    };
+
+    const dark: any = {
+      superadmin: `linear-gradient(135deg, ${this.themeService.c11Dark}, ${this.themeService.c11Dark})`,
+      admin: `linear-gradient(135deg, ${this.themeService.c17Dark}, ${this.themeService.c17Dark})`,
+      entraineur: `linear-gradient(135deg, ${this.themeService.c9Dark}, ${this.themeService.c9Dark})`,
+      joueur: `linear-gradient(135deg, ${this.themeService.c2Dark}, ${this.themeService.c2Dark})`,
+      inviter: `linear-gradient(135deg, ${this.themeService.c12Dark}, ${this.themeService.c12Dark})`
+    };
+
+    return (isDark ? dark : light)[r] || light.inviter;
+  }
+
+
   // ======================================================
-  // 👤 LOAD USER
+  // 👤 LOAD USER (ID OU KEY)
   // ======================================================
   loadUser() {
 
@@ -74,14 +103,22 @@ export class SupprimerUser implements OnInit {
 
         const users = res?.users || res;
 
-        const found = users.find(
-          (u: any) => (u._id || u.id || u.key) === this.userId
-        );
+        const found = users.find((u: any) => {
+
+          const value = String(this.userKey).trim();
+
+          return (
+            String(u._id).trim() === value ||
+            String(u.id).trim() === value ||
+            String(u.key).trim() === value
+          );
+        });
 
         if (found) {
           this.user = found;
+          console.log('✅ Utilisateur trouvé :', found);
         } else {
-          console.warn('⚠️ Utilisateur introuvable');
+          console.warn('⚠️ Aucun utilisateur trouvé avec :', this.userKey);
         }
 
         this.loading = false;
@@ -95,7 +132,7 @@ export class SupprimerUser implements OnInit {
   }
 
   // ======================================================
-  // 🔔 SHOW TOAST
+  // 🔔 TOAST
   // ======================================================
   openDeleteNotification() {
     this.showNotification = true;
@@ -115,14 +152,14 @@ export class SupprimerUser implements OnInit {
     console.log('🗑️ DELETE USER');
     console.log('===================================');
 
-    if (!this.userId) {
-      console.error('❌ ID/KEY utilisateur manquant');
-      this.notificationMessage = 'ID utilisateur introuvable';
+    if (!this.userKey) {
+      console.error('❌ Identifiant utilisateur manquant');
+      this.notificationMessage = 'Utilisateur introuvable';
       this.showNotification = true;
       return;
     }
 
-    this.userService.deleteUser(this.userId).subscribe({
+    this.userService.deleteUser(this.userKey).subscribe({
       next: () => {
 
         console.log('✅ Utilisateur supprimé');
@@ -150,6 +187,6 @@ export class SupprimerUser implements OnInit {
   // 🔙 BACK
   // ======================================================
   goBack() {
-    this.router.navigate(['/user']);
+    this.router.navigate(['/profil']);
   }
 }

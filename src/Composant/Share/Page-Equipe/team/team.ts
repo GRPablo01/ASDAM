@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { Joueur, JoueurService } from '../../../../../Backend/Services/joueur.service';
 import { ThemeService } from '../../../../../Backend/Services/theme.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-team',
@@ -39,7 +40,8 @@ export class Team implements OnInit {
 
   constructor(
     private joueurService: JoueurService,
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -159,8 +161,64 @@ export class Team implements OnInit {
     return '#22c55e';
   }
 
-  getInitiales(nom: string, prenom: string): string {
-    if (!nom && !prenom) return '?';
-    return (prenom?.charAt(0) + nom?.charAt(0)).toUpperCase();
+ 
+  getInitiales(joueur: any): string {
+    if (!joueur) return '';
+  
+    const prenom = joueur.prenom?.charAt(0) || '';
+    const nom = joueur.nom?.charAt(0) || '';
+  
+    return (prenom + nom).toUpperCase();
   }
+
+
+  getStatutColor(joueur: any): string {
+    switch (joueur.statutSportif) {
+  
+      case 'disponible':
+        return '#22c55e';
+  
+      case 'indisponible':
+        return '#ef4444';
+  
+      case 'blessé':
+        return '#f59e0b';
+  
+      case 'suspendu':
+        return '#8b5cf6';
+  
+      default:
+        return this.themeService.isDarkMode
+          ? this.themeService.Bordernormal
+          : 'rgba(255,255,255,0.6)';
+    }
+  }
+  
+  getCardShadow(joueur: any): string {
+    const color = this.getStatutColor(joueur);
+  
+    const isDefault =
+      ['disponible', 'indisponible', 'blessé', 'suspendu']
+        .includes(joueur.statutSportif);
+  
+    if (!isDefault) {
+      return this.themeService.isDarkMode
+        ? '0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05) inset'
+        : '0 25px 50px -12px rgba(15,23,42,0.1), 0 0 0 1px rgba(255,255,255,0.8) inset, inset 0 1px 0 rgba(255,255,255,1)';
+    }
+  
+    return `0 0 0 2px ${color}40, 0 25px 50px -12px rgba(0,0,0,0.5)`;
+  }
+
+
+  voirProfil(joueur: any) {
+    console.log('Profil joueur :', joueur);
+  
+    if (!joueur) return;
+  
+    const id = joueur._id || joueur.id;
+  
+    this.router.navigate(['/joueur', id]);
+  }
+  
 }

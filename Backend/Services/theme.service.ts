@@ -274,9 +274,9 @@ export class ThemeService {
       this.NavBackground='#0F172A'
       this.NavTexteprincipal='#111827'
       this.NavTextesecondaire='#F8FAFC'
-      this.NavHover='#CBD5E1'
-      this.NavActive='#1E293B'
-      this.NavBorder='#EF4444'
+      this.NavHover='#0F172A'
+      this.NavActive='#EF4444'
+      this.NavBorder='#334155'
 
       this.IconBackground='#1E293B'
       this.IconHover='#334155'

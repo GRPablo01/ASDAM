@@ -10,15 +10,19 @@ const userController = require('../Controller/user.controller');
 // ➜ GET all users
 router.get('/', userController.getAllUsers);
 
-// ➜ GET user by ID
+// ======================================================
+// 🔥 GET USER (ID OU KEY)
+// ======================================================
 router.get('/:id', userController.getUserById);
 
-// ➜ UPDATE user
+// ======================================================
+// 🔥 UPDATE USER (ID OU KEY)
+// ======================================================
 router.put('/:id', userController.updateUser);
 
-// ➜ DELETE user
+// ======================================================
+// 🗑️ DELETE USER (ID OU KEY)
+// ======================================================
 router.delete('/:id', userController.deleteUser);
-
-
 
 module.exports = router;

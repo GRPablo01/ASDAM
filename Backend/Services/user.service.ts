@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  // 👉 adapte si ton backend tourne ailleurs
   private apiUrl = 'http://localhost:3000/api/users';
 
   constructor(private http: HttpClient) {}
@@ -20,24 +19,36 @@ export class UserService {
   }
 
   // ======================================================
-  // 🔥 GET USER BY ID
+  // 🔥 GET USER BY ID OU KEY
   // ======================================================
+  getUser(idOrKey: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${idOrKey}`);
+  }
+
+  // (option compat ancienne)
   getUserById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+    return this.getUser(id);
   }
 
   // ======================================================
-  // 🔥 UPDATE USER
+  // 🔥 UPDATE USER (ID OU KEY)
   // ======================================================
-  updateUser(id: string, data: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, data);
+  updateUser(idOrKey: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${idOrKey}`, data);
   }
 
   // ======================================================
-  // 🗑️ DELETE USER
+  // 🗑️ DELETE USER (ID OU KEY)
   // ======================================================
-  deleteUser(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  deleteUser(idOrKey: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${idOrKey}`);
+  }
+
+  // ======================================================
+  // 🔥 UPDATE ROLE BY KEY (option séparée)
+  // ======================================================
+  updateRoleByKey(key: string, role: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${key}/role`, { role });
   }
 
 }

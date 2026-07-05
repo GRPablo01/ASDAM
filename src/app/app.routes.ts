@@ -23,6 +23,8 @@ import { CreationComuniquer } from '../Page/Public/creation-comuniquer/creation-
 import { Equipe } from '../Page/Public/equipe/equipe';
 import { MesMatch } from '../Page/Public/mes-match/mes-match';
 import { Convocation } from '../Page/Public/convocation/convocation';
+import { Profil } from '../Page/Public/profil/profil';
+import { SupprimerUserKey } from '../Page/Public/supprimer-user-key/supprimer-user-key';
 
 
 
@@ -55,4 +57,8 @@ export const routes: Routes = [
     { path: 'equipe', component: Equipe },
     { path: 'mesmatch', component: MesMatch },
     { path: 'convocations', component: Convocation },
+    { path: 'profil', component: Profil },
+    { path: 'users/deleteID/:id', component: SupprimerUser },
+    { path: 'users/deleteKEY/:key', component: SupprimerUserKey },
+    // { path: 'joueur/:id', component: JoueurProfil },
 ];
