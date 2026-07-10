@@ -12,7 +12,7 @@ import { Team } from '../../../Composant/Share/Page-Equipe/team/team';
 
 
 @Component({
-  selector: 'app-creation-equipe',
+  selector: 'app-equipe',
   standalone: true,
   imports: [
     CommonModule,

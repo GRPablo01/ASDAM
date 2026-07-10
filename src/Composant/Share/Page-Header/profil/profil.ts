@@ -150,6 +150,181 @@ export class Profil implements OnInit {
     return labels[this.statut ?? ''] || 'Hors ligne';
   }
 
+
+  menuSections = [
+    // =========================
+    // ADMIN / SUPERADMIN
+    // =========================
+    {
+      roles: ['admin', 'superadmin'],
+      title: 'Administration',
+      items: [
+        {
+          label: 'Dashboard',
+          link: '/dashboard',
+          icon: 'fa-chart-line',
+          color: 'dashboardPrimary',
+          bg: 'dashboardPrimarySoft'
+        },
+        {
+          label: 'Logs système',
+          link: '/logs',
+          icon: 'fa-clipboard-list',
+          color: 'primary',
+          bg: 'primarySoft'
+        },
+        {
+          label: 'Équipes',
+          link: '/teams',
+          icon: 'fa-people-group',
+          color: 'teamPrimary',
+          bg: 'teamPrimarySoft'
+        },
+        {
+          label: 'Planning',
+          link: '/planning',
+          icon: 'fa-calendar-days',
+          color: 'eventPrimary',
+          bg: 'eventPrimarySoft'
+        }
+      ]
+    },
+  
+    // =========================
+    // ENTRAINEUR
+    // =========================
+    {
+      roles: ['entraineur'],
+      title: 'Entraîneur',
+      items: [
+        {
+          label: 'Dashboard',
+          link: '/dashboard',
+          icon: 'fa-chart-line',
+          color: 'dashboardPrimary',
+          bg: 'dashboardPrimarySoft'
+        },
+        {
+          label: 'Mon équipe',
+          link: '/equipe',
+          icon: 'fa-people-group',
+          color: 'teamPrimary',
+          bg: 'teamPrimarySoft'
+        },
+        {
+          label: 'Matchs & entraînements',
+          link: '/mesmatch',
+          icon: 'fa-calendar-days',
+          color: 'eventPrimary',
+          bg: 'eventPrimarySoft'
+        },
+        {
+          label: 'Convocations',
+          link: '/convocations',
+          icon: 'fa-clipboard-list',
+          color: 'convocationPrimary',
+          bg: 'convocationPrimarySoft'
+        }
+      ]
+    },
+  
+    // =========================
+    // JOUEUR
+    // =========================
+    {
+      roles: ['Joueur'],
+      title: 'Joueur',
+      items: [
+        {
+          label: 'Dashboard',
+          link: '/dashboard',
+          icon: 'fa-chart-line',
+          color: 'dashboardPrimary',
+          bg: 'dashboardPrimarySoft'
+        },
+        {
+          label: 'Mon équipe',
+          link: '/equipe',
+          icon: 'fa-people-group',
+          color: 'teamPrimary',
+          bg: 'teamPrimarySoft'
+        },
+        {
+          label: 'Matchs & entraînements',
+          link: '/mesmatch',
+          icon: 'fa-calendar-days',
+          color: 'eventPrimary',
+          bg: 'eventPrimarySoft'
+        },
+        {
+          label: 'Convocations',
+          link: '/convocations',
+          icon: 'fa-clipboard-list',
+          color: 'convocationPrimary',
+          bg: 'convocationPrimarySoft'
+        }
+      ]
+    },
+  
+    // =========================
+    // INVITE
+    // =========================
+    {
+      roles: ['invité'],
+      title: 'Invité',
+      items: [
+        {
+          label: 'Accueil',
+          link: '/home',
+          icon: 'fa-house',
+          color: 'dashboardPrimary',
+          bg: 'dashboardPrimarySoft'
+        },
+        {
+          label: 'Équipes',
+          link: '/teams-public',
+          icon: 'fa-people-group',
+          color: 'teamPrimary',
+          bg: 'teamPrimarySoft'
+        },
+        {
+          label: 'Matchs',
+          link: '/matches-public',
+          icon: 'fa-futbol',
+          color: 'eventPrimary',
+          bg: 'eventPrimarySoft'
+        },
+        {
+          label: 'Connexion',
+          link: '/login',
+          icon: 'fa-right-to-bracket',
+          color: 'teamPrimary',
+          bg: 'teamPrimarySoft'
+        }
+      ]
+    }
+  ];
+  
+  // =========================
+  // COMPTE (commun à tous)
+  // =========================
+  accountItems = [
+    {
+      label: 'Profil',
+      link: '/profil',
+      icon: 'fa-user'
+    },
+    // {
+    //   label: 'Gestion du compte',
+    //   link: '/gestioncompte',
+    //   icon: 'fa-gear'
+    // }
+  ];
+
+  getThemeColor(key: string): string {
+    return (this.themeService as any)[key];
+  }
+
   /**
    * Déconnexion
    */

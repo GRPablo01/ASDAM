@@ -67,7 +67,15 @@ export class Dash implements OnInit {
       icon: 'fa-solid fa-futbol',
       image: '/assets/ImageMatch.png',
       route: '/creatematch'
-    }
+    },
+
+    {
+      titre: 'Création d’entraînement',
+      description: 'Planifiez et organisez les séances d’entraînement de votre équipe.',
+      icon: 'fa-solid fa-dumbbell',
+      image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1400&auto=format&fit=crop',
+      route: '/createentrainement'
+    },
 
   ];
 

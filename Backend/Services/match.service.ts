@@ -72,6 +72,17 @@ export class MatchService {
   }
 
   // ======================================================
+// 🔎 GET ONE MATCH BY ID
+// ======================================================
+getMatchById(id: string): Observable<Match2> {
+
+  return this.http.get<Match2>(
+    `${this.apiUrl}/${id}`
+  );
+
+} 
+
+  // ======================================================
   // 🗑️ DELETE MATCH (CORRIGÉ)
   // ======================================================
   deleteMatch(id: string): Observable<any> {

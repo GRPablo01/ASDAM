@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface Actus {
+export interface Actu {
   _id?: string;
   titre: string;
   description: string;
   image?: string;
+  imageUrl?: string;
   auteur?: string;
   createdAt?: string;
 }
@@ -23,8 +24,8 @@ export class ActusService {
     return this.http.post('http://localhost:3000/api/actus', data);
   }
 
-  getAllActus(): Observable<Actus[]> {
-    return this.http.get<Actus[]>(this.apiUrl);
+  getAllActus(): Observable<Actu[]> {
+    return this.http.get<Actu[]>(this.apiUrl);
   }
 
   deleteActus(id: string): Observable<any> {

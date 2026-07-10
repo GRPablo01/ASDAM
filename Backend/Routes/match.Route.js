@@ -1,47 +1,69 @@
 const express = require('express');
+
 const router = express.Router();
 
-const matchController = require('../Controller/match.Controller');
 
-// ==========================================
-// AJOUTER MATCH
-// ==========================================
+const {
+
+  createMatch,
+
+  getMatches,
+
+  getMatchById,
+
+  updateMatch,
+
+  deleteMatch
+
+
+} = require('../Controller/match.controller');
+
+
+
+
+// CREATE
+
 router.post(
-    '/create',
-    matchController.createMatch
+  '/create',
+  createMatch
 );
 
-// ==========================================
-// RECUPERER TOUS LES MATCHS
-// ==========================================
+
+
+// GET ALL
+
 router.get(
-    '/',
-    matchController.getMatches
+  '/',
+  getMatches
 );
 
-// ==========================================
-// RECUPERER UN MATCH PAR ID
-// (utile pour page modifier propre)
-// ==========================================
+
+
+// GET ONE ✅
+
 router.get(
-    '/:id',
-    matchController.getMatchById
+  '/:id',
+  getMatchById
 );
 
-// ==========================================
-// MODIFIER MATCH
-// ==========================================
+
+
+// UPDATE
+
 router.put(
-    '/:id',
-    matchController.updateMatch
+  '/:id',
+  updateMatch
 );
 
-// ==========================================
-// SUPPRIMER MATCH
-// ==========================================
+
+
+// DELETE
+
 router.delete(
-    '/:id',
-    matchController.deleteMatch
+  '/:id',
+  deleteMatch
 );
+
+
 
 module.exports = router;

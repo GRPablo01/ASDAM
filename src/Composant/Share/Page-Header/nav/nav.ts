@@ -291,41 +291,14 @@ export class Nav implements OnInit {
           label: 'Équipe',
           icon: 'fas fa-users',
           link: '/equipe',
-          children: [
-            {
-              label: 'Joueurs',
-              icon: 'fas fa-user',
-              link: '/joueurs'
-            },
-            {
-              label: 'Disponibles',
-              icon: 'fas fa-clipboard-list',
-              link: '/disponibles'
-            },
-            {
-              label: 'Statistiques',
-              icon: 'fas fa-chart-bar',
-              link: '/stats'
-            }
-          ]
+          
         },
 
         {
           label: 'Convocation',
           icon: 'fas fa-clipboard-list',
-          link: '/planning',
-          children: [
-            {
-              label: 'Séances',
-              icon: 'fas fa-dumbbell',
-              link: '/seances'
-            },
-            {
-              label: 'Rencontres',
-              icon: 'fas fa-trophy',
-              link: '/rencontres'
-            }
-          ]
+          link: '/convocations',
+          
         },
 
         {

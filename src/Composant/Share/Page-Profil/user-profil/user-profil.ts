@@ -86,73 +86,72 @@ export class UserProfil implements OnInit {
   }
 
   // =========================================================
-  // 🔥 UPDATE USER (ID OU KEY)
+  // 🔥 UPDATE USER (ID OU KEY) - CHAMPS MODIFIÉS UNIQUEMENT
   // =========================================================
   updateUser(): void {
 
     console.log('====================================');
     console.log('🚀 UPDATE USER GLOBAL');
     console.log('====================================');
-  
+
     console.log('👤 USER :', this.user);
-  
+
     const idOrKey = this.user?.key?.trim();
-  
+
     if (!idOrKey) {
       console.error('❌ Aucun ID/KEY trouvé');
       this.showToast('Erreur : utilisateur introuvable ❌');
       return;
     }
-  
+
     this.loading = true;
-  
+
     const url = `http://localhost:3000/api/users/${idOrKey}`;
-  
-    const body = {
-      nom: this.user.nom,
-      prenom: this.user.prenom,
-      email: this.user.email,
-      password: this.user.password,
-      role: this.user.role,
-      club: this.user.club,
-      equipe: this.user.equipe,
-      status: this.user.status,
-      cookie: this.user.cookie,
-      compte: this.user.compte,
-      codeAcces: this.user.codeAcces,
-      photo: this.user.photo
-    };
-  
+
+    // 🔥 BODY DYNAMIQUE (uniquement champs modifiés)
+    const body: any = {};
+
+    if (this.user.nom !== undefined) body.nom = this.user.nom;
+    if (this.user.prenom !== undefined) body.prenom = this.user.prenom;
+    if (this.user.email !== undefined) body.email = this.user.email;
+    if (this.user.password !== undefined && this.user.password !== '') body.password = this.user.password;
+    if (this.user.role !== undefined) body.role = this.user.role;
+    if (this.user.club !== undefined) body.club = this.user.club;
+    if (this.user.equipe !== undefined) body.equipe = this.user.equipe;
+    if (this.user.status !== undefined) body.status = this.user.status;
+    if (this.user.cookie !== undefined) body.cookie = this.user.cookie;
+    if (this.user.compte !== undefined) body.compte = this.user.compte;
+    if (this.user.codeAcces !== undefined) body.codeAcces = this.user.codeAcces;
+    if (this.user.photo !== undefined) body.photo = this.user.photo;
+
     console.log('🌐 URL :', url);
-    console.log('📦 BODY :', body);
-  
+    console.log('📦 BODY (champs modifiés) :', body);
+
     this.http.put(url, body).subscribe({
-  
+
       next: (res: any) => {
-  
+
         console.log('✅ USER MIS À JOUR', res);
-  
-        // sync localStorage
+
+        // 🔥 sync localStorage
         localStorage.setItem('utilisateur', JSON.stringify(this.user));
-  
+
         this.loading = false;
-  
-        // 🔥 TOAST SUCCESS
+
         this.showToast('Profil mis à jour avec succès ✅');
-  
+
       },
-  
+
       error: (err) => {
-  
+
         console.error('❌ ERREUR UPDATE USER', err);
-  
+
         this.loading = false;
-  
-        // 🔥 TOAST ERROR
+
         this.showToast('Erreur lors de la mise à jour ❌');
-  
+
       }
-  
+
     });
   }
 
@@ -207,7 +206,7 @@ export class UserProfil implements OnInit {
     if (userKey) {
   
       console.log('➡️ Redirection avec KEY :', userKey);
-      this.router.navigate(['/users/deleteKEY', userKey]);
+      this.router.navigate(['/users/deleteKEY/key', userKey]);
   
       return;
     }

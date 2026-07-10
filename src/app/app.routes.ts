@@ -25,6 +25,14 @@ import { MesMatch } from '../Page/Public/mes-match/mes-match';
 import { Convocation } from '../Page/Public/convocation/convocation';
 import { Profil } from '../Page/Public/profil/profil';
 import { SupprimerUserKey } from '../Page/Public/supprimer-user-key/supprimer-user-key';
+import { Actualites } from '../Page/Public/actualites/actualites';
+import { CreationSeance } from '../Page/Public/creation-seance/creation-seance';
+import { DetailMatch2 } from '../Page/Public/detail-match2/detail-match2';
+import { DetailSeance2 } from '../Page/Public/detail-seance2/detail-seance2';
+import { Calendrier } from '../Page/Public/calendrier/calendrier';
+import { DetailEvent2 } from '../Page/Public/detail-event2/detail-event2';
+
+
 
 
 
@@ -60,5 +68,11 @@ export const routes: Routes = [
     { path: 'profil', component: Profil },
     { path: 'users/deleteID/:id', component: SupprimerUser },
     { path: 'users/deleteKEY/:key', component: SupprimerUserKey },
+    { path: 'actus', component: Actualites },
+    { path: 'createentrainement', component: CreationSeance },
+    { path: 'match/:id', component: DetailMatch2 },
+    { path: 'seance/:id', component: DetailSeance2 },
+    { path: 'event/:id', component: DetailEvent2 },
+    { path: 'calendrier', component: Calendrier },
     // { path: 'joueur/:id', component: JoueurProfil },
 ];

@@ -100,6 +100,7 @@ const eventRoutes = require('./Backend/Routes/event.Routes');
 const actusRoutes = require('./Backend/Routes/actus.Routes');
 const convocationRoutes = require('./Backend/Routes/convocation.routes');
 const communiquerRoute = require('./Backend/Routes/communiquer.Route');
+const seanceRoutes = require('./Backend/Routes/seance.routes');
 
 // ==============================
 // 🧭 API ROUTES
@@ -112,6 +113,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/actus', actusRoutes);
 app.use('/api/convocation', convocationRoutes);
 app.use('/api/communiquer', communiquerRoute);
+app.use('/api/seances', seanceRoutes);
 
 // ==============================
 // 🏠 TEST ROUTES

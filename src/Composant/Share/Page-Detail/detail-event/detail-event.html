@@ -1,0 +1,308 @@
+<app-icon></app-icon>
+
+<section 
+  class="h-auto min-h-screen py-5 px-5 sm:py-10 sm:px-10"
+  [ngStyle]="{
+    'background': themeService.Backgroundprincipaltest
+  }">
+
+
+  <!-- ===================================================== -->
+  <!-- HEADER PREMIUM EVENT DETAIL -->
+  <!-- ===================================================== -->
+
+  <div
+    class="relative overflow-hidden flex flex-row items-center justify-between
+           text-center gap-4 md:gap-6 px-5 md:px-8 py-6 md:py-8
+           rounded-2xl md:rounded-3xl backdrop-blur-2xl
+           transition-all duration-500 mb-6 md:mb-8"
+    [ngStyle]="{
+      'background': themeService.Backgroundsecondairetest,
+      'border':'1px solid '+themeService.Bordernormal,
+      'color':themeService.Textsecondaire,
+      'box-shadow':themeService.Bowshadowtest
+    }">
+
+    <!-- LOGO -->
+    <div
+      class="relative shrink-0 w-16 h-16 md:w-24 md:h-24
+             rounded-2xl md:rounded-3xl flex items-center justify-center
+             overflow-hidden">
+      <img 
+        src="assets/LOGO.png"
+        alt="Logo ASDAM"
+        class="w-10 h-10 md:w-16 md:h-16 object-contain">
+    </div>
+
+    <!-- TITRE -->
+    <div class="flex flex-col items-center flex-1">
+      <p 
+        class="uppercase tracking-[0.3em] text-[9px] md:text-xs font-bold mb-2"
+        [ngStyle]="{
+          'color':themeService.Textsecondaire
+        }">
+        Événement officiel
+      </p>
+      <h1 class="text-3xl md:text-5xl font-black uppercase">
+        <span
+          [ngStyle]="{
+            'color':themeService.Textprincipal
+          }">
+          ASDAM
+        </span>
+        <span
+          class="block text-lg md:text-3xl tracking-widest"
+          [ngStyle]="{
+            'color':themeService.Textsecondaire
+          }">
+          Détail événement
+        </span>
+      </h1>
+    </div>
+
+    <!-- RETOUR -->
+    <button
+      (click)="retour()"
+      class="h-12 px-5 rounded-2xl font-bold
+             transition-all duration-300 hover:scale-105
+             flex items-center gap-2"
+      [ngStyle]="{
+        'background':themeService.Backgroundsecondairetest,
+        'border':'1px solid '+themeService.Bordernormal,
+        'color':themeService.Textsecondaire,
+        'box-shadow':themeService.Bowshadowtest
+      }">
+      <i class="fa-solid fa-arrow-left"></i>
+      <span>Retour</span>
+    </button>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- LOADING -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="loading"
+    class="rounded-3xl shadow-xl mt-8 p-16 text-center"
+    [ngStyle]="{
+      'background':themeService.Backgroundsecondairetest,
+      'border':'1px solid '+themeService.Bordernormal,
+      'color':themeService.Textsecondaire,
+      'box-shadow':themeService.Bowshadowtest
+    }">
+    <i 
+      class="fa-solid fa-spinner fa-spin text-6xl"
+      [ngStyle]="{
+        'color':themeService.primary
+      }">
+    </i>
+    <p class="mt-6 text-lg">
+      Chargement de l'événement...
+    </p>
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- DETAIL EVENT -->
+  <!-- ===================================================== -->
+
+  <div 
+    *ngIf="!loading && event"
+    class="flex flex-col gap-6">
+
+    <!-- ===================================================== -->
+    <!-- LIGNE 1 : IMAGE + TITRE (PLEINE LARGEUR) -->
+    <!-- ===================================================== -->
+
+    <!-- <div
+      class="rounded-3xl overflow-hidden"
+      [ngStyle]="{
+        'background':themeService.Backgroundsecondairetest,
+        'border':'1px solid '+themeService.Bordernormal,
+        'box-shadow':themeService.Bowshadowtest
+      }">
+
+      <!-- IMAGE EN PLEINE LARGEUR --
+      <div class="w-full h-80 md:h-[28rem] overflow-hidden">
+        <img
+          [src]="getImage()"
+          alt="Image événement"
+          class="w-full h-full object-cover">
+      </div>
+
+      <!-- TITRE + CATEGORIE --
+      <div class="p-6 md:p-8">
+        <h1
+          class="text-3xl md:text-5xl font-black mb-4"
+          [ngStyle]="{
+            'color':themeService.Textprincipal
+          }">
+          {{event.titre}}
+        </h1>
+        <span
+          class="px-4 py-2 rounded-full font-bold text-sm md:text-base"
+          [ngStyle]="{
+            'background':'rgba(128,2,255,0.15)',
+            'color':themeService.primary
+          }">
+          {{event.categorie}}
+        </span>
+      </div>
+
+    </div> -->
+
+
+    <!-- ===================================================== -->
+    <!-- LIGNE 2 : INFORMATIONS + DESCRIPTION -->
+    <!-- ===================================================== -->
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- ===================================================== -->
+      <!-- INFORMATIONS -->
+      <!-- ===================================================== -->
+
+      <div
+        class="rounded-3xl overflow-hidden"
+        [ngStyle]="{
+          'background':themeService.Backgroundsecondairetest,
+          'border':'1px solid '+themeService.Bordernormal,
+          'box-shadow':themeService.Bowshadowtest
+        }">
+
+        <div
+          class="p-5 border-b"
+          [ngStyle]="{
+            'border-color':themeService.Bordernormal
+          }">
+          <h2
+            class="font-black text-lg flex items-center gap-3">
+            <i 
+              class="fa-solid fa-circle-info"
+              [ngStyle]="{
+                'color':themeService.primary
+              }">
+            </i>
+            Informations
+          </h2>
+        </div>
+
+        <div class="p-5 space-y-4">
+
+            <div class="rounded-2xl p-4"
+                [ngStyle]="{
+                    'background':themeService.Backgroundprincipaltest,
+                    'border':'1px solid '+themeService.Bordernormal
+                }">
+                <i class="fa-solid fa-heading text-orange-500"></i>
+                <p class="font-bold mt-2">Titre</p>
+                <p>{{event.titre}}</p>
+                </div>
+
+          <div class="rounded-2xl p-4"
+            [ngStyle]="{
+              'background':themeService.Backgroundprincipaltest,
+              'border':'1px solid '+themeService.Bordernormal
+            }">
+            <i class="fa-solid fa-calendar text-orange-500"></i>
+            <p class="font-bold mt-2">Date</p>
+            <p>{{event.date | date:'dd/MM/yyyy'}}</p>
+          </div>
+
+          <div class="rounded-2xl p-4"
+            [ngStyle]="{
+              'background':themeService.Backgroundprincipaltest,
+              'border':'1px solid '+themeService.Bordernormal
+            }">
+            <i class="fa-solid fa-location-dot text-red-500"></i>
+            <p class="font-bold mt-2">Lieu</p>
+            <p>{{event.lieu}}</p>
+          </div>
+
+          <div class="rounded-2xl p-4"
+            [ngStyle]="{
+              'background':themeService.Backgroundprincipaltest,
+              'border':'1px solid '+themeService.Bordernormal
+            }">
+            <i class="fa-solid fa-clock text-purple-500"></i>
+            <p class="font-bold mt-2">Horaires</p>
+            <p>{{event.heureDebut}} - {{event.heureFin}}</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ===================================================== -->
+      <!-- DESCRIPTION -->
+      <!-- ===================================================== -->
+
+      <div
+        class="rounded-3xl overflow-hidden lg:col-span-2"
+        [ngStyle]="{
+          'background':themeService.Backgroundsecondairetest,
+          'border':'1px solid '+themeService.Bordernormal,
+          'box-shadow':themeService.Bowshadowtest
+        }">
+
+        <div class="p-5 border-b"
+          [ngStyle]="{
+            'border-color':themeService.Bordernormal
+          }">
+          <h2
+            class="font-black text-xl flex items-center gap-3">
+            <i 
+              class="fa-solid fa-align-left"
+              [ngStyle]="{
+                'color':themeService.primary
+              }">
+            </i>
+            Description
+          </h2>
+        </div>
+
+        <div class="p-6">
+          <p 
+            class="leading-relaxed"
+            [ngStyle]="{
+              'color':themeService.Textsecondaire
+            }">
+            {{event.description}}
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- EVENT NON TROUVÉ -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="!loading && !event"
+    class="rounded-3xl shadow-xl mt-8 p-16 text-center"
+    [ngStyle]="{
+      'background':themeService.Backgroundsecondairetest,
+      'border':'1px solid '+themeService.Bordernormal,
+      'box-shadow':themeService.Bowshadowtest
+    }">
+    <i class="fa-solid fa-triangle-exclamation text-6xl text-red-500"></i>
+    <h2
+      class="text-3xl font-black mt-5"
+      [ngStyle]="{
+        'color':themeService.Textprincipal
+      }">
+      Événement introuvable
+    </h2>
+    <p class="mt-4">
+      Le événement demandé n'existe pas ou a été supprimé.
+    </p>
+  </div>
+
+
+</section>

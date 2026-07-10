@@ -286,3 +286,56 @@ exports.deleteMatch = async (req, res) => {
     }
 
 };
+
+
+// ==========================================
+// GET ONE MATCH
+// ==========================================
+exports.getMatchById = async (req, res) => {
+
+    try {
+  
+  
+      const match = await Match.findById(
+        req.params.id
+      );
+  
+  
+      if (!match) {
+  
+        return res.status(404).json({
+  
+          success: false,
+  
+          message: "Match introuvable"
+  
+        });
+  
+      }
+  
+  
+      res.status(200).json(match);
+  
+  
+  
+    } catch(error) {
+  
+  
+      console.error(
+        "Erreur récupération match :",
+        error
+      );
+  
+  
+      res.status(500).json({
+  
+        success:false,
+  
+        message:"Erreur serveur"
+  
+      });
+  
+  
+    }
+  
+  };
