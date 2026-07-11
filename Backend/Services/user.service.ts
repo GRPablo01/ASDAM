@@ -51,4 +51,59 @@ export class UserService {
     return this.http.put(`${this.apiUrl}/${key}/role`, { role });
   }
 
+  // ======================================================
+  // 🔥 GET USER BY EMAIL
+  // ======================================================
+  getUserByEmail(email: string): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/email/${encodeURIComponent(email)}`
+    );
+  }
+
+  // ======================================================
+  // 🔐 RESET PASSWORD MAIL
+  // ======================================================
+  sendResetPassword(email:string): Observable<any>{
+
+    return this.http.post(
+      'http://localhost:3000/api/reset-password/send-reset',
+      {
+        email: email
+      }
+    );
+
+  }
+
+  // ======================================================
+// 🔐 MODIFICATION PASSWORD AVEC KEY RESET
+// ======================================================
+
+resetPassword(data:any){
+
+  return this.http.patch(
+
+    `${this.apiUrl}/reset-password`,
+
+    data
+
+  );
+
+}
+
+// ======================================================
+// 🔑 VERIFIER CLE RESET PASSWORD
+// ======================================================
+
+verifyResetKey(data:any){
+
+  return this.http.post(
+
+    `${this.apiUrl}/verify-reset-key`,
+
+    data
+
+  );
+
+}
+
 }

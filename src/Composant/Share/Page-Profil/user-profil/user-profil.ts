@@ -206,7 +206,7 @@ export class UserProfil implements OnInit {
     if (userKey) {
   
       console.log('➡️ Redirection avec KEY :', userKey);
-      this.router.navigate(['/users/deleteKEY/key', userKey]);
+      this.router.navigate(['/users/deleteKEY', userKey]);
   
       return;
     }

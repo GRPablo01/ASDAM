@@ -92,6 +92,21 @@ const userSchema = new mongoose.Schema({
     default: []
   },
 
+  // =========================
+// 🔐 RESET PASSWORD
+// =========================
+
+resetPasswordKey: {
+  type: String,
+  default: null
+},
+
+resetPasswordExpire: {
+  type: Date,
+  default: null
+},
+
+
 
 });
 

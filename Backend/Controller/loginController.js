@@ -8,19 +8,59 @@ const JWT_SECRET = process.env.JWT_SECRET || 'maCleSecreteParDefaut';
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) return res.status(400).json({ message: 'Email et mot de passe requis' });
+  console.log('=================================');
+  console.log('🔐 LOGIN USER DEMANDE');
+  console.log('=================================');
+  console.log('📧 Email reçu:', email);
+  console.log('🔑 Password reçu:', password);
+
+  if (!email || !password) {
+    console.log('❌ Email ou password manquant');
+    return res.status(400).json({ message: 'Email et mot de passe requis' });
+  }
 
   try {
-    const user = await User.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } });
-    if (!user) return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+    console.log('🔎 Recherche utilisateur avec email:', email);
+    
+    const user = await User.findOne({ 
+      email: { $regex: new RegExp(`^${email}$`, 'i') } 
+    });
+    
+    console.log('👤 User trouvé:', !!user);
+    
+    if (!user) {
+      console.log('❌ Utilisateur introuvable');
+      return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+    }
+
+    console.log('👤 User ID:', user._id);
+    console.log('🔒 Hash en base:', user.password);
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+    console.log('✅ bcrypt.compare result:', isMatch);
 
-    if (user.compte === 'désactivé') return res.status(403).json({ message: 'Compte désactivé' });
-    if (user.compte === 'supprimé') return res.status(403).json({ message: 'Compte supprimé' });
+    if (!isMatch) {
+      console.log('❌ PASSWORD INCORRECT');
+      return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+    }
 
-    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+    console.log('✅ PASSWORD CORRECT');
+
+    if (user.compte === 'désactivé') {
+      console.log('❌ Compte désactivé');
+      return res.status(403).json({ message: 'Compte désactivé' });
+    }
+    
+    if (user.compte === 'supprimé') {
+      console.log('❌ Compte supprimé');
+      return res.status(403).json({ message: 'Compte supprimé' });
+    }
+
+    const token = jwt.sign(
+      { id: user._id, role: user.role }, 
+      JWT_SECRET, 
+      { expiresIn: '7d' }
+    );
 
     const userResponse = {
       _id: user._id,
@@ -35,13 +75,21 @@ exports.loginUser = async (req, res) => {
       key: user.key,
       status: user.status,
       compte: user.compte,
-      cookie: user.cookie, 
+      cookie: user.cookie,
+      contact: user.contact || [],
     };
 
-    res.status(200).json({ message: 'Connexion réussie', user: userResponse, token });
+    console.log('✅ LOGIN SUCCESS');
+    console.log('=================================');
+
+    res.status(200).json({ 
+      message: 'Connexion réussie', 
+      user: userResponse, 
+      token 
+    });
 
   } catch (error) {
-    console.error('[LOGIN ERROR]', error);
+    console.error('💥 ERREUR LOGIN:', error);
     res.status(500).json({ message: 'Erreur serveur' });
   }
 };

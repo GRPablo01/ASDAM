@@ -198,8 +198,8 @@ export class Fonctionalite implements OnInit {
         ${this.themeService.c17Light})`,
   
       entraineur: `linear-gradient(135deg,
-        ${this.themeService.c9Light},
-        ${this.themeService.c9Light})`,
+        ${this.themeService.c18Base},
+        ${this.themeService.c18Base})`,
   
       joueur: `linear-gradient(135deg,
         ${this.themeService.c2Light},
@@ -223,8 +223,8 @@ export class Fonctionalite implements OnInit {
       ${this.themeService.c17Dark})`,
 
     entraineur: `linear-gradient(135deg,
-      ${this.themeService.c9Dark},
-      ${this.themeService.c9Dark})`,
+      ${this.themeService.c18Dark},
+      ${this.themeService.c18Dark})`,
 
     joueur: `linear-gradient(135deg,
       ${this.themeService.c2Dark},
