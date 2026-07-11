@@ -43,7 +43,7 @@ export class Profil implements OnInit {
   constructor(
     private router: Router,
     public themeService: ThemeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadUser();
@@ -103,7 +103,7 @@ export class Profil implements OnInit {
     const target = event.target as HTMLElement;
 
     if (!target.closest('#userMenuButton') &&
-        !target.closest('#userMenuDropdown')) {
+      !target.closest('#userMenuDropdown')) {
       this.menuOpen = false;
     }
   }
@@ -189,13 +189,13 @@ export class Profil implements OnInit {
         }
       ]
     },
-  
+
     // =========================
     // ENTRAINEUR
     // =========================
     {
       roles: ['entraineur'],
-      title: 'Entraîneur',
+      title: 'Espace Entraîneur',
       items: [
         {
           label: 'Dashboard',
@@ -227,84 +227,78 @@ export class Profil implements OnInit {
         }
       ]
     },
-  
+
     // =========================
     // JOUEUR
     // =========================
     {
-      roles: ['Joueur'],
-      title: 'Joueur',
+      roles: ['joueur'],
+      title: 'Espace Joueur',
       items: [
         {
-          label: 'Dashboard',
-          link: '/dashboard',
-          icon: 'fa-chart-line',
-          color: 'dashboardPrimary',
-          bg: 'dashboardPrimarySoft'
-        },
-        {
-          label: 'Mon équipe',
-          link: '/equipe',
-          icon: 'fa-people-group',
-          color: 'teamPrimary',
-          bg: 'teamPrimarySoft'
-        },
-        {
-          label: 'Matchs & entraînements',
-          link: '/mesmatch',
-          icon: 'fa-calendar-days',
-          color: 'eventPrimary',
-          bg: 'eventPrimarySoft'
-        },
-        {
-          label: 'Convocations',
-          link: '/convocations',
-          icon: 'fa-clipboard-list',
-          color: 'convocationPrimary',
-          bg: 'convocationPrimarySoft'
-        }
-      ]
-    },
-  
-    // =========================
-    // INVITE
-    // =========================
-    {
-      roles: ['invité'],
-      title: 'Invité',
-      items: [
-        {
-          label: 'Accueil',
-          link: '/home',
+          label: 'Mon espace',
+          link: '/monespace',
           icon: 'fa-house',
           color: 'dashboardPrimary',
           bg: 'dashboardPrimarySoft'
         },
         {
-          label: 'Équipes',
-          link: '/teams-public',
+          label: 'Mon équipe',
+          link: '/equipe',
           icon: 'fa-people-group',
           color: 'teamPrimary',
           bg: 'teamPrimarySoft'
         },
         {
-          label: 'Matchs',
+          label: 'Calendrier',
+          link: '/mesmatch',
+          icon: 'fa-calendar-days',
+          color: 'eventPrimary',
+          bg: 'eventPrimarySoft'
+        },
+        {
+          label: 'Convocations',
+          link: '/convocations',
+          icon: 'fa-clipboard-check',
+          color: 'convocationPrimary',
+          bg: 'convocationPrimarySoft'
+        },
+
+      ]
+    },
+
+    // =========================
+    // INVITE
+    // =========================
+    {
+      roles: ['inviter'],
+      title: 'Espace Supporter',
+      items: [
+        {
+          label: 'Mon espace',
+          link: '/monespace',
+          icon: 'fa-house',
+          color: 'dashboardPrimary',
+          bg: 'dashboardPrimarySoft'
+        },
+        {
+          label: 'Classement',
+          link: '/classement',
+          icon: 'fa-ranking-star',
+          color: 'teamPrimary',
+          bg: 'teamPrimarySoft'
+        },
+        {
+          label: 'Tous Matchs',
           link: '/matches-public',
           icon: 'fa-futbol',
           color: 'eventPrimary',
           bg: 'eventPrimarySoft'
         },
-        {
-          label: 'Connexion',
-          link: '/login',
-          icon: 'fa-right-to-bracket',
-          color: 'teamPrimary',
-          bg: 'teamPrimarySoft'
-        }
       ]
     }
   ];
-  
+
   // =========================
   // COMPTE (commun à tous)
   // =========================
@@ -314,11 +308,11 @@ export class Profil implements OnInit {
       link: '/profil',
       icon: 'fa-user'
     },
-    // {
-    //   label: 'Gestion du compte',
-    //   link: '/gestioncompte',
-    //   icon: 'fa-gear'
-    // }
+    {
+      label: 'Contact',
+      link: '/contact',
+      icon: 'fa-envelope',
+    },
   ];
 
   getThemeColor(key: string): string {
@@ -347,12 +341,12 @@ export class Profil implements OnInit {
    */
   getRoleGradient(role: string = ''): string {
     const r = role.toLowerCase();
-  
+
     // ======================================================
     // 🌙 THEME ACTUEL
     // ======================================================
     const isDark = this.themeService.isDarkMode;
-  
+
     // ======================================================
     // 🌞 LIGHT MODE
     // ======================================================
@@ -360,24 +354,24 @@ export class Profil implements OnInit {
       superadmin: `linear-gradient(135deg,
         ${this.themeService.c11Light},
         ${this.themeService.c11Light})`,
-  
+
       admin: `linear-gradient(135deg,
         ${this.themeService.c17Light},
         ${this.themeService.c17Light})`,
-  
+
       entraineur: `linear-gradient(135deg,
         ${this.themeService.c18Base},
         ${this.themeService.c18Base})`,
-  
+
       joueur: `linear-gradient(135deg,
-        ${this.themeService.c2Light},
-        ${this.themeService.c2Light})`,
-  
+        ${this.themeService.c4Base},
+        ${this.themeService.c4Base})`,
+
       inviter: `linear-gradient(135deg,
-        ${this.themeService.c12Light},
-        ${this.themeService.c12Light})`
+        ${this.themeService.c20Base},
+        ${this.themeService.c20Base})`
     };
-  
+
     // ======================================================
     // 🌙 DARK MODE
     // ======================================================
@@ -386,27 +380,27 @@ export class Profil implements OnInit {
       ${this.themeService.c11Dark},
       ${this.themeService.c11Dark})`,
 
-    admin: `linear-gradient(135deg,
+      admin: `linear-gradient(135deg,
       ${this.themeService.c17Dark},
       ${this.themeService.c17Dark})`,
 
-    entraineur: `linear-gradient(135deg,
+      entraineur: `linear-gradient(135deg,
       ${this.themeService.c18Dark},
       ${this.themeService.c18Dark})`,
 
-    joueur: `linear-gradient(135deg,
-      ${this.themeService.c2Dark},
-      ${this.themeService.c2Dark})`,
+      joueur: `linear-gradient(135deg,
+      ${this.themeService.c2Light},
+      ${this.themeService.c2Light})`,
 
-    inviter: `linear-gradient(135deg,
-      ${this.themeService.c12Dark},
-      ${this.themeService.c12Dark})`
+      inviter: `linear-gradient(135deg,
+      ${this.themeService.c20Base},
+      ${this.themeService.c20Base})`
     };
-  
+
     const gradients = isDark
       ? darkGradients
       : lightGradients;
-  
+
     return gradients[r] || gradients['inviter'];
   }
 

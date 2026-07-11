@@ -202,12 +202,12 @@ export class Fonctionalite implements OnInit {
         ${this.themeService.c18Base})`,
   
       joueur: `linear-gradient(135deg,
-        ${this.themeService.c2Light},
-        ${this.themeService.c2Light})`,
+        ${this.themeService.c4Base},
+        ${this.themeService.c4Base})`,
   
       inviter: `linear-gradient(135deg,
-        ${this.themeService.c12Light},
-        ${this.themeService.c12Light})`
+        ${this.themeService.c20Base},
+        ${this.themeService.c20Base})`
     };
   
     // ======================================================
@@ -227,12 +227,12 @@ export class Fonctionalite implements OnInit {
       ${this.themeService.c18Dark})`,
 
     joueur: `linear-gradient(135deg,
-      ${this.themeService.c2Dark},
-      ${this.themeService.c2Dark})`,
+      ${this.themeService.c2Light},
+      ${this.themeService.c2Light})`,
 
     inviter: `linear-gradient(135deg,
-      ${this.themeService.c12Dark},
-      ${this.themeService.c12Dark})`
+      ${this.themeService.c20Base},
+      ${this.themeService.c20Base})`
     };
   
     const gradients = isDark

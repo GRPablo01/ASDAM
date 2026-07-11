@@ -32,6 +32,8 @@ import { DetailSeance2 } from '../Page/Public/detail-seance2/detail-seance2';
 import { Calendrier } from '../Page/Public/calendrier/calendrier';
 import { DetailEvent2 } from '../Page/Public/detail-event2/detail-event2';
 import { ChangePassword } from '../Page/auth/change-password/change-password';
+import { MonEspace } from '../Page/Public/mon-espace/mon-espace';
+import { Classement } from '../Page/Public/classement/classement';
 
 
 
@@ -76,5 +78,7 @@ export const routes: Routes = [
     { path: 'event/:id', component: DetailEvent2 },
     { path: 'calendrier', component: Calendrier },
     { path: 'change-password', component: ChangePassword },
+    { path: 'monespace', component: MonEspace },
+    { path: 'classement', component: Classement },
     
 ];

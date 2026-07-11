@@ -1,0 +1,531 @@
+<app-icon></app-icon>
+<section class="h-auto px-5 py-6 sm:px-10" [ngStyle]="{'background':themeService.Backgroundprincipaltest}">
+
+    <!-- HEADER -->
+    <header class="mb-8 rounded-3xl p-5 sm:p-6 flex items-center justify-between gap-4 transition-all duration-300 hover:scale-[1.005]"
+        [ngStyle]="{
+            'background':themeService.Backgroundsecondairetest,
+            'border':'1px solid '+themeService.Bordernormal,
+            'box-shadow':themeService.Bowshadowtest
+        }">
+        <div class="flex-1 min-w-0">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-3"
+                [ngStyle]="{ 'color': themeService.primary, 'background': themeService.primary + '15' }">
+                <span class="w-1.5 h-1.5 rounded-full animate-pulse" [ngStyle]="{ 'background': themeService.primary }"></span>
+                Espace Joueur
+            </div>
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight" [ngStyle]="{'color':themeService.Textprincipal}">
+                Mon Planning ASDAM
+            </h1>
+            <p class="text-xs sm:text-sm mt-1" [ngStyle]="{'color':themeService.Textsecondaire}">
+                Vos prochaines activités en un coup d'œil
+            </p>
+        </div>
+        <div class="relative group shrink-0">
+            <div class="absolute inset-0 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-300"
+                [ngStyle]="{ 'background': themeService.primary }"></div>
+            <img src="assets/LOGO.png" class="relative w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-2xl transition-transform duration-300 group-hover:scale-110" alt="ASDAM Logo">
+        </div>
+    </header>
+
+    <!-- CARDS GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-6">
+
+        <!-- ============================= -->
+        <!-- SEANCE -->
+        <!-- ============================= -->
+        <ng-container
+        *ngIf="
+        roleUser === 'joueur' ||
+        roleUser === 'coach' ||
+        roleUser === 'entraineur'
+        "
+        >
+
+        <div 
+        class="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+        [ngStyle]="{
+            'background':themeService.Backgroundsecondairetest,
+            'border':'1px solid '+themeService.Bordernormal,
+            'box-shadow':themeService.Bowshadowtest
+        }"
+        >
+
+
+            <!-- HEADER SEANCE -->
+            <div 
+            class="p-5 sm:p-6 flex justify-between items-start border-b transition-colors duration-300"
+            [ngStyle]="{
+                'border-color':themeService.Bordernormal
+            }"
+            >
+
+
+                <div class="flex-1 min-w-0">
+
+
+                    <div 
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold mb-2"
+                    style="color:#22c55e;background:rgba(34,197,94,0.12)"
+                    >
+
+                        <span 
+                        class="w-1.5 h-1.5 rounded-full animate-pulse bg-green-500">
+                        </span>
+
+                        Prochain entraînement
+
+                    </div>
+
+
+
+                    <h2 
+                    class="text-lg sm:text-xl font-black truncate"
+                    [ngStyle]="{
+                        'color':themeService.Textprincipal
+                    }"
+                    >
+
+                        {{
+                            prochaineSeance 
+                            ? prochaineSeance.titre 
+                            : 'Aucun entraînement'
+                        }}
+
+                    </h2>
+
+
+                </div>
+
+
+
+
+                <div 
+                class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shrink-0 ml-3 transition-transform duration-300 group-hover:scale-110"
+                style="background:rgba(34,197,94,0.12)"
+                >
+
+                    <i class="fa-solid fa-futbol text-xl text-green-500"></i>
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+            <!-- CONTENU -->
+            <div 
+            *ngIf="!loadingSeances && prochaineSeance"
+            class="p-5 sm:p-6 space-y-4"
+            >
+
+
+                <p 
+                class="text-sm leading-relaxed line-clamp-2"
+                [ngStyle]="{
+                    'color':themeService.Textsecondaire
+                }"
+                >
+
+                    {{prochaineSeance.description}}
+
+                </p>
+
+
+
+
+                <div class="grid grid-cols-2 gap-3">
+
+
+                    <!-- DATE -->
+
+                    <div 
+                    class="rounded-2xl p-3.5 sm:p-4 transition-all duration-200 hover:scale-[1.02]"
+                    [ngStyle]="{
+                        'background':themeService.Backgroundprincipaltest
+                    }"
+                    >
+
+
+                        <div class="flex items-center gap-2 mb-2">
+
+                            <i class="fa-solid fa-calendar text-yellow-500 text-sm"></i>
+
+                            <span 
+                            class="text-[10px] sm:text-xs font-medium"
+                            [ngStyle]="{
+                                'color':themeService.Textsecondaire
+                            }"
+                            >
+                                Date
+                            </span>
+
+                        </div>
+
+
+
+                        <p 
+                        class="text-sm sm:text-base font-bold"
+                        [ngStyle]="{
+                            'color':themeService.Textprincipal
+                        }"
+                        >
+
+                            {{prochaineSeance.date}}
+
+                        </p>
+
+
+                    </div>
+
+
+
+
+
+                    <!-- HEURE -->
+
+                    <div 
+                    class="rounded-2xl p-3.5 sm:p-4 transition-all duration-200 hover:scale-[1.02]"
+                    [ngStyle]="{
+                        'background':themeService.Backgroundprincipaltest
+                    }"
+                    >
+
+
+                        <div class="flex items-center gap-2 mb-2">
+
+
+                            <i class="fa-solid fa-clock text-purple-500 text-sm"></i>
+
+
+                            <span 
+                            class="text-[10px] sm:text-xs font-medium"
+                            [ngStyle]="{
+                                'color':themeService.Textsecondaire
+                            }"
+                            >
+
+                                Heure
+
+                            </span>
+
+
+                        </div>
+
+
+
+
+                        <p 
+                        class="text-sm sm:text-base font-bold"
+                        [ngStyle]="{
+                            'color':themeService.Textprincipal
+                        }"
+                        >
+
+                            {{prochaineSeance.heure}}
+
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+                <!-- STATUS -->
+
+                <div 
+                class="flex items-center gap-2.5 text-green-500 font-bold text-sm pt-1"
+                >
+
+                    <span class="relative flex h-2.5 w-2.5">
+
+                        <span 
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75">
+                        </span>
+
+
+                        <span 
+                        class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500">
+                        </span>
+
+
+                    </span>
+
+
+                    Confirmé
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+            <!-- EMPTY STATE -->
+
+            <div 
+            *ngIf="!loadingSeances && !prochaineSeance"
+            class="p-5 sm:p-6 text-center"
+            >
+
+
+                <div 
+                class="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center"
+                style="background:rgba(34,197,94,0.08)"
+                >
+
+                    <i class="fa-solid fa-futbol text-3xl text-green-500/40"></i>
+
+
+                </div>
+
+
+
+                <p 
+                class="text-sm font-medium"
+                [ngStyle]="{
+                    'color':themeService.Textsecondaire
+                }"
+                >
+
+                    Aucun entraînement prévu
+
+                </p>
+
+
+            </div>
+
+
+
+
+
+
+            <!-- LOADING -->
+
+            <div 
+            *ngIf="loadingSeances"
+            class="p-5 sm:p-6 space-y-3"
+            >
+
+
+                <div 
+                class="h-4 rounded-lg animate-pulse w-3/4"
+                [ngStyle]="{
+                    'background':themeService.Bordernormal+'40'
+                }"
+                >
+                </div>
+
+
+
+                <div class="grid grid-cols-2 gap-3">
+
+
+                    <div 
+                    class="h-16 rounded-2xl animate-pulse"
+                    [ngStyle]="{
+                        'background':themeService.Bordernormal+'30'
+                    }">
+                    </div>
+
+
+
+                    <div 
+                    class="h-16 rounded-2xl animate-pulse"
+                    [ngStyle]="{
+                        'background':themeService.Bordernormal+'30'
+                    }">
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+
+        </ng-container>
+
+        <!-- ============================= -->
+        <!-- MATCH -->
+        <!-- ============================= -->
+        <div class="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+            [ngStyle]="{
+                'background':themeService.Backgroundsecondairetest,
+                'border':'1px solid '+themeService.Bordernormal,
+                'box-shadow':themeService.Bowshadowtest
+            }">
+
+            <div class="p-5 sm:p-6 flex justify-between items-start border-b transition-colors duration-300"
+                [ngStyle]="{'border-color':themeService.Bordernormal}">
+
+                <div class="flex-1 min-w-0">
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold mb-2"
+                        style="color: #ef4444; background: rgba(239,68,68,0.12)">
+                        <span class="w-1.5 h-1.5 rounded-full animate-pulse bg-red-500"></span>
+                        Prochain match
+                    </div>
+                    <h2 class="text-lg sm:text-xl font-black truncate" [ngStyle]="{'color':themeService.Textprincipal}">
+                        {{prochainMatch ? prochainMatch.equipeDomicile+' vs '+prochainMatch.equipeExterieur : 'Aucun match'}}
+                    </h2>
+                </div>
+
+                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shrink-0 ml-3 transition-transform duration-300 group-hover:scale-110"
+                    style="background:rgba(239,68,68,0.12)">
+                    <i class="fa-solid fa-trophy text-xl text-red-500"></i>
+                </div>
+            </div>
+
+            <div *ngIf="!loadingMatchs && prochainMatch" class="p-5 sm:p-6 space-y-4">
+                <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-wide"
+                        style="color: #ef4444; background: rgba(239,68,68,0.1)">
+                        {{prochainMatch.competition || 'Match ASDAM'}}
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="rounded-2xl p-3.5 sm:p-4 transition-all duration-200 hover:scale-[1.02]"
+                        [ngStyle]="{'background':themeService.Backgroundprincipaltest}">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-calendar text-yellow-500 text-sm"></i>
+                            <span class="text-[10px] sm:text-xs font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Date</span>
+                        </div>
+                        <p class="text-sm sm:text-base font-bold" [ngStyle]="{'color':themeService.Textprincipal}">
+                            {{prochainMatch.dateMatch}}
+                        </p>
+                    </div>
+
+                    <div class="rounded-2xl p-3.5 sm:p-4 transition-all duration-200 hover:scale-[1.02]"
+                        [ngStyle]="{'background':themeService.Backgroundprincipaltest}">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-location-dot text-red-500 text-sm"></i>
+                            <span class="text-[10px] sm:text-xs font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Lieu</span>
+                        </div>
+                        <p class="text-sm sm:text-base font-bold" [ngStyle]="{'color':themeService.Textprincipal}">
+                            {{prochainMatch.stade}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2.5 text-red-500 font-bold text-sm pt-1">
+                    <i class="fa-solid fa-circle-check"></i>
+                    Match confirmé
+                </div>
+            </div>
+
+            <div *ngIf="!loadingMatchs && !prochainMatch" class="p-5 sm:p-6 text-center">
+                <div class="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center" style="background: rgba(239,68,68,0.08)">
+                    <i class="fa-solid fa-trophy text-3xl text-red-500/40"></i>
+                </div>
+                <p class="text-sm font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Aucun match prévu</p>
+            </div>
+
+            <div *ngIf="loadingMatchs" class="p-5 sm:p-6 space-y-3">
+                <div class="h-4 rounded-lg animate-pulse w-3/4" [ngStyle]="{'background':themeService.Bordernormal + '40'}"></div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="h-16 rounded-2xl animate-pulse" [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
+                    <div class="h-16 rounded-2xl animate-pulse" [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================= -->
+        <!-- EVENEMENT -->
+        <!-- ============================= -->
+        <div class="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+            [ngStyle]="{
+                'background':themeService.Backgroundsecondairetest,
+                'border':'1px solid '+themeService.Bordernormal,
+                'box-shadow':themeService.Bowshadowtest
+            }">
+
+            <div class="p-5 sm:p-6 flex justify-between items-start border-b transition-colors duration-300"
+                [ngStyle]="{'border-color':themeService.Bordernormal}">
+
+                <div class="flex-1 min-w-0">
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold mb-2"
+                        style="color: #a855f7; background: rgba(168,85,247,0.12)">
+                        <span class="w-1.5 h-1.5 rounded-full animate-pulse bg-purple-500"></span>
+                        Prochain événement
+                    </div>
+                    <h2 class="text-lg sm:text-xl font-black truncate" [ngStyle]="{'color':themeService.Textprincipal}">
+                        {{prochainEvenement ? prochainEvenement.titre : 'Aucun événement'}}
+                    </h2>
+                </div>
+
+                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shrink-0 ml-3 transition-transform duration-300 group-hover:scale-110"
+                    style="background:rgba(168,85,247,0.12)">
+                    <i class="fa-solid fa-calendar-days text-xl text-purple-500"></i>
+                </div>
+            </div>
+
+            <div *ngIf="!loadingEvents && prochainEvenement" class="p-5 sm:p-6 space-y-4">
+                <p class="text-sm leading-relaxed line-clamp-2" [ngStyle]="{'color':themeService.Textsecondaire}">
+                    {{prochainEvenement.description}}
+                </p>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="rounded-2xl p-3.5 sm:p-4 transition-all duration-200 hover:scale-[1.02]"
+                        [ngStyle]="{'background':themeService.Backgroundprincipaltest}">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-calendar text-yellow-500 text-sm"></i>
+                            <span class="text-[10px] sm:text-xs font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Date</span>
+                        </div>
+                        <p class="text-sm sm:text-base font-bold" [ngStyle]="{'color':themeService.Textprincipal}">
+                            {{prochainEvenement.date}}
+                        </p>
+                    </div>
+
+                    <div class="rounded-2xl p-3.5 sm:p-4 transition-all duration-200 hover:scale-[1.02]"
+                        [ngStyle]="{'background':themeService.Backgroundprincipaltest}">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-location-dot text-purple-500 text-sm"></i>
+                            <span class="text-[10px] sm:text-xs font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Lieu</span>
+                        </div>
+                        <p class="text-sm sm:text-base font-bold" [ngStyle]="{'color':themeService.Textprincipal}">
+                            {{prochainEvenement.lieu}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2.5 text-purple-500 font-bold text-sm pt-1">
+                    <i class="fa-solid fa-circle-check"></i>
+                    {{prochainEvenement.status}}
+                </div>
+            </div>
+
+            <div *ngIf="!loadingEvents && !prochainEvenement" class="p-5 sm:p-6 text-center">
+                <div class="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center" style="background: rgba(168,85,247,0.08)">
+                    <i class="fa-solid fa-calendar-days text-3xl text-purple-500/40"></i>
+                </div>
+                <p class="text-sm font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Aucun événement prévu</p>
+            </div>
+
+            <div *ngIf="loadingEvents" class="p-5 sm:p-6 space-y-3">
+                <div class="h-4 rounded-lg animate-pulse w-3/4" [ngStyle]="{'background':themeService.Bordernormal + '40'}"></div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="h-16 rounded-2xl animate-pulse" [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
+                    <div class="h-16 rounded-2xl animate-pulse" [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
