@@ -4,7 +4,7 @@
 <section class="relative h-auto flex flex-col overflow-hidden"
     [style.background]="themeService?.Backgroundprincipaltest">
 
-    
+
     <!-- ====================================================== -->
     <!-- TOP SECTION (LEFT + RIGHT) -->
     <!-- ====================================================== -->
@@ -85,8 +85,7 @@
 
                 <!-- FORM -->
                 <form [formGroup]="equipeForm" (ngSubmit)="createTeam()"
-                    class="rounded-[28px] p-8 border backdrop-blur-2xl space-y-6"
-                    [ngStyle]="{
+                    class="rounded-[28px] p-8 border backdrop-blur-2xl space-y-6" [ngStyle]="{
                         'background': themeService.Backgroundsecondairetest,
                         'border': '1px solid ' + themeService.primary,
                         'color': themeService.Textsecondaire,
@@ -100,8 +99,7 @@
                             Nom de l’équipe
                         </label>
 
-                        <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border"
-                            [ngStyle]="{
+                        <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border" [ngStyle]="{
         'background': themeService.Backgroundsecondairetest,
         'border': '1px solid ' + themeService.Bordernormal,
         'color': themeService.Textsecondaire,
@@ -110,8 +108,7 @@
 
                             <i class="fa-solid fa-shield text-sm" [ngStyle]="{'color':themeService.primary}"></i>
 
-                            <input formControlName="nom" placeholder="Ex: ASDAM"
-                                class="w-full outline-none font-medium"
+                            <input formControlName="nom" placeholder="Ex: ASDAM" class="w-full outline-none font-medium"
                                 [ngStyle]="{'color':themeService.Textprincipal}" />
                         </div>
                     </div>
@@ -123,8 +120,7 @@
                             Année de création
                         </label>
 
-                        <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border"
-                            [ngStyle]="{
+                        <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border" [ngStyle]="{
         'background': themeService.Backgroundsecondairetest,
         'border': '1px solid ' + themeService.Bordernormal,
         'color': themeService.Textsecondaire,
@@ -146,8 +142,7 @@
                             Logo
                         </label>
 
-                        <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border cursor-pointer"
-                            [ngStyle]="{
+                        <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border cursor-pointer" [ngStyle]="{
         'background': themeService.Backgroundsecondairetest,
         'border': '1px solid ' + themeService.Bordernormal,
         'color': themeService.Textsecondaire,
@@ -157,7 +152,8 @@
                             <i class="fa-solid fa-image text-sm" [style.color]="themeService?.primary"></i>
 
                             <input type="file" accept="image/*" (change)="onFileSelect($event)"
-                                class="w-full bg-transparent text-sm" [ngStyle]="{'color':themeService.Textprincipal}" />
+                                class="w-full bg-transparent text-sm"
+                                [ngStyle]="{'color':themeService.Textprincipal}" />
                         </div>
                     </div>
 
@@ -168,6 +164,108 @@
 
                             <img [src]="preview" class="w-full h-full object-cover">
                         </div>
+                    </div>
+
+                    <!-- CATEGORIE -->
+                    <div>
+
+                        <label class="text-[10px] uppercase tracking-[4px] font-black mb-3 block"
+                            [style.color]="themeService?.Textsecondaire">
+
+                            Catégorie équipe
+
+                        </label>
+
+
+                        <div class="flex items-center gap-3 h-14 px-5 rounded-2xl border" [ngStyle]="{
+            'background': themeService.Backgroundsecondairetest,
+            'border': '1px solid ' + themeService.Bordernormal,
+            'color': themeService.Textsecondaire,
+            'box-shadow': themeService.Bowshadowtest
+        }">
+
+
+                            <i class="fa-solid fa-users text-sm" [style.color]="themeService?.primary">
+                            </i>
+
+
+                            <select formControlName="categorie" class="w-full bg-transparent outline-none font-medium"
+                                [ngStyle]="{
+                'color':themeService.Textprincipal
+            }">
+
+
+                                <option value="">
+                                    Choisir une catégorie
+                                </option>
+
+
+                                <option value="U6">
+                                    U6
+                                </option>
+
+                                <option value="U7">
+                                    U7
+                                </option>
+
+                                <option value="U8">
+                                    U8
+                                </option>
+
+                                <option value="U9">
+                                    U9
+                                </option>
+
+                                <option value="U10">
+                                    U10
+                                </option>
+
+                                <option value="U11">
+                                    U11
+                                </option>
+
+                                <option value="U12">
+                                    U12
+                                </option>
+
+                                <option value="U13">
+                                    U13
+                                </option>
+
+                                <option value="U13F">
+                                    U13F
+                                </option>
+
+                                <option value="U18">
+                                    U18
+                                </option>
+
+                                <option value="U23">
+                                    U23
+                                </option>
+
+                                <option value="SeniorA">
+                                    Senior A
+                                </option>
+
+                                <option value="SeniorB">
+                                    Senior B
+                                </option>
+
+                                <option value="SeniorD">
+                                    Senior D
+                                </option>
+
+                                <option value="ALL">
+                                    Toutes catégories
+                                </option>
+
+
+                            </select>
+
+
+                        </div>
+
                     </div>
 
                     <!-- BUTTON -->
@@ -201,8 +299,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
             <div *ngFor="let team of equipes"
-                class="rounded-[24px] p-6 border text-center transition-all duration-300 hover:scale-[1.03]"
-                [ngStyle]="{
+                class="rounded-[24px] p-6 border text-center transition-all duration-300 hover:scale-[1.03]" [ngStyle]="{
         'background': themeService.Backgroundsecondairetest,
         'border': '1px solid ' + themeService.Bordernormal,
         'color': themeService.Textsecondaire,

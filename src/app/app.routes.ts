@@ -34,6 +34,7 @@ import { DetailEvent2 } from '../Page/Public/detail-event2/detail-event2';
 import { ChangePassword } from '../Page/auth/change-password/change-password';
 import { MonEspace } from '../Page/Public/mon-espace/mon-espace';
 import { Classement } from '../Page/Public/classement/classement';
+import { MatchView } from '../Page/Public/match-view/match-view';
 
 
 
@@ -80,5 +81,6 @@ export const routes: Routes = [
     { path: 'change-password', component: ChangePassword },
     { path: 'monespace', component: MonEspace },
     { path: 'classement', component: Classement },
+    { path: 'match', component: MatchView },
     
 ];

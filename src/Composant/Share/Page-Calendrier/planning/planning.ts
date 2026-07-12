@@ -521,7 +521,7 @@ hasInvalidEventImage(
 
     return this.matches
     .filter(
-      m=>m.statut==='EN_COURS'
+      m=>m.statut==='en_cours'
     )
     .length;
 
@@ -535,7 +535,7 @@ hasInvalidEventImage(
 
     return this.matches
     .filter(
-      m=>m.statut==='TERMINE'
+      m=>m.statut==='termine'
     )
     .length;
 
@@ -549,7 +549,7 @@ hasInvalidEventImage(
 
     return this.matches
     .filter(
-      m=>m.statut==='A_VENIR'
+      m=>m.statut==='programme'
     )
     .length;
 

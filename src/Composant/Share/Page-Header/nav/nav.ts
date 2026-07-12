@@ -288,17 +288,15 @@ export class Nav implements OnInit {
         },
 
         {
-          label: 'Équipe',
-          icon: 'fas fa-users',
-          link: '/equipe',
-          
+          label: 'Classement',
+          link: '/classement',
+          icon: 'fa-solid fa-trophy',
         },
 
         {
-          label: 'Convocation',
-          icon: 'fas fa-clipboard-list',
-          link: '/convocations',
-          
+          label: 'Match',
+          icon: 'fas fa-futbol',  // ou 'fas fa-trophy', 'fas fa-calendar-alt'
+          link: '/match',
         },
 
         {
@@ -324,29 +322,13 @@ export class Nav implements OnInit {
           label: 'Équipe',
           icon: 'fas fa-users',
           link: '/equipe',
-          children: [
-            {
-              label: 'Joueurs',
-              icon: 'fas fa-user',
-              link: '/joueurs'
-            },
-            {
-              label: 'Disponibles',
-              icon: 'fas fa-clipboard-list',
-              link: '/disponibles'
-            },
-            {
-              label: 'Mes statistiques',
-              icon: 'fas fa-chart-bar',
-              link: '/mes-stats'
-            }
-          ]
+          
         },
 
         {
-          label: 'Mes convocations',
-          icon: 'fas fa-clipboard-list',
-          link: '/convocations'
+          label: 'Match',
+          icon: 'fas fa-futbol',  // ou 'fas fa-trophy', 'fas fa-calendar-alt'
+          link: '/match',
         },
 
         {

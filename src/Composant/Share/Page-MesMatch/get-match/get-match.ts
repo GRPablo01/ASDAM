@@ -573,7 +573,7 @@ export class GetMatch implements OnInit {
 
     return this.filteredMatches
     .filter(
-      m=>m.statut==='EN_COURS'
+      m=>m.statut==='en_cours'
     )
     .length;
 
@@ -587,7 +587,7 @@ export class GetMatch implements OnInit {
 
     return this.filteredMatches
     .filter(
-      m=>m.statut==='TERMINE'
+      m=>m.statut==='termine'
     )
     .length;
 
@@ -601,7 +601,7 @@ export class GetMatch implements OnInit {
 
     return this.filteredMatches
     .filter(
-      m=>m.statut==='A_VENIR'
+      m=>m.statut==='programme'
     )
     .length;
 

@@ -2,16 +2,35 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+
 export interface Equipe {
 
     _id?: string;
 
     nom: string;
 
-    ville?: string;
+    categorie:
+        | 'U6'
+        | 'U7'
+        | 'U8'
+        | 'U9'
+        | 'U10'
+        | 'U11'
+        | 'U12'
+        | 'U13'
+        | 'U13F'
+        | 'U18'
+        | 'U23'
+        | 'SeniorA'
+        | 'SeniorB'
+        | 'SeniorD'
+        | 'ALL';
+
+    anneeCreation: number;
 
     logo: string;
 }
+
 
 @Injectable({
     providedIn: 'root'
@@ -19,9 +38,13 @@ export interface Equipe {
 
 export class EquipeService {
 
+
     apiUrl = 'http://localhost:3000/api/team';
 
-    constructor(private http: HttpClient) {}
+
+    constructor(
+        private http: HttpClient
+    ) {}
 
 
 
@@ -44,10 +67,13 @@ export class EquipeService {
     // RECUPERER
     // ======================================
 
-    getTeams(): Observable<any> {
+    getTeams(): Observable<Equipe[]> {
 
-        return this.http.get(this.apiUrl);
+        return this.http.get<Equipe[]>(
+            this.apiUrl
+        );
 
     }
+
 
 }

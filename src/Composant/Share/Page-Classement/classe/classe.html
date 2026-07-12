@@ -1,1 +1,532 @@
-<p>classe works!</p>
+<section [ngStyle]="{'background':themeService.Backgroundprincipaltest}" class="h-auto">
+
+  <div class="flex min-h-screen">
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SIDEBAR                               -->
+    <!-- ═══════════════════════════════════════ -->
+    <aside [ngStyle]="{
+      'background': themeService.Backgroundsecondairetest,
+      'border': '1px solid ' + themeService.Bordernormal,
+      'color': themeService.Textsecondaire,
+      'box-shadow': themeService.Bowshadowtest
+    }" class="w-80 flex flex-col shrink-0">
+
+      <!-- Header -->
+      <div class="px-6 pt-8 pb-6 border-b border-white/[0.06]">
+        <div class="flex items-center gap-3">
+          <div [ngStyle]="{
+            'background': themeService.Backgroundsecondairetest,
+            'border': '1px solid ' + themeService.Bordernormal,
+            'color': themeService.primary,
+            'box-shadow': themeService.Bowshadowtest
+          }" class="w-10 h-10 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <div>
+            <h1 [ngStyle]="{
+              'color': themeService.Textprincipal,
+            }" class="text-xl font-bold tracking-tight">Classement</h1>
+            <p [ngStyle]="{
+              'color': themeService.Textsecondaire,
+            }" class="text-xs">ASDAM</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <nav class="flex-1 flex flex-col gap-1 p-4 overflow-y-auto">
+
+        @for (categorie of categories; track categorie) {
+
+          <button
+            type="button"
+            (click)="selectCategorie(categorie)"
+            class="w-full rounded-xl px-4 py-3.5 text-left transition-all duration-200"
+            [ngStyle]="{
+
+              'background': selectedCategorie === categorie
+                ? themeService.Backgroundprincipaltest
+                : themeService.Backgroundsecondairetest,
+
+              'border': selectedCategorie === categorie
+                ? '1px solid ' + themeService.primary
+                : '1px solid ' + themeService.Bordernormal,
+
+              'color': themeService.Textprincipal,
+
+              'box-shadow': selectedCategorie === categorie
+                ? themeService.Bowshadowtest
+                : 'none',
+
+              'transform': selectedCategorie === categorie
+                ? 'scale(1.02)'
+                : 'scale(1)'
+
+            }"
+          >
+
+            <div class="flex items-center justify-between">
+
+
+              <div class="flex items-center gap-3">
+
+
+                <!-- Status dot -->
+                <div
+                  class="w-2 h-2 rounded-full transition-all duration-200"
+                  [ngStyle]="{
+
+                    'background': hasEquipe(categorie)
+                      ? themeService.primary
+                      : themeService.Textsecondaire,
+
+                    
+
+                  }"
+                >
+                </div>
+
+
+
+                <!-- Category name -->
+                <span
+                  class="font-medium transition-all duration-200"
+                  [ngStyle]="{
+
+                    'color': selectedCategorie === categorie
+                      ? themeService.primary
+                      : themeService.Textsecondaire,
+
+                    'font-weight': selectedCategorie === categorie
+                      ? '700'
+                      : '500'
+
+                  }"
+                >
+                  {{ categorie }}
+                </span>
+
+
+              </div>
+
+
+
+              <!-- Badge -->
+              <div class="flex items-center gap-2">
+
+                <span
+                  class="rounded-lg px-2.5 py-1 text-xs font-bold min-w-[28px] text-center transition-all duration-200"
+                  [ngStyle]="{
+
+                    'background': selectedCategorie === categorie
+                      ? themeService.primary
+                      : themeService.Backgroundprincipaltest,
+
+                    'color': selectedCategorie === categorie
+                      ? '#FFFFFF'
+                      : themeService.Textprincipal,
+
+                    'border': '1px solid ' + themeService.Bordernormal
+
+                  }"
+                >
+                  {{ getEquipesByCategorie(categorie).length }}
+                </span>
+
+
+              </div>
+
+
+            </div>
+
+
+          </button>
+
+
+        }
+
+      </nav>
+    </aside>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- MAIN CONTENT                            -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <main class="flex-1 p-8 lg:p-10 relative overflow-hidden">
+
+      <!-- Header -->
+      <div class="relative z-10 mb-8">
+        <h2 [ngStyle]="{
+          'color': themeService.Textprincipal,
+        }" class="text-3xl lg:text-4xl font-extrabold tracking-tight mb-2">
+          Classement des équipes
+        </h2>
+        <p [ngStyle]="{
+          'color': themeService.Textsecondaire,
+        }" class="text-base lg:text-lg max-w-2xl">
+          Sélectionnez une catégorie pour afficher le classement en temps réel.
+        </p>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- EMPTY STATE                             -->
+      <!-- ═══════════════════════════════════════ -->
+      <div *ngIf="!selectedCategorie" class="relative z-10">
+
+        <div
+          class="flex h-[400px] items-center justify-center rounded-2xl border border-dashed"
+          [ngStyle]="{
+            'background': themeService.Backgroundsecondairetest,
+            'border': '1px solid ' + themeService.Bordernormal,
+            'color': themeService.Textsecondaire,
+            'box-shadow': themeService.Bowshadowtest
+          }"
+        >
+
+          <div class="text-center">
+
+
+            <!-- Icon -->
+            <div class="mb-6 relative inline-block">
+
+              <div
+                class="absolute inset-0 rounded-full blur-2xl animate-pulse"
+                [ngStyle]="{
+                  'background': themeService.primary + '20'
+                }"
+              >
+              </div>
+
+
+              <div
+                class="relative flex items-center justify-center text-6xl"
+                [ngStyle]="{
+                  'color': themeService.primary
+                }"
+              >
+                <i class="fa-solid fa-ranking-star"></i>
+              </div>
+
+            </div>
+
+
+
+            <!-- Title -->
+            <h3
+              class="text-xl font-bold mb-2"
+              [ngStyle]="{
+                'color': themeService.Textprincipal
+              }"
+            >
+              Aucun classement sélectionné
+            </h3>
+
+
+
+            <!-- Description -->
+            <p
+              class="mb-6 max-w-md mx-auto"
+              [ngStyle]="{
+                'color': themeService.Textsecondaire
+              }"
+            >
+              Choisissez une catégorie dans la barre latérale pour voir le classement.
+            </p>
+
+
+
+            <!-- Action -->
+            <div
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold"
+              [ngStyle]="{
+                'background': themeService.primary + '20',
+                'border': '1px solid ' + themeService.primary + '40',
+                'color': themeService.primary
+              }"
+            >
+
+              <i class="fa-solid fa-arrow-left"></i>
+
+              Sélectionnez une catégorie
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+    <!-- LOADING STATE                           -->
+    <!-- ═══════════════════════════════════════ -->
+    <div
+    *ngIf="isLoading && selectedCategorie"
+    class="relative z-10 flex h-[400px] items-center justify-center"
+    >
+
+    <div class="flex flex-col items-center gap-4">
+
+
+      <!-- Loading Icon -->
+      <div
+        class="text-5xl animate-spin"
+        [ngStyle]="{
+          'color': themeService.primary
+        }"
+      >
+        <i class="fa-solid fa-spinner"></i>
+      </div>
+
+
+
+      <!-- Text -->
+      <p
+        class="text-sm font-medium"
+        [ngStyle]="{
+          'color': themeService.Textsecondaire
+        }"
+      >
+        Chargement du classement...
+      </p>
+
+
+    </div>
+
+    </div>
+
+      <!-- ═══════════════════════════════════════ -->
+<!-- CLASSEMENT TABLE                        -->
+<!-- ═══════════════════════════════════════ -->
+<div *ngIf="selectedCategorie && !isLoading" class="relative z-10">
+
+  <!-- Table Card -->
+  <div [ngStyle]="{
+    'background': themeService.Backgroundsecondairetest,
+    'border': '1px solid ' + themeService.Bordernormal,
+    'color': themeService.Textsecondaire,
+    'box-shadow': themeService.Bowshadowtest
+  }" class="rounded-2xl overflow-hidden">
+
+    <!-- Table Header -->
+    <div class="px-6 py-4 border-b flex items-center justify-between"
+         [ngStyle]="{'border-color': themeService.Bordernormal + '40'}">
+      <div class="flex items-center gap-3">
+        <h3 class="text-lg font-bold" [ngStyle]="{'color': themeService.Textprincipal}">{{ selectedCategorie }}</h3>
+        <span class="px-2.5 py-1 rounded-lg text-xs font-medium"
+              [ngStyle]="{
+                'background': themeService.NavBackground + '20',
+                'color': themeService.Textsecondaire
+              }">
+          {{ classement.length }} équipes
+        </span>
+      </div>
+      <button (click)="loadData()"
+        class="p-2 rounded-lg transition-colors"
+        [ngStyle]="{
+          'color': themeService.Textsecondaire
+        }"
+        [class.hover:bg-opacity-5]="true"
+        (mouseenter)="hoverRefresh = true"
+        (mouseleave)="hoverRefresh = false"
+        [ngStyle]="hoverRefresh ? {
+          'background': themeService.Textprincipal + '0D',
+          'color': themeService.Textprincipal
+        } : {
+          'color': themeService.Textsecondaire
+        }">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- No matches played -->
+    <div *ngIf="classement.length === 0" class="p-12 text-center">
+      <div class="text-4xl mb-4">📋</div>
+      <h4 class="font-semibold mb-1" [ngStyle]="{'color': themeService.Textprincipal}">Aucun match joué</h4>
+      <p class="text-sm" [ngStyle]="{'color': themeService.Textsecondaire}">Les matchs de cette catégorie n'ont pas encore été joués.</p>
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="classement.length > 0" class="overflow-x-auto">
+
+      <table class="w-full text-left">
+
+        <thead>
+          <tr class="border-b"
+              [ngStyle]="{'border-color': themeService.Bordernormal + '10'}">
+            <th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider w-16 text-center"
+                [ngStyle]="{'color': themeService.Textsecondaire}">#</th>
+            <th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider"
+                [ngStyle]="{'color': themeService.Textsecondaire}">Équipe</th>
+            <th class="px-3 py-3 text-xs font-semibold uppercase tracking-wider text-center w-12"
+                [ngStyle]="{'color': themeService.Textsecondaire}">J</th>
+            <th class="px-3 py-3 text-xs font-semibold uppercase tracking-wider text-center w-12"
+                [ngStyle]="{'color': themeService.Textsecondaire}">G</th>
+            <th class="px-3 py-3 text-xs font-semibold uppercase tracking-wider text-center w-12"
+                [ngStyle]="{'color': themeService.Textsecondaire}">N</th>
+            <th class="px-3 py-3 text-xs font-semibold uppercase tracking-wider text-center w-12"
+                [ngStyle]="{'color': themeService.Textsecondaire}">P</th>
+            <th class="px-3 py-3 text-xs font-semibold uppercase tracking-wider text-center w-16"
+                [ngStyle]="{'color': themeService.Textsecondaire}">BP</th>
+            <th class="px-3 py-3 text-xs font-semibold uppercase tracking-wider text-center w-16"
+                [ngStyle]="{'color': themeService.Textsecondaire}">BC</th>
+            <th class="px-3 py-3 text-xs font-semibold uppercase tracking-wider text-center w-16"
+                [ngStyle]="{'color': themeService.Textsecondaire}">Diff</th>
+            <th class="px-3 py-3 text-xs font-semibold uppercase tracking-wider text-center w-20"
+                [ngStyle]="{'color': themeService.Textsecondaire}">Forme</th>
+            <th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-center w-20"
+                [ngStyle]="{'color': themeService.Textsecondaire}">Pts</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (entry of classement; track entry.equipe; let i = $index) {
+
+          <tr [class]="i % 2 === 0 ? 'bg-opacity-[0.01]' : 'bg-transparent'"
+              class="border-b transition-colors"
+              [ngStyle]="{
+                'border-color': themeService.Bordernormal + '08',
+                'background': i % 2 === 0 ? themeService.Textprincipal + '03' : 'transparent'
+              }"
+              (mouseenter)="hoveredRow = i"
+              (mouseleave)="hoveredRow = -1"
+              [ngStyle]="hoveredRow === i ? {
+                'background': themeService.Textprincipal + '0A'
+              } : {
+                'background': i % 2 === 0 ? themeService.Textprincipal + '03' : 'transparent',
+                'border-color': themeService.Bordernormal + '08'
+              }">
+
+            <!-- Position -->
+            <td class="px-4 py-4 text-center">
+              <div [ngStyle]="entry.position <= 3
+                  ? {
+                    'background': themeService.dashboardPrimary + '1A',
+                    'color': themeService.dashboardPrimary,
+                    'border-color': themeService.dashboardPrimary + '33'
+                  }
+                  : (entry.position === classement.length
+                    ? {
+                      'background': themeService.BgNon + '1A',
+                      'color': themeService.BgNonText,
+                      'border-color': themeService.BorderNon + '33'
+                    }
+                    : {
+                      'background': themeService.Textprincipal + '08',
+                      'color': themeService.Textsecondaire,
+                      'border-color': themeService.Bordernormal + '10'
+                    })"
+                class="w-8 h-8 rounded-lg border flex items-center justify-center text-sm font-bold mx-auto">
+                {{ entry.position }}
+              </div>
+            </td>
+
+            <!-- Team avec logo -->
+            <td class="px-4 py-4">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden shrink-0"
+                  [ngStyle]="{'background': themeService.Textprincipal + '0D'}">
+                  <img *ngIf="entry.logoUrl" [src]="entry.logoUrl" class="w-full h-full object-cover"
+                    [alt]="entry.equipe" (error)="entry.logoUrl = ''">
+                  <span *ngIf="!entry.logoUrl" class="text-xs font-bold"
+                        [ngStyle]="{'color': themeService.Textsecondaire}">{{ entry.equipe.charAt(0) }}</span>
+                </div>
+                <span class="font-semibold text-sm" [ngStyle]="{'color': themeService.Textprincipal}">{{ entry.equipe }}</span>
+              </div>
+            </td>
+
+            <!-- J -->
+            <td class="px-3 py-4 text-center text-sm font-medium" [ngStyle]="{'color': themeService.Textprincipal}">{{ entry.joues }}</td>
+            <!-- G -->
+            <td class="px-3 py-4 text-center text-sm font-medium" [ngStyle]="{'color': themeService.eventPrimary}">{{ entry.gagnes }}</td>
+            <!-- N -->
+            <td class="px-3 py-4 text-center text-sm font-medium" [ngStyle]="{'color': themeService.convocationPrimary}">{{ entry.nuls }}</td>
+            <!-- P -->
+            <td class="px-3 py-4 text-center text-sm font-medium" [ngStyle]="{'color': themeService.primary}">{{ entry.perdus }}</td>
+            <!-- BP -->
+            <td class="px-3 py-4 text-center text-sm font-medium" [ngStyle]="{'color': themeService.Textprincipal}">{{ entry.bp }}</td>
+            <!-- BC -->
+            <td class="px-3 py-4 text-center text-sm font-medium" [ngStyle]="{'color': themeService.Textprincipal}">{{ entry.bc }}</td>
+            <!-- Diff -->
+            <td class="px-3 py-4 text-center">
+              <span
+                [ngStyle]="entry.diff > 0
+                  ? {'color': themeService.eventPrimary}
+                  : entry.diff < 0
+                    ? {'color': themeService.primary}
+                    : {'color': themeService.Textsecondaire}"
+                class="text-sm font-bold">
+                {{ entry.diff > 0 ? '+' : '' }}{{ entry.diff }}
+              </span>
+            </td>
+
+            <!-- Forme -->
+            <td class="px-3 py-4">
+              <div class="flex items-center justify-center gap-1">
+                @for (result of entry.forme; track $index) {
+                <div [ngStyle]="getFormeColor(result)"
+                  class="w-5 h-5 rounded text-[10px] font-bold text-white flex items-center justify-center">
+                  {{ result }}
+                </div>
+                }
+                @for (placeholder of [].constructor(5 - entry.forme.length); track $index) {
+                <div class="w-5 h-5 rounded" [ngStyle]="{'background': themeService.Textprincipal + '08'}"></div>
+                }
+              </div>
+            </td>
+
+            <!-- Points -->
+            <td class="px-4 py-4 text-center">
+              <span class="text-lg font-extrabold" [ngStyle]="{'color': themeService.Textprincipal}">{{ entry.points }}</span>
+            </td>
+
+          </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <!-- Legend -->
+    <div *ngIf="classement.length > 0"
+      class="px-6 py-4 border-t flex items-center gap-6 text-xs"
+      [ngStyle]="{
+        'border-color': themeService.Bordernormal + '40',
+        'color': themeService.Textsecondaire
+      }">
+      <div class="flex items-center gap-2">
+        <div class="w-3 h-3 rounded" [ngStyle]="{'background': themeService.convocationPrimary}"></div>
+        <span>Victoire</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-3 h-3 rounded" [ngStyle]="{'background': themeService.c20Base}"></div>
+        <span>Nul</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-3 h-3 rounded" [ngStyle]="{'background': themeService.primary}"></div>
+        <span>Défaite</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+    </main>
+
+  </div>
+
+</section>

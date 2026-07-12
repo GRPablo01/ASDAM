@@ -22,7 +22,10 @@ export interface Match2 {
   scoreExterieur?: number;
 
   enCours: boolean;
-  statut?: string;
+  statut?: 'programme' | 'en_cours' | 'termine';
+
+  minutesEcoulees?: number;
+  secondesEcoulees?: number;
 
   minute?: number;
   periode?: string;
@@ -64,12 +67,13 @@ export class MatchService {
     return this.http.post(`${this.apiUrl}/create`, data);
   }
 
+
   // ======================================================
-  // ✏️ UPDATE MATCH
-  // ======================================================
-  updateMatch(id: string, data: Match2): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, data);
-  }
+// ✏️ UPDATE MATCH
+// ======================================================
+updateMatch(id: string, data: Partial<Match2>): Observable<any> {
+  return this.http.put(`${this.apiUrl}/${id}`, data);
+}
 
   // ======================================================
 // 🔎 GET ONE MATCH BY ID

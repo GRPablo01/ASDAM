@@ -102,6 +102,8 @@ const convocationRoutes = require('./Backend/Routes/convocation.routes');
 const communiquerRoute = require('./Backend/Routes/communiquer.Route');
 const seanceRoutes = require('./Backend/Routes/seance.routes');
 const resetPasswordRoutes = require('./Backend/Routes/resetPassword.routes');
+const classementRoutes = require('./Backend/Routes/classement.routes');
+
 
 
 
@@ -118,6 +120,7 @@ app.use('/api/convocation', convocationRoutes);
 app.use('/api/communiquer', communiquerRoute);
 app.use('/api/seances', seanceRoutes);
 app.use('/api/reset-password',resetPasswordRoutes);
+app.use('/api/classement',classementRoutes);
 
 // ==============================
 // 🏠 TEST ROUTES
@@ -144,6 +147,11 @@ app.get('/debug-assets', (req, res) => {
     uploadsExists: fs.existsSync(uploadDir)
   });
 });
+
+// ==============================
+// ⏰ CRON JOBS
+// ==============================
+require('./Backend/Cron/classement.cron');
 
 // ==============================
 // 🚀 START SERVER

@@ -1,35 +1,22 @@
 const express = require('express');
 const router = express.Router();
 
-const Classement = require('../models/classement');
+// ==========================================
+// 📦 CONTROLLER
+// ==========================================
+const classementController = require('../Controller/classement.controller');
 
+// ==========================================
+// 🧭 ROUTES
+// ==========================================
 
-router.get('/:categorie', async(req,res)=>{
+// GET /api/classement/:categorie → dernier classement
+router.get('/:categorie', classementController.getClassement);
 
-    try{
+// GET /api/classement/:categorie/historique → historique complet
+router.get('/:categorie/historique', classementController.getHistorique);
 
-        const classement =
-        await Classement.find({
-            categorie:req.params.categorie
-        })
-        .sort({
-            points:-1,
-            butsPour:-1
-        });
-
-
-        res.json(classement);
-
-
-    }catch(error){
-
-        res.status(500).json({
-            message:error.message
-        });
-
-    }
-
-});
-
+// POST /api/classement/:categorie/generer → forcer la génération
+router.post('/:categorie/generer', classementController.genererClassement);
 
 module.exports = router;

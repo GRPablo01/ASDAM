@@ -1,0 +1,336 @@
+<section [ngStyle]="{'background':themeService.Backgroundprincipaltest}" class="h-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- HEADER -->
+    <div class="max-w-full mx-auto mb-8 text-center">
+        <h1 [ngStyle]="{'color':themeService.Textprincipal}" class="text-3xl md:text-4xl font-extrabold tracking-tight">
+            Liste des matchs
+        </h1>
+        <p [ngStyle]="{'color':themeService.Textsecondaire}" class="mt-2 text-sm md:text-base">
+            Consultez les rencontres à venir et les résultats passés
+        </p>
+    </div>
+
+    <!-- ========================= -->
+    <!-- FILTRES -->
+    <!-- ========================= -->
+    <div *ngIf="!isLoadingMatch && !isLoadingEquipe" class="max-w-full mx-auto mb-8">
+        <div class="flex flex-wrap justify-center gap-3">
+            <button *ngFor="let filtre of filtres" (click)="changerFiltre(filtre.valeur)"
+                class="group px-5 py-3 rounded-2xl font-semibold transition-all duration-300 flex items-center gap-3 border hover:scale-105"
+                [style.background]="
+                filtreActif === filtre.valeur
+                    ? themeService.primary
+                    : themeService.Backgroundsecondairetest
+            " [style.border-color]="
+                filtreActif === filtre.valeur
+                    ? themeService.primary
+                    : themeService.Bordernormal
+            " [style.color]="
+                filtreActif === filtre.valeur
+                    ? '#FFFFFF'
+                    : themeService.Textprincipal
+            " [style.box-shadow]="
+                filtreActif === filtre.valeur
+                    ? '0 10px 25px ' + themeService.primary + '55'
+                    : themeService.Bowshadowtest
+            ">
+                <!-- Pastille -->
+                <span *ngIf="filtre.valeur !== 'tous'" class="w-3 h-3 rounded-full transition-all duration-300"
+                    [style.background]="
+                    filtreActif === filtre.valeur
+                        ? '#FFFFFF'
+                        : (
+                            filtre.valeur === 'programme'
+                                ? themeService.secondary
+                                : filtre.valeur === 'en_cours'
+                                    ? themeService.c20Base
+                                    : filtre.valeur === 'termine'
+                                        ? themeService.convocationPrimary
+                                        : themeService.primary
+                        )
+                "></span>
+                <!-- Nom -->
+                <span>{{ filtre.label }}</span>
+                <!-- Badge -->
+                <span class="ml-1 px-2.5 py-1 rounded-full text-xs font-bold transition-all duration-300"
+                    [style.background]="
+                    filtreActif === filtre.valeur
+                        ? 'rgba(255,255,255,.18)'
+                        : themeService.Backgroundprincipaltest
+                " [style.color]="
+                    filtreActif === filtre.valeur
+                        ? '#FFFFFF'
+                        : themeService.Textsecondaire
+                ">
+                    {{ getNombreMatchsParStatut(filtre.valeur) }}
+                </span>
+            </button>
+        </div>
+    </div>
+
+    <!-- LOADING -->
+    <div *ngIf="isLoadingMatch || isLoadingEquipe" class="flex flex-col items-center justify-center py-20">
+        <div class="w-12 h-12 border-4 border-slate-300 border-t-indigo-600 rounded-full animate-spin mb-4"></div>
+        <p class="text-slate-500 font-medium animate-pulse">Chargement des matchs...</p>
+    </div>
+
+    <!-- MATCHS -->
+    <div *ngIf="!isLoadingMatch && !isLoadingEquipe"
+        class="max-w-full mx-auto flex flex-col gap-6">
+
+        <div *ngFor="let match of matchsFiltres; let i = index"
+            class="w-full rounded-2xl overflow-hidden group relative transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
+            [style.animation-delay.ms]="i * 80"
+            [ngStyle]="{
+                'background': themeService.Backgroundsecondairetest,
+                'border': '1px solid ' + themeService.Bordernormal,
+                'color': themeService.Textsecondaire,
+                'box-shadow': themeService.Bowshadowtest
+            }">
+            <!-- Ligne d'accent supérieure dynamique selon le statut -->
+            <div class="h-1 w-full" [ngStyle]="{
+                'background': match.statut === 'en_cours'
+                    ? 'linear-gradient(90deg, #10b981, #34d399)'
+                    : match.statut === 'termine'
+                    ? 'linear-gradient(90deg, #6366f1, #818cf8)'
+                    : 'linear-gradient(90deg, #f59e0b, #fbbf24)'
+            }"></div>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- LIGNE 1 : ÉQUIPES, LOGOS, SCORE             -->
+            <!-- ═══════════════════════════════════════════ -->
+            <div class="flex items-center justify-between px-6 py-5 sm:px-10 sm:py-6">
+                <!-- DOMICILE -->
+                <div class="flex items-center gap-4 sm:gap-6 flex-1 justify-end">
+                    <div class="text-right">
+                        <p [ngStyle]="{'color':themeService.Textprincipal}" class="font-bold text-sm sm:text-base md:text-lg leading-tight">
+                            {{ getNomEquipe(match.equipeDomicile) }}
+                        </p>
+                        <p [ngStyle]="{'color':themeService.Textsecondaire}" class="text-xs mt-0.5">Domicile</p>
+                    </div>
+                    <div class="relative w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 flex-shrink-0 rounded-full flex items-center justify-center overflow-hidden"
+                        [ngStyle]="{
+                            'background': themeService.Backgroundsecondairetest,
+                            'border': '1px solid ' + themeService.Bordernormal,
+                            'color': themeService.Textsecondaire,
+                            'box-shadow': themeService.Bowshadowtest
+                        }">
+                        <img [src]="getLogoEquipe(match.equipeDomicile)"
+                            class="w-full h-full object-contain rounded-full transition-transform duration-300 group-hover:scale-110"
+                            alt="Logo domicile">
+                    </div>
+                </div>
+
+                <!-- VS / SCORE CENTRAL -->
+                <div class="flex flex-col items-center px-4 sm:px-8 md:px-12 flex-shrink-0">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">VS</span>
+                    <!-- SCORE INLINE (si terminé ou en cours) -->
+                    <div *ngIf="match.scoreDomicile !== undefined" class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight"
+                        style="color: #f43f5e;">
+                        {{ match.scoreDomicile }} - {{ match.scoreExterieur }}
+                    </div>
+                    <!-- Tiret si pas de score -->
+                    <div *ngIf="match.scoreDomicile === undefined" class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight"
+                        style="color: #f43f5e;">
+                        -
+                    </div>
+                </div>
+
+                <!-- EXTERIEUR -->
+                <div class="flex items-center gap-4 sm:gap-6 flex-1 justify-start">
+                    <div class="relative w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 flex-shrink-0 rounded-full flex items-center justify-center overflow-hidden"
+                        [ngStyle]="{
+                            'background': themeService.Backgroundsecondairetest,
+                            'border': '1px solid ' + themeService.Bordernormal,
+                            'color': themeService.Textsecondaire,
+                            'box-shadow': themeService.Bowshadowtest
+                        }">
+                        <img [src]="getLogoEquipe(match.equipeExterieur)"
+                            class="w-full h-full object-contain rounded-full transition-transform duration-300 group-hover:scale-110"
+                            alt="Logo extérieur">
+                    </div>
+                    <div class="text-left">
+                        <p [ngStyle]="{'color':themeService.Textprincipal}" class="font-bold text-sm sm:text-base md:text-lg leading-tight">
+                            {{ getNomEquipe(match.equipeExterieur) }}
+                        </p>
+                        <p [ngStyle]="{'color':themeService.Textsecondaire}" class="text-xs mt-0.5">Extérieur</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- SÉPARATEUR HORIZONTAL                       -->
+            <!-- ═══════════════════════════════════════════ -->
+            <div class="h-px mx-6 sm:mx-10" [ngStyle]="{'background': themeService.Bordernormal}"></div>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- LIGNE 2 : INFOS DU MATCH (centrées)         -->
+            <!-- ═══════════════════════════════════════════ -->
+            <div class="px-6 py-5 sm:px-10 sm:py-6">
+                <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+                    <!-- Badge Statut -->
+                    <span [class]="
+                        'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border ' +
+                        getStatutCouleur(match.statut)
+                    ">
+                        <span *ngIf="match.statut === 'en_cours'" class="w-1.5 h-1.5 rounded-full animate-pulse"
+                            style="background: #10b981;"></span>
+                        {{ getStatutLabel(match.statut) }}
+                    </span>
+
+                    <!-- Timer (si en cours) -->
+                    <div *ngIf="match.statut === 'en_cours'" class="flex items-center gap-1.5 font-mono font-bold text-sm"
+                        style="color: #34d399;">
+                        <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        {{ getTimerDisplay(match) }}
+                    </div>
+
+                    <!-- Catégorie (si pas en cours) -->
+                    <span *ngIf="match.statut !== 'en_cours' && match.categorie" class="text-xs font-medium text-slate-500">
+                        {{ match.categorie }}
+                    </span>
+
+                    <!-- Date -->
+                    <div class="flex items-center gap-3 text-sm">
+                        <span [ngStyle]="{
+                            'background': themeService.Backgroundsecondairetest,
+                            'border': '1px solid ' + themeService.Bordernormal,
+                            'color': themeService.Textsecondaire,
+                            'box-shadow': themeService.Bowshadowtest
+                        }" class="w-8 h-8 flex items-center justify-center rounded-lg text-base flex-shrink-0">
+                            <i [ngStyle]="{'color':themeService.Textprincipal}" class="fa-solid fa-calendar-days"></i>
+                        </span>
+                        <span [ngStyle]="{'color':themeService.Textprincipal}" class="font-medium">
+                            {{ match.dateMatch | date:'EEEE dd MMMM yyyy' }}
+                        </span>
+                    </div>
+
+                    <!-- Heure du match -->
+                    <div *ngIf="match.heureMatch" class="flex items-center gap-3 text-sm">
+                        <span [ngStyle]="{
+                            'background': themeService.Backgroundsecondairetest,
+                            'border': '1px solid ' + themeService.Bordernormal,
+                            'color': themeService.Textsecondaire,
+                            'box-shadow': themeService.Bowshadowtest
+                        }" class="w-8 h-8 flex items-center justify-center rounded-lg text-base flex-shrink-0">
+                            <i [ngStyle]="{'color':themeService.Textprincipal}" class="fa-solid fa-clock"></i>
+                        </span>
+                        <span [ngStyle]="{'color':themeService.Textprincipal}" class="font-medium">
+                            {{ match.heureMatch }}
+                        </span>
+                    </div>
+
+                    <!-- Stade / Lieu -->
+                    <div *ngIf="match.stade" class="flex items-center gap-3 text-sm">
+                        <span [ngStyle]="{
+                            'background': themeService.Backgroundsecondairetest,
+                            'border': '1px solid ' + themeService.Bordernormal,
+                            'color': themeService.Textsecondaire,
+                            'box-shadow': themeService.Bowshadowtest
+                        }" class="w-8 h-8 flex items-center justify-center rounded-lg text-base flex-shrink-0">
+                            <i [ngStyle]="{'color':themeService.Textprincipal}" class="fa-solid fa-location-dot"></i>
+                        </span>
+                        <span [ngStyle]="{'color':themeService.Textprincipal}" class="font-medium">
+                            {{ match.stade }}
+                        </span>
+                    </div>
+
+                    <!-- Type de match -->
+                    <div *ngIf="match.typeMatch" class="flex items-center gap-3 text-sm">
+                        <span [ngStyle]="{
+                            'background': themeService.Backgroundsecondairetest,
+                            'border': '1px solid ' + themeService.Bordernormal,
+                            'color': themeService.Textsecondaire,
+                            'box-shadow': themeService.Bowshadowtest
+                        }" class="w-8 h-8 flex items-center justify-center rounded-lg text-base flex-shrink-0">
+                            <i [ngStyle]="{'color':themeService.Textprincipal}" class="fa-solid fa-futbol"></i>
+                        </span>
+                        <span [ngStyle]="{'color':themeService.Textprincipal}" class="font-medium">
+                            {{ match.typeMatch }} {{ match.categorie }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- SÉPARATEUR HORIZONTAL                       -->
+            <!-- ═══════════════════════════════════════════ -->
+            <div class="h-px mx-6 sm:mx-10" [ngStyle]="{'background': themeService.Bordernormal}"></div>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- LIGNE 3 : SCORE FINAL (si terminé)          -->
+            <!-- ═══════════════════════════════════════════ -->
+            <div *ngIf="match.statut === 'termine' && match.scoreDomicile !== undefined" class="px-6 py-5 sm:px-10 sm:py-6">
+                <div class="rounded-xl p-4 text-center"
+                    style="background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.15);">
+                    <span class="text-xs font-semibold uppercase tracking-wider" style="color: #6366f1;">Score final</span>
+                    <div class="text-3xl sm:text-4xl font-black mt-1 tracking-tight" style="color: #f43f5e;">
+                        {{ match.scoreDomicile }} - {{ match.scoreExterieur }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- LIGNE 4 : ACTIONS STATUT (admin)            -->
+            <!-- ═══════════════════════════════════════════ -->
+            <div class="px-6 sm:px-10 pb-5" *ngIf="canChangeStatus">
+                <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 text-center">Changer le statut :</div>
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button class="flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-bold transition-all duration-200 cursor-pointer"
+                        [class]="match.statut === 'programme' ? 'opacity-100' : 'opacity-70 hover:opacity-100'"
+                        [disabled]="match.statut === 'programme'"
+                        (click)="changerStatut(match, 'programme')"
+                        [ngStyle]="match.statut === 'programme'
+                            ? { 'background': 'rgba(245,158,11,0.2)', 'color': '#fbbf24', 'border': '1px solid rgba(245,158,11,0.4)' }
+                            : { 'background': 'rgba(245,158,11,0.1)', 'color': '#fbbf24', 'border': '1px solid rgba(245,158,11,0.2)' }">
+                        📋 Programmé
+                    </button>
+                    <button class="flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-bold transition-all duration-200 cursor-pointer"
+                        [class]="match.statut === 'en_cours' ? 'opacity-100' : 'opacity-70 hover:opacity-100'"
+                        [disabled]="match.statut === 'en_cours'"
+                        (click)="changerStatut(match, 'en_cours')"
+                        [ngStyle]="match.statut === 'en_cours'
+                            ? { 'background': 'rgba(16,185,129,0.2)', 'color': '#34d399', 'border': '1px solid rgba(16,185,129,0.4)' }
+                            : { 'background': 'rgba(16,185,129,0.1)', 'color': '#34d399', 'border': '1px solid rgba(16,185,129,0.2)' }">
+                        ▶️ En cours
+                    </button>
+                    <button class="flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-bold transition-all duration-200 cursor-pointer"
+                        [class]="match.statut === 'termine' ? 'opacity-100' : 'opacity-70 hover:opacity-100'"
+                        [disabled]="match.statut === 'termine'"
+                        (click)="changerStatut(match, 'termine')"
+                        [ngStyle]="match.statut === 'termine'
+                            ? { 'background': 'rgba(99,102,241,0.2)', 'color': '#818cf8', 'border': '1px solid rgba(99,102,241,0.4)' }
+                            : { 'background': 'rgba(99,102,241,0.1)', 'color': '#818cf8', 'border': '1px solid rgba(99,102,241,0.2)' }">
+                        🏁 Terminé
+                    </button>
+                </div>
+            </div>
+
+            <!-- Message pour les non-admin -->
+            <div class="px-6 sm:px-10 pb-5 flex items-center justify-center" *ngIf="!canChangeStatus">
+                <div class="w-full rounded-xl p-4 flex flex-col items-center justify-center gap-3 text-center">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-full">
+                        <i [ngStyle]="{'color': themeService.Textprincipal}" class="fa-solid fa-lock text-lg"></i>
+                    </div>
+                    <span [ngStyle]="{'color':themeService.Textprincipal}" class="text-sm">
+                        Vous n'avez pas les droits pour modifier le statut.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div *ngIf="!isLoadingMatch && !isLoadingEquipe && matchsFiltres?.length === 0"
+        class="max-w-full mx-auto text-center py-20">
+        <div class="w-20 h-20 mx-auto mb-4 bg-slate-200 rounded-full flex items-center justify-center text-3xl">⚽</div>
+        <h3 class="text-xl font-bold text-slate-700 mb-2">Aucun match trouvé</h3>
+        <p class="text-slate-500">Aucun match ne correspond à ce filtre.</p>
+    </div>
+
+</section>

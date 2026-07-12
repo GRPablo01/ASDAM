@@ -7,6 +7,28 @@ const teamSchema = new mongoose.Schema({
         required: true
     },
 
+    categorie: {
+        type: String,
+        enum: [
+            'U6',
+            'U7',
+            'U8',
+            'U9',
+            'U10',
+            'U11',
+            'U12',
+            'U13',
+            'U13F',
+            'U18',
+            'U23',
+            'SeniorA',
+            'SeniorB',
+            'SeniorD',
+            'ALL'
+        ],
+        required: true
+    },
+
     anneeCreation: {
         type: Number,
         required: true
