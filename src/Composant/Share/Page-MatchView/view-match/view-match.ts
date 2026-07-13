@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy,ViewChild,ElementRef,HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -12,6 +12,7 @@ import {
 } from '../../../../../Backend/Services/equipe.Service';
 import { Icon } from "../../icon/icon";
 import { ThemeService } from '../../../../../Backend/Services/theme.service';
+import { FormsModule } from '@angular/forms';
 
 
 // ======================================
@@ -33,7 +34,8 @@ interface MatchTimer {
   standalone: true,
   imports: [
     CommonModule,
-    Icon
+    Icon,
+    FormsModule
 ],
   templateUrl: './view-match.html',
   styleUrl: './view-match.css',
@@ -180,28 +182,35 @@ export class ViewMatch implements OnInit, OnDestroy {
   // ======================================
   // RECUPERATION MATCHS
   // ======================================
+loadMatchs(): void {
+  this.matchService.getMatches()
+    .subscribe({
+      next: (data) => {
 
-  loadMatchs(): void {
-    this.matchService.getMatches()
-      .subscribe({
-        next: (data) => {
-          this.matchs = data;
-          this.appliquerFiltre();
+        // Garder uniquement les matchs où ASDAM joue
+        this.matchs = data.filter((match) =>
+          match.equipeDomicile === 'ASDAM' ||
+          match.equipeExterieur === 'ASDAM'
+        );
 
-          // Relancer les timers pour les matchs en cours
-          this.matchs.forEach((match) => {
-            if (match.statut === 'en_cours') {
-              this.demarrerTimer(match);
-            }
-          });
+        this.appliquerFiltre();
 
-          this.isLoadingMatch = false;
-        },
-        error: (err) => {
-          this.isLoadingMatch = false;
-        }
-      });
-  }
+        // Relancer les timers pour les matchs en cours
+        this.matchs.forEach((match) => {
+          if (match.statut === 'en_cours') {
+            this.demarrerTimer(match);
+          }
+        });
+
+        this.isLoadingMatch = false;
+      },
+
+      error: (err) => {
+        console.error('❌ Erreur récupération matchs :', err);
+        this.isLoadingMatch = false;
+      }
+    });
+}
 
 
   // ======================================
@@ -322,14 +331,49 @@ export class ViewMatch implements OnInit, OnDestroy {
   }
 
   appliquerFiltre(): void {
-    if (this.filtreActif === 'tous') {
-      this.matchsFiltres = [...this.matchs];
-    } else {
-      this.matchsFiltres = this.matchs.filter(
-        (m) => m.statut === this.filtreActif
-      );
+
+    let matchs = [...this.matchs];
+
+    // Filtre par statut
+    if (this.filtreActif !== 'tous') {
+        matchs = matchs.filter(
+            (m) => m.statut === this.filtreActif
+        );
     }
+
+    // Filtre par catégorie
+    if (this.categorieActive !== 'toutes') {
+        matchs = matchs.filter(
+            (m) => m.categorie === this.categorieActive
+        );
+    }
+
+    this.matchsFiltres = matchs;
   }
+
+  getNombreMatchsParStatutEtCategorie(statut: string): number {
+
+    let matchs = [...this.matchs];
+
+
+    // Filtre catégorie
+    if (this.categorieActive !== 'toutes') {
+        matchs = matchs.filter(
+            m => m.categorie === this.categorieActive
+        );
+    }
+
+
+    // Filtre statut
+    if (statut !== 'tous') {
+        matchs = matchs.filter(
+            m => m.statut === statut
+        );
+    }
+
+
+    return matchs.length;
+}
 
   getNombreMatchsParStatut(statut: MatchStatus | 'tous'): number {
     if (statut === 'tous') {
@@ -691,4 +735,125 @@ ${secondes
         return 'Inconnu';
     }
   }
+
+
+  // ============================================
+// NOUVEAUX : Gestion des catégories
+// ============================================
+
+categorieOuverte: string | null = null;
+
+/**
+ * Récupère la liste des catégories uniques depuis les matchs filtrés
+ */
+getCategoriesUniques(matchs: Match2[]): string[] {
+    const categories = matchs
+        .map(m => m.categorie || 'Sans catégorie')
+        .filter((value, index, self) => self.indexOf(value) === index);
+    return categories.sort();
+}
+
+/**
+ * Ouvre/ferme une catégorie (toggle)
+ */
+toggleCategorie(categorie: string): void {
+    this.categorieOuverte = this.categorieOuverte === categorie ? null : categorie;
+}
+
+/**
+ * Retourne les matchs d'une catégorie spécifique
+ */
+getMatchsParCategorie(categorie: string): Match2[] {
+    return this.matchsFiltres.filter(m => 
+        (m.categorie || 'Sans catégorie') === categorie
+    );
+}
+
+/**
+ * Compte les matchs par catégorie
+ */
+getNombreMatchsParCategorie(categorie: string): number {
+    return this.getMatchsParCategorie(categorie).length;
+}
+
+/**
+ * Retourne un aperçu des N premiers matchs d'une catégorie
+ */
+getApercuMatchs(categorie: string, limit: number): Match2[] {
+    return this.getMatchsParCategorie(categorie).slice(0, limit);
+}
+
+/**
+ * Retourne la couleur du statut pour la pastille
+ */
+getCouleurStatut(statut: string | undefined): string {
+  if (!statut) return this.themeService.primary;
+  switch (statut) {
+      case 'en_cours': return '#10b981';
+      case 'termine': return '#6366f1';
+      case 'programme': return '#f59e0b';
+      default: return this.themeService.primary;
+  }
+}
+
+// ============ TABLEAU DES CATÉGORIES ============
+categories = [
+  { valeur: 'toutes',  label: 'Toutes' },
+  { valeur: 'U6',      label: 'U6' },
+  { valeur: 'U7',      label: 'U7' },
+  { valeur: 'U8',      label: 'U8' },
+  { valeur: 'U9',      label: 'U9' },
+  { valeur: 'U10',     label: 'U10' },
+  { valeur: 'U11',     label: 'U11' },
+  { valeur: 'U12',     label: 'U12' },
+  { valeur: 'U13',     label: 'U13' },
+  { valeur: 'U13F',    label: 'U13F' },
+  { valeur: 'U18',     label: 'U18' },
+  { valeur: 'U23',     label: 'U23' },
+  { valeur: 'SeniorA', label: 'Senior A' },
+  { valeur: 'SeniorB', label: 'Senior B' },
+  { valeur: 'SeniorD', label: 'Senior D' },
+];
+
+categorieActive: string = 'toutes';
+
+
+
+
+// ============ CHANGEMENT DE CATÉGORIE ============
+changerCategorie(categorie: string): void {
+  this.categorieActive = categorie;
+  // Applique le filtre combiné (statut + catégorie)
+  this.appliquerFiltre();
+}
+
+// Propriétés
+dropdownOuvert = false;
+
+// Méthode helper pour obtenir le label
+getLabelCategorie(valeur: string): string {
+    const cat = this.categories.find(c => c.valeur === valeur);
+    return cat ? cat.label : valeur;
+}
+
+// Méthode pour sélectionner et fermer
+selectionnerCategorie(valeur: string): void {
+    this.changerCategorie(valeur);
+    this.dropdownOuvert = false;
+}
+
+// Fermer au clic extérieur (optionnel, avec @ViewChild)
+@ViewChild('dropdownRef') dropdownRef!: ElementRef;
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent): void {
+    if (this.dropdownOuvert && this.dropdownRef && !this.dropdownRef.nativeElement.contains(event.target)) {
+        this.dropdownOuvert = false;
+    }
+}
+
+
+
+
+
+
 }

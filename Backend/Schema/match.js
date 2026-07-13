@@ -111,7 +111,7 @@ const matchSchema = new mongoose.Schema({
     statut: {
         type: String,
         enum: [
-            'Programmé',
+            'programme',
             'En cours',
             'Terminé',
             'Annulé'
