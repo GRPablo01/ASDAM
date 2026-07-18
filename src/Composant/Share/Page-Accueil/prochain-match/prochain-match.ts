@@ -39,7 +39,12 @@ export class ProchainMatch implements OnInit {
   getAllMatchs(): void {
     this.matchService.getMatches().subscribe({
       next: (data) => {
-        this.matchs = data;
+
+        this.matchs = data.filter((match) =>
+          match.equipeDomicile === 'ASDAM' ||
+          match.equipeExterieur === 'ASDAM'
+        );
+
       },
       error: (err) => console.error(err)
     });
@@ -145,43 +150,52 @@ export class ProchainMatch implements OnInit {
   }
 
 
-  getStatutBadgeClass(statut?: string): string {
+  getStatutBadge(statut?: 'programme' | 'en_cours' | 'termine'): {
+    titre: string;
+    classe: string;
+  } {
+  
     switch (statut) {
   
-      case 'En cours':
-        return `
-          bg-red-500/20
-          border-red-500/40
-          text-red-400
-        `;
+      case 'en_cours':
+        return {
+          titre: 'En cours',
+          classe: `
+            bg-green-500/20
+            border-green-500/40
+            text-green-400
+          `
+        };
   
-      case 'Terminé':
-        return `
-          bg-gray-500/20
-          border-gray-500/40
-          text-gray-300
-        `;
+      case 'termine':
+        return {
+          titre: 'Terminé',
+          classe: `
+            bg-gray-500/20
+            border-gray-500/40
+            text-gray-500
+          `
+        };
   
-      case 'Programmé':
-        return `
-          bg-blue-500/20
-          border-blue-500/40
-          text-blue-400
-        `;
-  
-      case 'Annulé':
-        return `
-          bg-yellow-500/20
-          border-yellow-500/40
-          text-yellow-400
-        `;
+      case 'programme':
+        return {
+          titre: 'Programmé',
+          classe: `
+            bg-blue-500/20
+            border-blue-500/40
+            text-blue-400
+          `
+        };
   
       default:
-        return `
-          bg-white/10
-          border-white/20
-          text-white
-        `;
+        return {
+          titre: 'Inconnu',
+          classe: `
+            bg-white/10
+            border-white/20
+            text-gras
+          `
+        };
     }
   }
   

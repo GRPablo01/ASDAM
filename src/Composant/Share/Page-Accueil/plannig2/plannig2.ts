@@ -66,11 +66,16 @@ export class Plannig2 implements OnInit {
   }
 
   // ======================
-  // MATCH LOGOS
-  // ======================
-  prepareMatchs(): void {
+// MATCH LOGOS
+// ======================
+prepareMatchs(): void {
 
-    this.matchs = this.matchs.map(match => {
+  this.matchs = this.matchs
+    .filter(match =>
+      match.equipeDomicile?.trim().toLowerCase() === 'asdam' ||
+      match.equipeExterieur?.trim().toLowerCase() === 'asdam'
+    )
+    .map(match => {
 
       const dom = this.equipes.find(e =>
         e.nom?.toLowerCase().trim() === match.equipeDomicile?.toLowerCase().trim()
@@ -83,11 +88,16 @@ export class Plannig2 implements OnInit {
       return {
         ...match,
         type: 'match',
-        logoEquipeDomicile: dom ? `http://localhost:3000/uploads/equipe/${dom.logo}` : '',
-        logoEquipeExterieur: ext ? `http://localhost:3000/uploads/equipe/${ext.logo}` : ''
+        logoEquipeDomicile: dom
+          ? `http://localhost:3000/uploads/equipe/${dom.logo}`
+          : '',
+        logoEquipeExterieur: ext
+          ? `http://localhost:3000/uploads/equipe/${ext.logo}`
+          : ''
       };
     });
-  }
+
+}
 
   // ======================
   // MIX + RANDOM
@@ -172,45 +182,56 @@ export class Plannig2 implements OnInit {
     }, 15000);
   }
 
-  getStatutBadgeClass(statut?: string): string {
+  getStatutBadge(statut?: 'programme' | 'en_cours' | 'termine'): {
+    titre: string;
+    classe: string;
+  } {
+  
     switch (statut) {
   
-      case 'En cours':
-        return `
-          bg-red-500/20
-          border-red-500/40
-          text-red-400
-        `;
+      case 'en_cours':
+        return {
+          titre: 'En cours',
+          classe: `
+            bg-green-500/20
+            border-green-500/40
+            text-green-400
+          `
+        };
   
-      case 'Terminé':
-        return `
-          bg-gray-500/20
-          border-gray-500/40
-          text-gray-300
-        `;
+      case 'termine':
+        return {
+          titre: 'Terminé',
+          classe: `
+            bg-gray-500/20
+            border-gray-500/40
+            text-gray-500
+          `
+        };
   
-      case 'Programmé':
-        return `
-          bg-blue-500/20
-          border-blue-500/40
-          text-blue-400
-        `;
-  
-      case 'Annulé':
-        return `
-          bg-yellow-500/20
-          border-yellow-500/40
-          text-yellow-400
-        `;
+      case 'programme':
+        return {
+          titre: 'Programmé',
+          classe: `
+            bg-blue-500/20
+            border-blue-500/40
+            text-blue-400
+          `
+        };
   
       default:
-        return `
-          bg-white/10
-          border-white/20
-          text-white
-        `;
+        return {
+          titre: 'Inconnu',
+          classe: `
+            bg-white/10
+            border-white/20
+            text-gras
+          `
+        };
     }
   }
+
+
   
   getStatutIconClass(statut?: string): string {
     switch (statut) {

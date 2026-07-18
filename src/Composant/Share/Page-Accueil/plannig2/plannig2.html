@@ -127,34 +127,30 @@
 
               </div>
 
-              <span class="
-    inline-flex items-center
-    gap-1 sm:gap-1.5
-    px-2 sm:px-3
-    py-0.5 sm:py-1
-    rounded-full
-    text-[9px] sm:text-[10px]
-    font-bold uppercase tracking-wider
-    border
-    leading-none
-  " [ngClass]="getStatutBadgeClass(item.statut)">
+              <!-- STATUS -->
+      <div
+      class="
+        mb-6
+        px-3
+        py-1.5
+        rounded-full
+        inline-flex
+        items-center
+        gap-2
+        text-xs
+        font-semibold
+        shadow-sm
+        backdrop-blur-xl
+      "
+      [ngClass]="getStatutBadge(matchs[currentIndex]?.statut).classe"
+      >
+      <i
+        class="fa-solid fa-circle text-[8px] animate-pulse"
+        [ngClass]="getStatutIconClass(matchs[currentIndex]?.statut)"
+      ></i>
 
-                <!-- DOT -->
-                <span class="
-      flex items-center justify-center
-      leading-none
-      text-[8px] sm:text-[10px]
-      translate-y-[-0.5px]
-    " [ngClass]="getStatutIconClass(item.statut)">
-                  ●
-                </span>
-
-                <!-- TEXTE -->
-                <span class="leading-none">
-                  {{ item.statut }}
-                </span>
-
-              </span>
+      {{ getStatutBadge(matchs[currentIndex]?.statut).titre }}
+      </div>
 
             </div>
 
@@ -587,34 +583,30 @@
                   {{ item.categorie }}
                 </span>
               </div>
-              <span class="
-    inline-flex items-center
-    gap-1 sm:gap-1.5
-    px-2 sm:px-2.5 md:px-3
-    py-0.5 sm:py-0.5 md:py-1
-    rounded-full
-    text-[8px] sm:text-[9px] md:text-[10px]
-    font-bold uppercase tracking-wider
-    border
-    leading-none
-  " [ngClass]="getStatutBadgeClass(item.statut)">
+              <!-- STATUS -->
+      <div
+      class="
+        mb-6
+        px-3
+        py-1.5
+        rounded-full
+        inline-flex
+        items-center
+        gap-2
+        text-xs
+        font-semibold
+        shadow-sm
+        backdrop-blur-xl
+      "
+      [ngClass]="getStatutBadge(matchs[currentIndex]?.statut).classe"
+      >
+      <i
+        class="fa-solid fa-circle text-[8px] animate-pulse"
+        [ngClass]="getStatutIconClass(matchs[currentIndex]?.statut)"
+      ></i>
 
-                <!-- DOT -->
-                <span class="
-      flex items-center justify-center
-      leading-none
-      text-[7px] sm:text-[8px] md:text-[10px]
-      translate-y-[-0.5px]
-    " [ngClass]="getStatutIconClass(item.statut)">
-                  ●
-                </span>
-
-                <!-- TEXTE -->
-                <span class="leading-none">
-                  {{ item.statut }}
-                </span>
-
-              </span>
+      {{ getStatutBadge(matchs[currentIndex]?.statut).titre }}
+      </div>
             </div>
 
             <div class="relative z-10">

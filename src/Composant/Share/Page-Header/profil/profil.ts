@@ -205,6 +205,13 @@ export class Profil implements OnInit {
           bg: 'dashboardPrimarySoft'
         },
         {
+          label: 'Coupe d’envoi',
+          link: '/coupe-envoi',
+          icon: 'fa-trophy',
+          color: 'c8Base',
+          bg: 'c8Light'
+        },
+        {
           label: 'Mon équipe',
           link: '/equipe',
           icon: 'fa-people-group',

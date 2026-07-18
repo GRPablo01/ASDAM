@@ -35,6 +35,8 @@ import { ChangePassword } from '../Page/auth/change-password/change-password';
 import { MonEspace } from '../Page/Public/mon-espace/mon-espace';
 import { Classement } from '../Page/Public/classement/classement';
 import { MatchView } from '../Page/Public/match-view/match-view';
+import { CoupeEnvoie } from '../Page/Public/coupe-envoie/coupe-envoie';
+
 
 
 
@@ -82,5 +84,6 @@ export const routes: Routes = [
     { path: 'monespace', component: MonEspace },
     { path: 'classement', component: Classement },
     { path: 'match', component: MatchView },
+    { path: 'coupe-envoi', component: CoupeEnvoie },
     
 ];

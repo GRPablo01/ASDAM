@@ -2,31 +2,48 @@
 <section class="h-auto px-5 py-6 sm:px-10" [ngStyle]="{'background':themeService.Backgroundprincipaltest}">
 
     <!-- HEADER -->
-    <header class="mb-8 rounded-3xl p-5 sm:p-6 flex items-center justify-between gap-4 transition-all duration-300 hover:scale-[1.005]"
-        [ngStyle]="{
-            'background':themeService.Backgroundsecondairetest,
-            'border':'1px solid '+themeService.Bordernormal,
-            'box-shadow':themeService.Bowshadowtest
-        }">
-        <div class="flex-1 min-w-0">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-3"
-                [ngStyle]="{ 'color': themeService.primary, 'background': themeService.primary + '15' }">
-                <span class="w-1.5 h-1.5 rounded-full animate-pulse" [ngStyle]="{ 'background': themeService.primary }"></span>
+    <div [ngStyle]="{
+        'background': themeService.Backgroundsecondairetest,
+        'border': '1px solid ' + themeService.Bordernormal,
+        'color': themeService.Textsecondaire,
+        'box-shadow': themeService.Bowshadowtest
+        }" class="relative overflow-hidden flex flex-row items-center justify-between
+        text-center gap-4 md:gap-6 px-5 md:px-8 py-6 md:py-8
+        rounded-2xl md:rounded-3xl backdrop-blur-2xl group
+        transition-all duration-500 mb-6 md:mb-8 hover:shadow-2xl">
+
+        <!-- 🟢 Logo -->
+        <div class="relative shrink-0 w-16 h-16 md:w-24 md:h-24
+            rounded-2xl md:rounded-3xl flex items-center justify-center
+            overflow-hidden transition-transform duration-300 group-hover:scale-105">
+            <img src="assets/LOGO.png" alt="Logo ASDAM" class="w-10 h-10 md:w-18 md:h-18 object-contain">
+        </div>
+
+        <!-- 🏷️ Texte -->
+        <div class="relative z-10 flex flex-col items-center flex-1">
+            <p class="uppercase tracking-[0.3em] md:tracking-[0.4em]
+            text-[9px] md:text-xs font-bold mb-1 md:mb-2" [ngStyle]="{ 'color': themeService.Textsecondaire }">
                 Espace Joueur
-            </div>
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight" [ngStyle]="{'color':themeService.Textprincipal}">
-                Mon Planning ASDAM
-            </h1>
-            <p class="text-xs sm:text-sm mt-1" [ngStyle]="{'color':themeService.Textsecondaire}">
-                Vos prochaines activités en un coup d'œil
             </p>
+
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-black uppercase leading-none tracking-tight">
+                <span [ngStyle]="{ 'color': themeService.Textprincipal }">
+                    ASDAM
+                </span>
+
+                <span [ngStyle]="{ 'color': themeService.Textsecondaire }" class="block mt-1 md:mt-1.5 text-lg md:text-2xl lg:text-3xl
+                font-extrabold tracking-[0.1em] md:tracking-[0.15em]">
+                    Mon Planning ASDAM
+                </span>
+            </h1>
         </div>
-        <div class="relative group shrink-0">
-            <div class="absolute inset-0 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-300"
-                [ngStyle]="{ 'background': themeService.primary }"></div>
-            <img src="assets/LOGO.png" class="relative w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-2xl transition-transform duration-300 group-hover:scale-110" alt="ASDAM Logo">
-        </div>
-    </header>
+
+        <!-- 🌟 Decorative Line -->
+        <div class="hidden md:block w-24 md:w-32 h-0.5 md:h-1 rounded-full" [ngStyle]="{
+        'background': 'linear-gradient(90deg, transparent, ' + themeService.primary + ', transparent)'
+        }"></div>
+
+    </div>
 
     <!-- CARDS GRID -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-6">
@@ -34,65 +51,66 @@
         <!-- ============================= -->
         <!-- SEANCE -->
         <!-- ============================= -->
-        <ng-container
-        *ngIf="
+        <ng-container *ngIf="
         roleUser === 'joueur' ||
         roleUser === 'coach' ||
         roleUser === 'entraineur'
-        "
-        >
+        ">
 
-        <div 
-        class="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-        [ngStyle]="{
+            <div class="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                [ngStyle]="{
             'background':themeService.Backgroundsecondairetest,
             'border':'1px solid '+themeService.Bordernormal,
             'box-shadow':themeService.Bowshadowtest
-        }"
-        >
+        }">
 
 
-            <!-- HEADER SEANCE -->
-            <div 
-            class="p-5 sm:p-6 flex justify-between items-start border-b transition-colors duration-300"
-            [ngStyle]="{
+                <!-- HEADER SEANCE -->
+                <div class="p-5 sm:p-6 flex justify-between items-start border-b transition-colors duration-300"
+                    [ngStyle]="{
                 'border-color':themeService.Bordernormal
-            }"
-            >
+            }">
 
 
-                <div class="flex-1 min-w-0">
+                    <div class="flex-1 min-w-0">
 
 
-                    <div 
-                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold mb-2"
-                    style="color:#22c55e;background:rgba(34,197,94,0.12)"
-                    >
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold mb-2"
+                            style="color:#22c55e;background:rgba(34,197,94,0.12)">
 
-                        <span 
-                        class="w-1.5 h-1.5 rounded-full animate-pulse bg-green-500">
-                        </span>
+                            <span class="w-1.5 h-1.5 rounded-full animate-pulse bg-green-500">
+                            </span>
 
-                        Prochain entraînement
+                            Prochain entraînement
 
-                    </div>
+                        </div>
 
 
 
-                    <h2 
-                    class="text-lg sm:text-xl font-black truncate"
-                    [ngStyle]="{
+                        <h2 class="text-lg sm:text-xl font-black truncate" [ngStyle]="{
                         'color':themeService.Textprincipal
-                    }"
-                    >
+                    }">
 
-                        {{
-                            prochaineSeance 
-                            ? prochaineSeance.titre 
+                            {{
+                            prochaineSeance
+                            ? prochaineSeance.titre
                             : 'Aucun entraînement'
-                        }}
+                            }}
 
-                    </h2>
+                        </h2>
+
+
+                    </div>
+
+
+
+
+                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shrink-0 ml-3 transition-transform duration-300 group-hover:scale-110"
+                        style="background:rgba(34,197,94,0.12)">
+
+                        <i class="fa-solid fa-futbol text-xl text-green-500"></i>
+
+                    </div>
 
 
                 </div>
@@ -100,83 +118,86 @@
 
 
 
-                <div 
-                class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shrink-0 ml-3 transition-transform duration-300 group-hover:scale-110"
-                style="background:rgba(34,197,94,0.12)"
-                >
 
-                    <i class="fa-solid fa-futbol text-xl text-green-500"></i>
-
-                </div>
+                <!-- CONTENU -->
+                <div *ngIf="!loadingSeances && prochaineSeance" class="p-5 sm:p-6 space-y-4">
 
 
-            </div>
-
-
-
-
-
-            <!-- CONTENU -->
-            <div 
-            *ngIf="!loadingSeances && prochaineSeance"
-            class="p-5 sm:p-6 space-y-4"
-            >
-
-
-                <p 
-                class="text-sm leading-relaxed line-clamp-2"
-                [ngStyle]="{
+                    <p class="text-sm leading-relaxed line-clamp-2" [ngStyle]="{
                     'color':themeService.Textsecondaire
-                }"
-                >
+                }">
 
-                    {{prochaineSeance.description}}
+                        {{prochaineSeance.description}}
 
-                </p>
-
+                    </p>
 
 
 
-                <div class="grid grid-cols-2 gap-3">
+
+                    <div class="grid grid-cols-2 gap-3">
 
 
-                    <!-- DATE -->
+                        <!-- DATE -->
+                        <div class="rounded-2xl p-3.5 sm:p-4 transition-all duration-200 hover:scale-[1.02]" [ngStyle]="{
+                            'background': themeService.Backgroundprincipaltest
+                        }">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="fa-solid fa-calendar text-yellow-500 text-sm"></i>
+                                <span class="text-[10px] sm:text-xs font-medium" [ngStyle]="{
+                                    'color': themeService.Textsecondaire
+                                }">
+                                    Date
+                                </span>
+                            </div>
 
-                    <div 
-                    class="rounded-2xl p-3.5 sm:p-4 transition-all duration-200 hover:scale-[1.02]"
-                    [ngStyle]="{
-                        'background':themeService.Backgroundprincipaltest
-                    }"
-                    >
-
-
-                        <div class="flex items-center gap-2 mb-2">
-
-                            <i class="fa-solid fa-calendar text-yellow-500 text-sm"></i>
-
-                            <span 
-                            class="text-[10px] sm:text-xs font-medium"
-                            [ngStyle]="{
-                                'color':themeService.Textsecondaire
-                            }"
-                            >
-                                Date
-                            </span>
-
+                            <p class="text-sm sm:text-base font-bold" [ngStyle]="{
+                                'color': themeService.Textprincipal
+                            }">
+                                {{ prochaineSeance.date | date:'dd/MM/yyyy' }}
+                            </p>
                         </div>
 
 
 
-                        <p 
-                        class="text-sm sm:text-base font-bold"
-                        [ngStyle]="{
+
+
+                        <!-- HEURE -->
+
+                        <div class="rounded-2xl p-3.5 sm:p-4 transition-all duration-200 hover:scale-[1.02]" [ngStyle]="{
+                        'background':themeService.Backgroundprincipaltest
+                    }">
+
+
+                            <div class="flex items-center gap-2 mb-2">
+
+
+                                <i class="fa-solid fa-clock text-purple-500 text-sm"></i>
+
+
+                                <span class="text-[10px] sm:text-xs font-medium" [ngStyle]="{
+                                'color':themeService.Textsecondaire
+                            }">
+
+                                    Heure
+
+                                </span>
+
+
+                            </div>
+
+
+
+
+                            <p class="text-sm sm:text-base font-bold" [ngStyle]="{
                             'color':themeService.Textprincipal
-                        }"
-                        >
+                        }">
 
-                            {{prochaineSeance.date}}
+                                {{prochaineSeance.heure}}
 
-                        </p>
+                            </p>
+
+
+                        </div>
 
 
                     </div>
@@ -185,49 +206,25 @@
 
 
 
-                    <!-- HEURE -->
+                    <!-- STATUS -->
 
-                    <div 
-                    class="rounded-2xl p-3.5 sm:p-4 transition-all duration-200 hover:scale-[1.02]"
-                    [ngStyle]="{
-                        'background':themeService.Backgroundprincipaltest
-                    }"
-                    >
+                    <div class="flex items-center gap-2.5 text-green-500 font-bold text-sm pt-1">
 
+                        <span class="relative flex h-2.5 w-2.5">
 
-                        <div class="flex items-center gap-2 mb-2">
-
-
-                            <i class="fa-solid fa-clock text-purple-500 text-sm"></i>
-
-
-                            <span 
-                            class="text-[10px] sm:text-xs font-medium"
-                            [ngStyle]="{
-                                'color':themeService.Textsecondaire
-                            }"
-                            >
-
-                                Heure
-
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75">
                             </span>
 
 
-                        </div>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500">
+                            </span>
 
 
+                        </span>
 
 
-                        <p 
-                        class="text-sm sm:text-base font-bold"
-                        [ngStyle]="{
-                            'color':themeService.Textprincipal
-                        }"
-                        >
-
-                            {{prochaineSeance.heure}}
-
-                        </p>
+                        Confirmé
 
 
                     </div>
@@ -239,125 +236,74 @@
 
 
 
-                <!-- STATUS -->
 
-                <div 
-                class="flex items-center gap-2.5 text-green-500 font-bold text-sm pt-1"
-                >
+                <!-- EMPTY STATE -->
 
-                    <span class="relative flex h-2.5 w-2.5">
-
-                        <span 
-                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75">
-                        </span>
+                <div *ngIf="!loadingSeances && !prochaineSeance" class="p-5 sm:p-6 text-center">
 
 
-                        <span 
-                        class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500">
-                        </span>
+                    <div class="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center"
+                        style="background:rgba(34,197,94,0.08)">
+
+                        <i class="fa-solid fa-futbol text-3xl text-green-500/40"></i>
 
 
-                    </span>
-
-
-                    Confirmé
-
-
-                </div>
-
-
-            </div>
+                    </div>
 
 
 
-
-
-
-            <!-- EMPTY STATE -->
-
-            <div 
-            *ngIf="!loadingSeances && !prochaineSeance"
-            class="p-5 sm:p-6 text-center"
-            >
-
-
-                <div 
-                class="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center"
-                style="background:rgba(34,197,94,0.08)"
-                >
-
-                    <i class="fa-solid fa-futbol text-3xl text-green-500/40"></i>
-
-
-                </div>
-
-
-
-                <p 
-                class="text-sm font-medium"
-                [ngStyle]="{
+                    <p class="text-sm font-medium" [ngStyle]="{
                     'color':themeService.Textsecondaire
-                }"
-                >
+                }">
 
-                    Aucun entraînement prévu
+                        Aucun entraînement prévu
 
-                </p>
+                    </p>
 
 
-            </div>
-
+                </div>
 
 
 
 
 
-            <!-- LOADING -->
 
-            <div 
-            *ngIf="loadingSeances"
-            class="p-5 sm:p-6 space-y-3"
-            >
+                <!-- LOADING -->
+
+                <div *ngIf="loadingSeances" class="p-5 sm:p-6 space-y-3">
 
 
-                <div 
-                class="h-4 rounded-lg animate-pulse w-3/4"
-                [ngStyle]="{
+                    <div class="h-4 rounded-lg animate-pulse w-3/4" [ngStyle]="{
                     'background':themeService.Bordernormal+'40'
-                }"
-                >
-                </div>
-
-
-
-                <div class="grid grid-cols-2 gap-3">
-
-
-                    <div 
-                    class="h-16 rounded-2xl animate-pulse"
-                    [ngStyle]="{
-                        'background':themeService.Bordernormal+'30'
-                    }">
+                }">
                     </div>
 
 
 
-                    <div 
-                    class="h-16 rounded-2xl animate-pulse"
-                    [ngStyle]="{
+                    <div class="grid grid-cols-2 gap-3">
+
+
+                        <div class="h-16 rounded-2xl animate-pulse" [ngStyle]="{
                         'background':themeService.Bordernormal+'30'
                     }">
+                        </div>
+
+
+
+                        <div class="h-16 rounded-2xl animate-pulse" [ngStyle]="{
+                        'background':themeService.Bordernormal+'30'
+                    }">
+                        </div>
+
+
                     </div>
 
 
                 </div>
+
 
 
             </div>
-
-
-
-        </div>
 
 
         </ng-container>
@@ -382,7 +328,8 @@
                         Prochain match
                     </div>
                     <h2 class="text-lg sm:text-xl font-black truncate" [ngStyle]="{'color':themeService.Textprincipal}">
-                        {{prochainMatch ? prochainMatch.equipeDomicile+' vs '+prochainMatch.equipeExterieur : 'Aucun match'}}
+                        {{prochainMatch ? prochainMatch.equipeDomicile+' vs '+prochainMatch.equipeExterieur : 'Aucun
+                        match'}}
                     </h2>
                 </div>
 
@@ -405,7 +352,8 @@
                         [ngStyle]="{'background':themeService.Backgroundprincipaltest}">
                         <div class="flex items-center gap-2 mb-2">
                             <i class="fa-solid fa-calendar text-yellow-500 text-sm"></i>
-                            <span class="text-[10px] sm:text-xs font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Date</span>
+                            <span class="text-[10px] sm:text-xs font-medium"
+                                [ngStyle]="{'color':themeService.Textsecondaire}">Date</span>
                         </div>
                         <p class="text-sm sm:text-base font-bold" [ngStyle]="{'color':themeService.Textprincipal}">
                             {{prochainMatch.dateMatch}}
@@ -416,7 +364,8 @@
                         [ngStyle]="{'background':themeService.Backgroundprincipaltest}">
                         <div class="flex items-center gap-2 mb-2">
                             <i class="fa-solid fa-location-dot text-red-500 text-sm"></i>
-                            <span class="text-[10px] sm:text-xs font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Lieu</span>
+                            <span class="text-[10px] sm:text-xs font-medium"
+                                [ngStyle]="{'color':themeService.Textsecondaire}">Lieu</span>
                         </div>
                         <p class="text-sm sm:text-base font-bold" [ngStyle]="{'color':themeService.Textprincipal}">
                             {{prochainMatch.stade}}
@@ -431,17 +380,21 @@
             </div>
 
             <div *ngIf="!loadingMatchs && !prochainMatch" class="p-5 sm:p-6 text-center">
-                <div class="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center" style="background: rgba(239,68,68,0.08)">
+                <div class="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center"
+                    style="background: rgba(239,68,68,0.08)">
                     <i class="fa-solid fa-trophy text-3xl text-red-500/40"></i>
                 </div>
                 <p class="text-sm font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Aucun match prévu</p>
             </div>
 
             <div *ngIf="loadingMatchs" class="p-5 sm:p-6 space-y-3">
-                <div class="h-4 rounded-lg animate-pulse w-3/4" [ngStyle]="{'background':themeService.Bordernormal + '40'}"></div>
+                <div class="h-4 rounded-lg animate-pulse w-3/4"
+                    [ngStyle]="{'background':themeService.Bordernormal + '40'}"></div>
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="h-16 rounded-2xl animate-pulse" [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
-                    <div class="h-16 rounded-2xl animate-pulse" [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
+                    <div class="h-16 rounded-2xl animate-pulse"
+                        [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
+                    <div class="h-16 rounded-2xl animate-pulse"
+                        [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
                 </div>
             </div>
         </div>
@@ -486,7 +439,8 @@
                         [ngStyle]="{'background':themeService.Backgroundprincipaltest}">
                         <div class="flex items-center gap-2 mb-2">
                             <i class="fa-solid fa-calendar text-yellow-500 text-sm"></i>
-                            <span class="text-[10px] sm:text-xs font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Date</span>
+                            <span class="text-[10px] sm:text-xs font-medium"
+                                [ngStyle]="{'color':themeService.Textsecondaire}">Date</span>
                         </div>
                         <p class="text-sm sm:text-base font-bold" [ngStyle]="{'color':themeService.Textprincipal}">
                             {{prochainEvenement.date}}
@@ -497,7 +451,8 @@
                         [ngStyle]="{'background':themeService.Backgroundprincipaltest}">
                         <div class="flex items-center gap-2 mb-2">
                             <i class="fa-solid fa-location-dot text-purple-500 text-sm"></i>
-                            <span class="text-[10px] sm:text-xs font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Lieu</span>
+                            <span class="text-[10px] sm:text-xs font-medium"
+                                [ngStyle]="{'color':themeService.Textsecondaire}">Lieu</span>
                         </div>
                         <p class="text-sm sm:text-base font-bold" [ngStyle]="{'color':themeService.Textprincipal}">
                             {{prochainEvenement.lieu}}
@@ -512,17 +467,22 @@
             </div>
 
             <div *ngIf="!loadingEvents && !prochainEvenement" class="p-5 sm:p-6 text-center">
-                <div class="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center" style="background: rgba(168,85,247,0.08)">
+                <div class="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center"
+                    style="background: rgba(168,85,247,0.08)">
                     <i class="fa-solid fa-calendar-days text-3xl text-purple-500/40"></i>
                 </div>
-                <p class="text-sm font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Aucun événement prévu</p>
+                <p class="text-sm font-medium" [ngStyle]="{'color':themeService.Textsecondaire}">Aucun événement prévu
+                </p>
             </div>
 
             <div *ngIf="loadingEvents" class="p-5 sm:p-6 space-y-3">
-                <div class="h-4 rounded-lg animate-pulse w-3/4" [ngStyle]="{'background':themeService.Bordernormal + '40'}"></div>
+                <div class="h-4 rounded-lg animate-pulse w-3/4"
+                    [ngStyle]="{'background':themeService.Bordernormal + '40'}"></div>
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="h-16 rounded-2xl animate-pulse" [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
-                    <div class="h-16 rounded-2xl animate-pulse" [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
+                    <div class="h-16 rounded-2xl animate-pulse"
+                        [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
+                    <div class="h-16 rounded-2xl animate-pulse"
+                        [ngStyle]="{'background':themeService.Bordernormal + '30'}"></div>
                 </div>
             </div>
         </div>
